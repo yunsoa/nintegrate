@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Runtime.Serialization;
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     /// <summary>
     /// Base class of all Custom Criterias

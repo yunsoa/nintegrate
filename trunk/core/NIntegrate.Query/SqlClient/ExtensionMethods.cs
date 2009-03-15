@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NBear.Query.SqlClient
+namespace NIntegrate.Query.SqlClient
 {
     public static class ExtensionMethods
     {

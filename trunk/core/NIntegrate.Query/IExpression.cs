@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     public interface IExpression : ICloneable
     {

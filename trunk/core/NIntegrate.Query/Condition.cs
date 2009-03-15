@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
 
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     [DataContract]
     public enum ConditionAndOr

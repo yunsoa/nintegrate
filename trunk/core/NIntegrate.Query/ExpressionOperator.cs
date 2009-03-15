@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     [DataContract]
     public enum ExpressionOperator

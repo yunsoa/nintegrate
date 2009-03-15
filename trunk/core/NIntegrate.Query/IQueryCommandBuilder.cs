@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     public interface IQueryCommandBuilder
     {
