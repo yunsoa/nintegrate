@@ -12,6 +12,8 @@
     <AssemblyName>NIntegrate.Query</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>NIntegrate_OpenSource.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Condition.cs" />
     <Compile Include="Criteria.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="ExpressionOperator.cs" />
     <Compile Include="Expressions.cs" />
@@ -66,6 +69,9 @@
     <Compile Include="Columns.cs" />
     <Compile Include="SqlClient\ExtensionMethods.cs" />
     <Compile Include="SqlClient\SqlQueryCommandBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NIntegrate_OpenSource.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

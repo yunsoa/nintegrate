@@ -36,13 +36,13 @@ namespace NBear.Query
         [EnumMember]
         Divide,
         [EnumMember]
-        Modulo,
+        Mod,
         [EnumMember]
         BitwiseAnd,
         [EnumMember]
         BitwiseOr,
         [EnumMember]
-        BitwiseXOr,
+        BitwiseXor,
         [EnumMember]
         BitwiseNot
     }

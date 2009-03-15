@@ -6,6 +6,15 @@ using System.Runtime.InteropServices;
 namespace NBear.Query
 {
     [DataContract]
+    public enum ConditionAndOr
+    {
+        [EnumMember]
+        And,
+        [EnumMember]
+        Or
+    }
+
+    [DataContract]
     [KnownType(typeof(Condition))]
     [KnownType(typeof(BooleanExpression))]
     [KnownType(typeof(ByteExpression))]
@@ -40,19 +49,6 @@ namespace NBear.Query
     [KnownType(typeof(DecimalColumn))]
     public sealed class Condition : BooleanExpression
     {
-        #region Inner Classes
-
-        [DataContract]
-        public enum AndOrFlag
-        {
-            [EnumMember]
-            And,
-            [EnumMember]
-            Or
-        }
-
-        #endregion
-
         #region Private Fields
 
         [DataMember]
@@ -65,7 +61,7 @@ namespace NBear.Query
         [DataMember]
         private bool _notFlag;
         [DataMember]
-        private List<AndOrFlag> _linkedConditionAndOrFlags = new List<AndOrFlag>();
+        private List<ConditionAndOr> _linkedConditionAndOrs = new List<ConditionAndOr>();
         [DataMember]
         private List<Condition> _linkedConditions = new List<Condition>();
 
@@ -98,9 +94,9 @@ namespace NBear.Query
         }
 
         [ComVisible(false)]
-        public IList<AndOrFlag> LinkedConditionAndOrFlags
+        public IList<ConditionAndOr> LinkedConditionAndOrs
         {
-            get { return _linkedConditionAndOrFlags; }
+            get { return _linkedConditionAndOrs; }
         }
 
         [ComVisible(false)]
@@ -130,7 +126,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("condition");
 
             var retCondition = (Condition)Clone();
-            retCondition._linkedConditionAndOrFlags.Add((int)AndOrFlag.And);
+            retCondition._linkedConditionAndOrs.Add((int)ConditionAndOr.And);
             retCondition._linkedConditions.Add(condition);
 
             return retCondition;
@@ -142,7 +138,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("condition");
 
             var retCondition = (Condition)Clone();
-            retCondition._linkedConditionAndOrFlags.Add(AndOrFlag.Or);
+            retCondition._linkedConditionAndOrs.Add(ConditionAndOr.Or);
             retCondition._linkedConditions.Add(condition);
 
             return retCondition;
@@ -162,7 +158,7 @@ namespace NBear.Query
             var clone = new Condition((IExpression)LeftExpression.Clone(), Operator, rightExpr) {_notFlag = _notFlag};
             for (var i = 0; i < _linkedConditions.Count; ++i)
             {
-                clone._linkedConditionAndOrFlags.Add(_linkedConditionAndOrFlags[i]);
+                clone._linkedConditionAndOrs.Add(_linkedConditionAndOrs[i]);
                 clone._linkedConditions.Add((Condition)_linkedConditions[i].Clone());
             }
 

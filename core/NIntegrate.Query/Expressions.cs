@@ -465,24 +465,24 @@ namespace NBear.Query
             return expr;
         }
 
-        public ByteExpression BitwiseXOr(byte value)
+        public ByteExpression BitwiseXor(byte value)
         {
             var expr = (ByteExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(new ByteParameterExpression(value));
 
             return expr;
         }
 
-        public ByteExpression BitwiseXOr(ByteExpression value)
+        public ByteExpression BitwiseXor(ByteExpression value)
         {
             if (ReferenceEquals(value, null))
                 throw new ArgumentNullException("value");
 
             var expr = (ByteExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(value);
 
             return expr;
@@ -780,21 +780,21 @@ namespace NBear.Query
             return expr;
         }
 
-        public ByteExpression Modulo(byte value)
+        public ByteExpression Mod(byte value)
         {
             var expr = (ByteExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new ByteParameterExpression(value));
 
             return expr;
         }
 
-        public ByteExpression Modulo(ByteExpression value)
+        public ByteExpression Mod(ByteExpression value)
         {
             var expr = (ByteExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(ReferenceEquals(value, null) ? NullExpression.Value : (IExpression)value);
 
             return expr;
@@ -924,7 +924,7 @@ namespace NBear.Query
         {
             var expr = (ByteExpression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -934,7 +934,7 @@ namespace NBear.Query
         {
             var expr = new ByteParameterExpression(left);
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -944,7 +944,7 @@ namespace NBear.Query
         {
             var expr = (ByteExpression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new ByteParameterExpression(right));
 
             return expr;
@@ -1171,24 +1171,24 @@ namespace NBear.Query
             return expr;
         }
 
-        public Int16Expression BitwiseXOr(short value)
+        public Int16Expression BitwiseXor(short value)
         {
             var expr = (Int16Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(new Int16ParameterExpression(value));
 
             return expr;
         }
 
-        public Int16Expression BitwiseXOr(Int16Expression value)
+        public Int16Expression BitwiseXor(Int16Expression value)
         {
             if (ReferenceEquals(value, null))
                 throw new ArgumentNullException("value");
 
             var expr = (Int16Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(value);
 
             return expr;
@@ -1486,21 +1486,21 @@ namespace NBear.Query
             return expr;
         }
 
-        public Int16Expression Modulo(short value)
+        public Int16Expression Mod(short value)
         {
             var expr = (Int16Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new Int16ParameterExpression(value));
 
             return expr;
         }
 
-        public Int16Expression Modulo(Int16Expression value)
+        public Int16Expression Mod(Int16Expression value)
         {
             var expr = (Int16Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(ReferenceEquals(value, null) ? NullExpression.Value : (IExpression)value);
 
             return expr;
@@ -1630,7 +1630,7 @@ namespace NBear.Query
         {
             var expr = (Int16Expression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -1640,7 +1640,7 @@ namespace NBear.Query
         {
             var expr = new Int16ParameterExpression(left);
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -1650,7 +1650,7 @@ namespace NBear.Query
         {
             var expr = (Int16Expression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new Int16ParameterExpression(right));
 
             return expr;
@@ -1881,24 +1881,24 @@ namespace NBear.Query
             return expr;
         }
 
-        public Int32Expression BitwiseXOr(int value)
+        public Int32Expression BitwiseXor(int value)
         {
             var expr = (Int32Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(new Int32ParameterExpression(value));
 
             return expr;
         }
 
-        public Int32Expression BitwiseXOr(Int32Expression value)
+        public Int32Expression BitwiseXor(Int32Expression value)
         {
             if (ReferenceEquals(value, null))
                 throw new ArgumentNullException("value");
 
             var expr = (Int32Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(value);
 
             return expr;
@@ -2196,21 +2196,21 @@ namespace NBear.Query
             return expr;
         }
 
-        public Int32Expression Modulo(int value)
+        public Int32Expression Mod(int value)
         {
             var expr = (Int32Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new Int32ParameterExpression(value));
 
             return expr;
         }
 
-        public Int32Expression Modulo(Int32Expression value)
+        public Int32Expression Mod(Int32Expression value)
         {
             var expr = (Int32Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(ReferenceEquals(value, null) ? NullExpression.Value : (IExpression)value);
 
             return expr;
@@ -2340,7 +2340,7 @@ namespace NBear.Query
         {
             var expr = (Int32Expression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -2350,7 +2350,7 @@ namespace NBear.Query
         {
             var expr = new Int32ParameterExpression(left);
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -2360,7 +2360,7 @@ namespace NBear.Query
         {
             var expr = (Int32Expression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new Int32ParameterExpression(right));
 
             return expr;
@@ -2587,24 +2587,24 @@ namespace NBear.Query
             return expr;
         }
 
-        public Int64Expression BitwiseXOr(long value)
+        public Int64Expression BitwiseXor(long value)
         {
             var expr = (Int64Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(new Int64ParameterExpression(value));
 
             return expr;
         }
 
-        public Int64Expression BitwiseXOr(Int64Expression value)
+        public Int64Expression BitwiseXor(Int64Expression value)
         {
             if (ReferenceEquals(value, null))
                 throw new ArgumentNullException("value");
 
             var expr = (Int64Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXOr) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.BitwiseXor) + " ?";
             expr._childExpressions.Add(value);
 
             return expr;
@@ -2902,21 +2902,21 @@ namespace NBear.Query
             return expr;
         }
 
-        public Int64Expression Modulo(long value)
+        public Int64Expression Mod(long value)
         {
             var expr = (Int64Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new Int64ParameterExpression(value));
 
             return expr;
         }
 
-        public Int64Expression Modulo(Int64Expression value)
+        public Int64Expression Mod(Int64Expression value)
         {
             var expr = (Int64Expression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(ReferenceEquals(value, null) ? NullExpression.Value : (IExpression)value);
 
             return expr;
@@ -3046,7 +3046,7 @@ namespace NBear.Query
         {
             var expr = (Int64Expression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -3056,7 +3056,7 @@ namespace NBear.Query
         {
             var expr = new Int64ParameterExpression(left);
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -3066,7 +3066,7 @@ namespace NBear.Query
         {
             var expr = (Int64Expression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new Int64ParameterExpression(right));
 
             return expr;
@@ -4197,21 +4197,21 @@ namespace NBear.Query
             return expr;
         }
 
-        public DoubleExpression Modulo(double value)
+        public DoubleExpression Mod(double value)
         {
             var expr = (DoubleExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new DoubleParameterExpression(value));
 
             return expr;
         }
 
-        public DoubleExpression Modulo(DoubleExpression value)
+        public DoubleExpression Mod(DoubleExpression value)
         {
             var expr = (DoubleExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(ReferenceEquals(value, null) ? NullExpression.Value : (IExpression)value);
 
             return expr;
@@ -4341,7 +4341,7 @@ namespace NBear.Query
         {
             var expr = (DoubleExpression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -4351,7 +4351,7 @@ namespace NBear.Query
         {
             var expr = new DoubleParameterExpression(left);
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -4361,7 +4361,7 @@ namespace NBear.Query
         {
             var expr = (DoubleExpression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new DoubleParameterExpression(right));
 
             return expr;
@@ -4762,21 +4762,21 @@ namespace NBear.Query
             return expr;
         }
 
-        public DecimalExpression Modulo(decimal value)
+        public DecimalExpression Mod(decimal value)
         {
             var expr = (DecimalExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new DecimalParameterExpression(value));
 
             return expr;
         }
 
-        public DecimalExpression Modulo(DecimalExpression value)
+        public DecimalExpression Mod(DecimalExpression value)
         {
             var expr = (DecimalExpression)Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(ReferenceEquals(value, null) ? NullExpression.Value : (IExpression)value);
 
             return expr;
@@ -4906,7 +4906,7 @@ namespace NBear.Query
         {
             var expr = (DecimalExpression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -4916,7 +4916,7 @@ namespace NBear.Query
         {
             var expr = new DecimalParameterExpression(left);
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(right);
 
             return expr;
@@ -4926,7 +4926,7 @@ namespace NBear.Query
         {
             var expr = (DecimalExpression)left.Clone();
 
-            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Modulo) + " ?";
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Mod) + " ?";
             expr._childExpressions.Add(new DecimalParameterExpression(right));
 
             return expr;

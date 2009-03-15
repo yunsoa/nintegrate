@@ -59,7 +59,7 @@ namespace NBear.Query
         [DataMember]
         internal protected readonly Dictionary<IColumn, bool> _sortBys = new Dictionary<IColumn, bool>();
         [DataMember]
-        internal protected readonly List<Condition.AndOrFlag> _conditionAndOrFlags = new List<Condition.AndOrFlag>();
+        internal protected readonly List<ConditionAndOr> _conditionAndOrs = new List<ConditionAndOr>();
         [DataMember]
         internal protected readonly List<Condition> _conditions = new List<Condition>();
 
@@ -111,13 +111,13 @@ namespace NBear.Query
             return this;
         }
 
-        public Criteria AddSortBy(IColumn column, bool desc)
+        public Criteria AddSortBy(IColumn column, bool isDescendent)
         {
             if (ReferenceEquals(column, null))
                 throw new ArgumentNullException("column");
 
             if (!_sortBys.ContainsKey(column))
-                _sortBys.Add(column, desc);
+                _sortBys.Add(column, isDescendent);
 
             return this;
         }
@@ -127,7 +127,7 @@ namespace NBear.Query
             if (ReferenceEquals(condition, null))
                 throw new ArgumentNullException("condition");
 
-            _conditionAndOrFlags.Add(Condition.AndOrFlag.And);
+            _conditionAndOrs.Add(ConditionAndOr.And);
             _conditions.Add(condition);
 
             return this;
@@ -138,7 +138,7 @@ namespace NBear.Query
             if (ReferenceEquals(condition, null))
                 throw new ArgumentNullException("condition");
 
-            _conditionAndOrFlags.Add(Condition.AndOrFlag.Or);
+            _conditionAndOrs.Add(ConditionAndOr.Or);
             _conditions.Add(condition);
 
             return this;
