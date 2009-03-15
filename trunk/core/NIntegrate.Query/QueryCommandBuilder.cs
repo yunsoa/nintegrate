@@ -104,7 +104,7 @@ namespace NBear.Query
                     }
                 }
 
-                sb.Append(criteria._conditions[i].ToConditionCacheableSql(GetWildcardCharactors()));
+                sb.Append(criteria._conditions[i].ToConditionCacheableSql());
             }
         }
 
@@ -225,8 +225,6 @@ namespace NBear.Query
         #region Public Methods
 
         public abstract string ToParameterName(string name);
-
-        public abstract string GetWildcardCharactors();
 
         public abstract string GetTableOrColumnNameQuoteCharactors();
 

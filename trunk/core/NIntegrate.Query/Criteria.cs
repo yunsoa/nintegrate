@@ -90,9 +90,9 @@ namespace NBear.Query
             return this;
         }
 
-        public Criteria SetDistinct(bool isDistinct)
+        public Criteria Distinct()
         {
-            _isDistinct = isDistinct;
+            _isDistinct = true;
 
             return this;
         }
@@ -113,6 +113,9 @@ namespace NBear.Query
 
         public Criteria AddSortBy(IColumn column, bool desc)
         {
+            if (ReferenceEquals(column, null))
+                throw new ArgumentNullException("column");
+
             if (!_sortBys.ContainsKey(column))
                 _sortBys.Add(column, desc);
 

@@ -159,7 +159,7 @@ namespace NBear.Query.SqlClient
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
 
-            return "@" + name;
+            return "@" + name.TrimStart('@');
         }
 
         protected override void AdjustParameterProperties(IParameterExpression parameterExpr, DbParameter parameter)
@@ -213,11 +213,6 @@ namespace NBear.Query.SqlClient
                 sqlParameter.SqlDbType = parameter.Value.ToString().Length > 8000 ? SqlDbType.Text : SqlDbType.VarChar;
             }
             return;
-        }
-
-        public override string GetWildcardCharactors()
-        {
-            return "%_";
         }
 
         public override DbProviderFactory GetDbProviderFactory()

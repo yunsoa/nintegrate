@@ -22,12 +22,6 @@ namespace NBear.Query
         [EnumMember]
         LessThanOrEquals,
         [EnumMember]
-        Contains,
-        [EnumMember]
-        EndsWith,
-        [EnumMember]
-        StartsWith,
-        [EnumMember]
         Like,
         [EnumMember]
         Is,
