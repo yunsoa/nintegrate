@@ -139,7 +139,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal Int16Column(IExpression expr, string columnName)
+        internal Int16Column(Int16Expression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -196,7 +196,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal Int32Column(IExpression expr, string columnName)
+        internal Int32Column(Int32Expression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -253,7 +253,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal Int64Column(IExpression expr, string columnName)
+        internal Int64Column(Int64Expression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -310,7 +310,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal DateTimeColumn(IExpression expr, string columnName)
+        internal DateTimeColumn(DateTimeExpression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -367,7 +367,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal StringColumn(IExpression expr, string columnName)
+        internal StringColumn(StringExpression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -424,7 +424,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal GuidColumn(IExpression expr, string columnName)
+        internal GuidColumn(GuidExpression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -481,7 +481,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal DoubleColumn(IExpression expr, string columnName)
+        internal DoubleColumn(DoubleExpression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -538,7 +538,7 @@ namespace NBear.Query
             _sql = columnName.ToGeneralTableOrColumnName();
         }
 
-        internal DecimalColumn(IExpression expr, string columnName)
+        internal DecimalColumn(DecimalExpression expr, string columnName)
             : this(columnName)
         {
             if (ReferenceEquals(expr, null))
@@ -576,7 +576,7 @@ namespace NBear.Query
 
     public static class ColumnExtensionMethods
     {
-        public static string ToSelectColumnName(this IColumn column)
+        internal static string ToSelectColumnName(this IColumn column)
         {
             var sql = column.ToExpressionCacheableSql();
             var columnName = column.ColumnName.ToGeneralTableOrColumnName();

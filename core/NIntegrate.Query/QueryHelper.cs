@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace NBear.Query
 {
     [ComVisible(false)]
-    internal static class CriteriaHelper
+    internal static class QueryHelper
     {
         internal static void GetLeftRightOperatorsForBetween(bool includeLeft, bool includeRight
             , out ExpressionOperator leftOp, out ExpressionOperator rightOp)
@@ -34,12 +34,10 @@ namespace NBear.Query
             return sb.ToString();
         }
 
-        internal static string ToConditionCacheableSql(this Condition condition, string WildcardCharactors)
+        internal static string ToConditionCacheableSql(this Condition condition)
         {
             if (ReferenceEquals(condition, null))
                 throw new ArgumentNullException("condition");
-            if (string.IsNullOrEmpty(WildcardCharactors))
-                throw new ArgumentNullException("WildcardCharactors");
 
             var sb = new StringBuilder();
 
@@ -54,7 +52,7 @@ namespace NBear.Query
 
             if (condition.Operator != ExpressionOperator.None)
             {
-                sb.Append(ToCacheableSql(condition.LeftExpression, condition.Operator, condition.RightExpression, WildcardCharactors));
+                sb.Append(ToCacheableSql(condition.LeftExpression, condition.Operator, condition.RightExpression));
             }
 
             for (int i = 0; i < condition.LinkedConditions.Count; ++i)
@@ -68,7 +66,7 @@ namespace NBear.Query
                     sb.Append(" OR ");
                 }
 
-                sb.Append(condition.LinkedConditions[i].ToConditionCacheableSql(WildcardCharactors));
+                sb.Append(condition.LinkedConditions[i].ToConditionCacheableSql());
             }
 
             if (condition.LinkedConditions.Count > 0 || condition.NotFlag)
@@ -79,12 +77,10 @@ namespace NBear.Query
             return sb.ToString();
         }
 
-        private static string ToCacheableSql(IExpression leftExpression, ExpressionOperator op, IExpression rightExpression, string WildcardCharactors)
+        private static string ToCacheableSql(IExpression leftExpression, ExpressionOperator op, IExpression rightExpression)
         {
             if (ReferenceEquals(leftExpression, null))
                 throw new ArgumentNullException("leftExpression");
-            if (string.IsNullOrEmpty(WildcardCharactors))
-                throw new ArgumentNullException("WildcardCharactors");
             if (op != ExpressionOperator.None)
             {
                 if (ReferenceEquals(rightExpression, null))
@@ -94,17 +90,7 @@ namespace NBear.Query
             switch (op)
             {
                 case ExpressionOperator.Like:
-                    rightExpression.FilterWildcards(WildcardCharactors);
                     return leftExpression.ToExpressionCacheableSql() + " LIKE " + rightExpression.ToExpressionCacheableSql();
-                case ExpressionOperator.Contains:
-                    rightExpression.FilterWildcards(WildcardCharactors);
-                    return leftExpression.ToExpressionCacheableSql() + " LIKE '%' + " + rightExpression.ToExpressionCacheableSql() + " + '%'";
-                case ExpressionOperator.EndsWith:
-                    rightExpression.FilterWildcards(WildcardCharactors);
-                    return leftExpression.ToExpressionCacheableSql() + " LIKE '%' + " + rightExpression.ToExpressionCacheableSql();
-                case ExpressionOperator.StartsWith:
-                    rightExpression.FilterWildcards(WildcardCharactors);
-                    return leftExpression.ToExpressionCacheableSql() + " LIKE " + rightExpression.ToExpressionCacheableSql() + " + '%'";
                 case ExpressionOperator.Equals:
                     return leftExpression.ToExpressionCacheableSql() + " = " + rightExpression.ToExpressionCacheableSql();
                 case ExpressionOperator.NotEquals:
@@ -130,24 +116,6 @@ namespace NBear.Query
             }
 
             return string.Empty;
-        }
-
-        internal static IExpression FilterWildcards(this IExpression expr, string WildcardCharactors)
-        {
-            if (ReferenceEquals(expr, null))
-                throw new ArgumentNullException("expr");
-            if (string.IsNullOrEmpty(WildcardCharactors))
-                throw new ArgumentNullException("WildcardCharactors");
-
-            var stringExpr = expr as StringParameterExpression;
-            if ((!ReferenceEquals(stringExpr, null)) && stringExpr.Value != null)
-            {
-                foreach (var item in WildcardCharactors)
-                {
-                    stringExpr._value = stringExpr._value.Replace(item.ToString(), "[" + item + "]");
-                }
-            }
-            return stringExpr;
         }
 
         internal static string ToString(ExpressionOperator op)

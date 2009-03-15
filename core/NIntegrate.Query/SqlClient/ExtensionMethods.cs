@@ -209,6 +209,63 @@ namespace NBear.Query.SqlClient
 
         #region String Expression
 
+        public static Condition Contains(this StringExpression expr, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentNullException("value");
+
+            return Contains(expr, new StringParameterExpression(value, expr.IsUnicode));
+        }
+
+        public static Condition Contains(this StringExpression expr, StringExpression value)
+        {
+            if (ReferenceEquals(value, null))
+                throw new ArgumentNullException("value");
+
+            var escapedLikeValue = (StringExpression)value.Clone();
+            escapedLikeValue._sql = '%' + escapedLikeValue._sql + '%';
+
+            return new Condition(expr, ExpressionOperator.Like, escapedLikeValue);
+        }
+
+        public static Condition EndsWith(this StringExpression expr, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentNullException("value");
+
+            return EndsWith(expr, new StringParameterExpression(value, expr.IsUnicode));
+        }
+
+        public static Condition EndsWith(this StringExpression expr, StringExpression value)
+        {
+            if (ReferenceEquals(value, null))
+                throw new ArgumentNullException("value");
+
+            var escapedLikeValue = (StringExpression)value.Clone();
+            escapedLikeValue._sql = '%' + escapedLikeValue._sql;
+
+            return new Condition(expr, ExpressionOperator.Like, escapedLikeValue);
+        }
+
+        public static Condition StartsWith(this StringExpression expr, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentNullException("value");
+
+            return StartsWith(expr, new StringParameterExpression(value, expr.IsUnicode));
+        }
+
+        public static Condition StartsWith(this StringExpression expr, StringExpression value)
+        {
+            if (ReferenceEquals(value, null))
+                throw new ArgumentNullException("value");
+
+            var escapedLikeValue = (StringExpression)value.Clone();
+            escapedLikeValue._sql = escapedLikeValue._sql + '%';
+
+            return new Condition(expr, ExpressionOperator.Like, escapedLikeValue);
+        }
+
         public static Int32Expression IndexOf(this StringExpression expr, string value)
         {
             var newExpr = new Int32Expression("CHARINDEX(?, " + expr._sql + ") - 1", ((StringExpression)expr.Clone())._childExpressions);
