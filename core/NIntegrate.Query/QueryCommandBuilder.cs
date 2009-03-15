@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Data;
 
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     [ComVisible(false)]
     public abstract class QueryCommandBuilder : IQueryCommandBuilder

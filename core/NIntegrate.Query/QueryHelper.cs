@@ -2,7 +2,7 @@
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     [ComVisible(false)]
     internal static class QueryHelper

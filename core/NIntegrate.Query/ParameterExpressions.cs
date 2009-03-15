@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NBear.Query
+namespace NIntegrate.Query
 {
     [DataContract]
     public sealed class BooleanParameterExpression : BooleanExpression, IParameterExpression

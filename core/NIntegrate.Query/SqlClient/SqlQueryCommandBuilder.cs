@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace NBear.Query.SqlClient
+namespace NIntegrate.Query.SqlClient
 {
     [ComVisible(false)]
     public class SqlQueryCommandBuilder : QueryCommandBuilder

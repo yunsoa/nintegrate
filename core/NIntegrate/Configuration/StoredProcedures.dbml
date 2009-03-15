@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="ServiceConfig" Class="StoredProceduresDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=vista;Initial Catalog=ServiceConfig;Persist Security Info=True;User ID=nbear" SettingsObjectName="NIntegrate.Properties.Settings" SettingsPropertyName="ServiceConfigConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.sp_GetClientEndpoints" Method="sp_GetClientEndpoints">
+    <Parameter Name="ServiceContract" Parameter="serviceContract" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="Version" Parameter="version" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="sp_GetClientEndpointsResult">
+      <Column Name="Address" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="FarmAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ChannelType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OpenTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CloseTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReceiveTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SendTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TransferMode" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ListenBacklog" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxBufferPoolSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxBufferSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConnections" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxReceivedMessageSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PortSharingEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SecurityMode" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ClientCredentialTypeName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeExceptionDetailInFaults" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConcurrentCalls" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConcurrentSessions" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConcurrentInstances" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionFlow" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReliableSessionEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ReliableSessionInactivityTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReliableSessionOrdered" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetServerEndpoints" Method="sp_GetServerEndpoints">
+    <Parameter Name="ServiceContract" Parameter="serviceContract" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="Version" Parameter="version" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="sp_GetServerEndpointsResult">
+      <Column Name="Address" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="FarmAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ChannelType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OpenTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CloseTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReceiveTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SendTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TransferMode" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ListenBacklog" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxBufferPoolSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxBufferSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConnections" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxReceivedMessageSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PortSharingEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SecurityMode" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ClientCredentialTypeName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeExceptionDetailInFaults" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConcurrentCalls" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConcurrentSessions" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxConcurrentInstances" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionFlow" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReliableSessionEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ReliableSessionInactivityTimeout" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReliableSessionOrdered" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetConnectionString" Method="sp_GetConnectionString">
+    <Parameter Name="ConnectionStringName" Parameter="connectionStringName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="sp_GetConnectionStringResult">
+      <Column Name="Value" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="ProviderName" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>

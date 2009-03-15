@@ -1,4 +1,4 @@
-﻿namespace NBear.Query
+﻿namespace NIntegrate.Query
 {
     public interface IColumn : IExpression
     {
