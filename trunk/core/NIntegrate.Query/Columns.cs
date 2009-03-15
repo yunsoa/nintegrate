@@ -22,7 +22,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal BooleanColumn(BooleanExpression expr, string columnName)
@@ -79,7 +79,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal ByteColumn(ByteExpression expr, string columnName)
@@ -136,7 +136,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal Int16Column(Int16Expression expr, string columnName)
@@ -193,7 +193,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal Int32Column(Int32Expression expr, string columnName)
@@ -250,7 +250,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal Int64Column(Int64Expression expr, string columnName)
@@ -307,7 +307,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal DateTimeColumn(DateTimeExpression expr, string columnName)
@@ -364,7 +364,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal StringColumn(StringExpression expr, string columnName)
@@ -421,7 +421,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal GuidColumn(GuidExpression expr, string columnName)
@@ -478,7 +478,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal DoubleColumn(DoubleExpression expr, string columnName)
@@ -535,7 +535,7 @@ namespace NBear.Query
                 throw new ArgumentNullException("columnName");
 
             _columnName = columnName;
-            _sql = columnName.ToGeneralTableOrColumnName();
+            _sql = columnName.ToDatabaseObjectName();
         }
 
         internal DecimalColumn(DecimalExpression expr, string columnName)
@@ -579,7 +579,7 @@ namespace NBear.Query
         internal static string ToSelectColumnName(this IColumn column)
         {
             var sql = column.ToExpressionCacheableSql();
-            var columnName = column.ColumnName.ToGeneralTableOrColumnName();
+            var columnName = column.ColumnName.ToDatabaseObjectName();
 
             if (sql == columnName)
                 return sql;

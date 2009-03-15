@@ -5,7 +5,7 @@ namespace NBear.Query
     public interface IQueryCommandBuilder
     {
         string ToParameterName(string name); 
-        string GetTableOrColumnNameQuoteCharactors();
+        string GetDatabaseObjectNameQuoteCharactors();
         DbProviderFactory GetDbProviderFactory();
         DbCommand BuildQueryCommand(Criteria criteria);
         DbCommand BuildCountCommand(Criteria criteria);

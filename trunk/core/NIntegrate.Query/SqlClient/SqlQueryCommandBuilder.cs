@@ -4,9 +4,11 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace NBear.Query.SqlClient
 {
+    [ComVisible(false)]
     public class SqlQueryCommandBuilder : QueryCommandBuilder
     {
         #region Override Methods
@@ -60,7 +62,7 @@ namespace NBear.Query.SqlClient
                     sb.Append(separate);
                     sb.Append("[__T].");
                     var column = (IColumn)property.GetValue(criteria, null);
-                    sb.Append(column.ColumnName.ToGeneralTableOrColumnName());
+                    sb.Append(column.ColumnName.ToDatabaseObjectName());
 
                     separate = ", ";
                     noPredefinedColumns = false;
@@ -71,7 +73,7 @@ namespace NBear.Query.SqlClient
                     sb.Append(separate);
                     sb.Append("[__T].");
                     var column = (IColumn)field.GetValue(criteria);
-                    sb.Append(column.ColumnName.ToGeneralTableOrColumnName());
+                    sb.Append(column.ColumnName.ToDatabaseObjectName());
 
                     separate = ", ";
                     noPredefinedColumns = false;
@@ -89,7 +91,7 @@ namespace NBear.Query.SqlClient
                 {
                     sb.Append(separate);
                     sb.Append("[__T].");
-                    sb.Append(column.ColumnName.ToGeneralTableOrColumnName());
+                    sb.Append(column.ColumnName.ToDatabaseObjectName());
 
                     separate = ", ";
                 }
@@ -220,7 +222,7 @@ namespace NBear.Query.SqlClient
             return SqlClientFactory.Instance;
         }
 
-        public override string GetTableOrColumnNameQuoteCharactors()
+        public override string GetDatabaseObjectNameQuoteCharactors()
         {
             return "[]";
         }

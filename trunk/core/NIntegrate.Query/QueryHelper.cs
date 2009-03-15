@@ -57,7 +57,7 @@ namespace NBear.Query
 
             for (int i = 0; i < condition.LinkedConditions.Count; ++i)
             {
-                if (condition.LinkedConditionAndOrFlags[i] == ((int)Condition.AndOrFlag.And))
+                if (condition.LinkedConditionAndOrs[i] == ((int)ConditionAndOr.And))
                 {
                     sb.Append(" AND ");
                 }
@@ -130,13 +130,13 @@ namespace NBear.Query
                     return "*";
                 case ExpressionOperator.Divide:
                     return "/";
-                case ExpressionOperator.Modulo:
+                case ExpressionOperator.Mod:
                     return "%";
                 case ExpressionOperator.BitwiseAnd:
                     return "&";
                 case ExpressionOperator.BitwiseOr:
                     return "|";
-                case ExpressionOperator.BitwiseXOr:
+                case ExpressionOperator.BitwiseXor:
                     return "^";
                 case ExpressionOperator.BitwiseNot:
                     return "~";
@@ -147,7 +147,7 @@ namespace NBear.Query
             return string.Empty;
         }
 
-        internal static string ToGeneralTableOrColumnName(this string name)
+        internal static string ToDatabaseObjectName(this string name)
         {
             if (name.Contains(")"))
                 return name;

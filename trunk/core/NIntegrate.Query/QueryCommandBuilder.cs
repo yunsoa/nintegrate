@@ -48,7 +48,7 @@ namespace NBear.Query
             }
 
             //replace table or column name quote charactors
-            var quoteChars = GetTableOrColumnNameQuoteCharactors();
+            var quoteChars = GetDatabaseObjectNameQuoteCharactors();
             if (quoteChars.Length > 0)
             {
                 var leftChar = quoteChars[0];
@@ -70,7 +70,7 @@ namespace NBear.Query
 
         protected abstract string BuildNoPagingCacheableSql(string tableName, Criteria criteria, bool isCountCommand);
 
-        protected void AppendSortBys(Criteria criteria, StringBuilder sb)
+        protected static void AppendSortBys(Criteria criteria, StringBuilder sb)
         {
             var separate = "";
             var en = criteria._sortBys.GetEnumerator();
@@ -78,7 +78,7 @@ namespace NBear.Query
             {
                 sb.Append(separate);
 
-                if (en.Current.Key.ColumnName.ToGeneralTableOrColumnName() != en.Current.Key.Sql) continue;
+                if (en.Current.Key.ColumnName.ToDatabaseObjectName() != en.Current.Key.Sql) continue;
                 sb.Append(en.Current.Key.ToExpressionCacheableSql());
                 if (en.Current.Value)
                 {
@@ -88,13 +88,13 @@ namespace NBear.Query
             }
         }
 
-        protected void AppendConditions(Criteria criteria, StringBuilder sb)
+        protected static void AppendConditions(Criteria criteria, StringBuilder sb)
         {
             for (var i = 0; i < criteria._conditions.Count; ++i)
             {
                 if (i > 0)
                 {
-                    if (criteria._conditionAndOrFlags[i] == Condition.AndOrFlag.And)
+                    if (criteria._conditionAndOrs[i] == ConditionAndOr.And)
                     {
                         sb.Append(" AND ");
                     }
@@ -108,13 +108,13 @@ namespace NBear.Query
             }
         }
 
-        protected void AppendFrom(string tableName, StringBuilder sb)
+        protected static void AppendFrom(string tableName, StringBuilder sb)
         {
             sb.Append("FROM ");
-            sb.Append(tableName.ToGeneralTableOrColumnName());
+            sb.Append(tableName.ToDatabaseObjectName());
         }
 
-        protected void AppendResultColumns(Criteria criteria, StringBuilder sb)
+        protected static void AppendResultColumns(Criteria criteria, StringBuilder sb)
         {
             if (criteria._resultColumns.Count == 0)
             {
@@ -226,7 +226,7 @@ namespace NBear.Query
 
         public abstract string ToParameterName(string name);
 
-        public abstract string GetTableOrColumnNameQuoteCharactors();
+        public abstract string GetDatabaseObjectNameQuoteCharactors();
 
         public abstract DbProviderFactory GetDbProviderFactory();
 
