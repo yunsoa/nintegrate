@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NIntegrate.Query")]
 [assembly: AssemblyDescription("NIntegrate.Query.dll")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("NIntegrate.com")]
 [assembly: AssemblyProduct("NIntegrate.Query")]
 [assembly: AssemblyCopyright("Copyright © NIntegrate.com 2009-2010")]
 [assembly: AssemblyTrademark("")]
