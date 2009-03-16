@@ -32,18 +32,7 @@ namespace NIntegrate.Configuration
     partial void OnCreated();
     #endregion
 		
-		public StoredProceduresDataContext() : 
-				base(global::NIntegrate.Properties.Settings.Default.ServiceConfigConnectionString, mappingSource)
-		{
-			OnCreated();
-		}
-		
-		public StoredProceduresDataContext(string connection) : 
-				base(connection, mappingSource)
-		{
-			OnCreated();
-		}
-		
+	
 		public StoredProceduresDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{

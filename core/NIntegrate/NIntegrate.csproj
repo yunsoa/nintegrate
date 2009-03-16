@@ -68,6 +68,9 @@
     <Compile Include="Configuration\EndpointStore.cs" />
     <Compile Include="Configuration\IConnectionStringProvider.cs" />
     <Compile Include="Configuration\IEndpointProvider.cs" />
+    <Compile Include="Configuration\StoredProcedures.cs">
+      <DependentUpon>StoredProcedures.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\StoredProcedures.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -76,11 +79,6 @@
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="WcfServiceHelper.cs" />
     <Compile Include="WcfServiceHostFactory.cs" />
     <Compile Include="WcfServiceLocator.cs" />
@@ -93,10 +91,6 @@
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>StoredProcedures.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
