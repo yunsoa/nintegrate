@@ -68,9 +68,6 @@
     <Compile Include="Configuration\EndpointStore.cs" />
     <Compile Include="Configuration\IConnectionStringProvider.cs" />
     <Compile Include="Configuration\IEndpointProvider.cs" />
-    <Compile Include="Configuration\StoredProcedures.cs">
-      <DependentUpon>StoredProcedures.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Configuration\StoredProcedures.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
