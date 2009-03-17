@@ -19,11 +19,12 @@ namespace NIntegrate.Configuration
         private EndpointStore()
         {
             var providerTypeName = ConfigurationManager.AppSettings["NIntegrate.Configuration.EndpointProvider"];
-            if (string.IsNullOrEmpty(providerTypeName)) return;
-
-            var providerType = Type.GetType(providerTypeName);
-            if (providerType != null)
-                _provider = (IEndpointProvider) Activator.CreateInstance(providerType);
+            if (!string.IsNullOrEmpty(providerTypeName))
+            {
+                var providerType = Type.GetType(providerTypeName);
+                if (providerType != null)
+                    _provider = (IEndpointProvider) Activator.CreateInstance(providerType);
+            }
 
             if (_provider == null)
                 _provider = new DefaultEndpointProvider();
