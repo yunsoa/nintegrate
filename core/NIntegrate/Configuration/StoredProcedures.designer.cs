@@ -32,7 +32,6 @@ namespace NIntegrate.Configuration
     partial void OnCreated();
     #endregion
 		
-	
 		public StoredProceduresDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
@@ -51,6 +50,13 @@ namespace NIntegrate.Configuration
 			OnCreated();
 		}
 		
+		[Function(Name="dbo.sp_GetConnectionString")]
+		public ISingleResult<sp_GetConnectionStringResult> sp_GetConnectionString([Parameter(Name="ConnectionStringName", DbType="VarChar(100)")] string connectionStringName, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), connectionStringName, serverName);
+			return ((ISingleResult<sp_GetConnectionStringResult>)(result.ReturnValue));
+		}
+		
 		[Function(Name="dbo.sp_GetClientEndpoints")]
 		public ISingleResult<sp_GetClientEndpointsResult> sp_GetClientEndpoints([Parameter(Name="ServiceContract", DbType="VarChar(255)")] string serviceContract, [Parameter(Name="Version", DbType="VarChar(50)")] string version, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName)
 		{
@@ -64,12 +70,49 @@ namespace NIntegrate.Configuration
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), serviceContract, version, serverName);
 			return ((ISingleResult<sp_GetServerEndpointsResult>)(result.ReturnValue));
 		}
+	}
+	
+	public partial class sp_GetConnectionStringResult
+	{
 		
-		[Function(Name="dbo.sp_GetConnectionString")]
-		public ISingleResult<sp_GetConnectionStringResult> sp_GetConnectionString([Parameter(Name="ConnectionStringName", DbType="VarChar(100)")] string connectionStringName, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName)
+		private string _Value;
+		
+		private string _ProviderName;
+		
+		public sp_GetConnectionStringResult()
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), connectionStringName, serverName);
-			return ((ISingleResult<sp_GetConnectionStringResult>)(result.ReturnValue));
+		}
+		
+		[Column(Storage="_Value", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this._Value = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ProviderName", DbType="VarChar(200)")]
+		public string ProviderName
+		{
+			get
+			{
+				return this._ProviderName;
+			}
+			set
+			{
+				if ((this._ProviderName != value))
+				{
+					this._ProviderName = value;
+				}
+			}
 		}
 	}
 	
@@ -82,25 +125,25 @@ namespace NIntegrate.Configuration
 		
 		private string _ChannelType;
 		
-		private int _OpenTimeout;
+		private System.Nullable<int> _OpenTimeout;
 		
-		private int _CloseTimeout;
+		private System.Nullable<int> _CloseTimeout;
 		
-		private int _ReceiveTimeout;
+		private System.Nullable<int> _ReceiveTimeout;
 		
-		private int _SendTimeout;
+		private System.Nullable<int> _SendTimeout;
 		
 		private string _TransferMode;
 		
-		private int _ListenBacklog;
+		private System.Nullable<int> _ListenBacklog;
 		
-		private int _MaxBufferPoolSize;
+		private System.Nullable<int> _MaxBufferPoolSize;
 		
-		private int _MaxBufferSize;
+		private System.Nullable<int> _MaxBufferSize;
 		
-		private int _MaxConnections;
+		private System.Nullable<int> _MaxConnections;
 		
-		private int _MaxReceivedMessageSize;
+		private System.Nullable<int> _MaxReceivedMessageSize;
 		
 		private bool _PortSharingEnabled;
 		
@@ -108,23 +151,25 @@ namespace NIntegrate.Configuration
 		
 		private string _ClientCredentialTypeName;
 		
-		private bool _IncludeExceptionDetailInFaults;
+		private bool _MexBindingEnabled;
 		
-		private int _MaxConcurrentCalls;
+		private System.Nullable<bool> _IncludeExceptionDetailInFaults;
 		
-		private int _MaxConcurrentSessions;
+		private System.Nullable<int> _MaxConcurrentCalls;
 		
-		private int _MaxConcurrentInstances;
+		private System.Nullable<int> _MaxConcurrentSessions;
 		
-		private bool _TransactionFlow;
+		private System.Nullable<int> _MaxConcurrentInstances;
 		
-		private int _TransactionTimeout;
+		private System.Nullable<bool> _TransactionFlow;
 		
-		private bool _ReliableSessionEnabled;
+		private System.Nullable<int> _TransactionTimeout;
 		
-		private int _ReliableSessionInactivityTimeout;
+		private System.Nullable<bool> _ReliableSessionEnabled;
 		
-		private bool _ReliableSessionOrdered;
+		private System.Nullable<int> _ReliableSessionInactivityTimeout;
+		
+		private System.Nullable<bool> _ReliableSessionOrdered;
 		
 		public sp_GetClientEndpointsResult()
 		{
@@ -178,8 +223,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_OpenTimeout", DbType="Int NOT NULL")]
-		public int OpenTimeout
+		[Column(Storage="_OpenTimeout", DbType="Int")]
+		public System.Nullable<int> OpenTimeout
 		{
 			get
 			{
@@ -194,8 +239,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_CloseTimeout", DbType="Int NOT NULL")]
-		public int CloseTimeout
+		[Column(Storage="_CloseTimeout", DbType="Int")]
+		public System.Nullable<int> CloseTimeout
 		{
 			get
 			{
@@ -210,8 +255,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReceiveTimeout", DbType="Int NOT NULL")]
-		public int ReceiveTimeout
+		[Column(Storage="_ReceiveTimeout", DbType="Int")]
+		public System.Nullable<int> ReceiveTimeout
 		{
 			get
 			{
@@ -226,8 +271,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_SendTimeout", DbType="Int NOT NULL")]
-		public int SendTimeout
+		[Column(Storage="_SendTimeout", DbType="Int")]
+		public System.Nullable<int> SendTimeout
 		{
 			get
 			{
@@ -258,8 +303,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ListenBacklog", DbType="Int NOT NULL")]
-		public int ListenBacklog
+		[Column(Storage="_ListenBacklog", DbType="Int")]
+		public System.Nullable<int> ListenBacklog
 		{
 			get
 			{
@@ -274,8 +319,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxBufferPoolSize", DbType="Int NOT NULL")]
-		public int MaxBufferPoolSize
+		[Column(Storage="_MaxBufferPoolSize", DbType="Int")]
+		public System.Nullable<int> MaxBufferPoolSize
 		{
 			get
 			{
@@ -290,8 +335,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxBufferSize", DbType="Int NOT NULL")]
-		public int MaxBufferSize
+		[Column(Storage="_MaxBufferSize", DbType="Int")]
+		public System.Nullable<int> MaxBufferSize
 		{
 			get
 			{
@@ -306,8 +351,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConnections", DbType="Int NOT NULL")]
-		public int MaxConnections
+		[Column(Storage="_MaxConnections", DbType="Int")]
+		public System.Nullable<int> MaxConnections
 		{
 			get
 			{
@@ -322,8 +367,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxReceivedMessageSize", DbType="Int NOT NULL")]
-		public int MaxReceivedMessageSize
+		[Column(Storage="_MaxReceivedMessageSize", DbType="Int")]
+		public System.Nullable<int> MaxReceivedMessageSize
 		{
 			get
 			{
@@ -386,8 +431,24 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_IncludeExceptionDetailInFaults", DbType="Bit NOT NULL")]
-		public bool IncludeExceptionDetailInFaults
+		[Column(Storage="_MexBindingEnabled", DbType="Bit NOT NULL")]
+		public bool MexBindingEnabled
+		{
+			get
+			{
+				return this._MexBindingEnabled;
+			}
+			set
+			{
+				if ((this._MexBindingEnabled != value))
+				{
+					this._MexBindingEnabled = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_IncludeExceptionDetailInFaults", DbType="Bit")]
+		public System.Nullable<bool> IncludeExceptionDetailInFaults
 		{
 			get
 			{
@@ -402,8 +463,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConcurrentCalls", DbType="Int NOT NULL")]
-		public int MaxConcurrentCalls
+		[Column(Storage="_MaxConcurrentCalls", DbType="Int")]
+		public System.Nullable<int> MaxConcurrentCalls
 		{
 			get
 			{
@@ -418,8 +479,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConcurrentSessions", DbType="Int NOT NULL")]
-		public int MaxConcurrentSessions
+		[Column(Storage="_MaxConcurrentSessions", DbType="Int")]
+		public System.Nullable<int> MaxConcurrentSessions
 		{
 			get
 			{
@@ -434,8 +495,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConcurrentInstances", DbType="Int NOT NULL")]
-		public int MaxConcurrentInstances
+		[Column(Storage="_MaxConcurrentInstances", DbType="Int")]
+		public System.Nullable<int> MaxConcurrentInstances
 		{
 			get
 			{
@@ -450,8 +511,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_TransactionFlow", DbType="Bit NOT NULL")]
-		public bool TransactionFlow
+		[Column(Storage="_TransactionFlow", DbType="Bit")]
+		public System.Nullable<bool> TransactionFlow
 		{
 			get
 			{
@@ -466,8 +527,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_TransactionTimeout", DbType="Int NOT NULL")]
-		public int TransactionTimeout
+		[Column(Storage="_TransactionTimeout", DbType="Int")]
+		public System.Nullable<int> TransactionTimeout
 		{
 			get
 			{
@@ -482,8 +543,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReliableSessionEnabled", DbType="Bit NOT NULL")]
-		public bool ReliableSessionEnabled
+		[Column(Storage="_ReliableSessionEnabled", DbType="Bit")]
+		public System.Nullable<bool> ReliableSessionEnabled
 		{
 			get
 			{
@@ -498,8 +559,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReliableSessionInactivityTimeout", DbType="Int NOT NULL")]
-		public int ReliableSessionInactivityTimeout
+		[Column(Storage="_ReliableSessionInactivityTimeout", DbType="Int")]
+		public System.Nullable<int> ReliableSessionInactivityTimeout
 		{
 			get
 			{
@@ -514,8 +575,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReliableSessionOrdered", DbType="Bit NOT NULL")]
-		public bool ReliableSessionOrdered
+		[Column(Storage="_ReliableSessionOrdered", DbType="Bit")]
+		public System.Nullable<bool> ReliableSessionOrdered
 		{
 			get
 			{
@@ -540,25 +601,25 @@ namespace NIntegrate.Configuration
 		
 		private string _ChannelType;
 		
-		private int _OpenTimeout;
+		private System.Nullable<int> _OpenTimeout;
 		
-		private int _CloseTimeout;
+		private System.Nullable<int> _CloseTimeout;
 		
-		private int _ReceiveTimeout;
+		private System.Nullable<int> _ReceiveTimeout;
 		
-		private int _SendTimeout;
+		private System.Nullable<int> _SendTimeout;
 		
 		private string _TransferMode;
 		
-		private int _ListenBacklog;
+		private System.Nullable<int> _ListenBacklog;
 		
-		private int _MaxBufferPoolSize;
+		private System.Nullable<int> _MaxBufferPoolSize;
 		
-		private int _MaxBufferSize;
+		private System.Nullable<int> _MaxBufferSize;
 		
-		private int _MaxConnections;
+		private System.Nullable<int> _MaxConnections;
 		
-		private int _MaxReceivedMessageSize;
+		private System.Nullable<int> _MaxReceivedMessageSize;
 		
 		private bool _PortSharingEnabled;
 		
@@ -566,23 +627,25 @@ namespace NIntegrate.Configuration
 		
 		private string _ClientCredentialTypeName;
 		
-		private bool _IncludeExceptionDetailInFaults;
+		private bool _MexBindingEnabled;
 		
-		private int _MaxConcurrentCalls;
+		private System.Nullable<bool> _IncludeExceptionDetailInFaults;
 		
-		private int _MaxConcurrentSessions;
+		private System.Nullable<int> _MaxConcurrentCalls;
 		
-		private int _MaxConcurrentInstances;
+		private System.Nullable<int> _MaxConcurrentSessions;
 		
-		private bool _TransactionFlow;
+		private System.Nullable<int> _MaxConcurrentInstances;
 		
-		private int _TransactionTimeout;
+		private System.Nullable<bool> _TransactionFlow;
 		
-		private bool _ReliableSessionEnabled;
+		private System.Nullable<int> _TransactionTimeout;
 		
-		private int _ReliableSessionInactivityTimeout;
+		private System.Nullable<bool> _ReliableSessionEnabled;
 		
-		private bool _ReliableSessionOrdered;
+		private System.Nullable<int> _ReliableSessionInactivityTimeout;
+		
+		private System.Nullable<bool> _ReliableSessionOrdered;
 		
 		public sp_GetServerEndpointsResult()
 		{
@@ -636,8 +699,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_OpenTimeout", DbType="Int NOT NULL")]
-		public int OpenTimeout
+		[Column(Storage="_OpenTimeout", DbType="Int")]
+		public System.Nullable<int> OpenTimeout
 		{
 			get
 			{
@@ -652,8 +715,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_CloseTimeout", DbType="Int NOT NULL")]
-		public int CloseTimeout
+		[Column(Storage="_CloseTimeout", DbType="Int")]
+		public System.Nullable<int> CloseTimeout
 		{
 			get
 			{
@@ -668,8 +731,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReceiveTimeout", DbType="Int NOT NULL")]
-		public int ReceiveTimeout
+		[Column(Storage="_ReceiveTimeout", DbType="Int")]
+		public System.Nullable<int> ReceiveTimeout
 		{
 			get
 			{
@@ -684,8 +747,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_SendTimeout", DbType="Int NOT NULL")]
-		public int SendTimeout
+		[Column(Storage="_SendTimeout", DbType="Int")]
+		public System.Nullable<int> SendTimeout
 		{
 			get
 			{
@@ -716,8 +779,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ListenBacklog", DbType="Int NOT NULL")]
-		public int ListenBacklog
+		[Column(Storage="_ListenBacklog", DbType="Int")]
+		public System.Nullable<int> ListenBacklog
 		{
 			get
 			{
@@ -732,8 +795,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxBufferPoolSize", DbType="Int NOT NULL")]
-		public int MaxBufferPoolSize
+		[Column(Storage="_MaxBufferPoolSize", DbType="Int")]
+		public System.Nullable<int> MaxBufferPoolSize
 		{
 			get
 			{
@@ -748,8 +811,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxBufferSize", DbType="Int NOT NULL")]
-		public int MaxBufferSize
+		[Column(Storage="_MaxBufferSize", DbType="Int")]
+		public System.Nullable<int> MaxBufferSize
 		{
 			get
 			{
@@ -764,8 +827,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConnections", DbType="Int NOT NULL")]
-		public int MaxConnections
+		[Column(Storage="_MaxConnections", DbType="Int")]
+		public System.Nullable<int> MaxConnections
 		{
 			get
 			{
@@ -780,8 +843,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxReceivedMessageSize", DbType="Int NOT NULL")]
-		public int MaxReceivedMessageSize
+		[Column(Storage="_MaxReceivedMessageSize", DbType="Int")]
+		public System.Nullable<int> MaxReceivedMessageSize
 		{
 			get
 			{
@@ -844,8 +907,24 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_IncludeExceptionDetailInFaults", DbType="Bit NOT NULL")]
-		public bool IncludeExceptionDetailInFaults
+		[Column(Storage="_MexBindingEnabled", DbType="Bit NOT NULL")]
+		public bool MexBindingEnabled
+		{
+			get
+			{
+				return this._MexBindingEnabled;
+			}
+			set
+			{
+				if ((this._MexBindingEnabled != value))
+				{
+					this._MexBindingEnabled = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_IncludeExceptionDetailInFaults", DbType="Bit")]
+		public System.Nullable<bool> IncludeExceptionDetailInFaults
 		{
 			get
 			{
@@ -860,8 +939,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConcurrentCalls", DbType="Int NOT NULL")]
-		public int MaxConcurrentCalls
+		[Column(Storage="_MaxConcurrentCalls", DbType="Int")]
+		public System.Nullable<int> MaxConcurrentCalls
 		{
 			get
 			{
@@ -876,8 +955,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConcurrentSessions", DbType="Int NOT NULL")]
-		public int MaxConcurrentSessions
+		[Column(Storage="_MaxConcurrentSessions", DbType="Int")]
+		public System.Nullable<int> MaxConcurrentSessions
 		{
 			get
 			{
@@ -892,8 +971,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_MaxConcurrentInstances", DbType="Int NOT NULL")]
-		public int MaxConcurrentInstances
+		[Column(Storage="_MaxConcurrentInstances", DbType="Int")]
+		public System.Nullable<int> MaxConcurrentInstances
 		{
 			get
 			{
@@ -908,8 +987,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_TransactionFlow", DbType="Bit NOT NULL")]
-		public bool TransactionFlow
+		[Column(Storage="_TransactionFlow", DbType="Bit")]
+		public System.Nullable<bool> TransactionFlow
 		{
 			get
 			{
@@ -924,8 +1003,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_TransactionTimeout", DbType="Int NOT NULL")]
-		public int TransactionTimeout
+		[Column(Storage="_TransactionTimeout", DbType="Int")]
+		public System.Nullable<int> TransactionTimeout
 		{
 			get
 			{
@@ -940,8 +1019,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReliableSessionEnabled", DbType="Bit NOT NULL")]
-		public bool ReliableSessionEnabled
+		[Column(Storage="_ReliableSessionEnabled", DbType="Bit")]
+		public System.Nullable<bool> ReliableSessionEnabled
 		{
 			get
 			{
@@ -956,8 +1035,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReliableSessionInactivityTimeout", DbType="Int NOT NULL")]
-		public int ReliableSessionInactivityTimeout
+		[Column(Storage="_ReliableSessionInactivityTimeout", DbType="Int")]
+		public System.Nullable<int> ReliableSessionInactivityTimeout
 		{
 			get
 			{
@@ -972,8 +1051,8 @@ namespace NIntegrate.Configuration
 			}
 		}
 		
-		[Column(Storage="_ReliableSessionOrdered", DbType="Bit NOT NULL")]
-		public bool ReliableSessionOrdered
+		[Column(Storage="_ReliableSessionOrdered", DbType="Bit")]
+		public System.Nullable<bool> ReliableSessionOrdered
 		{
 			get
 			{
@@ -984,50 +1063,6 @@ namespace NIntegrate.Configuration
 				if ((this._ReliableSessionOrdered != value))
 				{
 					this._ReliableSessionOrdered = value;
-				}
-			}
-		}
-	}
-	
-	public partial class sp_GetConnectionStringResult
-	{
-		
-		private string _Value;
-		
-		private string _ProviderName;
-		
-		public sp_GetConnectionStringResult()
-		{
-		}
-		
-		[Column(Storage="_Value", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
-		public string Value
-		{
-			get
-			{
-				return this._Value;
-			}
-			set
-			{
-				if ((this._Value != value))
-				{
-					this._Value = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_ProviderName", DbType="VarChar(200)")]
-		public string ProviderName
-		{
-			get
-			{
-				return this._ProviderName;
-			}
-			set
-			{
-				if ((this._ProviderName != value))
-				{
-					this._ProviderName = value;
 				}
 			}
 		}

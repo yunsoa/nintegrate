@@ -51,12 +51,13 @@ namespace NIntegrate
             if (endpoint.ChannelType == typeof(WSHttpBinding).Name)
             {
                 var sm = (SecurityMode)Enum.Parse(typeof(SecurityMode), endpoint.SecurityMode);
-                var wsBinding = new WSHttpBinding(sm)
-                                    {
-                                        MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                                        MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                                        TransactionFlow = endpoint.TransactionFlow
-                                    };
+                var wsBinding = new WSHttpBinding(sm);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    wsBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    wsBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
+                if (endpoint.TransactionFlow.HasValue)
+                    wsBinding.TransactionFlow = endpoint.TransactionFlow.Value;
 
                 if (endpoint.ClientCredentialTypeName != "None")
                 {
@@ -78,7 +79,7 @@ namespace NIntegrate
                     }
                 }
 
-                if (endpoint.ReliableSessionEnabled)
+                if (endpoint.ReliableSessionEnabled.HasValue && endpoint.ReliableSessionEnabled.Value)
                 {
                     ConfigureReliableSession(endpoint, wsBinding.ReliableSession);
                 }
@@ -88,14 +89,15 @@ namespace NIntegrate
             else if (endpoint.ChannelType == typeof(WSFederationHttpBinding).Name)
             {
                 var smf = (WSFederationHttpSecurityMode)Enum.Parse(typeof(WSFederationHttpSecurityMode), endpoint.SecurityMode);
-                var wsfBinding = new WSFederationHttpBinding(smf)
-                {
-                    MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                    MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                    TransactionFlow = endpoint.TransactionFlow
-                };
+                var wsfBinding = new WSFederationHttpBinding(smf);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    wsfBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    wsfBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
+                if (endpoint.TransactionFlow.HasValue)
+                    wsfBinding.TransactionFlow = endpoint.TransactionFlow.Value;
 
-                if (endpoint.ReliableSessionEnabled)
+                if (endpoint.ReliableSessionEnabled.HasValue && endpoint.ReliableSessionEnabled.Value)
                 {
                     ConfigureReliableSession(endpoint, wsfBinding.ReliableSession);
                 }
@@ -105,12 +107,13 @@ namespace NIntegrate
             else if (endpoint.ChannelType == typeof(WSDualHttpBinding).Name)
             {
                 var smd = (WSDualHttpSecurityMode)Enum.Parse(typeof(WSDualHttpSecurityMode), endpoint.SecurityMode);
-                var wsdBinding = new WSDualHttpBinding(smd)
-                {
-                    MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                    MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                    TransactionFlow = endpoint.TransactionFlow
-                };
+                var wsdBinding = new WSDualHttpBinding(smd);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    wsdBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    wsdBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
+                if (endpoint.TransactionFlow.HasValue)
+                    wsdBinding.TransactionFlow = endpoint.TransactionFlow.Value;
 
                 if (endpoint.ClientCredentialTypeName != "None")
                 {
@@ -129,14 +132,15 @@ namespace NIntegrate
             else if (endpoint.ChannelType == typeof(WebHttpBinding).Name)
             {
                 var smw = (WebHttpSecurityMode)Enum.Parse(typeof(WebHttpSecurityMode), endpoint.SecurityMode);
-                var webBinding = new WebHttpBinding(smw)
-                {
-                    MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                    MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                    MaxBufferSize = endpoint.MaxBufferSize,
-                    TransferMode =
-                        ((TransferMode)Enum.Parse(typeof(TransferMode), endpoint.TransferMode)),
-                };
+                var webBinding = new WebHttpBinding(smw);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    webBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    webBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
+                if (endpoint.MaxBufferSize.HasValue)
+                    webBinding.MaxBufferSize = endpoint.MaxBufferSize.Value;
+                webBinding.TransferMode =
+                    ((TransferMode)Enum.Parse(typeof(TransferMode), endpoint.TransferMode));
 
                 if (endpoint.ClientCredentialTypeName != "None")
                 {
@@ -155,14 +159,15 @@ namespace NIntegrate
             else if (endpoint.ChannelType == typeof(BasicHttpBinding).Name)
             {
                 var smb = (BasicHttpSecurityMode)Enum.Parse(typeof(BasicHttpSecurityMode), endpoint.SecurityMode);
-                var basicBinding = new BasicHttpBinding(smb)
-                {
-                    MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                    MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                    MaxBufferSize = endpoint.MaxBufferSize,
-                    TransferMode =
-                        ((TransferMode)Enum.Parse(typeof(TransferMode), endpoint.TransferMode)),
-                };
+                var basicBinding = new BasicHttpBinding(smb);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    basicBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    basicBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
+                if (endpoint.MaxBufferSize.HasValue)
+                    basicBinding.MaxBufferSize = endpoint.MaxBufferSize.Value;
+                basicBinding.TransferMode =
+                    ((TransferMode)Enum.Parse(typeof(TransferMode), endpoint.TransferMode));
 
                 if (endpoint.ClientCredentialTypeName != "None")
                 {
@@ -189,11 +194,11 @@ namespace NIntegrate
             else if (endpoint.ChannelType == typeof(NetMsmqBinding).Name)
             {
                 var smq = (NetMsmqSecurityMode)Enum.Parse(typeof(NetMsmqSecurityMode), endpoint.SecurityMode);
-                var mqBinding = new NetMsmqBinding(smq)
-                {
-                    MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                    MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                };
+                var mqBinding = new NetMsmqBinding(smq);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    mqBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    mqBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
 
                 if (endpoint.ClientCredentialTypeName != "None")
                 {
@@ -212,18 +217,22 @@ namespace NIntegrate
             else if (endpoint.ChannelType == typeof(NetTcpBinding).Name)
             {
                 var sm = (SecurityMode)Enum.Parse(typeof(SecurityMode), endpoint.SecurityMode);
-                var tcpBinding = new NetTcpBinding(sm)
-                                     {
-                                         MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                                         MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                                         ListenBacklog = endpoint.ListenBacklog,
-                                         MaxBufferSize = endpoint.MaxBufferSize,
-                                         MaxConnections = endpoint.MaxConnections,
-                                         PortSharingEnabled = endpoint.PortSharingEnabled,
-                                         TransferMode =
-                                             ((TransferMode) Enum.Parse(typeof (TransferMode), endpoint.TransferMode)),
-                                         TransactionFlow = endpoint.TransactionFlow
-                                     };
+                var tcpBinding = new NetTcpBinding(sm);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    tcpBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    tcpBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
+                if (endpoint.MaxBufferSize.HasValue)
+                    tcpBinding.MaxBufferSize = endpoint.MaxBufferSize.Value;
+                if (endpoint.ListenBacklog.HasValue)
+                    tcpBinding.ListenBacklog = endpoint.ListenBacklog.Value;
+                if (endpoint.MaxConnections.HasValue)
+                    tcpBinding.MaxConnections = endpoint.MaxConnections.Value;
+                if (endpoint.TransactionFlow.HasValue)
+                    tcpBinding.TransactionFlow = endpoint.TransactionFlow.Value;
+                tcpBinding.PortSharingEnabled = endpoint.PortSharingEnabled;
+                tcpBinding.TransferMode =
+                    ((TransferMode)Enum.Parse(typeof(TransferMode), endpoint.TransferMode));
 
                 if (endpoint.ClientCredentialTypeName != "None")
                 {
@@ -245,7 +254,7 @@ namespace NIntegrate
                     }
                 }
 
-                if (endpoint.ReliableSessionEnabled)
+                if (endpoint.ReliableSessionEnabled.HasValue && endpoint.ReliableSessionEnabled.Value)
                 {
                     ConfigureReliableSession(endpoint, tcpBinding.ReliableSession);
                 }
@@ -254,29 +263,35 @@ namespace NIntegrate
             }
             else if (endpoint.ChannelType == typeof(NetNamedPipeBinding).Name)
             {
-                var namedPipeBinding = new NetNamedPipeBinding(
-                    (NetNamedPipeSecurityMode)Enum.Parse(typeof(NetNamedPipeSecurityMode),
-                    endpoint.SecurityMode))
-                                           {
-                                               MaxBufferPoolSize = endpoint.MaxBufferPoolSize,
-                                               MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize,
-                                               MaxBufferSize = endpoint.MaxBufferSize,
-                                               MaxConnections = endpoint.MaxConnections,
-                                               TransferMode =
-                                                   ((TransferMode)
-                                                    Enum.Parse(typeof (TransferMode), endpoint.TransferMode)),
-                                               TransactionFlow = endpoint.TransactionFlow
-                                           };
+                var smnp = (NetNamedPipeSecurityMode)Enum.Parse(typeof(NetNamedPipeSecurityMode),
+                    endpoint.SecurityMode);
+                var namedPipeBinding = new NetNamedPipeBinding(smnp);
+                if (endpoint.MaxBufferPoolSize.HasValue)
+                    namedPipeBinding.MaxBufferPoolSize = endpoint.MaxBufferPoolSize.Value;
+                if (endpoint.MaxReceivedMessageSize.HasValue)
+                    namedPipeBinding.MaxReceivedMessageSize = endpoint.MaxReceivedMessageSize.Value;
+                if (endpoint.MaxBufferSize.HasValue)
+                    namedPipeBinding.MaxBufferSize = endpoint.MaxBufferSize.Value;
+                if (endpoint.MaxConnections.HasValue)
+                    namedPipeBinding.MaxConnections = endpoint.MaxConnections.Value;
+                if (endpoint.TransactionFlow.HasValue)
+                    namedPipeBinding.TransactionFlow = endpoint.TransactionFlow.Value;
+                namedPipeBinding.TransferMode =
+                    ((TransferMode)Enum.Parse(typeof(TransferMode), endpoint.TransferMode));
 
                 binding = namedPipeBinding;
             }
             if (binding != null)
             {
                 binding.Name = serviceContract.ToString();
-                binding.OpenTimeout = new TimeSpan(0, 0, endpoint.OpenTimeout);
-                binding.CloseTimeout = new TimeSpan(0, 0, endpoint.CloseTimeout);
-                binding.ReceiveTimeout = new TimeSpan(0, 0, endpoint.ReceiveTimeout);
-                binding.SendTimeout = new TimeSpan(0, 0, endpoint.SendTimeout);
+                if (endpoint.OpenTimeout.HasValue)
+                    binding.OpenTimeout = new TimeSpan(0, 0, endpoint.OpenTimeout.Value);
+                if (endpoint.CloseTimeout.HasValue)
+                    binding.CloseTimeout = new TimeSpan(0, 0, endpoint.CloseTimeout.Value);
+                if (endpoint.ReceiveTimeout.HasValue)
+                    binding.ReceiveTimeout = new TimeSpan(0, 0, endpoint.ReceiveTimeout.Value);
+                if (endpoint.SendTimeout.HasValue)
+                    binding.SendTimeout = new TimeSpan(0, 0, endpoint.SendTimeout.Value);
             }
             return binding;
         }
@@ -284,9 +299,11 @@ namespace NIntegrate
         private static void ConfigureReliableSession(Endpoint endpoint, OptionalReliableSession reliableSession)
         {
             reliableSession.Enabled = true;
-            reliableSession.InactivityTimeout = 
-                TimeSpan.FromSeconds(endpoint.ReliableSessionInactivityTimeout);
-            reliableSession.Ordered = endpoint.ReliableSessionOrdered;
+            if (endpoint.ReliableSessionInactivityTimeout.HasValue)
+                reliableSession.InactivityTimeout = 
+                    TimeSpan.FromSeconds(endpoint.ReliableSessionInactivityTimeout.Value);
+            if (endpoint.ReliableSessionOrdered.HasValue)
+                reliableSession.Ordered = endpoint.ReliableSessionOrdered.Value;
         }
 
         /// <summary>

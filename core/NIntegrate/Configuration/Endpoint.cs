@@ -10,50 +10,52 @@ namespace NIntegrate.Configuration
         [DataMember]
         public string ChannelType { get; set; }
         [DataMember]
-        public int CloseTimeout { get; set; }
+        public int? CloseTimeout { get; set; }
         [DataMember]
         public string FarmAddress { get; set; }
         [DataMember]
-        public bool IncludeExceptionDetailInFaults { get; set; }
+        public bool MexBindingEnabled { get; set; }
         [DataMember]
-        public int ListenBacklog { get; set; }
+        public bool? IncludeExceptionDetailInFaults { get; set; }
         [DataMember]
-        public int MaxBufferPoolSize { get; set; }
+        public int? ListenBacklog { get; set; }
         [DataMember]
-        public int MaxBufferSize { get; set; }
+        public int? MaxBufferPoolSize { get; set; }
         [DataMember]
-        public int MaxConcurrentCalls { get; set; }
+        public int? MaxBufferSize { get; set; }
         [DataMember]
-        public int MaxConcurrentInstances { get; set; }
+        public int? MaxConcurrentCalls { get; set; }
         [DataMember]
-        public int MaxConcurrentSessions { get; set; }
+        public int? MaxConcurrentInstances { get; set; }
         [DataMember]
-        public int MaxConnections { get; set; }
+        public int? MaxConcurrentSessions { get; set; }
         [DataMember]
-        public int MaxReceivedMessageSize { get; set; }
+        public int? MaxConnections { get; set; }
         [DataMember]
-        public int OpenTimeout { get; set; }
+        public int? MaxReceivedMessageSize { get; set; }
+        [DataMember]
+        public int? OpenTimeout { get; set; }
         [DataMember]
         public bool PortSharingEnabled { get; set; }
         [DataMember]
-        public int ReceiveTimeout { get; set; }
+        public int? ReceiveTimeout { get; set; }
         [DataMember]
         public string SecurityMode { get; set; }
         [DataMember]
         public string ClientCredentialTypeName { get; set; }
         [DataMember]
-        public int SendTimeout { get; set; }
+        public int? SendTimeout { get; set; }
         [DataMember]
-        public bool TransactionFlow { get; set; }
+        public bool? TransactionFlow { get; set; }
         [DataMember]
-        public int TransactionTimeout { get; set; }
+        public int? TransactionTimeout { get; set; }
         [DataMember]
         public string TransferMode { get; set; }
         [DataMember]
-        public bool ReliableSessionEnabled { get; set; }
+        public bool? ReliableSessionEnabled { get; set; }
         [DataMember]
-        public int ReliableSessionInactivityTimeout { get; set; }
+        public int? ReliableSessionInactivityTimeout { get; set; }
         [DataMember]
-        public bool ReliableSessionOrdered { get; set; }
+        public bool? ReliableSessionOrdered { get; set; }
     }
 }

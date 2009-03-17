@@ -102,26 +102,29 @@ namespace NIntegrate
                         host.Description.Behaviors.Add(smb);
                     }
 
-                    //add mex endpoint
-                    host.AddServiceEndpoint(typeof (IMetadataExchange), new CustomBinding(binding), "mex");
+                    if (endpoint.MexBindingEnabled)
+                    {
+                        host.AddServiceEndpoint(typeof (IMetadataExchange), new CustomBinding(binding), "mex");
+                    }
 
                     if (!IsBehaviorConfigured<ServiceThrottlingBehavior>(host))
                     {
-                        var serviceThrottle = new ServiceThrottlingBehavior
-                                                  {
-                                                      MaxConcurrentCalls = endpoint.MaxConcurrentCalls,
-                                                      MaxConcurrentInstances = endpoint.MaxConcurrentInstances,
-                                                      MaxConcurrentSessions = endpoint.MaxConcurrentSessions
-                                                  };
+                        var serviceThrottle = new ServiceThrottlingBehavior();
+                        if (endpoint.MaxConcurrentCalls.HasValue)
+                            serviceThrottle.MaxConcurrentCalls = endpoint.MaxConcurrentCalls.Value;
+                        if (endpoint.MaxConcurrentInstances.HasValue)
+                            serviceThrottle.MaxConcurrentInstances = endpoint.MaxConcurrentInstances.Value;
+                        if (endpoint.MaxConcurrentSessions.HasValue)
+                            serviceThrottle.MaxConcurrentSessions = endpoint.MaxConcurrentSessions.Value;
                         host.Description.Behaviors.Add(serviceThrottle);
                     }
 
-                    if (!IsBehaviorConfigured<ServiceDebugBehavior>(host) && endpoint.IncludeExceptionDetailInFaults)
+                    if (!IsBehaviorConfigured<ServiceDebugBehavior>(host) && endpoint.IncludeExceptionDetailInFaults.HasValue && endpoint.IncludeExceptionDetailInFaults.Value)
                     {
                         var serviceDebug = new ServiceDebugBehavior
                                                {
                                                    IncludeExceptionDetailInFaults =
-                                                       endpoint.IncludeExceptionDetailInFaults
+                                                       endpoint.IncludeExceptionDetailInFaults.Value
                                                };
                         host.Description.Behaviors.Add(serviceDebug);
                     }
