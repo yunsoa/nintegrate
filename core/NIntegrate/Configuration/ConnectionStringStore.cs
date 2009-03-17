@@ -19,11 +19,12 @@ namespace NIntegrate.Configuration
         private ConnectionStringStore()
         {
             var providerTypeName = ConfigurationManager.AppSettings["NIntegrate.Configuration.ConnectionStringProvider"];
-            if (string.IsNullOrEmpty(providerTypeName)) return;
-
-            var providerType = Type.GetType(providerTypeName);
-            if (providerType != null)
-                _provider = (IConnectionStringProvider) Activator.CreateInstance(providerType);
+            if (!string.IsNullOrEmpty(providerTypeName))
+            {
+                var providerType = Type.GetType(providerTypeName);
+                if (providerType != null)
+                    _provider = (IConnectionStringProvider) Activator.CreateInstance(providerType);
+            }
 
             if (_provider == null)
                 _provider = new DefaultConnectionStringProvider();

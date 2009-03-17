@@ -317,7 +317,7 @@ namespace NIntegrate
             //create & return an address according to the endpoint config
             var address = default(Uri);
             if (endpoint.ChannelType.Contains("Http"))
-                return new Uri((endpoint.ClientCredentialTypeName == "Certificate" ? "https://" : "http://") + endpoint.FarmAddress + endpoint.Address);
+                return new Uri((IsHttpsEndpoint(endpoint) ? "https://" : "http://") + endpoint.FarmAddress + endpoint.Address);
 
             if (endpoint.ChannelType == typeof(NetMsmqBinding).Name)
                 return new Uri("net.msmq://localhost" + endpoint.Address);
@@ -329,6 +329,11 @@ namespace NIntegrate
                 return new Uri("net.pipe://localhost" + endpoint.Address);
 
             return address;
+        }
+
+        private static bool IsHttpsEndpoint(Endpoint endpoint)
+        {
+            return endpoint.SecurityMode == "Transport" || endpoint.ClientCredentialTypeName == "Certificate";
         }
     }
 }
