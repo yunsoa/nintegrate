@@ -57,6 +57,7 @@
     <Compile Include="Condition.cs" />
     <Compile Include="Criteria.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="QueryCommandFactory.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="ExpressionOperator.cs" />
     <Compile Include="Expressions.cs" />
@@ -72,6 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="NIntegrate_OpenSource.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NIntegrate\NIntegrate.csproj">
+      <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
+      <Name>NIntegrate</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

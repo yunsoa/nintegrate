@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Common;
 using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Data;
+using NIntegrate.Configuration;
 
 namespace NIntegrate.Query
 {
@@ -200,7 +202,7 @@ namespace NIntegrate.Query
                 foreach (DbParameter parameter in parameterCollection)
                 {
                     if (parameter.Value != null) continue;
-                    parameter.Value = parameterExpr.Value;
+                    parameter.Value = parameterExpr.Value ?? DBNull.Value;
                     AdjustParameterProperties(parameterExpr, parameter);
                     break;
                 }
@@ -249,7 +251,7 @@ namespace NIntegrate.Query
                         BuildCommandParameters(criteria, cmd.Parameters, false);
                         cmd.CommandText = BuildCommandText(cacheableSql, cmd.Parameters);
 
-                        var cachedCmd = (DbCommand)(cmd as ICloneable).Clone();
+                        var cachedCmd = CloneCommand(cmd);
                         foreach (DbParameter p in cachedCmd.Parameters)
                         {
                             p.Value = null;
@@ -261,7 +263,7 @@ namespace NIntegrate.Query
                 }
             }
 
-            cmd = _cachedCommands[cacheableSql];
+            cmd = CloneCommand(_cachedCommands[cacheableSql]);
             BuildCommandParameters(criteria, cmd.Parameters, true);
 
             return cmd;
@@ -298,7 +300,7 @@ namespace NIntegrate.Query
                 }
             }
 
-            cmd = _cachedCommands[cacheableSql];
+            cmd = CloneCommand(_cachedCommands[cacheableSql]);
             BuildCommandParameters(criteria, cmd.Parameters, true);
 
             return cmd;
