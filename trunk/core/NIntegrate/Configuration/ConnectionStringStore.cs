@@ -51,8 +51,9 @@ namespace NIntegrate.Configuration
                     if (!_cachedConnectionStrings.ContainsKey(connectionStringName))
                     {
                         var connString = _singleton._provider.GetConnectionString(connectionStringName);
-                        if (connString != null)
-                            _cachedConnectionStrings.Add(connectionStringName, connString);
+                        if (connString == null)
+                            throw new ConfigurationErrorsException(string.Format("Specified ConnectionStringName - {0} could not be found in configuration store!", connectionStringName));
+                        _cachedConnectionStrings.Add(connectionStringName, connString);
                     }
                 }
             }
