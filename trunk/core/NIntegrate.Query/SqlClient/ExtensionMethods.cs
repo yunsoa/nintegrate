@@ -13,6 +13,16 @@ namespace NIntegrate.Query.SqlClient
             return criteria;
         }
 
+        public static DateTimeExpression GetCurrentDate(this Criteria criteria)
+        {
+            return new DateTimeExpression("getdate()", null);
+        }
+
+        public static DateTimeExpression GetCurrentUtcDate(this Criteria criteria)
+        {
+            return new DateTimeExpression("getutcdate()", null);
+        }
+
         #endregion
 
         #region Expression
