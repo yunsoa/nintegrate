@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Common;
 using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Data;
-using NIntegrate.Configuration;
 
 namespace NIntegrate.Query
 {
