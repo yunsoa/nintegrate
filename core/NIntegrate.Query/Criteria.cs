@@ -144,16 +144,6 @@ namespace NIntegrate.Query
             return this;
         }
 
-        public DateTimeExpression GetCurrentDate()
-        {
-            return new DateTimeExpression("getdate()", null);
-        }
-
-        public DateTimeExpression GetCurrentUtcDate()
-        {
-            return new DateTimeExpression("getutcdate()", null);
-        }
-
         #endregion
     }
 }

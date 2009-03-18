@@ -3245,6 +3245,65 @@ namespace NIntegrate.Query
 
         #endregion
 
+        #region Between
+
+        public Condition Between(DateTime left, DateTime right, bool includeLeft, bool includeRight)
+        {
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, new DateTimeParameterExpression(left));
+            var rightCondition = new Condition(this, rightOp, new DateTimeParameterExpression(right));
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(DateTimeExpression left, DateTime right, bool includeLeft, bool includeRight)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, left);
+            var rightCondition = new Condition(this, rightOp, new DateTimeParameterExpression(right));
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(DateTime left, DateTimeExpression right, bool includeLeft, bool includeRight)
+        {
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, new DateTimeParameterExpression(left));
+            var rightCondition = new Condition(this, rightOp, right);
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(DateTimeExpression left, DateTimeExpression right, bool includeLeft, bool includeRight)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, left);
+            var rightCondition = new Condition(this, rightOp, right);
+            return leftCondition.And(rightCondition);
+        }
+
+        #endregion
+
         #region GreaterThan & LessThan
 
         public Condition GreaterThan(DateTime value)
@@ -3461,6 +3520,26 @@ namespace NIntegrate.Query
 
             expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Subtract) + " ?";
             expr._childExpressions.Add(right);
+
+            return expr;
+        }
+
+        public static DateTimeExpression operator -(DateTime left, DateTimeExpression right)
+        {
+            var expr = new DateTimeParameterExpression(left);
+
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Subtract) + " ?";
+            expr._childExpressions.Add(right);
+
+            return expr;
+        }
+
+        public static DateTimeExpression operator -(DateTimeExpression left, DateTime right)
+        {
+            var expr = (DateTimeExpression)left.Clone();
+
+            expr._sql += " " + QueryHelper.ToString(ExpressionOperator.Subtract) + " ?";
+            expr._childExpressions.Add(new DateTimeParameterExpression(right));
 
             return expr;
         }
@@ -3971,6 +4050,65 @@ namespace NIntegrate.Query
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        #endregion
+
+        #region Between
+
+        public Condition Between(double left, double right, bool includeLeft, bool includeRight)
+        {
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, new DoubleParameterExpression(left));
+            var rightCondition = new Condition(this, rightOp, new DoubleParameterExpression(right));
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(DoubleExpression left, double right, bool includeLeft, bool includeRight)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, left);
+            var rightCondition = new Condition(this, rightOp, new DoubleParameterExpression(right));
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(double left, DoubleExpression right, bool includeLeft, bool includeRight)
+        {
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, new DoubleParameterExpression(left));
+            var rightCondition = new Condition(this, rightOp, right);
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(DoubleExpression left, DoubleExpression right, bool includeLeft, bool includeRight)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, left);
+            var rightCondition = new Condition(this, rightOp, right);
+            return leftCondition.And(rightCondition);
         }
 
         #endregion
@@ -4536,6 +4674,65 @@ namespace NIntegrate.Query
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        #endregion
+
+        #region Between
+
+        public Condition Between(decimal left, decimal right, bool includeLeft, bool includeRight)
+        {
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, new DecimalParameterExpression(left));
+            var rightCondition = new Condition(this, rightOp, new DecimalParameterExpression(right));
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(DecimalExpression left, decimal right, bool includeLeft, bool includeRight)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, left);
+            var rightCondition = new Condition(this, rightOp, new DecimalParameterExpression(right));
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(decimal left, DecimalExpression right, bool includeLeft, bool includeRight)
+        {
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, new DecimalParameterExpression(left));
+            var rightCondition = new Condition(this, rightOp, right);
+            return leftCondition.And(rightCondition);
+        }
+
+        public Condition Between(DecimalExpression left, DecimalExpression right, bool includeLeft, bool includeRight)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            ExpressionOperator leftOp;
+            ExpressionOperator rightOp;
+            QueryHelper.GetLeftRightOperatorsForBetween(includeLeft, includeRight, out leftOp, out rightOp);
+
+            var leftCondition = new Condition(this, leftOp, left);
+            var rightCondition = new Condition(this, rightOp, right);
+            return leftCondition.And(rightCondition);
         }
 
         #endregion
@@ -5409,5 +5606,10 @@ namespace NIntegrate.Query
         }
 
         #endregion
+
+        public static Int32Expression Count(this Expression expr)
+        {
+            return expr.Count(false);
+        }
     }
 }
