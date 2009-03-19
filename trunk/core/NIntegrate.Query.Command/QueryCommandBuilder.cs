@@ -76,8 +76,8 @@ namespace NIntegrate.Query.Command
             {
                 sb.Append(separate);
 
-                if (en.Current.Key.ColumnName.ToDatabaseObjectName() != en.Current.Key.Sql) continue;
-                sb.Append(en.Current.Key.ToExpressionCacheableSql());
+                if (QueryHelper.ToDatabaseObjectName(en.Current.Key.ColumnName) != en.Current.Key.Sql) continue;
+                sb.Append(QueryHelper.ToExpressionCacheableSql(en.Current.Key));
                 if (en.Current.Value)
                 {
                     sb.Append(" DESC");
@@ -102,14 +102,14 @@ namespace NIntegrate.Query.Command
                     }
                 }
 
-                sb.Append(criteria._conditions[i].ToConditionCacheableSql());
+                sb.Append(QueryHelper.ToConditionCacheableSql(criteria._conditions[i]));
             }
         }
 
         protected static void AppendFrom(string tableName, StringBuilder sb)
         {
             sb.Append("FROM ");
-            sb.Append(tableName.ToDatabaseObjectName());
+            sb.Append(QueryHelper.ToDatabaseObjectName(tableName));
         }
 
         protected static void AppendResultColumns(Criteria criteria, StringBuilder sb)
