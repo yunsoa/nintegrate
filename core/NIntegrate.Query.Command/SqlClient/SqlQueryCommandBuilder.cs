@@ -4,11 +4,9 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
-using System.Runtime.InteropServices;
 
 namespace NIntegrate.Query.Command.SqlClient
 {
-    [ComVisible(false)]
     public class SqlQueryCommandBuilder : QueryCommandBuilder
     {
         #region Override Methods
