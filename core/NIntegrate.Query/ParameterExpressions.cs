@@ -281,6 +281,9 @@ namespace NIntegrate.Query
 
         public StringParameterExpression(string value, bool isUnicode) : base(isUnicode)
         {
+            if (value == null)
+                throw new ArgumentNullException("value");
+
             _value = value;
             _sql = "?";
         }

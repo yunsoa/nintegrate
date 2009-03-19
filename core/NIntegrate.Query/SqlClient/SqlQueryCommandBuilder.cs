@@ -134,22 +134,46 @@ namespace NIntegrate.Query.SqlClient
             }
             sb.Append(" ");
 
-            AppendFrom(tableName, sb);
-            sb.Append(" (NOLOCK)");
+            if (isCountCommand && criteria._isDistinct)
+            {
+                sb.Append("FROM (SELECT DISTINCT ");
+                if (criteria._maxResults > 0)
+                {
+                    sb.Append("TOP ");
+                    sb.Append(criteria._maxResults);
+                    sb.Append(" ");
+                }
 
-            if (criteria._conditions.Count > 0)
-            {
+                AppendResultColumns(criteria, sb);
                 sb.Append(" ");
-                sb.Append("WHERE ");
-                AppendConditions(criteria, sb);
-            }
-            if (!isCountCommand)
-            {
-                if (criteria._sortBys.Count > 0)
+                AppendFrom(tableName, sb);
+                sb.Append(" (NOLOCK)");
+                if (criteria._conditions.Count > 0)
                 {
                     sb.Append(" ");
-                    sb.Append("ORDER BY ");
-                    AppendSortBys(criteria, sb);
+                    sb.Append("WHERE ");
+                    AppendConditions(criteria, sb);
+                    sb.Append(") [__T]");
+                }
+            }
+            else
+            {
+                AppendFrom(tableName, sb);
+                sb.Append(" (NOLOCK)");
+                if (criteria._conditions.Count > 0)
+                {
+                    sb.Append(" ");
+                    sb.Append("WHERE ");
+                    AppendConditions(criteria, sb);
+                }
+                if (!isCountCommand)
+                {
+                    if (criteria._sortBys.Count > 0)
+                    {
+                        sb.Append(" ");
+                        sb.Append("ORDER BY ");
+                        AppendSortBys(criteria, sb);
+                    }
                 }
             }
 
