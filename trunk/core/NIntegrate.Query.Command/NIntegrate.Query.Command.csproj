@@ -53,6 +53,7 @@
     <Compile Include="QueryCommandBuilder.cs" />
     <Compile Include="QueryCommandFactory.cs" />
     <Compile Include="SqlClient\SqlQueryCommandBuilder.cs" />
+    <Compile Include="Web\NIntegrateDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NIntegrate_OpenSource.snk" />
