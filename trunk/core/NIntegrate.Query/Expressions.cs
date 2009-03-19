@@ -199,10 +199,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(BooleanExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(bool value)
@@ -212,10 +209,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(BooleanExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(BooleanExpression left, BooleanExpression right)
@@ -338,10 +332,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(ByteExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(byte value)
@@ -351,10 +342,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(ByteExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(ByteExpression left, ByteExpression right)
@@ -1044,10 +1032,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(Int16Expression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(short value)
@@ -1057,10 +1042,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(Int16Expression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(Int16Expression left, Int16Expression right)
@@ -1754,10 +1736,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(Int32Expression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(int value)
@@ -1767,10 +1746,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(Int32Expression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(Int32Expression left, Int32Expression right)
@@ -2460,10 +2436,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(Int64Expression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(long value)
@@ -2473,10 +2446,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(Int64Expression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(Int64Expression left, Int64Expression right)
@@ -3166,10 +3136,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(DateTimeExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(DateTime value)
@@ -3179,10 +3146,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(DateTimeExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(DateTimeExpression left, DateTimeExpression right)
@@ -3636,28 +3600,26 @@ namespace NIntegrate.Query
 
         public Condition Equals(string value)
         {
+            if (value == null)
+                return Equals((StringExpression)null);
             return new Condition(this, ExpressionOperator.Equals, new StringParameterExpression(value, IsUnicode));
         }
 
         public Condition Equals(StringExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(string value)
         {
+            if (value == null)
+                return NotEquals((StringExpression)null);
             return new Condition(this, ExpressionOperator.NotEquals, new StringParameterExpression(value, IsUnicode));
         }
 
         public Condition NotEquals(StringExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(StringExpression left, StringExpression right)
@@ -3836,10 +3798,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(GuidExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(Guid value)
@@ -3849,10 +3808,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(GuidExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(GuidExpression left, GuidExpression right)
@@ -3975,10 +3931,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(DoubleExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(double value)
@@ -3988,10 +3941,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(DoubleExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(DoubleExpression left, DoubleExpression right)
@@ -4599,10 +4549,7 @@ namespace NIntegrate.Query
 
         public Condition Equals(DecimalExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.Equals, value);
+            return new Condition(this, ExpressionOperator.Equals, (IExpression)value ?? NullExpression.Value);
         }
 
         public Condition NotEquals(decimal value)
@@ -4612,10 +4559,7 @@ namespace NIntegrate.Query
 
         public Condition NotEquals(DecimalExpression value)
         {
-            if (ReferenceEquals(value, null))
-                throw new ArgumentNullException("value");
-
-            return new Condition(this, ExpressionOperator.NotEquals, value);
+            return new Condition(this, ExpressionOperator.NotEquals, (IExpression)value ?? NullExpression.Value);
         }
 
         public static Condition operator ==(DecimalExpression left, DecimalExpression right)
@@ -5221,7 +5165,7 @@ namespace NIntegrate.Query
     [KnownType(typeof(GuidColumn))]
     [KnownType(typeof(DoubleColumn))]
     [KnownType(typeof(DecimalColumn))]
-    public sealed class ExpressionCollection : IExpression, ICollection<IExpression>
+    internal sealed class ExpressionCollection : IExpression, ICollection<IExpression>
     {
         #region Private Fields
 
@@ -5363,7 +5307,7 @@ namespace NIntegrate.Query
         #endregion
     }
 
-    public sealed class NullExpression : IExpression
+    internal sealed class NullExpression : IExpression
     {
         #region Private Fields
 
