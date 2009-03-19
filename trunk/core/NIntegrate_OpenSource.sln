@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Query", "NIntegr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate", "NIntegrate\NIntegrate.csproj", "{AD280D0D-B1C3-4226-93E6-2CC026593D23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Query.Command", "NIntegrate.Query.Command\NIntegrate.Query.Command.csproj", "{39F21CCC-EABD-48F9-9C25-AC02513E9F31}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -23,6 +25,10 @@ Global
 		{AD280D0D-B1C3-4226-93E6-2CC026593D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD280D0D-B1C3-4226-93E6-2CC026593D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD280D0D-B1C3-4226-93E6-2CC026593D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
