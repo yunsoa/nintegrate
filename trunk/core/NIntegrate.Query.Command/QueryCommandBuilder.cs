@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Data;
 
 namespace NIntegrate.Query.Command
 {
-    [ComVisible(false)]
     public abstract class QueryCommandBuilder : IQueryCommandBuilder
     {
         #region Private Fields
