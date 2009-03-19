@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace NIntegrate.Query.SqlClient
+namespace NIntegrate.Query.Command.SqlClient
 {
     [ComVisible(false)]
     public class SqlQueryCommandBuilder : QueryCommandBuilder

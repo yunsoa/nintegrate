@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Common;
 using NIntegrate.Configuration;
 
-namespace NIntegrate.Query
+namespace NIntegrate.Query.Command
 {
     public sealed class QueryCommandFactory
     {
