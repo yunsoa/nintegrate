@@ -50,7 +50,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(day, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, new Int32ParameterExpression(n));
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddDay(this DateTimeExpression expr, Int32Expression n)
@@ -63,7 +63,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(day, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, n);
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddMonth(this DateTimeExpression expr, int n)
@@ -73,7 +73,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(month, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, new Int32ParameterExpression(n));
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddMonth(this DateTimeExpression expr, Int32Expression n)
@@ -86,7 +86,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(month, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, n);
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddYear(this DateTimeExpression expr, int n)
@@ -96,7 +96,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(year, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, new Int32ParameterExpression(n));
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddYear(this DateTimeExpression expr, Int32Expression n)
@@ -109,7 +109,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(year, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, n);
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddHour(this DateTimeExpression expr, int n)
@@ -119,7 +119,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(hour, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, new Int32ParameterExpression(n));
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddHour(this DateTimeExpression expr, Int32Expression n)
@@ -132,7 +132,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(hour, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, n);
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddMinute(this DateTimeExpression expr, int n)
@@ -142,7 +142,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(minute, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, new Int32ParameterExpression(n));
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddMinute(this DateTimeExpression expr, Int32Expression n)
@@ -155,7 +155,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(minute, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, n);
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddSecond(this DateTimeExpression expr, int n)
@@ -165,7 +165,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(second, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, new Int32ParameterExpression(n));
 
-            return expr;
+            return newExpr;
         }
 
         public static DateTimeExpression AddSecond(this DateTimeExpression expr, Int32Expression n)
@@ -178,7 +178,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "DATEADD(second, ?, " + newExpr._sql + ")";
             newExpr._childExpressions.Insert(0, n);
 
-            return expr;
+            return newExpr;
         }
 
         public static Int32Expression GetDay(this DateTimeExpression expr)
@@ -233,7 +233,7 @@ namespace NIntegrate.Query.SqlClient
                 throw new ArgumentNullException("value");
 
             var escapedLikeValue = (StringExpression)value.Clone();
-            escapedLikeValue._sql = '%' + escapedLikeValue._sql + '%';
+            escapedLikeValue._sql = "'%' + " + escapedLikeValue._sql + " + '%'";
 
             return new Condition(expr, ExpressionOperator.Like, escapedLikeValue);
         }
@@ -252,7 +252,7 @@ namespace NIntegrate.Query.SqlClient
                 throw new ArgumentNullException("value");
 
             var escapedLikeValue = (StringExpression)value.Clone();
-            escapedLikeValue._sql = '%' + escapedLikeValue._sql;
+            escapedLikeValue._sql = "'%' + " + escapedLikeValue._sql;
 
             return new Condition(expr, ExpressionOperator.Like, escapedLikeValue);
         }
@@ -271,7 +271,7 @@ namespace NIntegrate.Query.SqlClient
                 throw new ArgumentNullException("value");
 
             var escapedLikeValue = (StringExpression)value.Clone();
-            escapedLikeValue._sql = escapedLikeValue._sql + '%';
+            escapedLikeValue._sql = escapedLikeValue._sql + " + '%'";
 
             return new Condition(expr, ExpressionOperator.Like, escapedLikeValue);
         }
@@ -307,7 +307,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(new StringParameterExpression(find, expr.IsUnicode));
             newExpr._childExpressions.Add(new StringParameterExpression(replace, expr.IsUnicode));
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Replace(this StringExpression expr, StringExpression find, string replace)
@@ -323,7 +323,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(find);
             newExpr._childExpressions.Add(new StringParameterExpression(replace, expr.IsUnicode));
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Replace(this StringExpression expr, string find, StringExpression replace)
@@ -339,7 +339,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(new StringParameterExpression(find, expr.IsUnicode));
             newExpr._childExpressions.Add(replace);
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Replace(this StringExpression expr, StringExpression find, StringExpression replace)
@@ -355,7 +355,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(find);
             newExpr._childExpressions.Add(replace);
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Substring(this StringExpression expr, int begin, int length)
@@ -366,7 +366,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(new Int32ParameterExpression(begin));
             newExpr._childExpressions.Add(new Int32ParameterExpression(length));
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Substring(this StringExpression expr, Int32Expression begin, int length)
@@ -380,10 +380,10 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(begin);
             newExpr._childExpressions.Add(new Int32ParameterExpression(length));
 
-            return expr;
+            return newExpr;
         }
 
-        public static StringExpression Substring(this StringExpression expr, int begin, StringExpression length)
+        public static StringExpression Substring(this StringExpression expr, int begin, Int32Expression length)
         {
             if (ReferenceEquals(length, null))
                 throw new ArgumentNullException("length");
@@ -394,10 +394,10 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(new Int32ParameterExpression(begin));
             newExpr._childExpressions.Add(length);
 
-            return expr;
+            return newExpr;
         }
 
-        public static StringExpression Substring(this StringExpression expr, StringExpression begin, StringExpression length)
+        public static StringExpression Substring(this StringExpression expr, Int32Expression begin, Int32Expression length)
         {
             if (ReferenceEquals(begin, null))
                 throw new ArgumentNullException("begin");
@@ -410,7 +410,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._childExpressions.Add(begin);
             newExpr._childExpressions.Add(length);
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Left(this StringExpression expr, int length)
@@ -420,7 +420,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "LEFT(" + newExpr._sql + ", ?)";
             newExpr._childExpressions.Add(new Int32ParameterExpression(length));
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Left(this StringExpression expr, Int32Expression length)
@@ -433,7 +433,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "LEFT(" + newExpr._sql + ", ?)";
             newExpr._childExpressions.Add(length);
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Right(this StringExpression expr, int length)
@@ -443,7 +443,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "RIGHT(" + newExpr._sql + ", ?)";
             newExpr._childExpressions.Add(new Int32ParameterExpression(length));
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression Right(this StringExpression expr, Int32Expression length)
@@ -456,7 +456,7 @@ namespace NIntegrate.Query.SqlClient
             newExpr._sql = "RIGHT(" + newExpr._sql + ", ?)";
             newExpr._childExpressions.Add(length);
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression LTrim(this StringExpression expr)
@@ -465,7 +465,7 @@ namespace NIntegrate.Query.SqlClient
 
             newExpr._sql = "LTRIM(" + expr._sql + ")";
 
-            return expr;
+            return newExpr;
         }
 
         public static StringExpression RTrim(this StringExpression expr)
@@ -474,7 +474,7 @@ namespace NIntegrate.Query.SqlClient
 
             newExpr._sql = "RTRIM(" + expr._sql + ")";
 
-            return expr;
+            return newExpr;
         }
 
         public static Int32Expression ToAscii(this StringExpression expr)

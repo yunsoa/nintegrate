@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Data.Common;
 using NIntegrate.Configuration;
 
@@ -67,6 +68,29 @@ namespace NIntegrate.Query
             var cmd = _queryCommandBuilder.BuildCountCommand(_criteria);
             SetConnection(cmd);
             return cmd;
+        }
+
+        public DbDataAdapter GetQueryDataAdapter()
+        {
+            var adapter = _queryCommandBuilder.GetDbProviderFactory().CreateDataAdapter();
+            adapter.SelectCommand = GetQueryCommand();
+
+            return adapter;
+        }
+
+        public DbDataAdapter GetUpdatableQueryDataAdapter(ConflictOption option)
+        {
+            var adapter = _queryCommandBuilder.GetDbProviderFactory().CreateDataAdapter();
+            adapter.SelectCommand = GetQueryCommand();
+
+            var cmdBuilder = _queryCommandBuilder.GetDbProviderFactory().CreateCommandBuilder();
+            cmdBuilder.DataAdapter = adapter;
+            cmdBuilder.ConflictOption = option;
+            cmdBuilder.GetInsertCommand();
+            cmdBuilder.GetUpdateCommand();
+            cmdBuilder.GetDeleteCommand();
+
+            return adapter;
         }
 
         #endregion
