@@ -20,7 +20,8 @@ namespace NIntegrate.Query
 
     public interface IParameterExpression : IExpression
     {
+        string ID { get; }
         [ComVisible(false)]
-        object Value { get; }
+        object Value { get; set; }
     }
 }

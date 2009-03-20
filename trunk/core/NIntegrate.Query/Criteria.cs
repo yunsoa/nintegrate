@@ -144,6 +144,14 @@ namespace NIntegrate.Query
             return this;
         }
 
+        internal void UpdateIdentifiedParameterValue(string id, object value)
+        {
+            foreach (var condition in _conditions)
+            {
+                condition.UpdateIdentifiedParameterValue(id, value);
+            }
+        }
+
         #endregion
     }
 }

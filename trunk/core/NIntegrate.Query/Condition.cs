@@ -165,6 +165,21 @@ namespace NIntegrate.Query
             return clone;
         }
 
+        internal override void UpdateIdentifiedParameterValue(string id, object value)
+        {
+            var leftExpr = LeftExpression as Expression;
+            if (!ReferenceEquals(leftExpr, null))
+                leftExpr.UpdateIdentifiedParameterValue(id, value);
+            var rightExpr = RightExpression as Expression;
+            if (!ReferenceEquals(rightExpr, null))
+                rightExpr.UpdateIdentifiedParameterValue(id, value);
+
+            foreach (var condition in _linkedConditions)
+            {
+                condition.UpdateIdentifiedParameterValue(id, value);
+            }
+        }
+
         #endregion
 
         #region Operators
