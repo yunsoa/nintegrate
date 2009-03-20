@@ -57,6 +57,7 @@
     <Compile Include="Condition.cs" />
     <Compile Include="Criteria.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IQueryService.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="ExpressionOperator.cs" />
     <Compile Include="Expressions.cs" />
