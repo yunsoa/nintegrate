@@ -8,6 +8,7 @@ namespace NIntegrate.Query
     {
         [OperationContract]
         DataTable Select(Criteria criteria);
+        int SelectCount(Criteria criteria);
         int Update(Criteria criteria, DataTable modifiedTable);
     }
 }

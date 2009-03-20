@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Runtime.Serialization;
+
 namespace NIntegrate.Query
 {
     /// <summary>
@@ -39,7 +40,7 @@ namespace NIntegrate.Query
     [KnownType(typeof(GuidParameterExpression))]
     [KnownType(typeof(DoubleParameterExpression))]
     [KnownType(typeof(DecimalParameterExpression))]
-    public class Criteria
+    public class Criteria : ICloneable
     {
         #region Protected Fields
 
@@ -150,6 +151,30 @@ namespace NIntegrate.Query
             {
                 condition.UpdateIdentifiedParameterValue(id, value);
             }
+        }
+
+        #endregion
+
+        #region ICloneable Members
+
+        public virtual object Clone()
+        {
+            var clone = (Criteria)Activator.CreateInstance(GetType());
+            clone._tableName = _tableName;
+            clone._connectionStringName = _connectionStringName;
+            foreach (var column in _resultColumns)
+                clone._resultColumns.Add((IColumn)column.Clone());
+            clone._isDistinct = _isDistinct;
+            clone._maxResults = _maxResults;
+            clone._skipResults = _skipResults;
+            var en = _sortBys.GetEnumerator();
+            while (en.MoveNext())
+                clone._sortBys.Add((IColumn)en.Current.Key.Clone(), en.Current.Value);
+            foreach (var andOr in _conditionAndOrs)
+                clone._conditionAndOrs.Add(andOr);
+            foreach (var condition in _conditions)
+                clone._conditions.Add((Condition)condition.Clone());
+            return clone;
         }
 
         #endregion
