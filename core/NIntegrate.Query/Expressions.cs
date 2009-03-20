@@ -162,6 +162,20 @@ namespace NIntegrate.Query
             return base.GetHashCode();
         }
 
+        internal virtual void UpdateIdentifiedParameterValue(string id, object value)
+        {
+            var paramExpr = this as IParameterExpression;
+            if (paramExpr != null && paramExpr.ID == id)
+                paramExpr.Value = value;
+
+            foreach (var item in _childExpressions)
+            {
+                var expr = item as Expression;
+                if (!ReferenceEquals(expr, null))
+                    expr.UpdateIdentifiedParameterValue(id, value);
+            }
+        }
+
         #endregion
     }
 

@@ -9,11 +9,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private bool _value;
 
         #endregion
 
         #region Constructors
+
+        public BooleanParameterExpression(string id, bool value) : this(value)
+        {
+            _id = id;
+        }
 
         public BooleanParameterExpression(bool value)
         {
@@ -32,16 +39,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new BooleanParameterExpression(_value);
+            return new BooleanParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (bool)value; }
         }
 
         #endregion
@@ -53,11 +66,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private byte _value;
 
         #endregion
 
         #region Constructors
+
+        public ByteParameterExpression(string id, byte value) : this(value)
+        {
+            _id = id;
+        }
 
         public ByteParameterExpression(byte value)
         {
@@ -76,16 +96,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new ByteParameterExpression(_value);
+            return new ByteParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (byte)value; }
         }
 
         #endregion
@@ -97,11 +123,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private short _value;
 
         #endregion
 
         #region Constructors
+
+        public Int16ParameterExpression(string id, short value) : this(value)
+        {
+            _id = id;
+        }
 
         public Int16ParameterExpression(short value)
         {
@@ -120,16 +153,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new Int16ParameterExpression(_value);
+            return new Int16ParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (short)value; }
         }
 
         #endregion
@@ -141,11 +180,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private int _value;
 
         #endregion
 
         #region Constructors
+
+        public Int32ParameterExpression(string id, int value) : this(value)
+        {
+            _id = id;
+        }
 
         public Int32ParameterExpression(int value)
         {
@@ -164,16 +210,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new Int32ParameterExpression(_value);
+            return new Int32ParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (int)value; }
         }
 
         #endregion
@@ -185,11 +237,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private long _value;
 
         #endregion
 
         #region Constructors
+
+        public Int64ParameterExpression(string id, long value) : this(value)
+        {
+            _id = id;
+        }
 
         public Int64ParameterExpression(long value)
         {
@@ -208,16 +267,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new Int64ParameterExpression(_value);
+            return new Int64ParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (long)value; }
         }
 
         #endregion
@@ -229,11 +294,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
-        private readonly DateTime _value;
+        private readonly string _id;
+        [DataMember]
+        private DateTime _value;
 
         #endregion
 
         #region Constructors
+
+        public DateTimeParameterExpression(string id, DateTime value) : this(value)
+        {
+            _id = id;
+        }
 
         public DateTimeParameterExpression(DateTime value)
         {
@@ -252,16 +324,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new DateTimeParameterExpression(_value);
+            return new DateTimeParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (DateTime)value; }
         }
 
         #endregion
@@ -273,11 +351,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         internal string _value;
 
         #endregion
 
         #region Constructors
+
+        public StringParameterExpression(string id, string value, bool isUnicode) : this(value, isUnicode)
+        {
+            _id = id;
+        }
 
         public StringParameterExpression(string value, bool isUnicode) : base(isUnicode)
         {
@@ -299,16 +384,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new StringParameterExpression(_value, _isUnicode);
+            return new StringParameterExpression(_id, _value, _isUnicode);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (string)value; }
         }
 
         #endregion
@@ -320,11 +411,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private Guid _value;
 
         #endregion
 
         #region Constructors
+
+        public GuidParameterExpression(string id, Guid value) : this(value)
+        {
+            _id = id;
+        }
 
         public GuidParameterExpression(Guid value)
         {
@@ -343,16 +441,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new GuidParameterExpression(_value);
+            return new GuidParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (Guid)value; }
         }
 
         #endregion
@@ -364,11 +468,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private double _value;
 
         #endregion
 
         #region Constructors
+
+        public DoubleParameterExpression(string id, double value) : this(value)
+        {
+            _id = id;
+        }
 
         public DoubleParameterExpression(double value)
         {
@@ -387,16 +498,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new DoubleParameterExpression(_value);
+            return new DoubleParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (double)value; }
         }
 
         #endregion
@@ -408,11 +525,18 @@ namespace NIntegrate.Query
         #region Private Fields
 
         [DataMember]
+        private readonly string _id;
+        [DataMember]
         private decimal _value;
 
         #endregion
 
         #region Constructors
+
+        public DecimalParameterExpression(string id, decimal value) : this(value)
+        {
+            _id = id;
+        }
 
         public DecimalParameterExpression(decimal value)
         {
@@ -431,16 +555,22 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new DecimalParameterExpression(_value);
+            return new DecimalParameterExpression(_id, _value);
         }
 
         #endregion
 
         #region IParameterExpression Members
 
+        public string ID
+        {
+            get { return _id; }
+        }
+
         object IParameterExpression.Value
         {
             get { return _value; }
+            set { _value = (decimal)value; }
         }
 
         #endregion
