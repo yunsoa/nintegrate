@@ -1,11 +1,14 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Xml;
 
 namespace NIntegrate.Query
 {
     [ComVisible(false)]
-    internal static class QueryHelper
+    public static class QueryHelper
     {
         internal static void GetLeftRightOperatorsForBetween(bool includeLeft, bool includeRight
             , out ExpressionOperator leftOp, out ExpressionOperator rightOp)
@@ -153,6 +156,55 @@ namespace NIntegrate.Query
                 return name;
 
             return "[" + name.TrimStart('[').TrimEnd(']') + "]";
+        }
+
+        public static string WcfSerialize(object obj)
+        {
+            if (obj == null)
+                throw new ArgumentNullException("obj");
+
+            var ms = new MemoryStream();
+            string xml;
+            try
+            {
+                var dcs = new DataContractSerializer(obj.GetType());
+
+                using (var xmlTextWriter = new XmlTextWriter(ms, Encoding.UTF8))
+                {
+                    xmlTextWriter.Formatting = Formatting.None;
+                    dcs.WriteObject(xmlTextWriter, obj);
+                    xmlTextWriter.Flush();
+                    ms = (MemoryStream)xmlTextWriter.BaseStream;
+                    ms.Flush();
+                    xml = Encoding.UTF8.GetString(ms.ToArray());
+                }
+            }
+            finally
+            {
+                if (ms != null)
+                {
+                    ms.Close();
+                }
+            }
+            return xml;
+        }
+
+        public static object WcfDeserialize(Type type, string xml)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (string.IsNullOrEmpty(xml))
+                throw new ArgumentNullException("xml");
+
+            object result;
+            var dcs = new DataContractSerializer(type);
+            using (var reader = new StringReader(xml))
+            using (XmlReader xmlReader = new XmlTextReader(reader))
+            {
+                result = dcs.ReadObject(xmlReader);
+            }
+
+            return result;
         }
     }
 }
