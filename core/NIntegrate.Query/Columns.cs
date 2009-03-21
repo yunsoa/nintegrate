@@ -51,10 +51,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new BooleanColumn((BooleanExpression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new BooleanColumn((BooleanExpression)base.Clone(), ColumnName);
             return clone;
         }
 
@@ -108,10 +105,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new ByteColumn((ByteExpression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new ByteColumn((ByteExpression)base.Clone(), ColumnName);
             return clone;
         }
 
@@ -165,10 +159,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new Int16Column((Int16Expression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new Int16Column((Int16Expression)base.Clone(), ColumnName);
             return clone;
         }
 
@@ -222,10 +213,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new Int32Column((Int32Expression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new Int32Column((Int32Expression)base.Clone(), ColumnName);
             return clone;
         }
 
@@ -358,7 +346,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public StringColumn(string columnName)
+        public StringColumn(string columnName, bool isUnicode) : base(isUnicode)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -367,8 +355,8 @@ namespace NIntegrate.Query
             _sql = columnName.ToDatabaseObjectName();
         }
 
-        internal StringColumn(StringExpression expr, string columnName)
-            : this(columnName)
+        internal StringColumn(StringExpression expr, string columnName, bool isUnicode)
+            : this(columnName, isUnicode)
         {
             if (ReferenceEquals(expr, null))
                 throw new ArgumentNullException("expr");
@@ -393,10 +381,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new StringColumn((StringExpression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new StringColumn((StringExpression)base.Clone(), ColumnName, IsUnicode);
             return clone;
         }
 
@@ -450,10 +435,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new GuidColumn((GuidExpression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new GuidColumn((GuidExpression)base.Clone(), ColumnName);
             return clone;
         }
 
@@ -507,10 +489,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new DoubleColumn((DoubleExpression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new DoubleColumn((DoubleExpression)base.Clone(), ColumnName);
             return clone;
         }
 
@@ -564,10 +543,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public override object Clone()
         {
-            var clone = new DecimalColumn((DecimalExpression)base.Clone(), ColumnName)
-                            {
-                                _columnName = _columnName,
-                            };
+            var clone = new DecimalColumn((DecimalExpression)base.Clone(), ColumnName);
             return clone;
         }
 

@@ -75,9 +75,7 @@ namespace NIntegrate.Query.Command
             while (en.MoveNext())
             {
                 sb.Append(separate);
-
-                if (QueryHelper.ToDatabaseObjectName(en.Current.Key.ColumnName) != en.Current.Key.Sql) continue;
-                sb.Append(QueryHelper.ToExpressionCacheableSql(en.Current.Key));
+                sb.Append(en.Current.Key.ToExpressionCacheableSql());
                 if (en.Current.Value)
                 {
                     sb.Append(" DESC");
@@ -102,14 +100,14 @@ namespace NIntegrate.Query.Command
                     }
                 }
 
-                sb.Append(QueryHelper.ToConditionCacheableSql(criteria._conditions[i]));
+                sb.Append(criteria._conditions[i].ToConditionCacheableSql());
             }
         }
 
         protected static void AppendFrom(string tableName, StringBuilder sb)
         {
             sb.Append("FROM ");
-            sb.Append(QueryHelper.ToDatabaseObjectName(tableName));
+            sb.Append(tableName.ToDatabaseObjectName());
         }
 
         protected static void AppendResultColumns(Criteria criteria, StringBuilder sb)
@@ -167,7 +165,8 @@ namespace NIntegrate.Query.Command
         protected void AddConditionParameters(Condition condition, DbParameterCollection parameterCollection, bool setParameterValueOnly)
         {
             AddExpressionParameters(condition.LeftExpression, parameterCollection, setParameterValueOnly);
-            AddExpressionParameters(condition.RightExpression, parameterCollection, setParameterValueOnly);
+            if (!ReferenceEquals(condition.RightExpression, null))
+                AddExpressionParameters(condition.RightExpression, parameterCollection, setParameterValueOnly);
 
             foreach (var linkedCondition in condition.LinkedConditions)
             {
