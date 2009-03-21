@@ -206,5 +206,41 @@ namespace NIntegrate.Query
 
             return result;
         }
+
+        public static IExpression CreateParameterExpression(object value)
+        {
+            if (value == null || value == DBNull.Value)
+                return NullExpression.Value;
+
+            switch (Type.GetTypeCode(value.GetType()))
+            {
+                case TypeCode.Boolean:
+                    return new BooleanParameterExpression((bool)value);
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                    return new ByteParameterExpression((byte)value);
+                case TypeCode.Char:
+                case TypeCode.String:
+                    return new StringParameterExpression((string)value, true);
+                case TypeCode.DateTime:
+                    return new DateTimeParameterExpression((DateTime)value);
+                case TypeCode.Decimal:
+                    return new DecimalParameterExpression((decimal)value);
+                case TypeCode.Single:
+                case TypeCode.Double:
+                    return new DoubleParameterExpression((double)value);
+                case TypeCode.UInt16:
+                case TypeCode.Int16:
+                    return new Int16ParameterExpression((short)value);
+                case TypeCode.UInt32:
+                case TypeCode.Int32:
+                    return new Int32ParameterExpression((int)value);
+                case TypeCode.UInt64:
+                case TypeCode.Int64:
+                    return new Int64ParameterExpression((long)value);
+            }
+
+            return new StringParameterExpression(value.ToString(), true);
+        }
     }
 }
