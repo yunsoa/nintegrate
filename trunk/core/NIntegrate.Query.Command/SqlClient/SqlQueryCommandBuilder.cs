@@ -35,7 +35,41 @@ namespace NIntegrate.Query.Command.SqlClient
             }
             else
             {
-                sb.Append("1");
+                if (criteria._resultColumns.Count == 0)
+                {
+                    var noPredefinedColumns = true;
+                    foreach (FieldInfo field in criteria.GetType().GetFields())
+                    {
+                        if (!typeof(IColumn).IsAssignableFrom(field.FieldType)) continue;
+                        var column = (IColumn)field.GetValue(criteria);
+                        sb.Append(column.ToExpressionCacheableSql());
+
+                        noPredefinedColumns = false;
+                        break;
+                    }
+                    if (noPredefinedColumns)
+                    {
+                        foreach (var property in criteria.GetType().GetProperties())
+                        {
+                            if (!property.CanRead || !typeof (IColumn).IsAssignableFrom(property.PropertyType))
+                                continue;
+                            var column = (IColumn) property.GetValue(criteria, null);
+                            sb.Append(column.ToExpressionCacheableSql());
+
+                            noPredefinedColumns = false;
+                            break;
+                        }
+                    }
+
+                    if (noPredefinedColumns)
+                    {
+                        throw new ArgumentException("No sort by columns or predefined result columns could be found!");
+                    }
+                }
+                else
+                {
+                    sb.Append(criteria._resultColumns[0].ToExpressionCacheableSql());
+                }
             }
             sb.Append(") AS [__Pos] ");
 
@@ -56,7 +90,7 @@ namespace NIntegrate.Query.Command.SqlClient
                 var separate = "";
                 foreach (PropertyInfo property in criteria.GetType().GetProperties())
                 {
-                    if (!property.CanRead || !(property.PropertyType is IColumn)) continue;
+                    if (!property.CanRead || !typeof(IColumn).IsAssignableFrom(property.PropertyType)) continue;
                     sb.Append(separate);
                     sb.Append("[__T].");
                     var column = (IColumn)property.GetValue(criteria, null);
@@ -67,7 +101,7 @@ namespace NIntegrate.Query.Command.SqlClient
                 }
                 foreach (var field in criteria.GetType().GetFields())
                 {
-                    if (!(field.FieldType is IColumn)) continue;
+                    if (!typeof(IColumn).IsAssignableFrom(field.FieldType)) continue;
                     sb.Append(separate);
                     sb.Append("[__T].");
                     var column = (IColumn)field.GetValue(criteria);
@@ -95,7 +129,7 @@ namespace NIntegrate.Query.Command.SqlClient
                 }
             }
             sb.Append(" ");
-            sb.Append("FROM [__T] (NOLOCK) WHERE [__T].[__Pos] > ");
+            sb.Append("FROM [__T] WHERE [__T].[__Pos] > ");
             sb.Append(criteria._skipResults);
             if (criteria._maxResults > 0)
             {

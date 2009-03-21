@@ -157,9 +157,14 @@ namespace NIntegrate.Query
 
         #region ICloneable Members
 
+        protected virtual Criteria CreateInstance()
+        {
+            return new Criteria(_tableName, _connectionStringName);
+        }
+
         public virtual object Clone()
         {
-            var clone = (Criteria)Activator.CreateInstance(GetType());
+            var clone = CreateInstance();
             clone._tableName = _tableName;
             clone._connectionStringName = _connectionStringName;
             foreach (var column in _resultColumns)

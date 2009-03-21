@@ -54,10 +54,7 @@ namespace NIntegrate.Query
                 sb.Append("(");
             }
 
-            if (condition.Operator != ExpressionOperator.None)
-            {
-                sb.Append(ToCacheableSql(condition.LeftExpression, condition.Operator, condition.RightExpression));
-            }
+            sb.Append(ToCacheableSql(condition.LeftExpression, condition.Operator, condition.RightExpression));
 
             for (int i = 0; i < condition.LinkedConditions.Count; ++i)
             {
@@ -159,18 +156,20 @@ namespace NIntegrate.Query
             return "[" + name.TrimStart('[').TrimEnd(']') + "]";
         }
 
-        public static string WcfSerialize(object obj)
+        public static string DataContractSerialize(object obj)
         {
             if (obj == null)
                 throw new ArgumentNullException("obj");
+
+            var type = obj.GetType();
 
             var ms = new MemoryStream();
             string xml;
             try
             {
-                var dcs = new DataContractSerializer(obj.GetType());
+                var dcs = new DataContractSerializer(type);
 
-                using (var xmlTextWriter = new XmlTextWriter(ms, Encoding.UTF8))
+                using (var xmlTextWriter = new XmlTextWriter(ms, Encoding.Default))
                 {
                     xmlTextWriter.Formatting = Formatting.None;
                     dcs.WriteObject(xmlTextWriter, obj);
@@ -187,18 +186,19 @@ namespace NIntegrate.Query
                     ms.Close();
                 }
             }
+
             return xml;
         }
 
-        public static object WcfDeserialize(Type type, string xml)
+        public static object DataContractDeserialize(Type targetType, string xml)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
+            if (targetType == null)
+                throw new ArgumentNullException("targetType");
             if (string.IsNullOrEmpty(xml))
                 throw new ArgumentNullException("xml");
 
             object result;
-            var dcs = new DataContractSerializer(type);
+            var dcs = new DataContractSerializer(targetType);
             using (var reader = new StringReader(xml))
             using (XmlReader xmlReader = new XmlTextReader(reader))
             {

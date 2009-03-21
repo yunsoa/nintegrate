@@ -5512,7 +5512,7 @@ namespace NIntegrate.Query
                 return asColumn;
             }
 
-            return new StringColumn(expr, columnName);
+            return new StringColumn(expr, columnName, expr.IsUnicode);
         }
 
         public static GuidColumn As(this GuidExpression expr, string columnName)
