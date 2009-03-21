@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Runtime.InteropServices;
@@ -242,5 +243,31 @@ namespace NIntegrate.Query
 
             return new StringParameterExpression(value.ToString(), true);
         }
+
+        #region DefaultValue
+
+        /// <summary>
+        /// Gets the default value of a specified Type.
+        /// </summary>
+        /// <returns>The default value.</returns>
+        public static T DefaultValue<T>()
+        {
+            return default(T);
+        }
+
+        /// <summary>
+        /// Gets the default value of a specified Type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public static object DefaultValue(Type type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            return typeof(QueryHelper).GetMethod("DefaultValue", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, null, Type.EmptyTypes, null).MakeGenericMethod(type).Invoke(null, null);
+        }
+
+        #endregion
     }
 }
