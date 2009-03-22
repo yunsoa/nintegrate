@@ -18,7 +18,7 @@ namespace NIntegrate.Configuration
 
         private EndpointStore()
         {
-            var providerTypeName = ConfigurationManager.AppSettings["NIntegrate.Configuration.EndpointProvider"];
+            var providerTypeName = ConfigurationManager.AppSettings[Constants.EndpointProviderTypeAppSettingName];
             if (!string.IsNullOrEmpty(providerTypeName))
             {
                 var providerType = Type.GetType(providerTypeName);
