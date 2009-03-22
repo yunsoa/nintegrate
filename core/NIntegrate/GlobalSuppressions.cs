@@ -40,3 +40,6 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Mex", Scope = "member", Target = "NIntegrate.Configuration.sp_GetClientEndpointsResult.#MexBindingEnabled")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Mex", Scope = "member", Target = "NIntegrate.Configuration.sp_GetServerEndpointsResult.#MexBindingEnabled")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Mex", Scope = "member", Target = "NIntegrate.Configuration.Endpoint.#MexBindingEnabled")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "NIntegrate.ServiceManager.#GetServiceLocator(System.Type)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Scope = "member", Target = "NIntegrate.ServiceManager.#GetServiceLocator`1()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Scope = "member", Target = "NIntegrate.IServiceLocator.#GetService`1()")]
