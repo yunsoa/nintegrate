@@ -20,6 +20,7 @@ namespace NIntegrate.Query
     [KnownType(typeof(DoubleColumn))]
     [KnownType(typeof(DecimalColumn))]
     [KnownType(typeof(Condition))]
+    [KnownType(typeof(NullExpression))]
     [KnownType(typeof(BooleanExpression))]
     [KnownType(typeof(ByteExpression))]
     [KnownType(typeof(Int16Expression))]

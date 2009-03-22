@@ -16,6 +16,7 @@ namespace NIntegrate.Query
 
     [DataContract]
     [KnownType(typeof(Condition))]
+    [KnownType(typeof(NullExpression))]
     [KnownType(typeof(BooleanExpression))]
     [KnownType(typeof(ByteExpression))]
     [KnownType(typeof(Int16Expression))]

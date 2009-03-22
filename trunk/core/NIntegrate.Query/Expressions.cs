@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 namespace NIntegrate.Query
 {
     [DataContract]
+    [KnownType(typeof(NullExpression))]
     [KnownType(typeof(BooleanExpression))]
     [KnownType(typeof(ByteExpression))]
     [KnownType(typeof(Int16Expression))]
@@ -5148,6 +5149,7 @@ namespace NIntegrate.Query
     }
 
     [CollectionDataContract]
+    [KnownType(typeof(NullExpression))]
     [KnownType(typeof(BooleanExpression))]
     [KnownType(typeof(ByteExpression))]
     [KnownType(typeof(Int16Expression))]
@@ -5200,7 +5202,7 @@ namespace NIntegrate.Query
         {
             get
             {
-                if (ChildExpressions.Count == 0)
+                if (ChildExpressions == null || ChildExpressions.Count == 0)
                     return "NULL";
 
                 var sb = new StringBuilder();
@@ -5321,11 +5323,11 @@ namespace NIntegrate.Query
         #endregion
     }
 
-    internal sealed class NullExpression : IExpression
+    [DataContract]
+    public sealed class NullExpression : IExpression
     {
         #region Private Fields
 
-        private readonly List<IExpression> _list = new List<IExpression>();
         private static readonly NullExpression _value = new NullExpression();
 
         #endregion
@@ -5347,7 +5349,7 @@ namespace NIntegrate.Query
         [ComVisible(false)]
         public IList<IExpression> ChildExpressions
         {
-            get { return _list; }
+            get { return null; }
         }
 
         [ComVisible(false)]

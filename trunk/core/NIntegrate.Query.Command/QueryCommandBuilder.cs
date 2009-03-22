@@ -170,9 +170,12 @@ namespace NIntegrate.Query.Command
                 AddParameter(parameterExpr, parameterCollection, setParameterValueOnly);
             }
 
-            foreach (var childExpr in expr.ChildExpressions)
+            if (expr.ChildExpressions != null)
             {
-                AddExpressionParameters(childExpr, parameterCollection, setParameterValueOnly);
+                foreach (var childExpr in expr.ChildExpressions)
+                {
+                    AddExpressionParameters(childExpr, parameterCollection, setParameterValueOnly);
+                }
             }
         }
 
