@@ -68,6 +68,10 @@ namespace NIntegrate.Query
 
         #region Constructors
 
+        internal Criteria()
+        {
+        }
+
         protected Criteria(string tableName, string connectionStringName)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -162,9 +166,11 @@ namespace NIntegrate.Query
             return new Criteria(_tableName, _connectionStringName);
         }
 
-        public virtual object Clone()
+        internal protected Criteria CloneTo(Criteria clone)
         {
-            var clone = CreateInstance();
+            if (clone == null)
+                throw new ArgumentNullException("clone");
+
             clone._tableName = _tableName;
             clone._connectionStringName = _connectionStringName;
             foreach (var column in _resultColumns)
@@ -179,6 +185,14 @@ namespace NIntegrate.Query
                 clone._conditionAndOrs.Add(andOr);
             foreach (var condition in _conditions)
                 clone._conditions.Add((Condition)condition.Clone());
+
+            return clone;
+        }
+
+        public virtual object Clone()
+        {
+            var clone = CreateInstance();
+            CloneTo(clone);
             return clone;
         }
 
