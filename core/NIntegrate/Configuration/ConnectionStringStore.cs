@@ -18,7 +18,7 @@ namespace NIntegrate.Configuration
 
         private ConnectionStringStore()
         {
-            var providerTypeName = ConfigurationManager.AppSettings["NIntegrate.Configuration.ConnectionStringProvider"];
+            var providerTypeName = ConfigurationManager.AppSettings[Constants.ConnectionStringProviderTypeAppSettingName];
             if (!string.IsNullOrEmpty(providerTypeName))
             {
                 var providerType = Type.GetType(providerTypeName);

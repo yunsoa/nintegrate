@@ -8,7 +8,7 @@ namespace NIntegrate
     /// <summary>
     /// The WCF Service Locator
     /// </summary>
-    public class WcfServiceLocator : IDisposable
+    public sealed class WcfServiceLocator : IServiceLocator
     {
         #region Private Fields
 
