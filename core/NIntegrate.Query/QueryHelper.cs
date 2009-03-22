@@ -23,7 +23,7 @@ namespace NIntegrate.Query
             if (ReferenceEquals(expr, null))
                 throw new ArgumentNullException("expr");
 
-            if (expr.ChildExpressions.Count == 0)
+            if (expr.ChildExpressions == null || expr.ChildExpressions.Count == 0)
                 return expr.Sql;
 
             var splittedSql = expr.Sql.Split('?');

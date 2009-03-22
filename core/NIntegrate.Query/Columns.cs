@@ -32,7 +32,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -86,7 +87,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -140,7 +142,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -194,7 +197,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -248,7 +252,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -305,7 +310,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -362,7 +368,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -416,7 +423,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -470,7 +478,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
@@ -524,7 +533,8 @@ namespace NIntegrate.Query
                 throw new ArgumentNullException("expr");
 
             _sql = expr.Sql;
-            _childExpressions.AddRange(expr.ChildExpressions);
+            if (expr.ChildExpressions != null)
+                _childExpressions.AddRange(expr.ChildExpressions);
         }
 
         #endregion
