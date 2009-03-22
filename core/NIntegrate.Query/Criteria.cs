@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace NIntegrate.Query
@@ -40,7 +41,7 @@ namespace NIntegrate.Query
     [KnownType(typeof(GuidParameterExpression))]
     [KnownType(typeof(DoubleParameterExpression))]
     [KnownType(typeof(DecimalParameterExpression))]
-    public class Criteria : ICloneable
+    public class Criteria
     {
         #region Protected Fields
 
@@ -48,7 +49,8 @@ namespace NIntegrate.Query
         internal protected string _tableName;
         [DataMember]
         internal protected string _connectionStringName;
-
+        [DataMember]
+        internal protected readonly List<IColumn> _predefinedColumns = new List<IColumn>();
         [DataMember]
         internal protected readonly List<IColumn> _resultColumns = new List<IColumn>();
         [DataMember]
@@ -66,13 +68,35 @@ namespace NIntegrate.Query
 
         #endregion
 
+        #region Private Fields
+
+        private void ParsePredefinedColumns()
+        {
+            foreach (FieldInfo field in GetType().GetFields())
+            {
+                if (!typeof(IColumn).IsAssignableFrom(field.FieldType)) continue;
+                var column = (IColumn)field.GetValue(this);
+                _predefinedColumns.Add(column);
+            }
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                if (!property.CanRead || !typeof(IColumn).IsAssignableFrom(property.PropertyType)) continue;
+                var column = (IColumn)property.GetValue(this, null);
+                _predefinedColumns.Add(column);
+            }
+        }
+
+        #endregion
+
         #region Constructors
 
         internal Criteria()
         {
+            ParsePredefinedColumns();
         }
 
         protected Criteria(string tableName, string connectionStringName)
+            : this()
         {
             if (string.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException("tableName");
@@ -157,15 +181,6 @@ namespace NIntegrate.Query
             }
         }
 
-        #endregion
-
-        #region ICloneable Members
-
-        protected virtual Criteria CreateInstance()
-        {
-            return new Criteria(_tableName, _connectionStringName);
-        }
-
         internal protected Criteria CloneTo(Criteria clone)
         {
             if (clone == null)
@@ -185,13 +200,15 @@ namespace NIntegrate.Query
                 clone._conditionAndOrs.Add(andOr);
             foreach (var condition in _conditions)
                 clone._conditions.Add((Condition)condition.Clone());
+            foreach (var column in _predefinedColumns)
+                clone._predefinedColumns.Add((IColumn)column.Clone());
 
             return clone;
         }
 
-        public virtual object Clone()
+        public Criteria ToBaseCriteria()
         {
-            var clone = CreateInstance();
+            var clone = new Criteria();
             CloneTo(clone);
             return clone;
         }
