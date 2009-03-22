@@ -63,7 +63,6 @@
     <Compile Include="Expressions.cs" />
     <Compile Include="IColumn.cs" />
     <Compile Include="IExpression.cs" />
-    <Compile Include="IQueryCommandBuilder.cs" />
     <Compile Include="ParameterExpressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Columns.cs" />

@@ -37,31 +37,11 @@ namespace NIntegrate.Query.Command.SqlClient
             {
                 if (criteria._resultColumns.Count == 0)
                 {
-                    var noPredefinedColumns = true;
-                    foreach (FieldInfo field in criteria.GetType().GetFields())
+                    if (criteria._predefinedColumns.Count > 0)
                     {
-                        if (!typeof(IColumn).IsAssignableFrom(field.FieldType)) continue;
-                        var column = (IColumn)field.GetValue(criteria);
-                        sb.Append(column.ToExpressionCacheableSql());
-
-                        noPredefinedColumns = false;
-                        break;
+                        sb.Append(criteria._predefinedColumns[0].ToExpressionCacheableSql());
                     }
-                    if (noPredefinedColumns)
-                    {
-                        foreach (var property in criteria.GetType().GetProperties())
-                        {
-                            if (!property.CanRead || !typeof (IColumn).IsAssignableFrom(property.PropertyType))
-                                continue;
-                            var column = (IColumn) property.GetValue(criteria, null);
-                            sb.Append(column.ToExpressionCacheableSql());
-
-                            noPredefinedColumns = false;
-                            break;
-                        }
-                    }
-
-                    if (noPredefinedColumns)
+                    else
                     {
                         throw new ArgumentException("No sort by columns or predefined result columns could be found!");
                     }
@@ -86,32 +66,19 @@ namespace NIntegrate.Query.Command.SqlClient
             sb.Append(") SELECT ");
             if (criteria._resultColumns.Count == 0)
             {
-                var noPredefinedColumns = true;
                 var separate = "";
-                foreach (PropertyInfo property in criteria.GetType().GetProperties())
+                if (criteria._predefinedColumns.Count > 0)
                 {
-                    if (!property.CanRead || !typeof(IColumn).IsAssignableFrom(property.PropertyType)) continue;
-                    sb.Append(separate);
-                    sb.Append("[__T].");
-                    var column = (IColumn)property.GetValue(criteria, null);
-                    sb.Append(column.ColumnName.ToDatabaseObjectName());
+                    foreach (var column in criteria._predefinedColumns)
+                    {
+                        sb.Append(separate);
+                        sb.Append("[__T].");
+                        sb.Append(column.ColumnName.ToDatabaseObjectName());
 
-                    separate = ", ";
-                    noPredefinedColumns = false;
+                        separate = ", ";
+                    }
                 }
-                foreach (var field in criteria.GetType().GetFields())
-                {
-                    if (!typeof(IColumn).IsAssignableFrom(field.FieldType)) continue;
-                    sb.Append(separate);
-                    sb.Append("[__T].");
-                    var column = (IColumn)field.GetValue(criteria);
-                    sb.Append(column.ColumnName.ToDatabaseObjectName());
-
-                    separate = ", ";
-                    noPredefinedColumns = false;
-                }
-
-                if (noPredefinedColumns)
+                else
                 {
                     sb.Append("*");
                 }

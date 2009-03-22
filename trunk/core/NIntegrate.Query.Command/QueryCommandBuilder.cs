@@ -114,30 +114,18 @@ namespace NIntegrate.Query.Command
         {
             if (criteria._resultColumns.Count == 0)
             {
-                var noPredefinedColumns = true;
-                var separate = "";
-                foreach (FieldInfo field in criteria.GetType().GetFields())
+                if (criteria._predefinedColumns.Count > 0)
                 {
-                    if (!typeof (IColumn).IsAssignableFrom(field.FieldType)) continue;
-                    sb.Append(separate);
-                    var column = (IColumn)field.GetValue(criteria);
-                    sb.Append(column.ToSelectColumnName());
+                    var separate = "";
+                    foreach (var column in criteria._predefinedColumns)
+                    {
+                        sb.Append(separate);
+                        sb.Append(column.ToSelectColumnName());
 
-                    separate = ", ";
-                    noPredefinedColumns = false;
+                        separate = ", ";
+                    }
                 }
-                foreach (var property in criteria.GetType().GetProperties())
-                {
-                    if (!property.CanRead || !typeof (IColumn).IsAssignableFrom(property.PropertyType)) continue;
-                    sb.Append(separate);
-                    var column = (IColumn)property.GetValue(criteria, null);
-                    sb.Append(column.ToSelectColumnName());
-
-                    separate = ", ";
-                    noPredefinedColumns = false;
-                }
-
-                if (noPredefinedColumns)
+                else
                 {
                     sb.Append("*");
                 }

@@ -156,23 +156,21 @@ namespace NIntegrate.Query
             return "[" + name.TrimStart('[').TrimEnd(']') + "]";
         }
 
-        public static string DataContractSerialize(object obj)
+        internal static string CriteriaSerialize(Criteria criteria)
         {
-            if (obj == null)
-                throw new ArgumentNullException("obj");
-
-            var type = obj.GetType();
+            if (criteria == null)
+                throw new ArgumentNullException("criteria");
 
             var ms = new MemoryStream();
             string xml;
             try
             {
-                var dcs = new DataContractSerializer(type);
+                var dcs = new DataContractSerializer(typeof(Criteria));
 
                 using (var xmlTextWriter = new XmlTextWriter(ms, Encoding.Default))
                 {
                     xmlTextWriter.Formatting = Formatting.None;
-                    dcs.WriteObject(xmlTextWriter, obj);
+                    dcs.WriteObject(xmlTextWriter, criteria);
                     xmlTextWriter.Flush();
                     ms = (MemoryStream)xmlTextWriter.BaseStream;
                     ms.Flush();
@@ -190,22 +188,20 @@ namespace NIntegrate.Query
             return xml;
         }
 
-        public static object DataContractDeserialize(Type targetType, string xml)
+        internal static Criteria CriteriaDeserialize(string xml)
         {
-            if (targetType == null)
-                throw new ArgumentNullException("targetType");
             if (string.IsNullOrEmpty(xml))
                 throw new ArgumentNullException("xml");
 
             object result;
-            var dcs = new DataContractSerializer(targetType);
+            var dcs = new DataContractSerializer(typeof(Criteria));
             using (var reader = new StringReader(xml))
             using (XmlReader xmlReader = new XmlTextReader(reader))
             {
                 result = dcs.ReadObject(xmlReader);
             }
 
-            return result;
+            return (Criteria)result;
         }
 
         public static IExpression CreateParameterExpression(object value)
