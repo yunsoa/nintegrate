@@ -13,6 +13,11 @@
         public const string ConnectionStringProviderTypeAppSettingName = "NIntegrate.Configuration.ConnectionStringProvider";
 
         /// <summary>
+        /// The appSetting name for specifying app variable provider type
+        /// </summary>
+        public const string AppVariableProviderTypeAppSettingName = "NIntegrate.Configuration.AppVariableProvider";
+
+        /// <summary>
         /// The appSetting name for specifying endpoint provider type
         /// </summary>
         public const string EndpointProviderTypeAppSettingName = "NIntegrate.Configuration.EndpointProvider";

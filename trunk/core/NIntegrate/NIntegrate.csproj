@@ -60,12 +60,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AppVariableStore.cs" />
     <Compile Include="Configuration\ConnectionString.cs" />
     <Compile Include="Configuration\ConnectionStringStore.cs" />
+    <Compile Include="Configuration\DefaultAppVariableProvider.cs" />
     <Compile Include="Configuration\DefaultConnectionStringProvider.cs" />
     <Compile Include="Configuration\DefaultEndpointProvider.cs" />
     <Compile Include="Configuration\Endpoint.cs" />
     <Compile Include="Configuration\EndpointStore.cs" />
+    <Compile Include="Configuration\IAppVariableProvider.cs" />
     <Compile Include="Configuration\IConnectionStringProvider.cs" />
     <Compile Include="Configuration\IEndpointProvider.cs" />
     <Compile Include="Configuration\StoredProcedures.designer.cs">
@@ -93,6 +96,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Configuration\StoredProcedures.dbml.layout">
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
     </None>
