@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="ServiceConfig" Class="StoredProceduresDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=vista;Initial Catalog=ServiceConfig;Persist Security Info=True;User ID=nbear" SettingsObjectName="NIntegrate.Properties.Settings" SettingsPropertyName="ServiceConfigConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=vista;Initial Catalog=ServiceConfig;Persist Security Info=True;User ID=nbear" SettingsObjectName="NIntegrate.Properties.Settings" SettingsPropertyName="ServiceConfigConnectionString" Provider="System.Data.SqlClient" />
   <Function Name="dbo.sp_GetConnectionString" Method="sp_GetConnectionString">
     <Parameter Name="ConnectionStringName" Parameter="connectionStringName" Type="System.String" DbType="VarChar(100)" />
     <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
@@ -73,6 +73,14 @@
       <Column Name="ReliableSessionEnabled" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="ReliableSessionInactivityTimeout" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ReliableSessionOrdered" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetAppVariable" Method="sp_GetAppVariable">
+    <Parameter Name="AppVariableName" Parameter="appVariableName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="AppCode" Parameter="appCode" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="sp_GetAppVariableResult">
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>
