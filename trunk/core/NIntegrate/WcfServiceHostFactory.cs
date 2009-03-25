@@ -69,8 +69,6 @@ namespace NIntegrate
         /// <returns></returns>
         protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
         {
-            //TODO: Catch and log errors in service host creation
-
             var serviceContracts = WcfServiceHelper.GetServiceContracts(serviceType);
 
             var host = new ServiceHost(serviceType, BuildBaseAddresses(serviceContracts));
