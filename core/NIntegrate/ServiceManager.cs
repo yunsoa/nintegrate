@@ -50,55 +50,56 @@ namespace NIntegrate
 
             if (_singleton._externalServiceLocatorType != null)
             {
-                var locator = (IServiceLocator)Activator.CreateInstance(_singleton._externalServiceLocatorType);
-                if (locator != null)
+                if (!_singleton._cachedExternalServiceTypes.Contains(serviceContract))
                 {
-                    if (!_singleton._cachedExternalServiceTypes.Contains(serviceContract))
+                    if (_singleton._cachedWcfServiceTypes.Contains(serviceContract))
                     {
-                        if (_singleton._cachedWcfServiceTypes.Contains(serviceContract))
+                        return new WcfServiceLocator();
+                    }
+                    lock (_singleton)
+                    {
+                        if (!_singleton._cachedExternalServiceTypes.Contains(serviceContract))
                         {
-                            return new WcfServiceLocator();
-                        }
-                        lock (_singleton)
-                        {
-                            if (!_singleton._cachedExternalServiceTypes.Contains(serviceContract))
+                            if (_singleton._cachedWcfServiceTypes.Contains(serviceContract))
                             {
-                                if (_singleton._cachedWcfServiceTypes.Contains(serviceContract))
-                                {
-                                    return new WcfServiceLocator();
-                                }
+                                return new WcfServiceLocator();
+                            }
 
-                                object service = null;
-                                try
+                            //rethrow the exception in initializing the locator instance directly
+                            var locator = (IServiceLocator)Activator.CreateInstance(_singleton._externalServiceLocatorType);
+
+                            object service = null;
+                            try
+                            {
+                                service = locator.GetService(serviceContract);
+                                if (service != null)
                                 {
-                                    service = locator.GetService(serviceContract);
-                                    if (service != null)
-                                    {
-                                        _singleton._cachedExternalServiceTypes.Add(serviceContract);
-                                        return locator;
-                                    }
+                                    _singleton._cachedExternalServiceTypes.Add(serviceContract);
+                                    return locator;
                                 }
-                                catch
+                            }
+                            catch
+                            {
+                                //if could not locate the service
+                                _singleton._cachedWcfServiceTypes.Add(serviceContract);
+                                return new WcfServiceLocator();
+                            }
+                            finally
+                            {
+                                if (service != null)
                                 {
-                                    _singleton._cachedWcfServiceTypes.Add(serviceContract);
-                                    return new WcfServiceLocator();
-                                }
-                                finally
-                                {
-                                    if (service != null)
-                                    {
-                                        var disposable = service as IDisposable;
-                                        if (disposable != null)
-                                            disposable.Dispose();
-                                    }
+                                    var disposable = service as IDisposable;
+                                    if (disposable != null)
+                                        disposable.Dispose();
                                 }
                             }
                         }
                     }
-                    else
-                    {
-                        return locator;
-                    }
+                }
+                else
+                {
+                    var locator = (IServiceLocator)Activator.CreateInstance(_singleton._externalServiceLocatorType);
+                    return locator;
                 }
             }
 
