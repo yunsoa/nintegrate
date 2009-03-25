@@ -18,6 +18,11 @@
         public const string AppVariableProviderTypeAppSettingName = "NIntegrate.Configuration.AppVariableProvider";
 
         /// <summary>
+        /// The appSetting name for specifying app code for getting app variables
+        /// </summary>
+        public const string AppCodeAppSettingName = "NIntegrate.Configuration.AppCode";
+
+        /// <summary>
         /// The appSetting name for specifying endpoint provider type
         /// </summary>
         public const string EndpointProviderTypeAppSettingName = "NIntegrate.Configuration.EndpointProvider";

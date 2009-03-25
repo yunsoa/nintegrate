@@ -39,28 +39,27 @@ namespace NIntegrate.Configuration
 
         #endregion
 
-        public static string GetAppVariable(string appVariableName, string appCode)
+        public static string GetAppVariable(string appVariableName)
         {
             if (string.IsNullOrEmpty(appVariableName))
                 throw new ArgumentNullException("appVariableName");
+            var appCode = ConfigurationManager.AppSettings[Constants.AppCodeAppSettingName];
             if (string.IsNullOrEmpty(appCode))
-                throw new ArgumentNullException("appCode");
+                throw new ConfigurationErrorsException(string.Format("Could not find the {0} appSetting in application configuration file.", Constants.AppCodeAppSettingName));
 
-            var cacheKey = appCode + '|' + appVariableName;
-
-            if (!_cachedAppVariables.ContainsKey(cacheKey))
+            if (!_cachedAppVariables.ContainsKey(appVariableName))
             {
                 lock (_cachedAppVariables)
                 {
-                    if (!_cachedAppVariables.ContainsKey(cacheKey))
+                    if (!_cachedAppVariables.ContainsKey(appVariableName))
                     {
                         var retValue = _singleton._provider.GetAppVariable(appVariableName, appCode);
-                        _cachedAppVariables.Add(cacheKey, retValue);
+                        _cachedAppVariables.Add(appVariableName, retValue);
                     }
                 }
             }
 
-            return _cachedAppVariables[cacheKey];
+            return _cachedAppVariables[appVariableName];
         }
     }
 }
