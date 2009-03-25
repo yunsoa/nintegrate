@@ -58,26 +58,19 @@ namespace NIntegrate
             return list.ToArray();
         }
 
-        #endregion
-
-        #region Protected Methods
-
         /// <summary>
         /// Create service host
         /// </summary>
         /// <param name="serviceType">The service implementation type</param>
         /// <param name="baseAddresses">
-        ///     The base addresses to overwrite 
-        ///     the default addresses configured in service config db
-        ///     
-        ///     Notice: The address defined in endpoint config and baseAddress
-        ///     could be different, but only the server domain/ip and port can be different,
-        ///     the relative path section, which begins from '/', should be exactly same,
-        ///     or, the endpoint will be ignored
+        ///     The baseAddress are always ignored because we could get the 
+        ///     addresses from the endpoint config
         /// </param>
         /// <returns></returns>
         protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
         {
+            //TODO: Catch and log errors in service host creation
+
             var serviceContracts = WcfServiceHelper.GetServiceContracts(serviceType);
 
             var host = new ServiceHost(serviceType, BuildBaseAddresses(serviceContracts));
