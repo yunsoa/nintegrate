@@ -40,7 +40,7 @@ namespace NIntegrate
         /// </summary>
         /// <param name="serviceContracts">The service contracts</param>
         /// <returns>The base addresses</returns>
-        protected static Uri[] BuildBaseAddresses(List<Type> serviceContracts)
+        protected static Uri[] BuildBaseAddresses(IList<Type> serviceContracts)
         {
             var list = new List<Uri>();
 
@@ -59,6 +59,28 @@ namespace NIntegrate
         }
 
         /// <summary>
+        /// To be overriden to get service contracts from
+        /// the service type specified in .svc file
+        /// </summary>
+        /// <param name="type">The service type specified in .svc file</param>
+        /// <returns></returns>
+        protected virtual IList<Type> GetServiceContractTypes(Type type)
+        {
+            return WcfServiceHelper.GetServiceContracts(type);
+        }
+
+        /// <summary>
+        /// To be overriden to get service implementation type from
+        /// the service type specified in .svc file
+        /// </summary>
+        /// <param name="type">The service type specified in .svc file</param>
+        /// <returns></returns>
+        protected virtual Type GetServiceImplementationType(Type type)
+        {
+            return type;
+        }
+
+        /// <summary>
         /// Create service host
         /// </summary>
         /// <param name="serviceType">The service implementation type</param>
@@ -69,9 +91,10 @@ namespace NIntegrate
         /// <returns></returns>
         protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
         {
-            var serviceContracts = WcfServiceHelper.GetServiceContracts(serviceType);
+            var serviceContracts = GetServiceContractTypes(serviceType);
+            var serviceImplType = GetServiceImplementationType(serviceType);
 
-            var host = new ServiceHost(serviceType, BuildBaseAddresses(serviceContracts));
+            var host = new ServiceHost(serviceImplType, BuildBaseAddresses(serviceContracts));
             foreach (var serviceContract in serviceContracts)
             {
                 var endpoints = EndpointStore.GetServerEndpoints(serviceContract);
