@@ -11,6 +11,6 @@ namespace NIntegrate.Query
         [OperationContract]
         int SelectCount(Criteria criteria);
         [OperationContract]
-        int Update(Criteria criteria, DataTable modifiedTable);
+        int Update(Criteria criteria, DataTable modifiedTable, ConflictOption conflictDetection);
     }
 }
