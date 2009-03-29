@@ -3,7 +3,7 @@ using System.Data;
 using NIntegrate.Query.Command;
 using NIntegrate.Query;
 
-namespace NIntegrate.Web.UI
+namespace NIntegrate.Query.Command
 {
     public sealed class QueryService : IQueryService
     {
