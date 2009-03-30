@@ -60,8 +60,6 @@ namespace NIntegrate.Query.Command
             if (criteria == null)
                 throw new ArgumentNullException("criteria");
 
-            //var option = (ConflictDetection == System.Web.UI.ConflictOptions.OverwriteChanges ?
-            //    ConflictOption.OverwriteChanges : ConflictOption.CompareAllSearchableValues);
             using (var adapter = new QueryCommandFactory(criteria).GetUpdatableQueryDataAdapter(conflictDetection))
             {
                 var connection = adapter.SelectCommand.Connection;
