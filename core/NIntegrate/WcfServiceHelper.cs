@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Reflection;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
+using System.Xml;
 using NIntegrate.Configuration;
+using System.ServiceModel.Configuration;
 
 namespace NIntegrate
 {
@@ -335,5 +341,28 @@ namespace NIntegrate
         {
             return endpoint.SecurityMode == "Transport" || endpoint.ClientCredentialTypeName == "Certificate";
         }
+
+        #region DeserializeElement
+
+        private static readonly MethodInfo _configElementDeserializeMethod
+            = typeof(ConfigurationElement).GetMethod("DeserializeElement", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        internal static void DeserializeElement(this ConfigurationElement element, string serializedXML)
+        {
+            if (string.IsNullOrEmpty(serializedXML))
+                return;
+
+            var rdr = new XmlTextReader(new StringReader(serializedXML));
+            rdr.Read();
+            rdr.ReadSubtree();
+            _configElementDeserializeMethod.Invoke(element, new object[] { rdr, false });
+        }
+
+        internal static void DeserializeElement(this ConfigurationElement element, XmlReader reader, bool serializeCollectionKey)
+        {
+            _configElementDeserializeMethod.Invoke(element, new object[] { reader, false });
+        }
+
+        #endregion
     }
 }
