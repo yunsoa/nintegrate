@@ -67,10 +67,12 @@
     <Compile Include="Configuration\DefaultConnectionStringProvider.cs" />
     <Compile Include="Configuration\DefaultEndpointProvider.cs" />
     <Compile Include="Configuration\Endpoint.cs" />
+    <Compile Include="Configuration\EndpointBehaviorElementEx.cs" />
     <Compile Include="Configuration\EndpointStore.cs" />
     <Compile Include="Configuration\IAppVariableProvider.cs" />
     <Compile Include="Configuration\IConnectionStringProvider.cs" />
     <Compile Include="Configuration\IEndpointProvider.cs" />
+    <Compile Include="Configuration\ServiceBehaviorElementEx.cs" />
     <Compile Include="Configuration\StoredProcedures.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
