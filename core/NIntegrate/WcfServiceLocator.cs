@@ -111,6 +111,11 @@ namespace NIntegrate
             return (T)_serviceProxies[typeof(T)];
         }
 
+        public bool IsSingleton(Type serviceContract)
+        {
+            return false;
+        }
+
         #endregion
 
         #region IDisposable Members

@@ -61,23 +61,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AppVariableStore.cs" />
+    <Compile Include="Configuration\BindingConfiguration.cs" />
+    <Compile Include="Configuration\BindingType.cs" />
+    <Compile Include="Configuration\ChannelType.cs" />
     <Compile Include="Configuration\ConnectionString.cs" />
     <Compile Include="Configuration\ConnectionStringStore.cs" />
+    <Compile Include="Configuration\CustomBehaviorType.cs" />
     <Compile Include="Configuration\DefaultAppVariableProvider.cs" />
     <Compile Include="Configuration\DefaultConnectionStringProvider.cs" />
     <Compile Include="Configuration\DefaultEndpointProvider.cs" />
+    <Compile Include="Configuration\DefaultServiceConfigurationProvider.cs" />
     <Compile Include="Configuration\Endpoint.cs" />
     <Compile Include="Configuration\EndpointBehaviorElementEx.cs" />
+    <Compile Include="Configuration\EndpointConfiguration.cs" />
+    <Compile Include="Configuration\EndpointListenUriMode.cs" />
     <Compile Include="Configuration\EndpointStore.cs" />
     <Compile Include="Configuration\IAppVariableProvider.cs" />
     <Compile Include="Configuration\IConnectionStringProvider.cs" />
     <Compile Include="Configuration\IEndpointProvider.cs" />
+    <Compile Include="Configuration\IServiceConfigurationProvider.cs" />
     <Compile Include="Configuration\ServiceBehaviorElementEx.cs" />
+    <Compile Include="Configuration\ServiceConfiguration.cs" />
+    <Compile Include="Configuration\ServiceConfigurationStore.cs" />
+    <Compile Include="Configuration\ServiceHostType.cs" />
     <Compile Include="Configuration\StoredProcedures.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\TypeLookup.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IServiceLocator.cs" />

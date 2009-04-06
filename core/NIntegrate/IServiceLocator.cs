@@ -17,5 +17,7 @@ namespace NIntegrate
         /// <typeparam name="T">The service contract type</typeparam>
         /// <returns>The service instance</returns>
         T GetService<T>();
+
+        bool IsSingleton(Type serviceContract);
     }
 }
