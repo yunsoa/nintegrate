@@ -358,11 +358,6 @@ namespace NIntegrate
             _configElementDeserializeMethod.Invoke(element, new object[] { rdr, false });
         }
 
-        internal static void DeserializeElement(this ConfigurationElement element, XmlReader reader, bool serializeCollectionKey)
-        {
-            _configElementDeserializeMethod.Invoke(element, new object[] { reader, false });
-        }
-
         #endregion
     }
 }
