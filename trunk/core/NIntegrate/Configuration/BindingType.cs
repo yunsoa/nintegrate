@@ -7,5 +7,7 @@ namespace NIntegrate.Configuration
     {
         [DataMember]
         public ChannelType ChannelType { get; set; }
+        [DataMember]
+        public string ConfigurationElementTypeClassName { get; set; }
     }
 }

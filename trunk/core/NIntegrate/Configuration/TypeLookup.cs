@@ -10,7 +10,5 @@ namespace NIntegrate.Configuration
         public string FriendlyName { get; set; }
         [DataMember]
         public string ClassName { get; set; }
-        [DataMember]
-        public string ConfigurationElementTypeClassName { get; set; }
     }
 }
