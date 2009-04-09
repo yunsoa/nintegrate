@@ -7,5 +7,7 @@ namespace NIntegrate.Configuration
     {
         [DataMember]
         public string ExtensionName { get; set; }
+        [DataMember]
+        public string ConfigurationElementTypeClassName { get; set; }
     }
 }

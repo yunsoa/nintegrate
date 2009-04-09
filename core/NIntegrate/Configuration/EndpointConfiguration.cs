@@ -18,6 +18,6 @@ namespace NIntegrate.Configuration
         [DataMember]
         public string ListenUri { get; set; }
         [DataMember]
-        public EndpointListenUriMode ListenUriMode { get; set; }
+        public EndpointListenUriMode? ListenUriMode { get; set; }
     }
 }

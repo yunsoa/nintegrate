@@ -139,17 +139,19 @@ namespace NIntegrate.Configuration
                 conn.Open();
 
                 var context = new StoredProceduresDataContext(conn);
-                var results = context.sp_GetClientConfiguration(serviceContract.FullName, 
+                var results = context.sp_GetClientConfiguration(serviceContract.AssemblyQualifiedName, 
                     Environment.MachineName.ToLowerInvariant(), appCode);
 
                 foreach (var result in results)
                 {
                     config.ClientMetadataXML = result.ClientMetadataXML;
-                    config.Endpoint = new EndpointConfiguration();
-                    config.Endpoint.BindingNamespace = result.BindingNamespace;
-                    config.Endpoint.EndpointAddress = result.EndpointAddress;
-                    config.Endpoint.EndpointBehaviorXML = result.EndpointBehaviorXML;
-                    config.Endpoint.IdentityXML = result.IdentityXML;
+                    config.Endpoint = new EndpointConfiguration
+                                          {
+                                              BindingNamespace = result.BindingNamespace,
+                                              EndpointAddress = result.EndpointAddress,
+                                              EndpointBehaviorXML = result.EndpointBehaviorXML,
+                                              IdentityXML = result.IdentityXML
+                                          };
                     break;
                 }
 
