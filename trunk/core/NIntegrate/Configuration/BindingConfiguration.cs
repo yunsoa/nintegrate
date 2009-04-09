@@ -8,8 +8,6 @@ namespace NIntegrate.Configuration
         [DataMember]
         public int BindingType_id { get; set; }
         [DataMember]
-        public string BindingName { get; set; }
-        [DataMember]
         public string BindingXML { get; set; }
         [DataMember]
         public bool MexBindingEnabled { get; set; }

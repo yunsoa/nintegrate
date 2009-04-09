@@ -14,6 +14,8 @@ namespace NIntegrate.Configuration
         [OperationContract]
         IList<ServiceHostType> GetServiceHostTypes();
         [OperationContract]
-        ServiceConfiguration GetServiceConfiguration(Type serviceContract);
+        ServiceConfiguration GetServiceConfiguration(string serviceName, string appCode);
+        [OperationContract]
+        ClientConfiguration GetClientConfiguration(Type serviceContract, string appCode);
     }
 }

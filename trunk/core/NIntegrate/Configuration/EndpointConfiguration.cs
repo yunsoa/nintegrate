@@ -6,8 +6,6 @@ namespace NIntegrate.Configuration
     public sealed class EndpointConfiguration
     {
         [DataMember]
-        public string EndpointName { get; set; }
-        [DataMember]
         public string EndpointAddress { get; set; }
         [DataMember]
         public BindingConfiguration Binding { get; set; }

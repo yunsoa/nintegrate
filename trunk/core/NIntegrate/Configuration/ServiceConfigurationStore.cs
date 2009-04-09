@@ -42,8 +42,10 @@ namespace NIntegrate.Configuration
         private static IList<BindingType> _cachedBindingTypes;
         private static IList<CustomBehaviorType> _cachedCustomBehaviorTypes;
         private static IList<ServiceHostType> _cachedServiceHostTypes;
-        private static readonly Dictionary<Type, ServiceConfiguration> _cachedServiceConfigurations
-            = new Dictionary<Type, ServiceConfiguration>();
+        private static readonly Dictionary<string, ServiceConfiguration> _cachedServiceConfigurations
+            = new Dictionary<string, ServiceConfiguration>();
+        private static readonly Dictionary<Type, ClientConfiguration> _cachedClientConfigurations
+            = new Dictionary<Type, ClientConfiguration>();
 
         #endregion
 
@@ -85,26 +87,56 @@ namespace NIntegrate.Configuration
                 _cachedServiceHostTypes, serviceHostType_id);
         }
 
-        public static ServiceConfiguration GetServiceConfiguration(Type serviceContract)
+        public static ServiceConfiguration GetServiceConfiguration(string serviceName)
         {
-            if (serviceContract == null)
-                throw new ArgumentNullException("serviceContract");
+            if (string.IsNullOrEmpty(serviceName))
+                throw new ArgumentNullException("serviceName");
+            var appCode = ConfigurationManager.AppSettings[Constants.AppCodeAppSettingName];
+            if (string.IsNullOrEmpty(appCode))
+                throw new ConfigurationErrorsException(string.Format("Could not find the {0} appSetting in application configuration file.", Constants.AppCodeAppSettingName));
 
-            if (!_cachedServiceConfigurations.ContainsKey(serviceContract))
+            if (!_cachedServiceConfigurations.ContainsKey(serviceName))
             {
                 lock (_cachedServiceConfigurations)
                 {
-                    if (!_cachedServiceConfigurations.ContainsKey(serviceContract))
+                    if (!_cachedServiceConfigurations.ContainsKey(serviceName))
                     {
-                        var connString = _singleton._provider.GetServiceConfiguration(serviceContract);
-                        if (connString == null)
-                            throw new ConfigurationErrorsException(string.Format("Specified Service Contract - {0} could not be found in configuration store!", serviceContract));
-                        _cachedServiceConfigurations.Add(serviceContract, connString);
+                        var config = _singleton._provider.GetServiceConfiguration(serviceName, appCode);
+                        if (config == null)
+                            throw new ConfigurationErrorsException(string.Format("Specified service name - {0}, appCode - {1} could not be found in configuration store!",
+                                serviceName, appCode));
+                        _cachedServiceConfigurations.Add(serviceName, config);
                     }
                 }
             }
 
-            return _cachedServiceConfigurations[serviceContract];
+            return _cachedServiceConfigurations[serviceName];
+        }
+
+        public static ClientConfiguration GetClientConfiguration(Type serviceContract)
+        {
+            if (serviceContract == null)
+                throw new ArgumentNullException("serviceContract");
+            var appCode = ConfigurationManager.AppSettings[Constants.AppCodeAppSettingName];
+            if (string.IsNullOrEmpty(appCode))
+                throw new ConfigurationErrorsException(string.Format("Could not find the {0} appSetting in application configuration file.", Constants.AppCodeAppSettingName));
+
+            if (!_cachedClientConfigurations.ContainsKey(serviceContract))
+            {
+                lock (_cachedClientConfigurations)
+                {
+                    if (!_cachedClientConfigurations.ContainsKey(serviceContract))
+                    {
+                        var config = _singleton._provider.GetClientConfiguration(serviceContract, appCode);
+                        if (config == null)
+                            throw new ConfigurationErrorsException(string.Format("Specified Service Contract - {0},appCode - {1} could not be found in configuration store!",
+                                serviceContract, appCode));
+                        _cachedClientConfigurations.Add(serviceContract, config);
+                    }
+                }
+            }
+
+            return _cachedClientConfigurations[serviceContract];
         }
     }
 }
