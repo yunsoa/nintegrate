@@ -98,11 +98,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IServiceLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="ServiceManager.cs" />
     <Compile Include="WcfServiceHelper.cs" />
     <Compile Include="WcfServiceHostFactory.cs" />
@@ -119,15 +114,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Configuration\StoredProcedures.dbml.layout">
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
     </None>
     <None Include="NIntegrate_OpenSource.snk" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
