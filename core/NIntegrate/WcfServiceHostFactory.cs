@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.ServiceModel;
+using System.ServiceModel.Configuration;
 using System.ServiceModel.Description;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Channels;
+using System.Xml;
 using NIntegrate.Configuration;
 using System.Runtime.InteropServices;
 
@@ -15,6 +18,160 @@ namespace NIntegrate
     [ComVisible(false)]
     public class WcfServiceHostFactory : ServiceHostFactory
     {
+        #region Private Methods
+
+        private static string GetBaseAddress(Uri[] baseAddresses, EndpointConfiguration endpointConfig)
+        {
+            var channelType = ServiceConfigurationStore.GetBindingType(endpointConfig.BindingType_id).ChannelType;
+            var addressPrefix = "http";
+            switch (channelType)
+            {
+                case ChannelType.HTTP:
+                    addressPrefix = "http";
+                    break;
+                case ChannelType.TCP:
+                    addressPrefix = "net.tcp";
+                    break;
+                case ChannelType.IPC:
+                    addressPrefix = "net.pipe";
+                    break;
+                case ChannelType.MSMQ:
+                    addressPrefix = "net.msmq";
+                    break;
+            }
+            foreach (var item in baseAddresses)
+            {
+                if (item.ToString().ToLowerInvariant().StartsWith(addressPrefix))
+                {
+                    return item.ToString();
+                }
+            }
+
+            return null;
+        }
+
+        private static void ApplyServiceBehaviorConfiguration(ServiceHost serviceHost, ServiceConfiguration config)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(config.ServiceBehaviorXML);
+            var customBehaviorElements = new List<BehaviorExtensionElement>();
+            foreach (XmlNode node in doc.FirstChild.ChildNodes)
+            {
+                var customBehaviorTypeDesc = ServiceConfigurationStore.GetCustomBehaviorType(node.Name);
+                if (customBehaviorTypeDesc != null)
+                {
+                    var customBehaviorElementType = Type.GetType(customBehaviorTypeDesc.ConfigurationElementTypeClassName);
+                    if (customBehaviorElementType == null)
+                        throw new ConfigurationErrorsException(string.Format("Specified service behavior configuration element type - {0} could not be loaded!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                    var customBehaviorElement = Activator.CreateInstance(customBehaviorElementType) as BehaviorExtensionElement;
+                    if (customBehaviorElement == null)
+                        throw new ConfigurationErrorsException(string.Format("Specified service behavior configuration element type - {0} could not be initialized!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                    customBehaviorElement.DeserializeElement(node.OuterXml);
+                    customBehaviorElements.Add(customBehaviorElement);
+                    node.ParentNode.RemoveChild(node);
+                }
+            }
+            var serviceBehaviorElement = new ServiceBehaviorElement();
+            serviceBehaviorElement.DeserializeElement(config.ServiceBehaviorXML);
+            foreach (var item in serviceBehaviorElement)
+            {
+                serviceHost.Description.Behaviors.Add(item.CreateServiceBehavior());
+            }
+            foreach (var item in customBehaviorElements)
+            {
+                serviceHost.Description.Behaviors.Add(item.CreateServiceBehavior());
+            }
+            if (!IsBehaviorConfigured<ServiceMetadataBehavior>(serviceHost))
+            {
+                var smb = new ServiceMetadataBehavior();
+                serviceHost.Description.Behaviors.Add(smb);
+            }
+        }
+
+        private static void ApplyEndpointBehaviorConfiguration(ServiceEndpoint endpoint, EndpointConfiguration config)
+        {
+            if (string.IsNullOrEmpty(config.EndpointBehaviorXML))
+                return;
+
+            var doc = new XmlDocument();
+            doc.LoadXml(config.EndpointBehaviorXML);
+            var customBehaviorElements = new List<BehaviorExtensionElement>();
+            foreach (XmlNode node in doc.FirstChild.ChildNodes)
+            {
+                var customBehaviorTypeDesc = ServiceConfigurationStore.GetCustomBehaviorType(node.Name);
+                if (customBehaviorTypeDesc != null)
+                {
+                    var customBehaviorElementType = Type.GetType(customBehaviorTypeDesc.ConfigurationElementTypeClassName);
+                    if (customBehaviorElementType == null)
+                        throw new ConfigurationErrorsException(string.Format("Specified endpoint behavior configuration element type - {0} could not be loaded!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                    var customBehaviorElement = Activator.CreateInstance(customBehaviorElementType) as BehaviorExtensionElement;
+                    if (customBehaviorElement == null)
+                        throw new ConfigurationErrorsException(string.Format("Specified endpoint behavior configuration element type - {0} could not be initialized!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                    customBehaviorElement.DeserializeElement(node.OuterXml);
+                    customBehaviorElements.Add(customBehaviorElement);
+                    node.ParentNode.RemoveChild(node);
+                }
+            }
+            var endpointBehaviorElement = new EndpointBehaviorElement();
+            endpointBehaviorElement.DeserializeElement(config.EndpointBehaviorXML);
+            foreach (var item in endpointBehaviorElement)
+            {
+                endpoint.Behaviors.Add(item.CreateEndpointBehavior());
+            }
+            foreach (var item in customBehaviorElements)
+            {
+                endpoint.Behaviors.Add(item.CreateEndpointBehavior());
+            }
+        }
+
+        private static Uri[] AdjustBaseAddressesByConfiguration(HostElement hostElement, Uri[] baseAddresses)
+        {
+            if (hostElement.BaseAddresses != null && hostElement.BaseAddresses.Count > 0)
+            {
+                baseAddresses = new Uri[hostElement.BaseAddresses.Count];
+                for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
+                {
+                    baseAddresses[i] = new Uri(hostElement.BaseAddresses[i].BaseAddress);
+                }
+            }
+            return baseAddresses;
+        }
+
+        private static void ApplyServiceEndpointConfiguration(ServiceEndpoint serviceEndpoint, EndpointConfiguration endpointConfig)
+        {
+            if (!string.IsNullOrEmpty(endpointConfig.ListenUri))
+                serviceEndpoint.ListenUri = new Uri(endpointConfig.ListenUri);
+            if (endpointConfig.ListenUriMode.HasValue)
+                serviceEndpoint.ListenUriMode = (ListenUriMode)Enum.Parse(typeof(ListenUriMode), endpointConfig.ListenUriMode.ToString());
+
+            ApplyEndpointBehaviorConfiguration(serviceEndpoint, endpointConfig);
+        }
+
+        private static void ApplyServiceHostConfiguration(ServiceHost serviceHost, HostElement hostElement)
+        {
+            if (hostElement != null && hostElement.Timeouts != null)
+            {
+                serviceHost.OpenTimeout = hostElement.Timeouts.OpenTimeout;
+                serviceHost.CloseTimeout = hostElement.Timeouts.CloseTimeout;
+            }
+        }
+
+        private ServiceHost GetServiceHost(ServiceConfiguration config, Type serviceImplType, Uri[] baseAddresses)
+        {
+            var serviceHostTypeDesc = ServiceConfigurationStore.GetServiceHostType(config.ServiceHostType_id);
+            var serviceHostType = Type.GetType(serviceHostTypeDesc.ClassName);
+            if (serviceHostType == null)
+                throw new ConfigurationErrorsException(string.Format("Specified service host type - {0} could not be loaded!", serviceHostTypeDesc.ClassName));
+            baseAddresses = BuildBaseAddresses(baseAddresses, config);
+            var serviceHost = Activator.CreateInstance(serviceHostType, new object[] { serviceImplType, baseAddresses }) as ServiceHost;
+            if (serviceHost == null)
+                throw new ConfigurationErrorsException(string.Format("Specified service host type - {0} could not be initialized!", serviceHostTypeDesc.ClassName));
+
+            return serviceHost;
+        }
+
+        #endregion
+
         #region Protected Methods
 
         /// <summary>
@@ -38,20 +195,33 @@ namespace NIntegrate
         /// <summary>
         /// Build base addresses from endpoints
         /// </summary>
-        /// <param name="serviceContracts">The service contracts</param>
+        /// <param name="baseAddresses">The baseAddresses passed in from outside</param>
+        /// <param name="config">The service configuration</param>
         /// <returns>The base addresses</returns>
-        protected static Uri[] BuildBaseAddresses(IList<Type> serviceContracts)
+        protected virtual Uri[] BuildBaseAddresses(Uri[] baseAddresses, ServiceConfiguration config)
         {
-            var list = new List<Uri>();
+            if (config == null)
+                throw new ArgumentNullException("config");
 
-            foreach (var serviceContract in serviceContracts)
+            var list = new List<Uri>();
+            foreach (var endpoint in config.Endpoints)
             {
-                var endpoints = EndpointStore.GetServerEndpoints(serviceContract);
-                foreach (var endpoint in endpoints)
+                if (!string.IsNullOrEmpty(endpoint.EndpointAddress))
                 {
-                    var address = WcfServiceHelper.BuildAddress(endpoint);
-                    if (address != default(Uri))
-                        list.Add(address);
+                    if (endpoint.EndpointAddress.Contains("://")) //is absolute url
+                    {
+                        list.Add(new Uri(endpoint.EndpointAddress));
+                    }
+                    else // is relative url to baseAddress
+                    {
+                        var baseAddress = GetBaseAddress(baseAddresses, endpoint);
+                        list.Add(new Uri(baseAddress + endpoint.EndpointAddress));
+                    }
+                }
+                else //use baseAddress directly
+                {
+                    var baseAddress = GetBaseAddress(baseAddresses, endpoint);
+                    list.Add(new Uri(baseAddress));
                 }
             }
 
@@ -77,6 +247,31 @@ namespace NIntegrate
         /// <returns></returns>
         protected virtual Type GetServiceImplementationType(Type type)
         {
+            if (type != null)
+            {
+                using (var serviceLocator = ServiceManager.GetServiceLocator(type))
+                {
+                    if (!(serviceLocator is WcfServiceLocator))
+                    {
+                        var serviceInstance = serviceLocator.GetService(type);
+                        if (serviceInstance != null)
+                        {
+                            try
+                            {
+                                return serviceInstance.GetType();
+                            }
+                            finally
+                            {
+                                var dispose = serviceInstance as IDisposable;
+                                if (dispose != null)
+                                    dispose.Dispose();
+                            }
+                        }
+                    }
+                    serviceLocator.Dispose();
+                }
+            }
+
             return type;
         }
 
@@ -91,63 +286,43 @@ namespace NIntegrate
         /// <returns></returns>
         protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
         {
-            var serviceContracts = GetServiceContractTypes(serviceType);
-            var serviceImplType = GetServiceImplementationType(serviceType);
+            if (serviceType == null)
+                throw new ArgumentNullException("serviceType");
 
-            var host = new ServiceHost(serviceImplType, BuildBaseAddresses(serviceContracts));
-            foreach (var serviceContract in serviceContracts)
+            var config = ServiceConfigurationStore.GetServiceConfiguration(serviceType.AssemblyQualifiedName);
+            HostElement hostElement = null;
+            if (!string.IsNullOrEmpty(config.HostXML))
             {
-                var endpoints = EndpointStore.GetServerEndpoints(serviceContract);
-                if (endpoints.Count == 0)
-                    return host;
+                hostElement = new HostElement();
+                hostElement.DeserializeElement(config.HostXML);
+                baseAddresses = AdjustBaseAddressesByConfiguration(hostElement, baseAddresses);
+            }
+            var serviceImplType = GetServiceImplementationType(serviceType);
+            var serviceHost = GetServiceHost(config, serviceImplType, baseAddresses);
+            ApplyServiceHostConfiguration(serviceHost, hostElement);
+            ApplyServiceBehaviorConfiguration(serviceHost, config);
 
-                foreach (var endpoint in endpoints)
+            foreach (var endpointConfig in config.Endpoints)
+            {
+                var address = new Uri(endpointConfig.EndpointAddress);
+                if (address == default(Uri)) continue;
+                var serviceContract = Type.GetType(endpointConfig.ServiceContract);
+                if (serviceContract == null)
+                    throw new ConfigurationErrorsException(string.Format("Specified service contract - {0} could not be loaded!", endpointConfig.ServiceContract));
+
+                var binding = WcfServiceHelper.GetBinding(endpointConfig);
+                if (binding == null) continue;
+
+                if (endpointConfig.MexBindingEnabled)
                 {
-                    var address = WcfServiceHelper.BuildAddress(endpoint);
-                    if (address == default(Uri)) continue;
-
-                    var binding = WcfServiceHelper.BuildBinding(serviceContract, endpoint);
-
-                    if (binding == null) continue;
-
-                    if (!IsBehaviorConfigured<ServiceMetadataBehavior>(host))
-                    {
-                        var smb = new ServiceMetadataBehavior();
-                        host.Description.Behaviors.Add(smb);
-                    }
-
-                    if (endpoint.MexBindingEnabled)
-                    {
-                        host.AddServiceEndpoint(typeof (IMetadataExchange), new CustomBinding(binding), "mex");
-                    }
-
-                    if (!IsBehaviorConfigured<ServiceThrottlingBehavior>(host))
-                    {
-                        var serviceThrottle = new ServiceThrottlingBehavior();
-                        if (endpoint.MaxConcurrentCalls.HasValue)
-                            serviceThrottle.MaxConcurrentCalls = endpoint.MaxConcurrentCalls.Value;
-                        if (endpoint.MaxConcurrentInstances.HasValue)
-                            serviceThrottle.MaxConcurrentInstances = endpoint.MaxConcurrentInstances.Value;
-                        if (endpoint.MaxConcurrentSessions.HasValue)
-                            serviceThrottle.MaxConcurrentSessions = endpoint.MaxConcurrentSessions.Value;
-                        host.Description.Behaviors.Add(serviceThrottle);
-                    }
-
-                    if (!IsBehaviorConfigured<ServiceDebugBehavior>(host) && endpoint.IncludeExceptionDetailInFaults.HasValue && endpoint.IncludeExceptionDetailInFaults.Value)
-                    {
-                        var serviceDebug = new ServiceDebugBehavior
-                                               {
-                                                   IncludeExceptionDetailInFaults =
-                                                       endpoint.IncludeExceptionDetailInFaults.Value
-                                               };
-                        host.Description.Behaviors.Add(serviceDebug);
-                    }
-
-                    host.AddServiceEndpoint(serviceContract, binding, address);
+                    serviceHost.AddServiceEndpoint(typeof (IMetadataExchange), new CustomBinding(binding), "mex");
                 }
+
+                var serviceEndpoint = serviceHost.AddServiceEndpoint(serviceContract, binding, address);
+                ApplyServiceEndpointConfiguration(serviceEndpoint, endpointConfig);
             }
 
-            return host;
+            return serviceHost;
         }
 
         #endregion

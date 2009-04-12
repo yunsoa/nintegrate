@@ -61,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AppVariableStore.cs" />
-    <Compile Include="Configuration\BindingConfiguration.cs" />
     <Compile Include="Configuration\BindingType.cs" />
     <Compile Include="Configuration\ChannelType.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
@@ -70,18 +69,12 @@
     <Compile Include="Configuration\CustomBehaviorType.cs" />
     <Compile Include="Configuration\DefaultAppVariableProvider.cs" />
     <Compile Include="Configuration\DefaultConnectionStringProvider.cs" />
-    <Compile Include="Configuration\DefaultEndpointProvider.cs" />
     <Compile Include="Configuration\DefaultServiceConfigurationProvider.cs" />
-    <Compile Include="Configuration\Endpoint.cs" />
-    <Compile Include="Configuration\EndpointBehaviorElementEx.cs" />
     <Compile Include="Configuration\EndpointConfiguration.cs" />
     <Compile Include="Configuration\EndpointListenUriMode.cs" />
-    <Compile Include="Configuration\EndpointStore.cs" />
     <Compile Include="Configuration\IAppVariableProvider.cs" />
     <Compile Include="Configuration\IConnectionStringProvider.cs" />
-    <Compile Include="Configuration\IEndpointProvider.cs" />
     <Compile Include="Configuration\IServiceConfigurationProvider.cs" />
-    <Compile Include="Configuration\ServiceBehaviorElementEx.cs" />
     <Compile Include="Configuration\ServiceConfiguration.cs" />
     <Compile Include="Configuration\ServiceConfigurationStore.cs" />
     <Compile Include="Configuration\ServiceHostType.cs" />
@@ -112,12 +105,12 @@
       <LastGenOutput>StoredProcedures.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
+    <None Include="NIntegrate_OpenSource.snk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Configuration\StoredProcedures.dbml.layout">
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
     </None>
-    <None Include="NIntegrate_OpenSource.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

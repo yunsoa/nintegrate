@@ -144,13 +144,14 @@ namespace NIntegrate.Configuration
 
                 foreach (var result in results)
                 {
-                    config.ClientMetadataXML = result.ClientMetadataXML;
                     config.Endpoint = new EndpointConfiguration
                                           {
                                               BindingNamespace = result.BindingNamespace,
                                               EndpointAddress = result.EndpointAddress,
                                               EndpointBehaviorXML = result.EndpointBehaviorXML,
-                                              IdentityXML = result.IdentityXML
+                                              IdentityXML = result.IdentityXML,
+                                              BindingType_id = result.BindingType_id,
+                                              BindingXML = result.BindingXML
                                           };
                     break;
                 }
