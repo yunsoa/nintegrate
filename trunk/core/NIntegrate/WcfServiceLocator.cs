@@ -39,8 +39,16 @@ namespace NIntegrate
             var config = ServiceConfigurationStore.GetClientConfiguration(typeof(T));
             if (config != null)
             {
+                Uri[] baseAddresses = null;
+                if (!string.IsNullOrEmpty(config.HostXML))
+                {
+                    var hostElement = new HostElement();
+                    hostElement.DeserializeElement(config.HostXML);
+                    baseAddresses = WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
+                }
+
                 var binding = WcfServiceHelper.GetBinding(config.Endpoint);
-                return new ChannelFactory<T>(binding);
+                return new ChannelFactory<T>(binding, WcfServiceHelper.BuildEndpointAddress(config.Endpoint, baseAddresses).ToString());
             }
 
             return null;
