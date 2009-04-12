@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using NIntegrate.Configuration;
+using System.ServiceModel.Configuration;
 
 namespace NIntegrate
 {
@@ -33,20 +36,11 @@ namespace NIntegrate
         /// <returns>The built channel factory</returns>
         private static ChannelFactory<T> CreateChannelFactory<T>()
         {
-            var endpoints = EndpointStore.GetClientEndpoints(typeof(T));
-            if (endpoints.Count > 0)
+            var config = ServiceConfigurationStore.GetClientConfiguration(typeof(T));
+            if (config != null)
             {
-                //endpoints are ordered by channel type in NetNamedPipe, NetTcp and WSHttp order,
-                //so the top one in the list should be the fastest one for current caller
-                var endpoint = endpoints[0];
-                var binding = WcfServiceHelper.BuildBinding(typeof(T), endpoint);
-                var address = WcfServiceHelper.BuildAddress(endpoint);
-
-                if (binding != null && address != null)
-                {
-                    var cf = new ChannelFactory<T>(binding, new EndpointAddress(address));
-                    return cf;
-                }
+                var binding = WcfServiceHelper.GetBinding(config.Endpoint);
+                return new ChannelFactory<T>(binding);
             }
 
             return null;

@@ -75,10 +75,15 @@ namespace NIntegrate.Configuration
                 _cachedBindingTypes, bindingType_id);
         }
 
-        public static CustomBehaviorType GetCustomBehaviorType(int customBehaviorType_id)
+        public static CustomBehaviorType GetCustomBehaviorType(string customBehaviorExtensionName)
         {
-            return GetTypeLookupById<CustomBehaviorType>(
-                _cachedCustomBehaviorTypes, customBehaviorType_id);
+            foreach (var item in _cachedCustomBehaviorTypes)
+            {
+                if (item.ExtensionName == customBehaviorExtensionName)
+                    return item;
+            }
+
+            return null;
         }
 
         public static ServiceHostType GetServiceHostType(int serviceHostType_id)
