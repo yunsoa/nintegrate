@@ -60,6 +60,70 @@ namespace NIntegrate
             return list;
         }
 
+        internal static Uri BuildEndpointAddress(EndpointConfiguration endpoint, Uri[] baseAddresses)
+        {
+            Uri address;
+            if (!string.IsNullOrEmpty(endpoint.EndpointAddress))
+            {
+                if (endpoint.EndpointAddress.Contains("://")) //is absolute url
+                {
+                    address = new Uri(endpoint.EndpointAddress);
+                }
+                else // is relative url to baseAddress
+                {
+                    var baseAddress = GetBaseAddress(baseAddresses, endpoint);
+                    address = new Uri(baseAddress + endpoint.EndpointAddress);
+                }
+            }
+            else //use baseAddress directly
+            {
+                var baseAddress = GetBaseAddress(baseAddresses, endpoint);
+                address = new Uri(baseAddress);
+            }
+            return address;
+        }
+
+        private static string GetBaseAddress(Uri[] baseAddresses, EndpointConfiguration endpointConfig)
+        {
+            var channelType = ServiceConfigurationStore.GetBindingType(endpointConfig.BindingType_id).ChannelType;
+            var addressPrefix = "http";
+            switch (channelType)
+            {
+                case ChannelType.HTTP:
+                    addressPrefix = "http";
+                    break;
+                case ChannelType.TCP:
+                    addressPrefix = "net.tcp";
+                    break;
+                case ChannelType.IPC:
+                    addressPrefix = "net.pipe";
+                    break;
+                case ChannelType.MSMQ:
+                    addressPrefix = "net.msmq";
+                    break;
+            }
+            foreach (var item in baseAddresses)
+            {
+                if (item.ToString().ToLowerInvariant().StartsWith(addressPrefix))
+                {
+                    return item.ToString();
+                }
+            }
+
+            return null;
+        }
+
+        internal static Uri[] GetBaseAddressesFromHostElement(HostElement hostElement)
+        {
+            Uri[] addresses = null;
+            addresses = new Uri[hostElement.BaseAddresses.Count];
+            for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
+            {
+                addresses[i] = new Uri(hostElement.BaseAddresses[i].BaseAddress);
+            }
+            return addresses;
+        }
+
         #region DeserializeElement
 
         private static readonly MethodInfo _configElementDeserializeMethod

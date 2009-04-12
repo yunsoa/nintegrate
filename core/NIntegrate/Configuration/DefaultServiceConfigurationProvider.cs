@@ -144,6 +144,7 @@ namespace NIntegrate.Configuration
 
                 foreach (var result in results)
                 {
+                    config.HostXML = result.HostXML;
                     config.Endpoint = new EndpointConfiguration
                                           {
                                               BindingNamespace = result.BindingNamespace,

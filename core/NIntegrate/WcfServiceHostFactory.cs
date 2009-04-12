@@ -20,36 +20,6 @@ namespace NIntegrate
     {
         #region Private Methods
 
-        private static string GetBaseAddress(Uri[] baseAddresses, EndpointConfiguration endpointConfig)
-        {
-            var channelType = ServiceConfigurationStore.GetBindingType(endpointConfig.BindingType_id).ChannelType;
-            var addressPrefix = "http";
-            switch (channelType)
-            {
-                case ChannelType.HTTP:
-                    addressPrefix = "http";
-                    break;
-                case ChannelType.TCP:
-                    addressPrefix = "net.tcp";
-                    break;
-                case ChannelType.IPC:
-                    addressPrefix = "net.pipe";
-                    break;
-                case ChannelType.MSMQ:
-                    addressPrefix = "net.msmq";
-                    break;
-            }
-            foreach (var item in baseAddresses)
-            {
-                if (item.ToString().ToLowerInvariant().StartsWith(addressPrefix))
-                {
-                    return item.ToString();
-                }
-            }
-
-            return null;
-        }
-
         private static void ApplyServiceBehaviorConfiguration(ServiceHost serviceHost, ServiceConfiguration config)
         {
             var doc = new XmlDocument();
@@ -128,13 +98,10 @@ namespace NIntegrate
         {
             if (hostElement.BaseAddresses != null && hostElement.BaseAddresses.Count > 0)
             {
-                baseAddresses = new Uri[hostElement.BaseAddresses.Count];
-                for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
-                {
-                    baseAddresses[i] = new Uri(hostElement.BaseAddresses[i].BaseAddress);
-                }
+                return WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
             }
-            return baseAddresses;
+
+            return new Uri[0];
         }
 
         private static void ApplyServiceEndpointConfiguration(ServiceEndpoint serviceEndpoint, EndpointConfiguration endpointConfig)
@@ -168,6 +135,15 @@ namespace NIntegrate
                 throw new ConfigurationErrorsException(string.Format("Specified service host type - {0} could not be initialized!", serviceHostTypeDesc.ClassName));
 
             return serviceHost;
+        }
+
+
+        private static Uri[] GetBaseAddressesFromEndpoints(IList<EndpointConfiguration> endpoints)
+        {
+            var list = new Uri[endpoints.Count];
+            for (var i = 0; i < endpoints.Count; ++i)
+                list[i] = new Uri(endpoints[i].EndpointAddress);
+            return list;
         }
 
         #endregion
@@ -206,23 +182,8 @@ namespace NIntegrate
             var list = new List<Uri>();
             foreach (var endpoint in config.Endpoints)
             {
-                if (!string.IsNullOrEmpty(endpoint.EndpointAddress))
-                {
-                    if (endpoint.EndpointAddress.Contains("://")) //is absolute url
-                    {
-                        list.Add(new Uri(endpoint.EndpointAddress));
-                    }
-                    else // is relative url to baseAddress
-                    {
-                        var baseAddress = GetBaseAddress(baseAddresses, endpoint);
-                        list.Add(new Uri(baseAddress + endpoint.EndpointAddress));
-                    }
-                }
-                else //use baseAddress directly
-                {
-                    var baseAddress = GetBaseAddress(baseAddresses, endpoint);
-                    list.Add(new Uri(baseAddress));
-                }
+                var address = WcfServiceHelper.BuildEndpointAddress(endpoint, baseAddresses);
+                list.Add(address);
             }
 
             return list.ToArray();
@@ -296,6 +257,10 @@ namespace NIntegrate
                 hostElement = new HostElement();
                 hostElement.DeserializeElement(config.HostXML);
                 baseAddresses = AdjustBaseAddressesByConfiguration(hostElement, baseAddresses);
+            }
+            if (baseAddresses == null || baseAddresses.Length == 0)
+            {
+                baseAddresses = GetBaseAddressesFromEndpoints(config.Endpoints);
             }
             var serviceImplType = GetServiceImplementationType(serviceType);
             var serviceHost = GetServiceHost(config, serviceImplType, baseAddresses);
