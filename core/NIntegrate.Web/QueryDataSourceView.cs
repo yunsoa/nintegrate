@@ -38,7 +38,7 @@ namespace NIntegrate.Web
             {
                 var condition = CreateColumnEqualsCondition(en.Key.ToString(), en.Value);
                 while (en.MoveNext())
-                    condition.And(CreateColumnEqualsCondition(en.Key.ToString(), en.Value));
+                    condition = condition.And(CreateColumnEqualsCondition(en.Key.ToString(), en.Value));
                 return condition;
             }
 
