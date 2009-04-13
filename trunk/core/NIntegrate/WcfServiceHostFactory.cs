@@ -106,16 +106,6 @@ namespace NIntegrate
             }
         }
 
-        private static Uri[] AdjustBaseAddressesByConfiguration(HostElement hostElement, Uri[] baseAddresses)
-        {
-            if (hostElement.BaseAddresses != null && hostElement.BaseAddresses.Count > 0)
-            {
-                return WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
-            }
-
-            return baseAddresses;
-        }
-
         private static void ApplyServiceEndpointConfiguration(ServiceEndpoint serviceEndpoint, EndpointConfiguration endpointConfig)
         {
             if (!string.IsNullOrEmpty(endpointConfig.ListenUri))
@@ -282,7 +272,10 @@ namespace NIntegrate
             {
                 hostElement = new HostElement();
                 hostElement.DeserializeElement(config.HostXML);
-                baseAddresses = AdjustBaseAddressesByConfiguration(hostElement, baseAddresses);
+                if (baseAddresses == null || baseAddresses.Length == 0)
+                {
+                    baseAddresses = WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
+                }
             }
             if (baseAddresses == null || baseAddresses.Length == 0)
             {
