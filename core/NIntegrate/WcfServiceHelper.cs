@@ -72,7 +72,7 @@ namespace NIntegrate
                 else // is relative url to baseAddress
                 {
                     var baseAddress = GetBaseAddress(baseAddresses, endpoint);
-                    address = new Uri(baseAddress + endpoint.EndpointAddress);
+                    address = new Uri(baseAddress.TrimEnd('/') + '/' + endpoint.EndpointAddress);
                 }
             }
             else //use baseAddress directly
@@ -113,12 +113,12 @@ namespace NIntegrate
                 }
             }
 
-            return null;
+            throw new ConfigurationErrorsException("Could not find a base address in configuration store for channel type - " + channelType);
         }
 
         internal static Uri[] GetBaseAddressesFromHostElement(HostElement hostElement)
         {
-            var addresses = new Uri[hostElement.BaseAddresses.Count];
+            var addresses = new Uri[hostElement == null ? 0 : hostElement.BaseAddresses.Count];
             for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
             {
                 addresses[i] = new Uri(hostElement.BaseAddresses[i].BaseAddress);

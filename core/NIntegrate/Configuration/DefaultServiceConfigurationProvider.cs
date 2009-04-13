@@ -149,6 +149,8 @@ namespace NIntegrate.Configuration
                                           {
                                               BindingNamespace = result.BindingNamespace,
                                               EndpointAddress = result.EndpointAddress,
+                                              ListenUri = result.ListenUri,
+                                              ListenUriMode = (EndpointListenUriMode)result.ListenUriMode_id,
                                               EndpointBehaviorXML = result.EndpointBehaviorXML,
                                               IdentityXML = result.IdentityXML,
                                               BindingType_id = result.BindingType_id,
