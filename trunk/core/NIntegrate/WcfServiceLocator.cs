@@ -47,8 +47,19 @@ namespace NIntegrate
                     baseAddresses = WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
                 }
 
-                var binding = WcfServiceHelper.GetBinding(config.Endpoint);
-                return new ChannelFactory<T>(binding, WcfServiceHelper.BuildEndpointAddress(config.Endpoint, baseAddresses).ToString());
+                if (config.Endpoint != null)
+                {
+                    var binding = WcfServiceHelper.GetBinding(config.Endpoint);
+                    if (binding != null)
+                    {
+                        return new ChannelFactory<T>(binding,
+                            WcfServiceHelper.BuildEndpointAddress(config.Endpoint, baseAddresses).ToString());
+                    }
+                }
+                else
+                {
+                    throw new ConfigurationErrorsException("Could not find any endpoint for specified service contract - " + typeof(T).AssemblyQualifiedName);
+                }
             }
 
             return null;

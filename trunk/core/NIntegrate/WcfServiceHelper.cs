@@ -102,11 +102,14 @@ namespace NIntegrate
                     addressPrefix = "net.msmq";
                     break;
             }
-            foreach (var item in baseAddresses)
+            if (baseAddresses != null)
             {
-                if (item.ToString().ToLowerInvariant().StartsWith(addressPrefix))
+                foreach (var item in baseAddresses)
                 {
-                    return item.ToString();
+                    if (item.ToString().ToLowerInvariant().StartsWith(addressPrefix))
+                    {
+                        return item.ToString();
+                    }
                 }
             }
 
@@ -115,8 +118,7 @@ namespace NIntegrate
 
         internal static Uri[] GetBaseAddressesFromHostElement(HostElement hostElement)
         {
-            Uri[] addresses = null;
-            addresses = new Uri[hostElement.BaseAddresses.Count];
+            var addresses = new Uri[hostElement.BaseAddresses.Count];
             for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
             {
                 addresses[i] = new Uri(hostElement.BaseAddresses[i].BaseAddress);
