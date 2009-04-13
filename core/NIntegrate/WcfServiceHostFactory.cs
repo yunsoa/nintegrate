@@ -22,35 +22,47 @@ namespace NIntegrate
 
         private static void ApplyServiceBehaviorConfiguration(ServiceHost serviceHost, ServiceConfiguration config)
         {
-            var doc = new XmlDocument();
-            doc.LoadXml(config.ServiceBehaviorXML);
-            var customBehaviorElements = new List<BehaviorExtensionElement>();
-            foreach (XmlNode node in doc.FirstChild.ChildNodes)
+            if (!string.IsNullOrEmpty(config.ServiceBehaviorXML))
             {
-                var customBehaviorTypeDesc = ServiceConfigurationStore.GetCustomBehaviorType(node.Name);
-                if (customBehaviorTypeDesc != null)
+                var doc = new XmlDocument();
+                doc.LoadXml(config.ServiceBehaviorXML);
+                var customBehaviorElements = new List<BehaviorExtensionElement>();
+                foreach (XmlNode node in doc.FirstChild.ChildNodes)
                 {
-                    var customBehaviorElementType = Type.GetType(customBehaviorTypeDesc.ConfigurationElementTypeClassName);
-                    if (customBehaviorElementType == null)
-                        throw new ConfigurationErrorsException(string.Format("Specified service behavior configuration element type - {0} could not be loaded!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
-                    var customBehaviorElement = Activator.CreateInstance(customBehaviorElementType) as BehaviorExtensionElement;
-                    if (customBehaviorElement == null)
-                        throw new ConfigurationErrorsException(string.Format("Specified service behavior configuration element type - {0} could not be initialized!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
-                    customBehaviorElement.DeserializeElement(node.OuterXml);
-                    customBehaviorElements.Add(customBehaviorElement);
-                    node.ParentNode.RemoveChild(node);
+                    var customBehaviorTypeDesc = ServiceConfigurationStore.GetCustomBehaviorType(node.Name);
+                    if (customBehaviorTypeDesc != null)
+                    {
+                        var customBehaviorElementType =
+                            Type.GetType(customBehaviorTypeDesc.ConfigurationElementTypeClassName);
+                        if (customBehaviorElementType == null)
+                            throw new ConfigurationErrorsException(
+                                string.Format(
+                                    "Specified service behavior configuration element type - {0} could not be loaded!",
+                                    customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                        var customBehaviorElement =
+                            Activator.CreateInstance(customBehaviorElementType) as BehaviorExtensionElement;
+                        if (customBehaviorElement == null)
+                            throw new ConfigurationErrorsException(
+                                string.Format(
+                                    "Specified service behavior configuration element type - {0} could not be initialized!",
+                                    customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                        customBehaviorElement.DeserializeElement(node.OuterXml);
+                        customBehaviorElements.Add(customBehaviorElement);
+                        node.ParentNode.RemoveChild(node);
+                    }
+                }
+                var serviceBehaviorElement = new ServiceBehaviorElement();
+                serviceBehaviorElement.DeserializeElement(config.ServiceBehaviorXML);
+                foreach (var item in serviceBehaviorElement)
+                {
+                    serviceHost.Description.Behaviors.Add(item.CreateServiceBehavior());
+                }
+                foreach (var item in customBehaviorElements)
+                {
+                    serviceHost.Description.Behaviors.Add(item.CreateServiceBehavior());
                 }
             }
-            var serviceBehaviorElement = new ServiceBehaviorElement();
-            serviceBehaviorElement.DeserializeElement(config.ServiceBehaviorXML);
-            foreach (var item in serviceBehaviorElement)
-            {
-                serviceHost.Description.Behaviors.Add(item.CreateServiceBehavior());
-            }
-            foreach (var item in customBehaviorElements)
-            {
-                serviceHost.Description.Behaviors.Add(item.CreateServiceBehavior());
-            }
+
             if (!IsBehaviorConfigured<ServiceMetadataBehavior>(serviceHost))
             {
                 var smb = new ServiceMetadataBehavior();
@@ -101,7 +113,7 @@ namespace NIntegrate
                 return WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
             }
 
-            return new Uri[0];
+            return baseAddresses;
         }
 
         private static void ApplyServiceEndpointConfiguration(ServiceEndpoint serviceEndpoint, EndpointConfiguration endpointConfig)
@@ -123,20 +135,22 @@ namespace NIntegrate
             }
         }
 
-        private ServiceHost GetServiceHost(ServiceConfiguration config, Type serviceImplType, Uri[] baseAddresses)
+        private ServiceHost GetServiceHost(ServiceConfiguration config, Type serviceImplType, object singleton, Uri[] baseAddresses)
         {
             var serviceHostTypeDesc = ServiceConfigurationStore.GetServiceHostType(config.ServiceHostType_id);
             var serviceHostType = Type.GetType(serviceHostTypeDesc.ClassName);
             if (serviceHostType == null)
                 throw new ConfigurationErrorsException(string.Format("Specified service host type - {0} could not be loaded!", serviceHostTypeDesc.ClassName));
             baseAddresses = BuildBaseAddresses(baseAddresses, config);
-            var serviceHost = Activator.CreateInstance(serviceHostType, new object[] { serviceImplType, baseAddresses }) as ServiceHost;
+            var serviceHost = (singleton == null ?
+                Activator.CreateInstance(serviceHostType, new object[] { serviceImplType, baseAddresses }) as ServiceHost :
+                Activator.CreateInstance(serviceHostType, new[] { singleton, baseAddresses }) as ServiceHost
+            );
             if (serviceHost == null)
                 throw new ConfigurationErrorsException(string.Format("Specified service host type - {0} could not be initialized!", serviceHostTypeDesc.ClassName));
 
             return serviceHost;
         }
-
 
         private static Uri[] GetBaseAddressesFromEndpoints(IList<EndpointConfiguration> endpoints)
         {
@@ -159,10 +173,13 @@ namespace NIntegrate
         internal protected static bool IsBehaviorConfigured<T>(ServiceHost host)
             where T : IServiceBehavior
         {
-            for (var i = 0; i < host.Description.Behaviors.Count; ++i)
+            if (host != null)
             {
-                if (host.Description.Behaviors[i] is T)
-                    return true;
+                for (var i = 0; i < host.Description.Behaviors.Count; ++i)
+                {
+                    if (host.Description.Behaviors[i] is T)
+                        return true;
+                }
             }
 
             return false;
@@ -205,9 +222,12 @@ namespace NIntegrate
         /// the service type specified in .svc file
         /// </summary>
         /// <param name="type">The service type specified in .svc file</param>
+        /// <param name="singleton">If the service contract is singleton, return the singleton instance</param>
         /// <returns></returns>
-        protected virtual Type GetServiceImplementationType(Type type)
+        protected virtual Type GetServiceImplementationType(Type type, out object singleton)
         {
+            singleton = null;
+
             if (type != null)
             {
                 using (var serviceLocator = ServiceManager.GetServiceLocator(type))
@@ -217,6 +237,12 @@ namespace NIntegrate
                         var serviceInstance = serviceLocator.GetService(type);
                         if (serviceInstance != null)
                         {
+                            if (serviceLocator.IsSingleton(type))
+                            {
+                                singleton = serviceInstance;
+                                return serviceInstance.GetType();
+                            }
+
                             try
                             {
                                 return serviceInstance.GetType();
@@ -262,8 +288,9 @@ namespace NIntegrate
             {
                 baseAddresses = GetBaseAddressesFromEndpoints(config.Endpoints);
             }
-            var serviceImplType = GetServiceImplementationType(serviceType);
-            var serviceHost = GetServiceHost(config, serviceImplType, baseAddresses);
+            object singleton;
+            var serviceImplType = GetServiceImplementationType(serviceType, out singleton);
+            var serviceHost = GetServiceHost(config, serviceImplType, singleton, baseAddresses);
             ApplyServiceHostConfiguration(serviceHost, hostElement);
             ApplyServiceBehaviorConfiguration(serviceHost, config);
 

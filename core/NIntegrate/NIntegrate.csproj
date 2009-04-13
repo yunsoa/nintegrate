@@ -100,12 +100,14 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NIntegrate_OpenSource.snk" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Configuration\StoredProcedures.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>StoredProcedures.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="NIntegrate_OpenSource.snk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Configuration\StoredProcedures.dbml.layout">
