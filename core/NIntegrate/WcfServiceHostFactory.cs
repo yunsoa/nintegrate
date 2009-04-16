@@ -253,8 +253,10 @@ namespace NIntegrate
 
             foreach (var endpointConfig in config.Endpoints)
             {
-                var address = new Uri(endpointConfig.EndpointAddress);
-                if (address == default(Uri)) continue;
+                var address = endpointConfig.EndpointAddress;
+                if (string.IsNullOrEmpty(address))
+                    continue;
+                address = string.Format(address, Environment.MachineName.ToLowerInvariant());
                 var serviceContract = Type.GetType(endpointConfig.ServiceContract);
                 if (serviceContract == null)
                     throw new ConfigurationErrorsException(string.Format("Specified service contract - {0} could not be loaded!", endpointConfig.ServiceContract));
