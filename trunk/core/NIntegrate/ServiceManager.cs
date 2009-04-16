@@ -32,6 +32,9 @@ namespace NIntegrate
                     }
                 }
             }
+
+            if (_externalServiceLocatorType == null)
+                _externalServiceLocatorType = typeof(AppVariableServiceLocator);
         }
 
         #endregion
