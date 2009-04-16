@@ -35,14 +35,6 @@
       <Column Name="ServiceHostTypeClassName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.sp_GetAppVariable" Method="sp_GetAppVariable">
-    <Parameter Name="AppVariableName" Parameter="appVariableName" Type="System.String" DbType="VarChar(50)" />
-    <Parameter Name="AppCode" Parameter="appCode" Type="System.String" DbType="VarChar(10)" />
-    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
-    <ElementType Name="sp_GetAppVariableResult">
-      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.sp_GetClientConfiguration" Method="sp_GetClientConfiguration">
     <Parameter Name="ServiceContract" Parameter="serviceContract" Type="System.String" DbType="VarChar(255)" />
     <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
@@ -58,6 +50,14 @@
       <Column Name="IdentityXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="BindingType_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="BindingXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetAppVariable" Method="sp_GetAppVariable">
+    <Parameter Name="AppVariableName" Parameter="appVariableName" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="AppCode" Parameter="appCode" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="sp_GetAppVariableResult">
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

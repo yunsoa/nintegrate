@@ -90,18 +90,18 @@ namespace NIntegrate.Configuration
 			return ((ISingleResult<sp_GetAllServiceHostTypesResult>)(result.ReturnValue));
 		}
 		
-		[Function(Name="dbo.sp_GetAppVariable")]
-		public ISingleResult<sp_GetAppVariableResult> sp_GetAppVariable([Parameter(Name="AppVariableName", DbType="VarChar(50)")] string appVariableName, [Parameter(Name="AppCode", DbType="VarChar(10)")] string appCode, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), appVariableName, appCode, serverName);
-			return ((ISingleResult<sp_GetAppVariableResult>)(result.ReturnValue));
-		}
-		
 		[Function(Name="dbo.sp_GetClientConfiguration")]
 		public ISingleResult<sp_GetClientConfigurationResult> sp_GetClientConfiguration([Parameter(Name="ServiceContract", DbType="VarChar(255)")] string serviceContract, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName, [Parameter(Name="AppCode", DbType="VarChar(10)")] string appCode)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), serviceContract, serverName, appCode);
 			return ((ISingleResult<sp_GetClientConfigurationResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_GetAppVariable")]
+		public ISingleResult<sp_GetAppVariableResult> sp_GetAppVariable([Parameter(Name="AppVariableName", DbType="VarChar(255)")] string appVariableName, [Parameter(Name="AppCode", DbType="VarChar(10)")] string appCode, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), appVariableName, appCode, serverName);
+			return ((ISingleResult<sp_GetAppVariableResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -425,32 +425,6 @@ namespace NIntegrate.Configuration
 		}
 	}
 	
-	public partial class sp_GetAppVariableResult
-	{
-		
-		private string _Value;
-		
-		public sp_GetAppVariableResult()
-		{
-		}
-		
-		[Column(Storage="_Value", DbType="NVarChar(MAX)")]
-		public string Value
-		{
-			get
-			{
-				return this._Value;
-			}
-			set
-			{
-				if ((this._Value != value))
-				{
-					this._Value = value;
-				}
-			}
-		}
-	}
-	
 	public partial class sp_GetClientConfigurationResult
 	{
 		
@@ -634,6 +608,32 @@ namespace NIntegrate.Configuration
 				if ((this._BindingXML != value))
 				{
 					this._BindingXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_GetAppVariableResult
+	{
+		
+		private string _Value;
+		
+		public sp_GetAppVariableResult()
+		{
+		}
+		
+		[Column(Storage="_Value", DbType="NVarChar(MAX)")]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this._Value = value;
 				}
 			}
 		}

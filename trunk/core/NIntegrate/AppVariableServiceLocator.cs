@@ -15,7 +15,7 @@ namespace NIntegrate
             if (!string.IsNullOrEmpty(serviceImplTypeName))
             {
                 var serviceImplType = Type.GetType(serviceImplTypeName, true);
-                Activator.CreateInstance(serviceImplType);
+                return Activator.CreateInstance(serviceImplType);
             }
 
             return null;
