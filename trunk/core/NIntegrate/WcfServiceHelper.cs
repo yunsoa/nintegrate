@@ -14,6 +14,29 @@ namespace NIntegrate
 {
     internal static class WcfServiceHelper
     {
+        private static string _configurationConnectionString;
+
+        internal static string GetConfigurationConnectionString()
+        {
+            if (_configurationConnectionString == null)
+            {
+                lock (typeof(WcfServiceHelper))
+                {
+                    if (_configurationConnectionString == null)
+                    {
+                        var connStr =
+                            ConfigurationManager.ConnectionStrings[Constants.ConfigurationDatabaseConnectionStringName];
+                        if (connStr == null)
+                            throw new ConfigurationErrorsException(
+                                "Could not find ConnectionString setting for \"NIntegrate.Configuration\".");
+                        _configurationConnectionString = connStr.ConnectionString;
+                    }
+                }
+            }
+
+            return _configurationConnectionString;
+        }
+
         internal static Binding GetBinding(EndpointConfiguration endpoint)
         {
             var bindingTypeDesc = ServiceConfigurationStore.GetBindingType(endpoint.BindingType_id);
