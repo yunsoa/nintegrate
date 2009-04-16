@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="SimpleServiceProvider.Service1" CodeBehind="MultiBindingService.svc.cs" %>

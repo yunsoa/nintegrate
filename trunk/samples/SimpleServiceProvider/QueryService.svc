@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="NIntegrate.Query.IQueryService, NIntegrate.Query, Version=0.5.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6" Factory="NIntegrate.WcfServiceHostFactory, NIntegrate, Version=0.5.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6" %>

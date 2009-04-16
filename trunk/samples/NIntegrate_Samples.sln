@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate", "..\core\NIntegrate\NIntegrate.csproj", "{AD280D0D-B1C3-4226-93E6-2CC026593D23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Query", "..\core\NIntegrate.Query\NIntegrate.Query.csproj", "{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Query.Command", "..\core\NIntegrate.Query.Command\NIntegrate.Query.Command.csproj", "{39F21CCC-EABD-48F9-9C25-AC02513E9F31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Web", "..\core\NIntegrate.Web\NIntegrate.Web.csproj", "{0B23908A-D089-410E-9A0D-C42AAD2AD838}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{E8D5A1F3-E30B-473B-BBB1-E1D7998DF731}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "setup", "setup", "{895E8C77-C1C5-4016-8D1C-A7D0408E1342}"
+	ProjectSection(SolutionItems) = preProject
+		setup\NIntegrateConfigAllInOneSetupScript.sql = setup\NIntegrateConfigAllInOneSetupScript.sql
+		setup\readme.txt = setup\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{9DD6C23D-8F4B-440C-A079-3B8E76896B80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SimpleServiceProviderAndConsumer", "SimpleServiceProviderAndConsumer", "{2CFFDB5D-02C2-44DD-A3BB-50CFB8D7F9FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleServiceProvider", "SimpleServiceProvider\SimpleServiceProvider.csproj", "{633BDA2E-BD66-42D1-8623-D894A8A59A59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleServiceContracts", "SimpleServiceContracts\SimpleServiceContracts.csproj", "{F33C090E-FD6E-496D-B257-FB4AC4FE17FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleServiceImpls", "SimpleServiceImpls\SimpleServiceImpls.csproj", "{65B37AA1-47C1-410B-9048-17EF376B14C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleServiceConsumer", "SimpleServiceConsumer\SimpleServiceConsumer.csproj", "{028D2294-1E14-44CC-8D23-85CF21CCF61C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD280D0D-B1C3-4226-93E6-2CC026593D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD280D0D-B1C3-4226-93E6-2CC026593D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD280D0D-B1C3-4226-93E6-2CC026593D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD280D0D-B1C3-4226-93E6-2CC026593D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B23908A-D089-410E-9A0D-C42AAD2AD838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B23908A-D089-410E-9A0D-C42AAD2AD838}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B23908A-D089-410E-9A0D-C42AAD2AD838}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B23908A-D089-410E-9A0D-C42AAD2AD838}.Release|Any CPU.Build.0 = Release|Any CPU
+		{633BDA2E-BD66-42D1-8623-D894A8A59A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{633BDA2E-BD66-42D1-8623-D894A8A59A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{633BDA2E-BD66-42D1-8623-D894A8A59A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{633BDA2E-BD66-42D1-8623-D894A8A59A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33C090E-FD6E-496D-B257-FB4AC4FE17FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33C090E-FD6E-496D-B257-FB4AC4FE17FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33C090E-FD6E-496D-B257-FB4AC4FE17FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33C090E-FD6E-496D-B257-FB4AC4FE17FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B37AA1-47C1-410B-9048-17EF376B14C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B37AA1-47C1-410B-9048-17EF376B14C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B37AA1-47C1-410B-9048-17EF376B14C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B37AA1-47C1-410B-9048-17EF376B14C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{028D2294-1E14-44CC-8D23-85CF21CCF61C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{028D2294-1E14-44CC-8D23-85CF21CCF61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{028D2294-1E14-44CC-8D23-85CF21CCF61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{028D2294-1E14-44CC-8D23-85CF21CCF61C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AD280D0D-B1C3-4226-93E6-2CC026593D23} = {E8D5A1F3-E30B-473B-BBB1-E1D7998DF731}
+		{31B4FDFA-5FA9-4F41-9825-1613FFD3D440} = {E8D5A1F3-E30B-473B-BBB1-E1D7998DF731}
+		{39F21CCC-EABD-48F9-9C25-AC02513E9F31} = {E8D5A1F3-E30B-473B-BBB1-E1D7998DF731}
+		{0B23908A-D089-410E-9A0D-C42AAD2AD838} = {E8D5A1F3-E30B-473B-BBB1-E1D7998DF731}
+		{2CFFDB5D-02C2-44DD-A3BB-50CFB8D7F9FE} = {9DD6C23D-8F4B-440C-A079-3B8E76896B80}
+		{633BDA2E-BD66-42D1-8623-D894A8A59A59} = {2CFFDB5D-02C2-44DD-A3BB-50CFB8D7F9FE}
+		{F33C090E-FD6E-496D-B257-FB4AC4FE17FC} = {2CFFDB5D-02C2-44DD-A3BB-50CFB8D7F9FE}
+		{65B37AA1-47C1-410B-9048-17EF376B14C3} = {2CFFDB5D-02C2-44DD-A3BB-50CFB8D7F9FE}
+		{028D2294-1E14-44CC-8D23-85CF21CCF61C} = {2CFFDB5D-02C2-44DD-A3BB-50CFB8D7F9FE}
+	EndGlobalSection
+EndGlobal
