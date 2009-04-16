@@ -64,9 +64,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\core\NIntegrate.Query.Command\NIntegrate.Query.Command.csproj">
+      <Project>{39F21CCC-EABD-48F9-9C25-AC02513E9F31}</Project>
+      <Name>NIntegrate.Query.Command</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\NIntegrate.Query\NIntegrate.Query.csproj">
       <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
       <Name>NIntegrate.Query</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
+      <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
+      <Name>NIntegrate</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -82,12 +90,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>13680</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost/SimpleServiceProvider</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
