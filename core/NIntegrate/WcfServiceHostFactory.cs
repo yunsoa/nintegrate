@@ -208,51 +208,6 @@ namespace NIntegrate
         }
 
         /// <summary>
-        /// To be overriden to get service implementation type from
-        /// the service type specified in .svc file
-        /// </summary>
-        /// <param name="type">The service type specified in .svc file</param>
-        /// <param name="singleton">If the service contract is singleton, return the singleton instance</param>
-        /// <returns></returns>
-        protected virtual Type GetServiceImplementationType(Type type, out object singleton)
-        {
-            singleton = null;
-
-            if (type != null)
-            {
-                using (var serviceLocator = ServiceManager.GetServiceLocator(type))
-                {
-                    if (!(serviceLocator is WcfServiceLocator))
-                    {
-                        var serviceInstance = serviceLocator.GetService(type);
-                        if (serviceInstance != null)
-                        {
-                            if (serviceLocator.IsSingleton(type))
-                            {
-                                singleton = serviceInstance;
-                                return serviceInstance.GetType();
-                            }
-
-                            try
-                            {
-                                return serviceInstance.GetType();
-                            }
-                            finally
-                            {
-                                var dispose = serviceInstance as IDisposable;
-                                if (dispose != null)
-                                    dispose.Dispose();
-                            }
-                        }
-                    }
-                    serviceLocator.Dispose();
-                }
-            }
-
-            return type;
-        }
-
-        /// <summary>
         /// Create service host
         /// </summary>
         /// <param name="serviceType">The service implementation type</param>
@@ -282,7 +237,7 @@ namespace NIntegrate
                 baseAddresses = GetBaseAddressesFromEndpoints(config.Endpoints);
             }
             object singleton;
-            var serviceImplType = GetServiceImplementationType(serviceType, out singleton);
+            var serviceImplType = ServiceManager.GetServiceImplementationType(serviceType, out singleton);
             var serviceHost = GetServiceHost(config, serviceImplType, singleton, baseAddresses);
             ApplyServiceHostConfiguration(serviceHost, hostElement);
             ApplyServiceBehaviorConfiguration(serviceHost, config);

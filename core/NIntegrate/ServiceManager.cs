@@ -117,6 +117,51 @@ namespace NIntegrate
             return GetServiceLocator(typeof(T));
         }
 
+        /// <summary>
+        /// To get service implementation type from
+        /// the service interface type
+        /// </summary>
+        /// <param name="serviceInterfaceType">The service interface type</param>
+        /// <param name="singleton">If the service is singleton, return the singleton instance</param>
+        /// <returns></returns>
+        public static Type GetServiceImplementationType(Type serviceInterfaceType, out object singleton)
+        {
+            singleton = null;
+
+            if (serviceInterfaceType != null)
+            {
+                using (var serviceLocator = GetServiceLocator(serviceInterfaceType))
+                {
+                    if (!(serviceLocator is WcfServiceLocator))
+                    {
+                        var serviceInstance = serviceLocator.GetService(serviceInterfaceType);
+                        if (serviceInstance != null)
+                        {
+                            if (serviceLocator.IsSingleton(serviceInterfaceType))
+                            {
+                                singleton = serviceInstance;
+                                return serviceInstance.GetType();
+                            }
+
+                            try
+                            {
+                                return serviceInstance.GetType();
+                            }
+                            finally
+                            {
+                                var dispose = serviceInstance as IDisposable;
+                                if (dispose != null)
+                                    dispose.Dispose();
+                            }
+                        }
+                    }
+                    serviceLocator.Dispose();
+                }
+            }
+
+            return serviceInterfaceType;
+        }
+
         #endregion
     }
 }
