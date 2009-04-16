@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data;
-using NIntegrate.Query.Command;
-using NIntegrate.Query;
 
 namespace NIntegrate.Query.Command
 {
