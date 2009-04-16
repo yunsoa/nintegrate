@@ -56,7 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MultiBindingService.svc" />
     <Content Include="QueryService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
