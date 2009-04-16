@@ -114,15 +114,21 @@ namespace NIntegrate.Configuration
                 var results = context.sp_GetServiceConfiguration(serviceName, Environment.MachineName.ToLowerInvariant(), appCode);
 
                 var en = results.GetResult<ServiceConfiguration>().GetEnumerator();
-                if (en.MoveNext())
+                try
                 {
-                    config.ServiceBehaviorXML = en.Current.ServiceBehaviorXML;
-                    config.ServiceHostType_id = en.Current.ServiceHostType_id;
-                    config.HostXML = en.Current.HostXML;
+                    if (en.MoveNext())
+                    {
+                        config.ServiceBehaviorXML = en.Current.ServiceBehaviorXML;
+                        config.ServiceHostType_id = en.Current.ServiceHostType_id;
+                        config.HostXML = en.Current.HostXML;
+                    }
+                    var endpoints = results.GetResult<EndpointConfiguration>();
+                    config.Endpoints = new List<EndpointConfiguration>(endpoints);
                 }
-                var endpoints = results.GetResult<EndpointConfiguration>();
-                config.Endpoints = new List<EndpointConfiguration>(endpoints);
-
+                catch (InvalidOperationException)
+                {
+                    throw new ConfigurationErrorsException("No endpoint could be found for specified service - " + serviceName);
+                }
                 conn.Close();
                 conn.Dispose();
             }
@@ -149,6 +155,7 @@ namespace NIntegrate.Configuration
                                           {
                                               BindingNamespace = result.BindingNamespace,
                                               EndpointAddress = result.EndpointAddress,
+                                              FarmAddress = result.FarmAddress,
                                               ListenUri = result.ListenUri,
                                               ListenUriMode = (EndpointListenUriMode)result.ListenUriMode_id,
                                               EndpointBehaviorXML = result.EndpointBehaviorXML,

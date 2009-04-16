@@ -39,7 +39,7 @@ namespace NIntegrate
             var config = ServiceConfigurationStore.GetClientConfiguration(typeof(T));
             if (config != null)
             {
-                Uri[] baseAddresses = null;
+                string[] baseAddresses = null;
                 if (!string.IsNullOrEmpty(config.HostXML))
                 {
                     var hostElement = new HostElement();
@@ -52,8 +52,9 @@ namespace NIntegrate
                     var binding = WcfServiceHelper.GetBinding(config.Endpoint);
                     if (binding != null)
                     {
-                        var cf = new ChannelFactory<T>(binding,
-                            WcfServiceHelper.BuildEndpointAddress(config.Endpoint, baseAddresses).ToString());
+                        var address = WcfServiceHelper.BuildEndpointAddress(config.Endpoint, baseAddresses);
+                        address = string.Format(address, config.Endpoint.FarmAddress);
+                        var cf = new ChannelFactory<T>(binding,address);
                         if (!string.IsNullOrEmpty(config.Endpoint.ListenUri))
                         {
                             cf.Endpoint.Behaviors.Add(new ClientViaBehavior(
