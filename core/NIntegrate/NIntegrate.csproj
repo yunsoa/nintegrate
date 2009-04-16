@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppVariableServiceLocator.cs" />
     <Compile Include="Configuration\AppVariableStore.cs" />
     <Compile Include="Configuration\BindingType.cs" />
     <Compile Include="Configuration\ChannelType.cs" />
