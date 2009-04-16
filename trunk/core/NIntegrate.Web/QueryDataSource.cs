@@ -17,7 +17,7 @@ namespace NIntegrate.Web
     {
         #region Private Fields
 
-        private const string _defaultQueryServiceImplType = "NIntegrate.Query.Command.QueryService, NIntegrate.Query.Command, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6";
+        private const string _defaultQueryServiceImplType = "NIntegrate.Query.Command.QueryService, NIntegrate.Query.Command";
         private QueryDataSourceView _view;
         private Criteria _criteria;
         private ParameterCollection _criteriaParameters;
@@ -49,7 +49,8 @@ namespace NIntegrate.Web
             }
             else
             {
-                var serviceType = Type.GetType(_defaultQueryServiceImplType);
+                var assemblyVersion = GetType().AssemblyQualifiedName.Substring(GetType().AssemblyQualifiedName.IndexOf(", Version="));
+                var serviceType = Type.GetType(_defaultQueryServiceImplType + assemblyVersion);
                 _service = (IQueryService)Activator.CreateInstance(serviceType);
                 if (_service == null)
                     throw new FileLoadException("Could not load assembly - NIntegrate.Query.Command.dll.");
