@@ -13,7 +13,7 @@ namespace NIntegrate.Configuration
         {
             var list = new List<BindingType>();
 
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings[Constants.ConfigurationDatabaseConnectionStringName].ConnectionString))
+            using (var conn = new SqlConnection(WcfServiceHelper.GetConfigurationConnectionString()))
             {
                 conn.Open();
 
@@ -45,7 +45,7 @@ namespace NIntegrate.Configuration
         {
             var list = new List<CustomBehaviorType>();
 
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings[Constants.ConfigurationDatabaseConnectionStringName].ConnectionString))
+            using (var conn = new SqlConnection(WcfServiceHelper.GetConfigurationConnectionString()))
             {
                 conn.Open();
 
@@ -77,7 +77,7 @@ namespace NIntegrate.Configuration
         {
             var list = new List<ServiceHostType>();
 
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings[Constants.ConfigurationDatabaseConnectionStringName].ConnectionString))
+            using (var conn = new SqlConnection(WcfServiceHelper.GetConfigurationConnectionString()))
             {
                 conn.Open();
 
@@ -106,7 +106,7 @@ namespace NIntegrate.Configuration
         {
             var config = new ServiceConfiguration();
 
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings[Constants.ConfigurationDatabaseConnectionStringName].ConnectionString))
+            using (var conn = new SqlConnection(WcfServiceHelper.GetConfigurationConnectionString()))
             {
                 conn.Open();
 
@@ -134,7 +134,7 @@ namespace NIntegrate.Configuration
         {
             var config = new ClientConfiguration();
 
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings[Constants.ConfigurationDatabaseConnectionStringName].ConnectionString))
+            using (var conn = new SqlConnection(WcfServiceHelper.GetConfigurationConnectionString()))
             {
                 conn.Open();
 

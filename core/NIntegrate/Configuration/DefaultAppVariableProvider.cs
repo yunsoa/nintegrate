@@ -15,7 +15,7 @@ namespace NIntegrate.Configuration
 
             string retValue = null;
 
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings[Constants.ConfigurationDatabaseConnectionStringName].ConnectionString))
+            using (var conn = new SqlConnection(WcfServiceHelper.GetConfigurationConnectionString()))
             {
                 conn.Open();
 
