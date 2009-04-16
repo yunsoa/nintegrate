@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -83,30 +84,30 @@ namespace NIntegrate
             return list;
         }
 
-        internal static Uri BuildEndpointAddress(EndpointConfiguration endpoint, Uri[] baseAddresses)
+        internal static string BuildEndpointAddress(EndpointConfiguration endpoint, IEnumerable baseAddresses)
         {
-            Uri address;
+            string address;
             if (!string.IsNullOrEmpty(endpoint.EndpointAddress))
             {
                 if (endpoint.EndpointAddress.Contains("://")) //is absolute url
                 {
-                    address = new Uri(endpoint.EndpointAddress);
+                    address = endpoint.EndpointAddress;
                 }
                 else // is relative url to baseAddress
                 {
                     var baseAddress = GetBaseAddress(baseAddresses, endpoint);
-                    address = new Uri(baseAddress.TrimEnd('/') + '/' + endpoint.EndpointAddress);
+                    address = baseAddress.TrimEnd('/') + '/' + endpoint.EndpointAddress;
                 }
             }
             else //use baseAddress directly
             {
                 var baseAddress = GetBaseAddress(baseAddresses, endpoint);
-                address = new Uri(baseAddress);
+                address = baseAddress;
             }
             return address;
         }
 
-        private static string GetBaseAddress(Uri[] baseAddresses, EndpointConfiguration endpointConfig)
+        private static string GetBaseAddress(IEnumerable baseAddresses, EndpointConfiguration endpointConfig)
         {
             var channelType = ServiceConfigurationStore.GetBindingType(endpointConfig.BindingType_id).ChannelType;
             var addressPrefix = "http";
@@ -139,12 +140,12 @@ namespace NIntegrate
             throw new ConfigurationErrorsException("Could not find a base address in configuration store for channel type - " + channelType);
         }
 
-        internal static Uri[] GetBaseAddressesFromHostElement(HostElement hostElement)
+        internal static string[] GetBaseAddressesFromHostElement(HostElement hostElement)
         {
-            var addresses = new Uri[hostElement == null ? 0 : hostElement.BaseAddresses.Count];
+            var addresses = new string[hostElement == null ? 0 : hostElement.BaseAddresses.Count];
             for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
             {
-                addresses[i] = new Uri(hostElement.BaseAddresses[i].BaseAddress);
+                addresses[i] = hostElement.BaseAddresses[i].BaseAddress;
             }
             return addresses;
         }

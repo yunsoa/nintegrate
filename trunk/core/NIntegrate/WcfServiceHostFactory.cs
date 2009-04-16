@@ -190,7 +190,8 @@ namespace NIntegrate
             foreach (var endpoint in config.Endpoints)
             {
                 var address = WcfServiceHelper.BuildEndpointAddress(endpoint, baseAddresses);
-                list.Add(address);
+                address = string.Format(address, Environment.MachineName.ToLowerInvariant());
+                list.Add(new Uri(address));
             }
 
             return list.ToArray();
@@ -229,7 +230,15 @@ namespace NIntegrate
                 hostElement.DeserializeElement(config.HostXML);
                 if (baseAddresses == null || baseAddresses.Length == 0)
                 {
-                    baseAddresses = WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
+                    var baseAddressTemplates = WcfServiceHelper.GetBaseAddressesFromHostElement(hostElement);
+                    if (baseAddressTemplates != null && baseAddressTemplates.Length > 0)
+                    {
+                        baseAddresses = new Uri[baseAddressTemplates.Length];
+                        for (var i = 0; i < baseAddressTemplates.Length; ++i)
+                        {
+                            baseAddresses[i] = new Uri(string.Format(baseAddressTemplates[i], Environment.MachineName.ToLowerInvariant()));
+                        }
+                    }
                 }
             }
             if (baseAddresses == null || baseAddresses.Length == 0)

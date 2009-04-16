@@ -8,6 +8,8 @@ namespace NIntegrate.Configuration
         [DataMember]
         public string EndpointAddress { get; set; }
         [DataMember]
+        public string FarmAddress { get; set; }
+        [DataMember]
         public string ServiceContract { get; set; }
         [DataMember]
         public string EndpointBehaviorXML { get; set; }

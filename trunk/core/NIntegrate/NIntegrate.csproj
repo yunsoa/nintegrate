@@ -79,19 +79,22 @@
     <Compile Include="Configuration\ServiceConfiguration.cs" />
     <Compile Include="Configuration\ServiceConfigurationStore.cs" />
     <Compile Include="Configuration\ServiceHostType.cs" />
-    <Compile Include="Configuration\StoredProcedures.cs">
-      <DependentUpon>StoredProcedures.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Configuration\StoredProcedures.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\StoredProcedures_Partial.cs" />
     <Compile Include="Configuration\TypeLookup.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IServiceLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="ServiceManager.cs" />
     <Compile Include="WcfServiceHelper.cs" />
     <Compile Include="WcfServiceHostFactory.cs" />
@@ -109,8 +112,13 @@
     <None Include="NIntegrate_OpenSource.snk" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Configuration\StoredProcedures.dbml.layout">
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
