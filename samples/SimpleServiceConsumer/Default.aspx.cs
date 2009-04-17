@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using SimpleServiceContracts;
 
 namespace SimpleServiceConsumer
 {
@@ -11,7 +7,17 @@ namespace SimpleServiceConsumer
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                var criteria1 = new BindingCriteria();
+                QueryDataSource1.Criteria = criteria1.AddSortBy(criteria1.BindingName, false);
 
+                var criteria2 = new BindingTypeCriteria();
+                QueryDataSource2.Criteria = criteria2.AddSortBy(criteria2.BindingTypeFriendlyName, false);
+
+                var criteria3 = new EndpointCriteria();
+                QueryDataSource3.Criteria = criteria3;
+            }
         }
     }
 }
