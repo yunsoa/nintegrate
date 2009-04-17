@@ -157,12 +157,17 @@ namespace NIntegrate.Configuration
                                               EndpointAddress = result.EndpointAddress,
                                               FarmAddress = result.FarmAddress,
                                               ListenUri = result.ListenUri,
-                                              ListenUriMode = (EndpointListenUriMode)result.ListenUriMode_id,
                                               EndpointBehaviorXML = result.EndpointBehaviorXML,
                                               IdentityXML = result.IdentityXML,
                                               BindingType_id = result.BindingType_id,
                                               BindingXML = result.BindingXML
                                           };
+                    if (result.ListenUriMode_id.HasValue)
+                    {
+                        config.Endpoint.ListenUriMode 
+                            = (EndpointListenUriMode)result.ListenUriMode_id.Value;
+                    }
+
                     break;
                 }
 
