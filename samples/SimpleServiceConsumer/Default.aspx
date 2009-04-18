@@ -47,9 +47,9 @@
             <Columns>
                 <asp:BoundField DataField="EndpointName" ReadOnly="true" HeaderText="EndpointName" SortExpression="EndpointName" />
                 <asp:BoundField DataField="EndpointAddress" HeaderText="EndpointAddress" SortExpression="EndpointAddress" />
-                <asp:TemplateField HeaderText="BindingType" SortExpression="BindingType_id">
+                <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:Button ID="btnActive" runat="server" CommandName="ChangeActive" CommandArgument='<%# (int)Eval("Endpoint_id") + "|" + IsEndpointActive((int)Eval("Endpoint_id")) %>' Text='<%# (IsEndpointActive((int)Eval("Endpoint_id")) ? "Inactive" : "Active") %>' />
+                        <asp:Button ID="btnActive" runat="server" CommandName="ChangeActive" CommandArgument='<%# (int)Eval("Endpoint_id") + "|" + IsEndpointActive((int)Eval("Endpoint_id")) %>' Text='<%# (IsEndpointActive((int)Eval("Endpoint_id")) ? "Disable" : "Enable") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>                
             </Columns>
