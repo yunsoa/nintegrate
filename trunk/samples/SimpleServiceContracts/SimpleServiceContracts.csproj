@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="BindingCriteria.cs" />
     <Compile Include="BindingTypeCriteria.cs" />
+    <Compile Include="EndpointAvailabilityCriteria.cs" />
     <Compile Include="EndpointCriteria.cs" />
     <Compile Include="ISimpleServiceDemo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
