@@ -46,7 +46,7 @@ namespace NIntegrate.Query.Command
             }
 
             //replace table or column name quote charactors
-            var quoteChars = GetDatabaseObjectNameQuoteCharactors();
+            var quoteChars = GetDatabaseObjectNameQuoteCharacters();
             if (quoteChars.Length > 0)
             {
                 var leftChar = quoteChars[0];
@@ -214,7 +214,7 @@ namespace NIntegrate.Query.Command
 
         public abstract string ToParameterName(string name);
 
-        public abstract string GetDatabaseObjectNameQuoteCharactors();
+        public abstract string GetDatabaseObjectNameQuoteCharacters();
 
         public abstract DbProviderFactory GetDbProviderFactory();
 

@@ -245,7 +245,7 @@ namespace NIntegrate.Query.Command.SqlClient
             return SqlClientFactory.Instance;
         }
 
-        public override string GetDatabaseObjectNameQuoteCharactors()
+        public override string GetDatabaseObjectNameQuoteCharacters()
         {
             return "[]";
         }
