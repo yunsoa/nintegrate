@@ -127,7 +127,7 @@ namespace NIntegrate
         /// <param name="serviceInterfaceType">The service interface type</param>
         /// <param name="singleton">If the service is singleton, return the singleton instance</param>
         /// <returns></returns>
-        public static Type GetServiceImplementationType(Type serviceInterfaceType, out object singleton)
+        internal static Type GetServiceImplementationType(Type serviceInterfaceType, out object singleton)
         {
             singleton = null;
 

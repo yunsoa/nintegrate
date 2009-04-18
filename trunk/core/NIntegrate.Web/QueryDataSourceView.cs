@@ -104,6 +104,18 @@ namespace NIntegrate.Web
             if (targetType == null)
                 throw new ArgumentNullException("targetType");
 
+            if (value != null)
+            {
+                var valueType = value.GetType();
+                if (valueType != typeof(string))
+                {
+                    if (valueType == targetType)
+                        return value;
+
+                    return Convert.ChangeType(value, targetType);
+                }
+            }
+
             var stringValue = value as string;
             if (stringValue == null)
                 return QueryHelper.DefaultValue(targetType);

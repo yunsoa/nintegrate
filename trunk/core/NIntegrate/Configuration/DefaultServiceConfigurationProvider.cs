@@ -145,7 +145,7 @@ namespace NIntegrate.Configuration
                 conn.Open();
 
                 var context = new StoredProceduresDataContext(conn);
-                var results = context.sp_GetClientConfiguration(serviceContract.AssemblyQualifiedName, 
+                var results = context.sp_GetClientConfiguration(serviceContract.GetQualifiedTypeName(), 
                     Environment.MachineName.ToLowerInvariant(), appCode);
 
                 foreach (var result in results)

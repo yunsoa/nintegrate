@@ -54,7 +54,9 @@
     <Compile Include="BindingCriteria.cs" />
     <Compile Include="BindingTypeCriteria.cs" />
     <Compile Include="EndpointCriteria.cs" />
+    <Compile Include="ISimpleServiceDemo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceCriteria.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\core\NIntegrate.Query\NIntegrate.Query.csproj">

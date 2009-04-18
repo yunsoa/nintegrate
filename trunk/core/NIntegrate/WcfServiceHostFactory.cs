@@ -222,7 +222,7 @@ namespace NIntegrate
             if (serviceType == null)
                 throw new ArgumentNullException("serviceType");
 
-            var config = ServiceConfigurationStore.GetServiceConfiguration(serviceType.AssemblyQualifiedName);
+            var config = ServiceConfigurationStore.GetServiceConfiguration(serviceType.GetQualifiedTypeName());
             HostElement hostElement = null;
             if (!string.IsNullOrEmpty(config.HostXML))
             {
@@ -254,9 +254,7 @@ namespace NIntegrate
             foreach (var endpointConfig in config.Endpoints)
             {
                 var address = endpointConfig.EndpointAddress;
-                if (string.IsNullOrEmpty(address))
-                    continue;
-                address = string.Format(address, Environment.MachineName.ToLowerInvariant());
+                address = (address == null ? string.Empty : string.Format(address, Environment.MachineName.ToLowerInvariant()));
                 var serviceContract = Type.GetType(endpointConfig.ServiceContract);
                 if (serviceContract == null)
                     throw new ConfigurationErrorsException(string.Format("Specified service contract - {0} could not be loaded!", endpointConfig.ServiceContract));

@@ -11,7 +11,7 @@ namespace NIntegrate
         {
             if (serviceContract == null)
                 throw new ArgumentNullException("serviceContract");
-            var serviceImplTypeName = AppVariableStore.GetAppVariable(serviceContract.AssemblyQualifiedName);
+            var serviceImplTypeName = AppVariableStore.GetAppVariable(serviceContract.GetQualifiedTypeName());
             if (!string.IsNullOrEmpty(serviceImplTypeName))
             {
                 var serviceImplType = Type.GetType(serviceImplTypeName, true);
