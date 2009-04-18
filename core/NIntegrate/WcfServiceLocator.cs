@@ -66,7 +66,7 @@ namespace NIntegrate
                 }
                 else
                 {
-                    throw new ConfigurationErrorsException("Could not find any endpoint for specified service contract - " + typeof(T).AssemblyQualifiedName);
+                    throw new ConfigurationErrorsException("Could not find any endpoint for specified service contract - " + typeof(T).GetQualifiedTypeName());
                 }
             }
 

@@ -23,48 +23,75 @@ namespace SimpleServiceConsumer {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// GridView1 control.
+        /// gvService control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
+        protected global::System.Web.UI.WebControls.GridView gvService;
         
         /// <summary>
-        /// GridView2 control.
+        /// gvBinding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView2;
+        protected global::System.Web.UI.WebControls.GridView gvBinding;
         
         /// <summary>
-        /// QueryDataSource1 control.
+        /// gvEndpoint control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::NIntegrate.Web.QueryDataSource QueryDataSource1;
+        protected global::System.Web.UI.WebControls.GridView gvEndpoint;
         
         /// <summary>
-        /// QueryDataSource2 control.
+        /// dsService control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::NIntegrate.Web.QueryDataSource QueryDataSource2;
+        protected global::NIntegrate.Web.QueryDataSource dsService;
         
         /// <summary>
-        /// QueryDataSource3 control.
+        /// dsBinding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::NIntegrate.Web.QueryDataSource QueryDataSource3;
+        protected global::NIntegrate.Web.QueryDataSource dsBinding;
+        
+        /// <summary>
+        /// dsBindingType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::NIntegrate.Web.QueryDataSource dsBindingType;
+        
+        /// <summary>
+        /// dsEndpoint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::NIntegrate.Web.QueryDataSource dsEndpoint;
+        
+        /// <summary>
+        /// litSayHello control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSayHello;
     }
 }

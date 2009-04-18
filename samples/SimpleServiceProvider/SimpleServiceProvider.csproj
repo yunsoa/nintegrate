@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="QueryService.svc" />
+    <Content Include="SimpleService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +75,14 @@
     <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
       <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
       <Name>NIntegrate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleServiceContracts\SimpleServiceContracts.csproj">
+      <Project>{F33C090E-FD6E-496D-B257-FB4AC4FE17FC}</Project>
+      <Name>SimpleServiceContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleServiceImpls\SimpleServiceImpls.csproj">
+      <Project>{65B37AA1-47C1-410B-9048-17EF376B14C3}</Project>
+      <Name>SimpleServiceImpls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

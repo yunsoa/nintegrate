@@ -15,6 +15,14 @@ namespace NIntegrate
 {
     internal static class WcfServiceHelper
     {
+        internal static string GetQualifiedTypeName(this Type type)
+        {
+            var typeName = type.AssemblyQualifiedName;
+            if (typeName.EndsWith("PublicKeyToken=null"))
+                return type.FullName + ", " + type.Assembly.GetName().Name;
+            return typeName;
+        }
+
         private static string _configurationConnectionString;
 
         internal static string GetConfigurationConnectionString()

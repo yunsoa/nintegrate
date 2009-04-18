@@ -1,5 +1,6 @@
 ﻿using System;
 using SimpleServiceContracts;
+using NIntegrate;
 
 namespace SimpleServiceConsumer
 {
@@ -9,14 +10,22 @@ namespace SimpleServiceConsumer
         {
             if (!IsPostBack)
             {
-                var criteria1 = new BindingCriteria();
-                QueryDataSource1.Criteria = criteria1.AddSortBy(criteria1.BindingName, false);
+                var serviceCriteria = new ServiceCriteria();
+                dsService.Criteria = serviceCriteria.AddSortBy(serviceCriteria.ServiceName, false);
 
-                var criteria2 = new BindingTypeCriteria();
-                QueryDataSource2.Criteria = criteria2.AddSortBy(criteria2.BindingTypeFriendlyName, false);
+                var bindingCriteria = new BindingCriteria();
+                dsBinding.Criteria = bindingCriteria.AddSortBy(bindingCriteria.BindingName, false);
 
-                var criteria3 = new EndpointCriteria();
-                QueryDataSource3.Criteria = criteria3;
+                var bindingTypeCriteria = new BindingTypeCriteria();
+                dsBindingType.Criteria = bindingTypeCriteria.AddSortBy(bindingTypeCriteria.BindingTypeFriendlyName, false);
+
+                var endpointCriteria = new EndpointCriteria();
+                dsEndpoint.Criteria = endpointCriteria;
+
+                using (var serviceLocator = ServiceManager.GetServiceLocator(typeof(ISimpleServiceDemo)))
+                {
+                    litSayHello.Text = serviceLocator.GetService<ISimpleServiceDemo>().SayHellod();
+                }
             }
         }
     }
