@@ -42,10 +42,16 @@
         <br />
         <asp:GridView ID="gvEndpoint" runat="server" DataSourceID="dsEndpoint"
             DataKeyNames="Endpoint_id" AutoGenerateColumns="false"
-            AutoGenerateEditButton="true" AllowSorting="true">
+            AutoGenerateEditButton="true" AllowSorting="true" 
+            onrowcommand="gvEndpoint_RowCommand">
             <Columns>
                 <asp:BoundField DataField="EndpointName" ReadOnly="true" HeaderText="EndpointName" SortExpression="EndpointName" />
                 <asp:BoundField DataField="EndpointAddress" HeaderText="EndpointAddress" SortExpression="EndpointAddress" />
+                <asp:TemplateField HeaderText="BindingType" SortExpression="BindingType_id">
+                    <ItemTemplate>
+                        <asp:Button ID="btnActive" runat="server" CommandName="ChangeActive" CommandArgument='<%# (int)Eval("Endpoint_id") + "|" + IsEndpointActive((int)Eval("Endpoint_id")) %>' Text='<%# (IsEndpointActive((int)Eval("Endpoint_id")) ? "Inactive" : "Active") %>' />
+                    </ItemTemplate>
+                </asp:TemplateField>                
             </Columns>
         </asp:GridView>
         <ni:QueryDataSource ID="dsService" runat="server">

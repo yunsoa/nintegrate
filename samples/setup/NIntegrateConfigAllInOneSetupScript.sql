@@ -728,7 +728,7 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[AppVariable](
-	[AppVariableName] [varchar](50) NOT NULL,
+	[AppVariableName] [varchar](255) NOT NULL,
 	[AppCode] [varchar](10) NOT NULL,
 	[Environment_id] [int] NOT NULL,
 	[Value] [nvarchar](max) NULL,
@@ -803,10 +803,8 @@ GO
 
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 
 -- =============================================
 -- Author:		Teddy Ma
@@ -815,7 +813,7 @@ GO
 -- AppVariable table by AppCode and Server Name
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_GetAppVariable]
-	@AppVariableName as varchar(50)
+	@AppVariableName as varchar(255)
 	,@AppCode as varchar(10)
 	,@ServerName as varchar(50)
 AS
@@ -830,11 +828,6 @@ BEGIN
 			)
 		)
 END
-
-
-GO
-
-
 
 
 
@@ -937,19 +930,19 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	
-	SELECT TOP 1 s.HostXML, e.EndpointAddress, e.ListenUri, 
+	SELECT TOP 1 s.HostXML, f.FarmAddress, e.EndpointAddress, e.ListenUri, 
 		e.ListenUriMode_id, e.BindingNamespace,
 		eb.BehaviorXML as EndpointBehaviorXML,
 		e.IdentityXML, bd.BindingType_id, bd.BindingXML 
 	FROM [Service] s
-		inner join ServiceEndpoint_lnk se on s.Service_id = se.Service_id
-		inner join [Endpoint] e on se.Active = 1
-			and se.Endpoint_id = e.Endpoint_id
+		inner join ServiceEndpoint_lnk se on se.Active = 1
+			and s.Service_id = se.Service_id
+		inner join Farm f on f.Farm_id = se.Farm_id
+		inner join [Endpoint] e on se.Endpoint_id = e.Endpoint_id
 		inner join [Binding] bd on bd.Binding_id = e.Binding_id 
 		inner join BindingType_lkp bdt on bdt.BindingType_id = bd.BindingType_id
 		left join Behavior eb on e.EndpointBehavior_id = eb.Behavior_id
-	WHERE s.AppCode = @AppCode
-		and (e.ServiceContract = @ServiceContract
+	WHERE (e.ServiceContract = @ServiceContract
 			or e.ServiceContract in
 				(select ServiceContract
 					from ServiceContractCompatibility
@@ -959,7 +952,8 @@ BEGIN
 		and se.Farm_id in
 			(select fa.ServerFarm_id 
 				from FarmAccessibility fa 
-				where fa.ClientFarm_id in 
+				where fa.ChannelType_id = bdt.ChannelType_id
+					and fa.ClientFarm_id in 
 					(
 						select Farm_id 
 						from [Server] 
@@ -1001,7 +995,7 @@ BEGIN
 		@ServiceHostType_id = s.ServiceHostType_id, 
 		@HostXML = s.HostXML
 	FROM [Service] s
-		inner join Behavior sb on sb.Behavior_id = s.ServiceBehavior_id 
+		left join Behavior sb on sb.Behavior_id = s.ServiceBehavior_id 
 	WHERE s.AppCode = @AppCode and s.ServiceName = @ServiceName 
 		and s.Service_id in
 			(
@@ -1038,10 +1032,6 @@ Insert Environment ([Name], [Description]) values ('Dev', N'Development Environm
 
 
 Insert   Farm   (FarmName,FarmAddress, Environment_id)      Values   (   'No Farm','localhost',1)
-
-
-
-insert Server (ServerName, ServerAddress, Farm_id) values ('localhost', 'localhost', 1)
 
 
 
