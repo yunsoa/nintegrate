@@ -157,3 +157,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Scope = "member", Target = "NIntegrate.Configuration.sp_GetClientConfigurationResult.#ListenUri")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Scope = "member", Target = "NIntegrate.Configuration.sp_GetClientConfigurationResult.#ListenUriMode_id")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "id", Scope = "member", Target = "NIntegrate.Configuration.sp_GetClientConfigurationResult.#ListenUriMode_id")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2002:DoNotLockOnObjectsWithWeakIdentity", Scope = "member", Target = "NIntegrate.Configuration.ServiceConfigurationStore.#ClearCache()")]
