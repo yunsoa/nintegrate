@@ -60,5 +60,13 @@ namespace NIntegrate.Configuration
 
             return _cachedConnectionStrings[connectionStringName];
         }
+
+        public static void ClearCache()
+        {
+            lock (_cachedConnectionStrings)
+            {
+                _cachedConnectionStrings.Clear();
+            }
+        }
     }
 }

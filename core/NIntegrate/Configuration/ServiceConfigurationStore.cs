@@ -143,5 +143,20 @@ namespace NIntegrate.Configuration
 
             return _cachedClientConfigurations[serviceContract];
         }
+
+        public static void ClearCache()
+        {
+            lock (typeof(ServiceConfigurationStore))
+            {
+                if (_cachedBindingTypes != null)
+                    _cachedBindingTypes.Clear();
+                if (_cachedCustomBehaviorTypes != null)
+                    _cachedCustomBehaviorTypes.Clear();
+                if (_cachedServiceHostTypes != null)
+                    _cachedServiceHostTypes.Clear();
+                _cachedServiceConfigurations.Clear();
+                _cachedClientConfigurations.Clear();
+            }
+        }
     }
 }

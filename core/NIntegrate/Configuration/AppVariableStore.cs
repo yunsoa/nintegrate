@@ -61,5 +61,13 @@ namespace NIntegrate.Configuration
 
             return _cachedAppVariables[appVariableName];
         }
+
+        public static void ClearCache()
+        {
+            lock (_cachedAppVariables)
+            {
+                _cachedAppVariables.Clear();
+            }
+        }
     }
 }
