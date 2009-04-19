@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NIntegrate.AppVariableServiceLocator">
+    <Position X="3.25" Y="2.25" Width="2.25" />
+    <Members>
+      <Method Name="Dispose" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEA=</HashCode>
+      <FileName>AppVariableServiceLocator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NIntegrate.ServiceManager">
+    <Position X="3.25" Y="0.5" Width="2.75" />
+    <Members>
+      <Method Name="GetServiceImplementationType" Hidden="true" />
+      <Method Name="ServiceManager" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAQAEAAAAAAAEAAAAAAAAAAACACAA=</HashCode>
+      <FileName>ServiceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NIntegrate.WcfServiceHostFactory">
+    <Position X="0.5" Y="4.25" Width="2.75" />
+    <Members>
+      <Method Name="ApplyEndpointBehaviorConfiguration" Hidden="true" />
+      <Method Name="ApplyServiceBehaviorConfiguration" Hidden="true" />
+      <Method Name="ApplyServiceEndpointConfiguration" Hidden="true" />
+      <Method Name="ApplyServiceHostConfiguration" Hidden="true" />
+      <Method Name="BuildBaseAddresses" Hidden="true" />
+      <Method Name="GetBaseAddressesFromEndpoints" Hidden="true" />
+      <Method Name="GetServiceContractTypes" Hidden="true" />
+      <Method Name="GetServiceHost" Hidden="true" />
+      <Method Name="IsBehaviorConfigured" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAIAgAAAAACQAAAAACAABAAkAQAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>WcfServiceHostFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NIntegrate.WcfServiceLocator">
+    <Position X="0.5" Y="2.25" Width="2.25" />
+    <Members>
+      <Method Name="~WcfServiceLocator" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CAIAAAAAACAgAAAAAAAAAAAAAAAAIAAIAAAAAAAAAEA=</HashCode>
+      <FileName>WcfServiceLocator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="NIntegrate.IServiceLocator">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAEA=</HashCode>
+      <FileName>IServiceLocator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
