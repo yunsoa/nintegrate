@@ -113,6 +113,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="Configuration\ConfigurationEntities.cd" />
+    <None Include="Configuration\ConfigurationServices.cd" />
     <None Include="Configuration\StoredProcedures.dbml.layout">
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
     </None>
