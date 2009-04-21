@@ -6,6 +6,9 @@ namespace NIntegrate.Configuration
     public sealed class EndpointConfiguration
     {
         [DataMember]
+        private string _listenUri;
+
+        [DataMember]
         public string EndpointAddress { get; set; }
         [DataMember]
         public string FarmAddress { get; set; }
@@ -23,8 +26,11 @@ namespace NIntegrate.Configuration
         public bool MexBindingEnabled { get; set; }
         [DataMember]
         public string IdentityXML { get; set; }
-        [DataMember]
-        public string ListenUri { get; set; }
+        public string ListenUri
+        {
+            get { return _listenUri ?? EndpointAddress; }
+            set { _listenUri = value; }
+        }
         [DataMember]
         public EndpointListenUriMode? ListenUriMode { get; set; }
     }

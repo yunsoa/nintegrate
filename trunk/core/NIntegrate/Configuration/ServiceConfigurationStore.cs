@@ -144,7 +144,7 @@ namespace NIntegrate.Configuration
             return _cachedClientConfigurations[serviceContract];
         }
 
-        public static void ClearCache()
+        public static void ResetCache()
         {
             lock (typeof(ServiceConfigurationStore))
             {
@@ -156,6 +156,10 @@ namespace NIntegrate.Configuration
                     _cachedServiceHostTypes.Clear();
                 _cachedServiceConfigurations.Clear();
                 _cachedClientConfigurations.Clear();
+
+                _cachedBindingTypes = _singleton._provider.GetBindingTypes();
+                _cachedCustomBehaviorTypes = _singleton._provider.GetCustomBehaviorTypes();
+                _cachedServiceHostTypes = _singleton._provider.GetServiceHostTypes();
             }
         }
     }

@@ -60,4 +60,14 @@
       <Column Name="Value" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.sp_GetServiceDeploymentConfiguration" Method="sp_GetServiceDeploymentConfiguration">
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="AppCode" Parameter="appCode" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="sp_GetServiceDeploymentConfigurationResult">
+      <Column Name="ServiceName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="HostXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="EndpointAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ListenUri" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

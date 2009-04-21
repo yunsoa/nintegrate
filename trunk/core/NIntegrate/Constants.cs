@@ -1,7 +1,24 @@
-﻿namespace NIntegrate
+﻿using System.Configuration;
+
+namespace NIntegrate
 {
     public static class Constants
     {
+        static Constants()
+        {
+            DefaultServiceExtension = ConfigurationManager.AppSettings[DefaultServiceExtensionAppSettingName] ?? ".svc";
+        }
+
+        /// <summary>
+        /// The default extension for WCF service deploy file. 
+        /// </summary>
+        public static readonly string DefaultServiceExtension;
+
+        /// <summary>
+        /// The app setting name for specifying default extension for WCF service deploy file. 
+        /// </summary>
+        public static readonly string DefaultServiceExtensionAppSettingName = "NIntegrate.Configuration.DefaultServiceExtension";
+
         /// <summary>
         /// The connection string name for config db 
         /// </summary>
@@ -16,6 +33,11 @@
         /// The appSetting name for specifying service configuration provider type
         /// </summary>
         public const string ServiceConfigurationProviderTypeAppSettingName = "NIntegrate.Configuration.ServiceConfigurationProvider";
+
+        /// <summary>
+        /// The appSetting name for specifying service deployment configuration provider type
+        /// </summary>
+        public const string ServiceDeploymentConfigurationProviderTypeAppSettingName = "NIntegrate.Configuration.ServiceDeploymentConfigurationProvider";
 
         /// <summary>
         /// The appSetting name for specifying app variable provider type

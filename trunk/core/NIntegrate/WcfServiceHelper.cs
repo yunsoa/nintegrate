@@ -95,16 +95,16 @@ namespace NIntegrate
         internal static string BuildEndpointAddress(EndpointConfiguration endpoint, IEnumerable baseAddresses)
         {
             string address;
-            if (!string.IsNullOrEmpty(endpoint.EndpointAddress))
+            if (!string.IsNullOrEmpty(endpoint.ListenUri))
             {
-                if (endpoint.EndpointAddress.Contains("://")) //is absolute url
+                if (endpoint.ListenUri.Contains("://")) //is absolute url
                 {
-                    address = endpoint.EndpointAddress;
+                    address = endpoint.ListenUri;
                 }
                 else // is relative url to baseAddress
                 {
                     var baseAddress = GetBaseAddress(baseAddresses, endpoint);
-                    address = baseAddress.TrimEnd('/') + '/' + endpoint.EndpointAddress;
+                    address = baseAddress.TrimEnd('/') + '/' + endpoint.ListenUri;
                 }
             }
             else //use baseAddress directly
@@ -156,6 +156,42 @@ namespace NIntegrate
                 addresses[i] = hostElement.BaseAddresses[i].BaseAddress;
             }
             return addresses;
+        }
+
+        internal static void ApplyEndpointBehaviorConfiguration(ServiceEndpoint endpoint, EndpointConfiguration config)
+        {
+            if (string.IsNullOrEmpty(config.EndpointBehaviorXML))
+                return;
+
+            var doc = new XmlDocument();
+            doc.LoadXml(config.EndpointBehaviorXML);
+            var customBehaviorElements = new List<BehaviorExtensionElement>();
+            foreach (XmlNode node in doc.FirstChild.ChildNodes)
+            {
+                var customBehaviorTypeDesc = ServiceConfigurationStore.GetCustomBehaviorType(node.Name);
+                if (customBehaviorTypeDesc != null)
+                {
+                    var customBehaviorElementType = Type.GetType(customBehaviorTypeDesc.ConfigurationElementTypeClassName);
+                    if (customBehaviorElementType == null)
+                        throw new ConfigurationErrorsException(string.Format("Specified endpoint behavior configuration element type - {0} could not be loaded!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                    var customBehaviorElement = Activator.CreateInstance(customBehaviorElementType) as BehaviorExtensionElement;
+                    if (customBehaviorElement == null)
+                        throw new ConfigurationErrorsException(string.Format("Specified endpoint behavior configuration element type - {0} could not be initialized!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
+                    customBehaviorElement.DeserializeElement(node.OuterXml);
+                    customBehaviorElements.Add(customBehaviorElement);
+                    node.ParentNode.RemoveChild(node);
+                }
+            }
+            var endpointBehaviorElement = new EndpointBehaviorElement();
+            endpointBehaviorElement.DeserializeElement(config.EndpointBehaviorXML);
+            foreach (var item in endpointBehaviorElement)
+            {
+                endpoint.Behaviors.Add(item.CreateEndpointBehavior());
+            }
+            foreach (var item in customBehaviorElements)
+            {
+                endpoint.Behaviors.Add(item.CreateEndpointBehavior());
+            }
         }
 
         #region DeserializeElement
