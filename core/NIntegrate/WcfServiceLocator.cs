@@ -55,12 +55,7 @@ namespace NIntegrate
                         var address = WcfServiceHelper.BuildEndpointAddress(config.Endpoint, baseAddresses);
                         address = string.Format(address, config.Endpoint.FarmAddress);
                         var cf = new ChannelFactory<T>(binding,address);
-                        if (!string.IsNullOrEmpty(config.Endpoint.ListenUri))
-                        {
-                            cf.Endpoint.Behaviors.Add(new ClientViaBehavior(
-                                new Uri(config.Endpoint.ListenUri)));
-                        }
-
+                        WcfServiceHelper.ApplyEndpointBehaviorConfiguration(cf.Endpoint, config.Endpoint);
                         return cf;
                     }
                 }

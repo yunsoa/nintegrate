@@ -71,13 +71,17 @@
     <Compile Include="Configuration\DefaultAppVariableProvider.cs" />
     <Compile Include="Configuration\DefaultConnectionStringProvider.cs" />
     <Compile Include="Configuration\DefaultServiceConfigurationProvider.cs" />
+    <Compile Include="Configuration\DefaultServiceDeploymentConfigurationProvider.cs" />
     <Compile Include="Configuration\EndpointConfiguration.cs" />
     <Compile Include="Configuration\EndpointListenUriMode.cs" />
     <Compile Include="Configuration\IAppVariableProvider.cs" />
     <Compile Include="Configuration\IConnectionStringProvider.cs" />
     <Compile Include="Configuration\IServiceConfigurationProvider.cs" />
+    <Compile Include="Configuration\IServiceDeploymentConfigurationProvider.cs" />
     <Compile Include="Configuration\ServiceConfiguration.cs" />
     <Compile Include="Configuration\ServiceConfigurationStore.cs" />
+    <Compile Include="Configuration\ServiceDeploymentConfiguration.cs" />
+    <Compile Include="Configuration\ServiceDeploymentConfigurationStore.cs" />
     <Compile Include="Configuration\ServiceHostType.cs" />
     <Compile Include="Configuration\StoredProcedures.designer.cs">
       <AutoGen>True</AutoGen>

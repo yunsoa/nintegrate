@@ -70,52 +70,6 @@ namespace NIntegrate
             }
         }
 
-        private static void ApplyEndpointBehaviorConfiguration(ServiceEndpoint endpoint, EndpointConfiguration config)
-        {
-            if (string.IsNullOrEmpty(config.EndpointBehaviorXML))
-                return;
-
-            var doc = new XmlDocument();
-            doc.LoadXml(config.EndpointBehaviorXML);
-            var customBehaviorElements = new List<BehaviorExtensionElement>();
-            foreach (XmlNode node in doc.FirstChild.ChildNodes)
-            {
-                var customBehaviorTypeDesc = ServiceConfigurationStore.GetCustomBehaviorType(node.Name);
-                if (customBehaviorTypeDesc != null)
-                {
-                    var customBehaviorElementType = Type.GetType(customBehaviorTypeDesc.ConfigurationElementTypeClassName);
-                    if (customBehaviorElementType == null)
-                        throw new ConfigurationErrorsException(string.Format("Specified endpoint behavior configuration element type - {0} could not be loaded!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
-                    var customBehaviorElement = Activator.CreateInstance(customBehaviorElementType) as BehaviorExtensionElement;
-                    if (customBehaviorElement == null)
-                        throw new ConfigurationErrorsException(string.Format("Specified endpoint behavior configuration element type - {0} could not be initialized!", customBehaviorTypeDesc.ConfigurationElementTypeClassName));
-                    customBehaviorElement.DeserializeElement(node.OuterXml);
-                    customBehaviorElements.Add(customBehaviorElement);
-                    node.ParentNode.RemoveChild(node);
-                }
-            }
-            var endpointBehaviorElement = new EndpointBehaviorElement();
-            endpointBehaviorElement.DeserializeElement(config.EndpointBehaviorXML);
-            foreach (var item in endpointBehaviorElement)
-            {
-                endpoint.Behaviors.Add(item.CreateEndpointBehavior());
-            }
-            foreach (var item in customBehaviorElements)
-            {
-                endpoint.Behaviors.Add(item.CreateEndpointBehavior());
-            }
-        }
-
-        private static void ApplyServiceEndpointConfiguration(ServiceEndpoint serviceEndpoint, EndpointConfiguration endpointConfig)
-        {
-            if (!string.IsNullOrEmpty(endpointConfig.ListenUri))
-                serviceEndpoint.ListenUri = new Uri(endpointConfig.ListenUri);
-            if (endpointConfig.ListenUriMode.HasValue)
-                serviceEndpoint.ListenUriMode = (ListenUriMode)Enum.Parse(typeof(ListenUriMode), endpointConfig.ListenUriMode.ToString());
-
-            ApplyEndpointBehaviorConfiguration(serviceEndpoint, endpointConfig);
-        }
-
         private static void ApplyServiceHostConfiguration(ServiceHost serviceHost, HostElement hostElement)
         {
             if (hostElement != null && hostElement.Timeouts != null)
@@ -253,7 +207,7 @@ namespace NIntegrate
 
             foreach (var endpointConfig in config.Endpoints)
             {
-                var address = endpointConfig.EndpointAddress;
+                var address = endpointConfig.ListenUri;
                 address = (address == null ? string.Empty : string.Format(address, Environment.MachineName.ToLowerInvariant()));
                 var serviceContract = Type.GetType(endpointConfig.ServiceContract);
                 if (serviceContract == null)
@@ -264,11 +218,27 @@ namespace NIntegrate
 
                 if (endpointConfig.MexBindingEnabled)
                 {
-                    serviceHost.AddServiceEndpoint(typeof (IMetadataExchange), new CustomBinding(binding), "mex");
+                    serviceHost.AddServiceEndpoint(typeof(IMetadataExchange), new CustomBinding(binding), "mex");
                 }
 
-                var serviceEndpoint = serviceHost.AddServiceEndpoint(serviceContract, binding, address);
-                ApplyServiceEndpointConfiguration(serviceEndpoint, endpointConfig);
+                ServiceEndpoint serviceEndpoint;
+                if (endpointConfig.EndpointAddress != endpointConfig.ListenUri)
+                {
+                    serviceEndpoint = serviceHost.AddServiceEndpoint(
+                        serviceContract, binding, 
+                        endpointConfig.EndpointAddress, new Uri(address));
+                }
+                else
+                {
+                    serviceEndpoint = serviceHost.AddServiceEndpoint(
+                        serviceContract, binding, address);
+                }
+                if (endpointConfig.ListenUriMode.HasValue)
+                    serviceEndpoint.ListenUriMode = (ListenUriMode)Enum.Parse(
+                        typeof(ListenUriMode), 
+                        endpointConfig.ListenUriMode.ToString());
+
+                WcfServiceHelper.ApplyEndpointBehaviorConfiguration(serviceEndpoint, endpointConfig);
             }
 
             return serviceHost;

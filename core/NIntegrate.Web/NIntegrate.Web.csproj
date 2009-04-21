@@ -69,6 +69,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryDataSource.cs" />
     <Compile Include="QueryDataSourceView.cs" />
+    <Compile Include="WcfVirtualFile.cs" />
+    <Compile Include="WcfVirtualPathProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NIntegrate.Query\NIntegrate.Query.csproj">
