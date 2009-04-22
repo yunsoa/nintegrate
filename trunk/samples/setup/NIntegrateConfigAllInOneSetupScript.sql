@@ -764,6 +764,51 @@ GO
 
 
 
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[EndpointClient](
+	[Endpoint_id] [int] NOT NULL,
+	[ClientFarm_id] [int] NOT NULL,
+	[ClientEndpointBehavior_id] [int] NULL,
+ CONSTRAINT [PK_EndpointClient] PRIMARY KEY CLUSTERED 
+(
+	[Endpoint_id] ASC,
+	[ClientFarm_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[EndpointClient]  WITH CHECK ADD  CONSTRAINT [FK_EndpointClient_Behavior] FOREIGN KEY([ClientEndpointBehavior_id])
+REFERENCES [dbo].[Behavior] ([Behavior_id])
+GO
+
+ALTER TABLE [dbo].[EndpointClient] CHECK CONSTRAINT [FK_EndpointClient_Behavior]
+GO
+
+ALTER TABLE [dbo].[EndpointClient]  WITH CHECK ADD  CONSTRAINT [FK_EndpointClient_Endpoint] FOREIGN KEY([Endpoint_id])
+REFERENCES [dbo].[Endpoint] ([Endpoint_id])
+GO
+
+ALTER TABLE [dbo].[EndpointClient] CHECK CONSTRAINT [FK_EndpointClient_Endpoint]
+GO
+
+ALTER TABLE [dbo].[EndpointClient]  WITH CHECK ADD  CONSTRAINT [FK_EndpointClient_Farm] FOREIGN KEY([ClientFarm_id])
+REFERENCES [dbo].[Farm] ([Farm_id])
+GO
+
+ALTER TABLE [dbo].[EndpointClient] CHECK CONSTRAINT [FK_EndpointClient_Farm]
+GO
+
+
+
+
+
 GO
 
 SET ANSI_NULLS ON
@@ -932,7 +977,11 @@ BEGIN
 	
 	SELECT TOP 1 s.HostXML, f.FarmAddress, e.EndpointAddress, e.ListenUri, 
 		e.ListenUriMode_id, e.BindingNamespace,
-		eb.BehaviorXML as EndpointBehaviorXML,
+		(select BehaviorXML from Behavior where Behavior_id in
+			(select ClientEndpointBehavior_id from EndpointClient where Endpoint_id = e.Endpoint_id and ClientFarm_id in 
+					(select Farm_id from [Server] where ServerName = @ServerName)
+			)
+		) as EndpointBehaviorXML,
 		e.IdentityXML, bd.BindingType_id, bd.BindingXML 
 	FROM [Service] s
 		inner join ServiceEndpoint_lnk se on se.Active = 1
@@ -940,8 +989,7 @@ BEGIN
 		inner join Farm f on f.Farm_id = se.Farm_id
 		inner join [Endpoint] e on se.Endpoint_id = e.Endpoint_id
 		inner join [Binding] bd on bd.Binding_id = e.Binding_id 
-		inner join BindingType_lkp bdt on bdt.BindingType_id = bd.BindingType_id
-		left join Behavior eb on e.EndpointBehavior_id = eb.Behavior_id
+		inner join BindingType_lkp bdt on bdt.BindingType_id = bd.BindingType_id		
 	WHERE (e.ServiceContract = @ServiceContract
 			or e.ServiceContract in
 				(select ServiceContract
