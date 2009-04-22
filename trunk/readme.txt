@@ -3,6 +3,14 @@ Introduction
 NIntegrate is a .NET SOA Integration Framework on the top of WCF.
 
 
+Contact
+-------
+Author: Teddy Ma
+Email & GTalk: shijie.ma@gmail.com
+MSN Group: http://nintegrate.groups.live.com/
+Google Group: http://groups.google.com/group/nintegrate-community-group
+
+
 Goal
 ------------
 The goal of NIntegrate is to implement a rapid development framework for 
@@ -17,19 +25,13 @@ Dependencies
 Project Site
 ------------
 http://code.google.com/p/nintegrate
-http://nintegrate.com
+http://nintegrate.com (under constructing)
 
 
 License
 -------
 Please view the BSD.license file, which should always be in the same folder of 
 the current document, for license scope and details.
-
-
-Contacts
---------
-Name: Teddy Ma
-Email: shijie.ma@gmail.com
 
 
 Folder Structure
