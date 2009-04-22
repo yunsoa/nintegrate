@@ -56,11 +56,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Global.asax" />
     <Content Include="QueryService.svc" />
     <Content Include="SimpleService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +75,10 @@
     <ProjectReference Include="..\..\core\NIntegrate.Query\NIntegrate.Query.csproj">
       <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
       <Name>NIntegrate.Query</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\NIntegrate.Web\NIntegrate.Web.csproj">
+      <Project>{0B23908A-D089-410E-9A0D-C42AAD2AD838}</Project>
+      <Name>NIntegrate.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
       <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
