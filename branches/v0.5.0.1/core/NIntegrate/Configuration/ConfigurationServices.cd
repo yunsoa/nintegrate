@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NIntegrate.Configuration.AppVariableStore">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Members>
+      <Method Name="AppVariableStore" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAEABAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\AppVariableStore.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_provider" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NIntegrate.Configuration.ConnectionStringStore">
+    <Position X="0.5" Y="2.25" Width="2" />
+    <Members>
+      <Method Name="ConnectionStringStore" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAAAAAAAAEAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\ConnectionStringStore.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_provider" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NIntegrate.Configuration.DefaultAppVariableProvider">
+    <Position X="6.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\DefaultAppVariableProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NIntegrate.Configuration.DefaultConnectionStringProvider">
+    <Position X="6.5" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\DefaultConnectionStringProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NIntegrate.Configuration.ServiceConfigurationStore">
+    <Position X="0.5" Y="4" Width="2.25" />
+    <Members>
+      <Method Name="GetTypeLookupById" Hidden="true" />
+      <Method Name="ServiceConfigurationStore" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>IAICAQAAAAAAgAQAAAEAIAAAAAAAgQAAAAIAAAAABAA=</HashCode>
+      <FileName>Configuration\ServiceConfigurationStore.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_provider" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NIntegrate.Configuration.DefaultServiceConfigurationProvider">
+    <Position X="6.5" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAIAAAIAAAAAAABAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Configuration\DefaultServiceConfigurationProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="NIntegrate.Configuration.IAppVariableProvider">
+    <Position X="3.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IAppVariableProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NIntegrate.Configuration.IConnectionStringProvider">
+    <Position X="3.75" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IConnectionStringProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NIntegrate.Configuration.IServiceConfigurationProvider">
+    <Position X="3.75" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAIAAAIAAAAAAABAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Configuration\IServiceConfigurationProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
