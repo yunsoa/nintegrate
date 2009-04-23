@@ -1,0 +1,18 @@
+NIntegrate v0.5.0.1 alpha
+
+
+Configuration Database Installation Guide
+-----------------------------------------
+
+1. Create a new database named NIntegrateDemo or 
+   whatever name you want in SQL Server 2005, 2008 or Express
+2. Run NIntegrateConfigAllInOneSetupScript.sql on the created database
+3. Insert a row into [Server] table like 
+   "insert into [Server] (ServerName, ServerAddress, Farm_id) 
+   values ('put your server name here', 'localhost', 1)"
+
+
+History
+-------
+
+v0.5.0.1	2009/4/22	The initail version.
