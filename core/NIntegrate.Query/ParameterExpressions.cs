@@ -39,7 +39,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new BooleanParameterExpression(_id, _value);
+            return new BooleanParameterExpression(_id, _value) {_sql = _sql};
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new ByteParameterExpression(_id, _value);
+            return new ByteParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
@@ -153,7 +153,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new Int16ParameterExpression(_id, _value);
+            return new Int16ParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
@@ -210,7 +210,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new Int32ParameterExpression(_id, _value);
+            return new Int32ParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
@@ -267,7 +267,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new Int64ParameterExpression(_id, _value);
+            return new Int64ParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
@@ -324,7 +324,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new DateTimeParameterExpression(_id, _value);
+            return new DateTimeParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
@@ -384,7 +384,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new StringParameterExpression(_id, _value, _isUnicode);
+            return new StringParameterExpression(_id, _value, _isUnicode) { _sql = _sql };
         }
 
         #endregion
@@ -441,7 +441,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new GuidParameterExpression(_id, _value);
+            return new GuidParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
@@ -498,7 +498,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new DoubleParameterExpression(_id, _value);
+            return new DoubleParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
@@ -555,7 +555,7 @@ namespace NIntegrate.Query
 
         public override object Clone()
         {
-            return new DecimalParameterExpression(_id, _value);
+            return new DecimalParameterExpression(_id, _value) { _sql = _sql };
         }
 
         #endregion
