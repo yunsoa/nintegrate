@@ -415,6 +415,7 @@ CREATE TABLE [dbo].[Binding](
 	[BindingName] [varchar](100) NOT NULL,
 	[BindingXML] [varchar](max) NULL,
 	[MexBindingEnabled] [bit] NOT NULL,
+	[AddMexBindingOnly] [bit] NOT NULL,
  CONSTRAINT [PK_Binding] PRIMARY KEY CLUSTERED 
 (
 	[Binding_id] ASC
@@ -434,6 +435,9 @@ ALTER TABLE [dbo].[Binding] CHECK CONSTRAINT [FK_Binding_BindingType_lkp]
 GO
 
 ALTER TABLE [dbo].[Binding] ADD  CONSTRAINT [DF_Binding_MexBindingEnabled]  DEFAULT ((0)) FOR [MexBindingEnabled]
+GO
+
+ALTER TABLE [dbo].[Binding] ADD  CONSTRAINT [DF_Binding_AddMexBindingOnly]  DEFAULT ((0)) FOR [AddMexBindingOnly]
 GO
 
 
@@ -1061,7 +1065,8 @@ BEGIN
 	SELECT e.EndpointAddress, e.ServiceContract,
 		eb.BehaviorXML as EndpointBehaviorXML,
 		e.BindingNamespace, e.IdentityXML, 
-		bd.BindingType_id, bd.BindingXML, bd.MexBindingEnabled,
+		bd.BindingType_id, bd.BindingXML, 
+		bd.MexBindingEnabled, bd.AddMexBindingOnly,
 		e.ListenUri, e.ListenUriMode_id
 	FROM [Endpoint] e
 		inner join ServiceEndpoint_lnk se on se.Active = 1
