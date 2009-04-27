@@ -23,7 +23,7 @@ namespace EnterpriseSharedServiceImpls
             }
         }
 
-        private string GetLogFilePath()
+        private static string GetLogFilePath()
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.log");
         }

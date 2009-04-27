@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Web;
 using System.Web.Hosting;
 using NIntegrate.Web;
 
-namespace SimpleServiceProvider
+namespace EnterpriseSharedServices
 {
-    public class Global : HttpApplication
+    public class Global : System.Web.HttpApplication
     {
+
         protected void Application_Start(object sender, EventArgs e)
         {
-            //when the line below is uncommented, you could delete the .svc files in this app
             //HostingEnvironment.RegisterVirtualPathProvider(new WcfVirtualPathProvider());
         }
 

@@ -4,12 +4,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D0186F76-B34F-4E3F-91DE-42797A752D00}</ProjectGuid>
+    <ProjectGuid>{C1AA4D7C-3D05-4628-8C29-84318015F350}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EnterpriseSharedServices</RootNamespace>
-    <AssemblyName>EnterpriseSharedServices</AssemblyName>
+    <RootNamespace>EnterpriseAspApp</RootNamespace>
+    <AssemblyName>EnterpriseAspApp</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,64 +31,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Runtime.Serialization">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.ServiceModel">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Web.Mobile" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CachingService.svc" />
-    <Content Include="Global.asax" />
-    <Content Include="LoggingService.svc" />
-    <Content Include="QueryService.svc" />
-    <Content Include="Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\core\NIntegrate.Query.Command\NIntegrate.Query.Command.csproj">
-      <Project>{39F21CCC-EABD-48F9-9C25-AC02513E9F31}</Project>
-      <Name>NIntegrate.Query.Command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\NIntegrate.Web\NIntegrate.Web.csproj">
-      <Project>{0B23908A-D089-410E-9A0D-C42AAD2AD838}</Project>
-      <Name>NIntegrate.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
-      <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
-      <Name>NIntegrate</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EnterpriseSharedServiceContracts\EnterpriseSharedServiceContracts.csproj">
-      <Project>{195F8154-0A09-4D31-8850-E2740361C665}</Project>
-      <Name>EnterpriseSharedServiceContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EnterpriseSharedServiceImpls\EnterpriseSharedServiceImpls.csproj">
-      <Project>{E9E255D7-8759-4A3F-902C-C2B8D972867F}</Project>
-      <Name>EnterpriseSharedServiceImpls</Name>
-    </ProjectReference>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -103,11 +68,12 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>11120</DevelopmentServerPort>
+          <DevelopmentServerPort>32424</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/EnterpriseSharedServices</IISUrl>
+          <IISUrl>
+          </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
