@@ -25,6 +25,8 @@ namespace NIntegrate.Configuration
         [DataMember]
         public bool MexBindingEnabled { get; set; }
         [DataMember]
+        public bool AddMexBindingOnly { get; set; }
+        [DataMember]
         public string IdentityXML { get; set; }
         public string ListenUri
         {
