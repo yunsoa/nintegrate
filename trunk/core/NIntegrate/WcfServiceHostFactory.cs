@@ -221,24 +221,27 @@ namespace NIntegrate
                     serviceHost.AddServiceEndpoint(typeof(IMetadataExchange), new CustomBinding(binding), "mex");
                 }
 
-                ServiceEndpoint serviceEndpoint;
-                if (endpointConfig.EndpointAddress != endpointConfig.ListenUri)
+                if (!endpointConfig.AddMexBindingOnly)
                 {
-                    serviceEndpoint = serviceHost.AddServiceEndpoint(
-                        serviceContract, binding, 
-                        endpointConfig.EndpointAddress, new Uri(address));
-                }
-                else
-                {
-                    serviceEndpoint = serviceHost.AddServiceEndpoint(
-                        serviceContract, binding, address);
-                }
-                if (endpointConfig.ListenUriMode.HasValue)
-                    serviceEndpoint.ListenUriMode = (ListenUriMode)Enum.Parse(
-                        typeof(ListenUriMode), 
-                        endpointConfig.ListenUriMode.ToString());
+                    ServiceEndpoint serviceEndpoint;
+                    if (endpointConfig.EndpointAddress != endpointConfig.ListenUri)
+                    {
+                        serviceEndpoint = serviceHost.AddServiceEndpoint(
+                            serviceContract, binding,
+                            endpointConfig.EndpointAddress, new Uri(address));
+                    }
+                    else
+                    {
+                        serviceEndpoint = serviceHost.AddServiceEndpoint(
+                            serviceContract, binding, address);
+                    }
+                    if (endpointConfig.ListenUriMode.HasValue)
+                        serviceEndpoint.ListenUriMode = (ListenUriMode) Enum.Parse(
+                                                                            typeof (ListenUriMode),
+                                                                            endpointConfig.ListenUriMode.ToString());
 
-                WcfServiceHelper.ApplyEndpointBehaviorConfiguration(serviceEndpoint, endpointConfig);
+                    WcfServiceHelper.ApplyEndpointBehaviorConfiguration(serviceEndpoint, endpointConfig);
+                }
             }
 
             return serviceHost;
