@@ -72,6 +72,7 @@
     <Compile Include="QueryDataSourceView.cs" />
     <Compile Include="WcfVirtualFile.cs" />
     <Compile Include="WcfVirtualPathProvider.cs" />
+    <Compile Include="WcfVirtualPathProviderRegistrationModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NIntegrate.Query\NIntegrate.Query.csproj">
