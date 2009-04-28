@@ -7,8 +7,6 @@ namespace EnterpriseSharedServiceImpls
 {
     public sealed class LoggingServiceImpl : ILoggingService
     {
-        private static readonly object _syncLock = new object();
-
         #region ILoggingService Members
 
         [OperationBehavior]
@@ -17,7 +15,7 @@ namespace EnterpriseSharedServiceImpls
             if (string.IsNullOrEmpty(message))
                 message = "<Empty>";
 
-            lock (_syncLock)
+            lock (typeof(LoggingServiceImpl))
             {
                 File.AppendAllText(GetLogFilePath(), DateTime.Now + "\t" + message + "\r\n");
             }

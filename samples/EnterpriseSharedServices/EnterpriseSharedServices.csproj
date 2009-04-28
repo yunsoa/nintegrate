@@ -57,25 +57,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CachingService.svc" />
-    <Content Include="Global.asax" />
     <Content Include="LoggingService.svc" />
     <Content Include="QueryService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\core\NIntegrate.Query.Command\NIntegrate.Query.Command.csproj">
       <Project>{39F21CCC-EABD-48F9-9C25-AC02513E9F31}</Project>
       <Name>NIntegrate.Query.Command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\NIntegrate.Web\NIntegrate.Web.csproj">
-      <Project>{0B23908A-D089-410E-9A0D-C42AAD2AD838}</Project>
-      <Name>NIntegrate.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
       <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
