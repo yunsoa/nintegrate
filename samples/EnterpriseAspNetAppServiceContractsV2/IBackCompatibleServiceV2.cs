@@ -5,7 +5,7 @@ namespace EnterpriseAspNetAppServiceContractsV2
     [ServiceContract]
     public interface IBackCompatibleServiceV2
     {
-        BackCompatibleResultV2 GetResult();
+        BackCompatibleResultV2 GetCompatibleResult();
 
         string SayHello();
     }

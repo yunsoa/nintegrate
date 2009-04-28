@@ -5,6 +5,6 @@ namespace EnterpriseAspNetAppServiceContractsV1
     [ServiceContract]
     public interface IBackIncompatibleService
     {
-        BackIncompatibleResult GetResult();
+        BackIncompatibleResult GetIncompatibleResult();
     }
 }

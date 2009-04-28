@@ -98,10 +98,16 @@ namespace NIntegrate
 
         private static Uri[] GetBaseAddressesFromEndpoints(IList<EndpointConfiguration> endpoints)
         {
-            var list = new Uri[endpoints.Count];
+            var list = new List<Uri>();
             for (var i = 0; i < endpoints.Count; ++i)
-                list[i] = new Uri(endpoints[i].EndpointAddress);
-            return list;
+            {
+                var uri = new Uri(endpoints[i].EndpointAddress);
+                if (!list.Contains(uri))
+                {
+                    list.Add(uri);
+                }
+            }
+            return list.ToArray();
         }
 
         #endregion
@@ -145,7 +151,9 @@ namespace NIntegrate
             {
                 var address = WcfServiceHelper.BuildEndpointAddress(endpoint, baseAddresses);
                 address = string.Format(address, Environment.MachineName.ToLowerInvariant());
-                list.Add(new Uri(address));
+                var uri = new Uri(address);
+                if (!list.Contains(uri))
+                    list.Add(uri);
             }
 
             return list.ToArray();

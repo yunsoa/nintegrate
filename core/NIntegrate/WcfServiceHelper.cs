@@ -150,12 +150,16 @@ namespace NIntegrate
 
         internal static string[] GetBaseAddressesFromHostElement(HostElement hostElement)
         {
-            var addresses = new string[hostElement == null ? 0 : hostElement.BaseAddresses.Count];
-            for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
+            var list = new List<string>();
+            if (hostElement != null && hostElement.BaseAddresses != null)
             {
-                addresses[i] = hostElement.BaseAddresses[i].BaseAddress;
+                for (var i = 0; i < hostElement.BaseAddresses.Count; ++i)
+                {
+                    if (!list.Contains(hostElement.BaseAddresses[i].BaseAddress))
+                        list.Add(hostElement.BaseAddresses[i].BaseAddress);
+                }
             }
-            return addresses;
+            return list.ToArray();
         }
 
         internal static void ApplyEndpointBehaviorConfiguration(ServiceEndpoint endpoint, EndpointConfiguration config)
