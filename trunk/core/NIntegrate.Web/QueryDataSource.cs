@@ -213,6 +213,19 @@ namespace NIntegrate.Web
                 Selecting(this, args);
         }
 
+        /// <summary>
+        /// This event occurs after performing a select operation. Handle this event to override the default select behavior.
+        /// </summary>
+        [Category("Data"),
+        Description("Occurs after performing a select operation.")]
+        public event EventHandler<DataSourceSelectedEventArgs> Selected;
+
+        internal void OnSelected(DataSourceSelectedEventArgs args)
+        {
+            if (Selected != null)
+                Selected(this, args);
+        }
+
         #endregion
 
         #region Dispose()
