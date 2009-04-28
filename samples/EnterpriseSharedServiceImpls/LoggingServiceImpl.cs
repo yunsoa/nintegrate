@@ -19,7 +19,7 @@ namespace EnterpriseSharedServiceImpls
 
             lock (_syncLock)
             {
-                File.AppendAllText(GetLogFilePath(), DateTime.Now + "\t" + message);
+                File.AppendAllText(GetLogFilePath(), DateTime.Now + "\t" + message + "\r\n");
             }
         }
 

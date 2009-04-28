@@ -379,7 +379,7 @@ namespace NIntegrate.Web
                 _owner.OnSelecting(selectingArgs);
             if (selectingArgs.Cancel)
             {
-                return null;
+                return selectingArgs.Result != null ? new DataView(selectingArgs.Result) : null;
             }
 
             var criteria = _owner.Criteria.ToBaseCriteria();
@@ -408,7 +408,11 @@ namespace NIntegrate.Web
                 }
             }
 
-            return new DataView(_owner._service.Select(criteria));
+            var result = _owner._service.Select(criteria);
+
+            _owner.OnSelected(new DataSourceSelectedEventArgs(result));
+
+            return new DataView(result);
         }
 
         #endregion

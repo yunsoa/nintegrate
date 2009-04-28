@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Collections.Specialized;
 using NIntegrate.Query;
+using System.Data;
 
 namespace NIntegrate.Web.EventArgs
 {
@@ -24,5 +25,7 @@ namespace NIntegrate.Web.EventArgs
         {
             get { return _parameters; }
         }
+
+        public DataTable Result { get; set; }
     }
 }

@@ -62,6 +62,7 @@
     <Compile Include="AppVariableParameter.cs" />
     <Compile Include="EventArgs\DataSourceDeletingEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceInsertingEventArgs.cs" />
+    <Compile Include="EventArgs\DataSourceSelectedEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceSelectingEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceStatusEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceUpdatingEventArgs.cs" />
