@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MixedVersionService.svc" />
     <Content Include="Default.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -66,6 +67,9 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MixedVersionService.svc.cs">
+      <DependentUpon>MixedVersionService.svc</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,6 +89,14 @@
     <ProjectReference Include="..\EnterpriseAspNetAppQueryCriterias\EnterpriseAspNetAppQueryCriterias.csproj">
       <Project>{DA8CB246-C612-41A6-9F66-C67CF826AF9E}</Project>
       <Name>EnterpriseAspNetAppQueryCriterias</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnterpriseAspNetAppServiceContractsV1\EnterpriseAspNetAppServiceContractsV1.csproj">
+      <Project>{D5BEBB99-FB1F-4640-8238-EB8091244A1C}</Project>
+      <Name>EnterpriseAspNetAppServiceContractsV1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnterpriseAspNetAppServiceContractsV2\EnterpriseAspNetAppServiceContractsV2.csproj">
+      <Project>{E1FAAF36-175C-43B8-AD1C-B976CBE332EB}</Project>
+      <Name>EnterpriseAspNetAppServiceContractsV2</Name>
     </ProjectReference>
     <ProjectReference Include="..\EnterpriseSharedServiceContracts\EnterpriseSharedServiceContracts.csproj">
       <Project>{195F8154-0A09-4D31-8850-E2740361C665}</Project>
