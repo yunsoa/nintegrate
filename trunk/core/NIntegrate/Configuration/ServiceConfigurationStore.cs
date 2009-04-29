@@ -122,9 +122,6 @@ namespace NIntegrate.Configuration
         {
             if (serviceContract == null)
                 throw new ArgumentNullException("serviceContract");
-            var appCode = ConfigurationManager.AppSettings[Constants.AppCodeAppSettingName];
-            if (string.IsNullOrEmpty(appCode))
-                throw new ConfigurationErrorsException(string.Format("Could not find the {0} appSetting in application configuration file.", Constants.AppCodeAppSettingName));
 
             if (!_cachedClientConfigurations.ContainsKey(serviceContract))
             {
@@ -132,10 +129,10 @@ namespace NIntegrate.Configuration
                 {
                     if (!_cachedClientConfigurations.ContainsKey(serviceContract))
                     {
-                        var config = _singleton._provider.GetClientConfiguration(serviceContract, appCode);
+                        var config = _singleton._provider.GetClientConfiguration(serviceContract);
                         if (config == null)
-                            throw new ConfigurationErrorsException(string.Format("Specified Service Contract - {0},appCode - {1} could not be found in configuration store!",
-                                serviceContract, appCode));
+                            throw new ConfigurationErrorsException(string.Format("Specified Service Contract - {0} could not be found in configuration store!",
+                                serviceContract));
                         _cachedClientConfigurations.Add(serviceContract, config);
                     }
                 }

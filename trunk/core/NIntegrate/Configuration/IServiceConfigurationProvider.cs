@@ -16,6 +16,6 @@ namespace NIntegrate.Configuration
         [OperationContract]
         ServiceConfiguration GetServiceConfiguration(string serviceName, string appCode);
         [OperationContract]
-        ClientConfiguration GetClientConfiguration(Type serviceContract, string appCode);
+        ClientConfiguration GetClientConfiguration(Type serviceContract);
     }
 }

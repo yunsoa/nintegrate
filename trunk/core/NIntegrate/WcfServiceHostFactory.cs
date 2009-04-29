@@ -213,6 +213,8 @@ namespace NIntegrate
             ApplyServiceHostConfiguration(serviceHost, hostElement);
             ApplyServiceBehaviorConfiguration(serviceHost, config);
 
+            var bindingCache = new Dictionary<string, Binding>();
+            var mexBindingCache = new Dictionary<string, Binding>();
             foreach (var endpointConfig in config.Endpoints)
             {
                 var address = endpointConfig.ListenUri;
@@ -221,12 +223,29 @@ namespace NIntegrate
                 if (serviceContract == null)
                     throw new ConfigurationErrorsException(string.Format("Specified service contract - {0} could not be loaded!", endpointConfig.ServiceContract));
 
-                var binding = WcfServiceHelper.GetBinding(endpointConfig);
-                if (binding == null) continue;
+                var cacheKey = WcfServiceHelper.BuildEndpointAddress(endpointConfig, baseAddresses);
+
+                Binding binding;
+                bindingCache.TryGetValue(cacheKey, out binding);
+                if (binding == null)
+                {
+                    binding = WcfServiceHelper.GetBinding(endpointConfig);
+                    bindingCache.Add(cacheKey, binding);
+                }
+
+                if (binding == null)
+                    continue;
 
                 if (endpointConfig.MexBindingEnabled)
                 {
-                    serviceHost.AddServiceEndpoint(typeof(IMetadataExchange), new CustomBinding(binding), "mex");
+                    Binding mexBinding;
+                    mexBindingCache.TryGetValue(cacheKey, out mexBinding);
+                    if (mexBinding == null)
+                    {
+                        mexBinding = new CustomBinding(binding);
+                        mexBindingCache.Add(cacheKey, mexBinding);
+                        serviceHost.AddServiceEndpoint(typeof (IMetadataExchange), mexBinding, "mex");
+                    }
                 }
 
                 if (!endpointConfig.AddMexBindingOnly)
