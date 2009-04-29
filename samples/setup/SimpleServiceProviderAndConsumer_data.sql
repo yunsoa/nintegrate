@@ -1,4 +1,3 @@
-Insert   [App]   (AppCode,Name,Description)      Values   ('SP_SSC','Sample - SimpleServiceConsumer',NULL)
 Insert   [App]   (AppCode,Name,Description)      Values   ('SP_SSP','Sample - SimpleServiceProvider',NULL)
 
 Insert   [AppVariable]   (AppVariableName,AppCode,Environment_id,Value,Description)      Values   ('NIntegrate.Query.IQueryService, NIntegrate.Query, Version=0.5.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6','SP_SSP',1,'NIntegrate.Query.Command.QueryService, NIntegrate.Query.Command, Version=0.5.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6',NULL)

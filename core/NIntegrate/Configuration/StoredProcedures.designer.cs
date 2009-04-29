@@ -90,13 +90,6 @@ namespace NIntegrate.Configuration
 			return ((ISingleResult<sp_GetAllServiceHostTypesResult>)(result.ReturnValue));
 		}
 		
-		[Function(Name="dbo.sp_GetClientConfiguration")]
-		public ISingleResult<sp_GetClientConfigurationResult> sp_GetClientConfiguration([Parameter(Name="ServiceContract", DbType="VarChar(255)")] string serviceContract, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName, [Parameter(Name="AppCode", DbType="VarChar(10)")] string appCode)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), serviceContract, serverName, appCode);
-			return ((ISingleResult<sp_GetClientConfigurationResult>)(result.ReturnValue));
-		}
-		
 		[Function(Name="dbo.sp_GetAppVariable")]
 		public ISingleResult<sp_GetAppVariableResult> sp_GetAppVariable([Parameter(Name="AppVariableName", DbType="VarChar(255)")] string appVariableName, [Parameter(Name="AppCode", DbType="VarChar(10)")] string appCode, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName)
 		{
@@ -109,6 +102,13 @@ namespace NIntegrate.Configuration
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), serverName, appCode);
 			return ((ISingleResult<sp_GetServiceDeploymentConfigurationResult>)(result.ReturnValue));
+		}
+		
+		[Function(Name="dbo.sp_GetClientConfiguration")]
+		public ISingleResult<sp_GetClientConfigurationResult> sp_GetClientConfiguration([Parameter(Name="ServiceContract", DbType="VarChar(255)")] string serviceContract, [Parameter(Name="ServerName", DbType="VarChar(50)")] string serverName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), serviceContract, serverName);
+			return ((ISingleResult<sp_GetClientConfigurationResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -432,6 +432,112 @@ namespace NIntegrate.Configuration
 		}
 	}
 	
+	public partial class sp_GetAppVariableResult
+	{
+		
+		private string _Value;
+		
+		public sp_GetAppVariableResult()
+		{
+		}
+		
+		[Column(Storage="_Value", DbType="NVarChar(MAX)")]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this._Value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_GetServiceDeploymentConfigurationResult
+	{
+		
+		private string _ServiceName;
+		
+		private string _HostXML;
+		
+		private string _EndpointAddress;
+		
+		private string _ListenUri;
+		
+		public sp_GetServiceDeploymentConfigurationResult()
+		{
+		}
+		
+		[Column(Storage="_ServiceName", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string ServiceName
+		{
+			get
+			{
+				return this._ServiceName;
+			}
+			set
+			{
+				if ((this._ServiceName != value))
+				{
+					this._ServiceName = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_HostXML", DbType="VarChar(MAX)")]
+		public string HostXML
+		{
+			get
+			{
+				return this._HostXML;
+			}
+			set
+			{
+				if ((this._HostXML != value))
+				{
+					this._HostXML = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_EndpointAddress", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string EndpointAddress
+		{
+			get
+			{
+				return this._EndpointAddress;
+			}
+			set
+			{
+				if ((this._EndpointAddress != value))
+				{
+					this._EndpointAddress = value;
+				}
+			}
+		}
+		
+		[Column(Storage="_ListenUri", DbType="VarChar(255)")]
+		public string ListenUri
+		{
+			get
+			{
+				return this._ListenUri;
+			}
+			set
+			{
+				if ((this._ListenUri != value))
+				{
+					this._ListenUri = value;
+				}
+			}
+		}
+	}
+	
 	public partial class sp_GetClientConfigurationResult
 	{
 		
@@ -615,112 +721,6 @@ namespace NIntegrate.Configuration
 				if ((this._BindingXML != value))
 				{
 					this._BindingXML = value;
-				}
-			}
-		}
-	}
-	
-	public partial class sp_GetAppVariableResult
-	{
-		
-		private string _Value;
-		
-		public sp_GetAppVariableResult()
-		{
-		}
-		
-		[Column(Storage="_Value", DbType="NVarChar(MAX)")]
-		public string Value
-		{
-			get
-			{
-				return this._Value;
-			}
-			set
-			{
-				if ((this._Value != value))
-				{
-					this._Value = value;
-				}
-			}
-		}
-	}
-	
-	public partial class sp_GetServiceDeploymentConfigurationResult
-	{
-		
-		private string _ServiceName;
-		
-		private string _HostXML;
-		
-		private string _EndpointAddress;
-		
-		private string _ListenUri;
-		
-		public sp_GetServiceDeploymentConfigurationResult()
-		{
-		}
-		
-		[Column(Storage="_ServiceName", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
-		public string ServiceName
-		{
-			get
-			{
-				return this._ServiceName;
-			}
-			set
-			{
-				if ((this._ServiceName != value))
-				{
-					this._ServiceName = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_HostXML", DbType="VarChar(MAX)")]
-		public string HostXML
-		{
-			get
-			{
-				return this._HostXML;
-			}
-			set
-			{
-				if ((this._HostXML != value))
-				{
-					this._HostXML = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_EndpointAddress", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
-		public string EndpointAddress
-		{
-			get
-			{
-				return this._EndpointAddress;
-			}
-			set
-			{
-				if ((this._EndpointAddress != value))
-				{
-					this._EndpointAddress = value;
-				}
-			}
-		}
-		
-		[Column(Storage="_ListenUri", DbType="VarChar(255)")]
-		public string ListenUri
-		{
-			get
-			{
-				return this._ListenUri;
-			}
-			set
-			{
-				if ((this._ListenUri != value))
-				{
-					this._ListenUri = value;
 				}
 			}
 		}

@@ -1,8 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 namespace EnterpriseAspNetAppServiceContractsV2
 {
     [DataContract]
+    [ComVisible(true)]
+    [Guid("3D382C14-956D-4c8d-A447-26696307B84B")]
     public class BackCompatibleResultV2
     {
         public string Value { get; set; }

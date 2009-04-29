@@ -35,23 +35,6 @@
       <Column Name="ServiceHostTypeClassName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.sp_GetClientConfiguration" Method="sp_GetClientConfiguration">
-    <Parameter Name="ServiceContract" Parameter="serviceContract" Type="System.String" DbType="VarChar(255)" />
-    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
-    <Parameter Name="AppCode" Parameter="appCode" Type="System.String" DbType="VarChar(10)" />
-    <ElementType Name="sp_GetClientConfigurationResult">
-      <Column Name="HostXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="FarmAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="EndpointAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="ListenUri" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="ListenUriMode_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="BindingNamespace" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="EndpointBehaviorXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="IdentityXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="BindingType_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="BindingXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.sp_GetAppVariable" Method="sp_GetAppVariable">
     <Parameter Name="AppVariableName" Parameter="appVariableName" Type="System.String" DbType="VarChar(255)" />
     <Parameter Name="AppCode" Parameter="appCode" Type="System.String" DbType="VarChar(10)" />
@@ -68,6 +51,22 @@
       <Column Name="HostXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="EndpointAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="ListenUri" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetClientConfiguration" Method="sp_GetClientConfiguration">
+    <Parameter Name="ServiceContract" Parameter="serviceContract" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ServerName" Parameter="serverName" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="sp_GetClientConfigurationResult">
+      <Column Name="HostXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="FarmAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="EndpointAddress" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ListenUri" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="ListenUriMode_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BindingNamespace" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="EndpointBehaviorXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="IdentityXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="BindingType_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BindingXML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

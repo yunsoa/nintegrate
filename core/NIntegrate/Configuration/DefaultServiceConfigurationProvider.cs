@@ -136,7 +136,7 @@ namespace NIntegrate.Configuration
             return config;
         }
 
-        public ClientConfiguration GetClientConfiguration(Type serviceContract, string appCode)
+        public ClientConfiguration GetClientConfiguration(Type serviceContract)
         {
             var config = new ClientConfiguration();
 
@@ -146,7 +146,7 @@ namespace NIntegrate.Configuration
 
                 var context = new StoredProceduresDataContext(conn);
                 var results = context.sp_GetClientConfiguration(serviceContract.GetQualifiedTypeName(), 
-                    Environment.MachineName.ToLowerInvariant(), appCode);
+                    Environment.MachineName.ToLowerInvariant());
 
                 foreach (var result in results)
                 {
