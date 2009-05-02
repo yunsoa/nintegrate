@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
-namespace EnterpriseAspNetAppServiceContractsV2
+namespace EnterpriseAspNetAppServiceContracts
 {
     [DataContract]
     [ComVisible(true)]

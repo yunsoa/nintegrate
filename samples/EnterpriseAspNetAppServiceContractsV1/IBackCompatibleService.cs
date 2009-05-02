@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.ServiceModel;
 
-namespace EnterpriseAspNetAppServiceContractsV1
+namespace EnterpriseAspNetAppServiceContracts
 {
     [ServiceContract]
     [ComVisible(true)]

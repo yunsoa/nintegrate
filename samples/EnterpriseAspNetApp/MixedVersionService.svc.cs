@@ -1,9 +1,8 @@
-﻿using EnterpriseAspNetAppServiceContractsV1;
-using EnterpriseAspNetAppServiceContractsV2;
+﻿using EnterpriseAspNetAppServiceContracts;
 
 namespace EnterpriseAspNetApp
 {
-    public class MixedVersionService : EnterpriseAspNetAppServiceContractsV2.IBackCompatibleService, IBackIncompatibleService, IBackIncompatibleServiceV2
+    public class MixedVersionService : IBackCompatibleService, IBackIncompatibleServiceV2
     {
         #region IBackCompatibleServiceV2 Members
 
@@ -19,15 +18,6 @@ namespace EnterpriseAspNetApp
 
         #endregion
 
-        #region IBackIncompatibleService Members
-
-        public BackIncompatibleResult GetIncompatibleResult()
-        {
-            return new BackIncompatibleResult { Value = "IncompatibleResult Value" };
-        }
-
-        #endregion
-
         #region IBackIncompatibleServiceV2 Members
 
         public BackIncompatibleResultV2 GetIncompatibleResultV2()
@@ -37,5 +27,4 @@ namespace EnterpriseAspNetApp
 
         #endregion
     }
-
 }
