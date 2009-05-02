@@ -17,14 +17,15 @@ namespace EnterpriseServiceComWrapper
 
         #region Public Methods
 
+
         public BackCompatibleResultV2 GetCompatibleResult()
         {
-            return _locator.GetService<IBackCompatibleServiceV2>().GetCompatibleResult();
+            return _locator.GetService<IBackCompatibleService>().GetCompatibleResult();
         }
 
         public string SayHello()
         {
-            return _locator.GetService<IBackCompatibleServiceV2>().SayHello();
+            return _locator.GetService<IBackCompatibleService>().SayHello();
         }
 
         #endregion

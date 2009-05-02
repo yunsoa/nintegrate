@@ -3,7 +3,7 @@ using EnterpriseAspNetAppServiceContractsV2;
 
 namespace EnterpriseAspNetApp
 {
-    public class MixedVersionService : IBackCompatibleServiceV2, IBackIncompatibleService, IBackIncompatibleServiceV2
+    public class MixedVersionService : EnterpriseAspNetAppServiceContractsV2.IBackCompatibleService, IBackIncompatibleService, IBackIncompatibleServiceV2
     {
         #region IBackCompatibleServiceV2 Members
 

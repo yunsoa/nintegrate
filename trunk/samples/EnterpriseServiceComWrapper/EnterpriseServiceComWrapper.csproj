@@ -12,6 +12,8 @@
     <AssemblyName>EnterpriseServiceComWrapper</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>NIntegrate_OpenSource.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BackCompatibleService.cs" />
     <Compile Include="BackIncompatibleService.cs" />
+    <Compile Include="BinarySerializer.cs" />
     <Compile Include="CachingService.cs" />
     <Compile Include="LoggingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +82,9 @@
       <Project>{195F8154-0A09-4D31-8850-E2740361C665}</Project>
       <Name>EnterpriseSharedServiceContracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NIntegrate_OpenSource.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
