@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using EnterpriseAspNetAppQueryCriterias;
 using NIntegrate;
@@ -11,8 +8,14 @@ using System.Data;
 namespace EnterpriseServiceComWrapper
 {
     [ComVisible(true)]
-    [Guid("E5993BA6-6A1E-42ea-A919-FAD5EFA2F97A")]
-    public class ServiceQueryService : IDisposable
+    [Guid("E5993BA6-6A1E-42ea-A919-FAD5EFA2F97B")]
+    public interface IServiceQueryService
+    {
+        ServiceCollection Select(ServiceCriteria criteria);
+        int SelectCount(ServiceCriteria criteria);
+    }
+
+    public class ServiceQueryService : IDisposable, IServiceQueryService
     {
         #region Private Fields
 
