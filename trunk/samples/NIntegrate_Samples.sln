@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnterpriseAspApp", "Enterpr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnterpriseServiceComWrapper", "EnterpriseServiceComWrapper\EnterpriseServiceComWrapper.csproj", "{52CF2258-B4BB-458B-8547-742DFAE266B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnterpriseAspNetAppLegacyConsumer", "EnterpriseAspNetAppLegacyConsumer\EnterpriseAspNetAppLegacyConsumer.csproj", "{EB6B8DC2-312B-473A-9D65-8F0EBF4C43BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,10 @@ Global
 		{52CF2258-B4BB-458B-8547-742DFAE266B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52CF2258-B4BB-458B-8547-742DFAE266B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52CF2258-B4BB-458B-8547-742DFAE266B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB6B8DC2-312B-473A-9D65-8F0EBF4C43BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB6B8DC2-312B-473A-9D65-8F0EBF4C43BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB6B8DC2-312B-473A-9D65-8F0EBF4C43BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB6B8DC2-312B-473A-9D65-8F0EBF4C43BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,5 +154,6 @@ Global
 		{DA8CB246-C612-41A6-9F66-C67CF826AF9E} = {65D8A14B-E2A4-4E89-9D08-95B428A6478A}
 		{C1AA4D7C-3D05-4628-8C29-84318015F350} = {65D8A14B-E2A4-4E89-9D08-95B428A6478A}
 		{52CF2258-B4BB-458B-8547-742DFAE266B1} = {65D8A14B-E2A4-4E89-9D08-95B428A6478A}
+		{EB6B8DC2-312B-473A-9D65-8F0EBF4C43BA} = {65D8A14B-E2A4-4E89-9D08-95B428A6478A}
 	EndGlobalSection
 EndGlobal

@@ -8,7 +8,7 @@
     <ProjectGuid>{D5BEBB99-FB1F-4640-8238-EB8091244A1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EnterpriseAspNetAppServiceContractsV1</RootNamespace>
+    <RootNamespace>EnterpriseAspNetAppServiceContracts</RootNamespace>
     <AssemblyName>EnterpriseAspNetAppServiceContractsV1</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

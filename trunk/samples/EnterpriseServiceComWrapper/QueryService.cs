@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using EnterpriseAspNetAppQueryCriterias;
 using NIntegrate;
 using NIntegrate.Query;
 using System.Data;
@@ -9,13 +8,7 @@ namespace EnterpriseServiceComWrapper
 {
     [ComVisible(true)]
     [Guid("E5993BA6-6A1E-42ea-A919-FAD5EFA2F97B")]
-    public interface IServiceQueryService
-    {
-        ServiceCollection Select(ServiceCriteria criteria);
-        int SelectCount(ServiceCriteria criteria);
-    }
-
-    public class ServiceQueryService : IDisposable, IServiceQueryService
+    public class QueryService : IDisposable
     {
         #region Private Fields
 
@@ -25,24 +18,12 @@ namespace EnterpriseServiceComWrapper
 
         #region Public Methods
 
-        public ServiceCollection Select(ServiceCriteria criteria)
+        public DataTable Select(Criteria criteria)
         {
-            var table = _locator.GetService<IQueryService>().Select(criteria.ToBaseCriteria());
-            var services = new ServiceCollection();
-            foreach (DataRow row in table.Rows)
-            {
-                var service = new Service
-                                  {
-                                      Service_id = (int)row["Service_id"],
-                                      ServiceName = (string)row["ServiceName"],
-                                      HostXML = (string)row["HostXML"]
-                                  };
-                services.Add(service);
-            }
-            return services;
+            return _locator.GetService<IQueryService>().Select(criteria.ToBaseCriteria());
         }
 
-        public int SelectCount(ServiceCriteria criteria)
+        public int SelectCount(Criteria criteria)
         {
             return _locator.GetService<IQueryService>().SelectCount(criteria.ToBaseCriteria());
         }
@@ -72,7 +53,7 @@ namespace EnterpriseServiceComWrapper
             disposed = true;
         }
 
-        ~ServiceQueryService()
+        ~QueryService()
         {
             Dispose(false);
         }

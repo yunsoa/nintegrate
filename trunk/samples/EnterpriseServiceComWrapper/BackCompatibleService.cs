@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using EnterpriseAspNetAppServiceContractsV2;
+using EnterpriseAspNetAppServiceContracts;
 using NIntegrate;
 
 namespace EnterpriseServiceComWrapper
@@ -16,7 +16,6 @@ namespace EnterpriseServiceComWrapper
         #endregion
 
         #region Public Methods
-
 
         public BackCompatibleResultV2 GetCompatibleResult()
         {

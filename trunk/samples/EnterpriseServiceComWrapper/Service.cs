@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Data;
 
 namespace EnterpriseServiceComWrapper
 {
@@ -78,5 +80,32 @@ namespace EnterpriseServiceComWrapper
         }
 
         #endregion
+
+        public void Load(DataTable table)
+        {
+            if (table == null)
+                return;
+
+            Clear();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var service = new Service
+                {
+                    Service_id = SafeGetValue<int>(row["Service_id"]),
+                    ServiceName = SafeGetValue<string>(row["ServiceName"]),
+                    HostXML = SafeGetValue<string>(row["HostXML"])
+                };
+                Add(service);
+            }
+        }
+
+        private T SafeGetValue<T>(object value)
+        {
+            if (value == DBNull.Value)
+                return default(T);
+
+            return (T)value;
+        }
     }
 }

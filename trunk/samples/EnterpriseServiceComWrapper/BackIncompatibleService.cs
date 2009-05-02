@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using EnterpriseAspNetAppServiceContractsV1;
-using EnterpriseAspNetAppServiceContractsV2;
+using EnterpriseAspNetAppServiceContracts;
 using NIntegrate;
 
 namespace EnterpriseServiceComWrapper
@@ -18,12 +17,7 @@ namespace EnterpriseServiceComWrapper
 
         #region Public Methods
 
-        public BackIncompatibleResult GetIncompatibleResult()
-        {
-            return _locator.GetService<IBackIncompatibleService>().GetIncompatibleResult();
-        }
-
-        public BackIncompatibleResultV2 GetIncompatibleResultV2()
+        public BackIncompatibleResultV2 GetIncompatibleResult()
         {
             return _locator.GetService<IBackIncompatibleServiceV2>().GetIncompatibleResultV2();
         }

@@ -4,12 +4,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{217F3CD8-91AE-43B3-AEA3-C62DC7BFC7FA}</ProjectGuid>
+    <ProjectGuid>{EB6B8DC2-312B-473A-9D65-8F0EBF4C43BA}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EnterpriseAspNetApp</RootNamespace>
-    <AssemblyName>EnterpriseAspNetApp</AssemblyName>
+    <RootNamespace>EnterpriseAspNetAppLegacyConsumer</RootNamespace>
+    <AssemblyName>EnterpriseAspNetAppLegacyConsumer</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,73 +31,53 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Runtime.Serialization">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.ServiceModel">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Web.Mobile" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MixedVersionService.svc" />
     <Content Include="Default.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="MixedVersionService.svc.cs">
-      <DependentUpon>MixedVersionService.svc</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\core\NIntegrate.Query\NIntegrate.Query.csproj">
-      <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
-      <Name>NIntegrate.Query</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\NIntegrate.Web\NIntegrate.Web.csproj">
-      <Project>{0B23908A-D089-410E-9A0D-C42AAD2AD838}</Project>
-      <Name>NIntegrate.Web</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
       <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
       <Name>NIntegrate</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EnterpriseAspNetAppQueryCriterias\EnterpriseAspNetAppQueryCriterias.csproj">
-      <Project>{DA8CB246-C612-41A6-9F66-C67CF826AF9E}</Project>
-      <Name>EnterpriseAspNetAppQueryCriterias</Name>
+    <ProjectReference Include="..\EnterpriseAspNetAppServiceContractsV1\EnterpriseAspNetAppServiceContractsV1.csproj">
+      <Project>{D5BEBB99-FB1F-4640-8238-EB8091244A1C}</Project>
+      <Name>EnterpriseAspNetAppServiceContractsV1</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EnterpriseAspNetAppServiceContractsV2\EnterpriseAspNetAppServiceContractsV2.csproj">
-      <Project>{E1FAAF36-175C-43B8-AD1C-B976CBE332EB}</Project>
-      <Name>EnterpriseAspNetAppServiceContractsV2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EnterpriseSharedServiceContracts\EnterpriseSharedServiceContracts.csproj">
-      <Project>{195F8154-0A09-4D31-8850-E2740361C665}</Project>
-      <Name>EnterpriseSharedServiceContracts</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -112,11 +92,12 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>55867</DevelopmentServerPort>
+          <DevelopmentServerPort>1302</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/EnterpriseAspNetApp</IISUrl>
+          <IISUrl>
+          </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -50,12 +50,11 @@
   <ItemGroup>
     <Compile Include="BackCompatibleService.cs" />
     <Compile Include="BackIncompatibleService.cs" />
-    <Compile Include="BinarySerializer.cs" />
     <Compile Include="CachingService.cs" />
     <Compile Include="LoggingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
-    <Compile Include="ServiceQueryService.cs" />
+    <Compile Include="QueryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\core\NIntegrate.Query\NIntegrate.Query.csproj">
@@ -69,10 +68,6 @@
     <ProjectReference Include="..\EnterpriseAspNetAppQueryCriterias\EnterpriseAspNetAppQueryCriterias.csproj">
       <Project>{DA8CB246-C612-41A6-9F66-C67CF826AF9E}</Project>
       <Name>EnterpriseAspNetAppQueryCriterias</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EnterpriseAspNetAppServiceContractsV1\EnterpriseAspNetAppServiceContractsV1.csproj">
-      <Project>{D5BEBB99-FB1F-4640-8238-EB8091244A1C}</Project>
-      <Name>EnterpriseAspNetAppServiceContractsV1</Name>
     </ProjectReference>
     <ProjectReference Include="..\EnterpriseAspNetAppServiceContractsV2\EnterpriseAspNetAppServiceContractsV2.csproj">
       <Project>{E1FAAF36-175C-43B8-AD1C-B976CBE332EB}</Project>
