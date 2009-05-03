@@ -1,0 +1,35 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[CustomBehaviorType_lkp](
+	[BehaviorType_id] [int] IDENTITY(1,1) NOT NULL,
+	[BehaviorTypeExtensionName] [varchar](100) NULL,
+	[BehaviorTypeFriendlyName] [varchar](100) NOT NULL,
+	[BehaviorTypeClassName] [varchar](255) NOT NULL,
+	[BehaviorConfigurationElementTypeClassName] [varchar](255) NOT NULL,
+	[BehaviorCategory_id] [int] NOT NULL,
+ CONSTRAINT [PK_BehaviorType_lkp] PRIMARY KEY CLUSTERED 
+(
+	[BehaviorType_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[CustomBehaviorType_lkp]  WITH CHECK ADD  CONSTRAINT [FK_BehaviorType_lkp_BehaviorCategory_lkp] FOREIGN KEY([BehaviorCategory_id])
+REFERENCES [dbo].[BehaviorCategory_lkp] ([BehaviorCategory_id])
+GO
+
+ALTER TABLE [dbo].[CustomBehaviorType_lkp] CHECK CONSTRAINT [FK_BehaviorType_lkp_BehaviorCategory_lkp]
+GO
+
+
