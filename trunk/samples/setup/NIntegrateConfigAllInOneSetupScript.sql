@@ -974,7 +974,6 @@ GO
 CREATE PROCEDURE [dbo].[sp_GetClientConfiguration]
 	@ServiceContract as varchar(255)
 	,@ServerName as varchar(50)
-	,@AppCode as varchar(10)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -992,7 +991,7 @@ BEGIN
 			and s.Service_id = se.Service_id
 		inner join Farm f on f.Farm_id = se.Farm_id
 		inner join [Endpoint] e on se.Endpoint_id = e.Endpoint_id
-		inner join [Binding] bd on bd.Binding_id = e.Binding_id 
+		inner join [Binding] bd on bd.Binding_id = e.Binding_id and bd.AddMexBindingOnly = 0
 		inner join BindingType_lkp bdt on bdt.BindingType_id = bd.BindingType_id		
 	WHERE (e.ServiceContract = @ServiceContract
 			or e.ServiceContract in
