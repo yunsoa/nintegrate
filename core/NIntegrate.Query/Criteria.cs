@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
+using NIntegrate.Query.SqlClient;
 
 namespace NIntegrate.Query
 {
@@ -9,25 +10,18 @@ namespace NIntegrate.Query
     /// Base class of all Custom Criterias
     /// </summary>
     [DataContract]
-    [KnownType(typeof(BooleanColumn))]
-    [KnownType(typeof(ByteColumn))]
-    [KnownType(typeof(Int16Column))]
-    [KnownType(typeof(Int32Column))]
-    [KnownType(typeof(Int64Column))]
-    [KnownType(typeof(DateTimeColumn))]
-    [KnownType(typeof(StringColumn))]
-    [KnownType(typeof(GuidColumn))]
-    [KnownType(typeof(DoubleColumn))]
-    [KnownType(typeof(DecimalColumn))]
     [KnownType(typeof(Condition))]
     [KnownType(typeof(NullExpression))]
     [KnownType(typeof(BooleanExpression))]
     [KnownType(typeof(ByteExpression))]
     [KnownType(typeof(Int16Expression))]
     [KnownType(typeof(Int32Expression))]
+    [KnownType(typeof(SqlInt32Expression))]
     [KnownType(typeof(Int64Expression))]
     [KnownType(typeof(DateTimeExpression))]
+    [KnownType(typeof(SqlDateTimeExpression))]
     [KnownType(typeof(StringExpression))]
+    [KnownType(typeof(SqlStringExpression))]
     [KnownType(typeof(GuidExpression))]
     [KnownType(typeof(DoubleExpression))]
     [KnownType(typeof(DecimalExpression))]
@@ -36,12 +30,28 @@ namespace NIntegrate.Query
     [KnownType(typeof(ByteParameterExpression))]
     [KnownType(typeof(Int16ParameterExpression))]
     [KnownType(typeof(Int32ParameterExpression))]
+    [KnownType(typeof(SqlInt32ParameterExpression))]
     [KnownType(typeof(Int64ParameterExpression))]
     [KnownType(typeof(DateTimeParameterExpression))]
+    [KnownType(typeof(SqlDateTimeParameterExpression))]
     [KnownType(typeof(StringParameterExpression))]
+    [KnownType(typeof(SqlStringParameterExpression))]
     [KnownType(typeof(GuidParameterExpression))]
     [KnownType(typeof(DoubleParameterExpression))]
     [KnownType(typeof(DecimalParameterExpression))]
+    [KnownType(typeof(BooleanColumn))]
+    [KnownType(typeof(ByteColumn))]
+    [KnownType(typeof(Int16Column))]
+    [KnownType(typeof(Int32Column))]
+    [KnownType(typeof(SqlInt32Column))]
+    [KnownType(typeof(Int64Column))]
+    [KnownType(typeof(DateTimeColumn))]
+    [KnownType(typeof(SqlDateTimeColumn))]
+    [KnownType(typeof(StringColumn))]
+    [KnownType(typeof(SqlStringColumn))]
+    [KnownType(typeof(GuidColumn))]
+    [KnownType(typeof(DoubleColumn))]
+    [KnownType(typeof(DecimalColumn))]
     public class Criteria
     {
         #region Protected Fields

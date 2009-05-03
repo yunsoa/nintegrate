@@ -170,7 +170,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public sealed class Int32Column : Int32Expression, IColumn
+    public class Int32Column : Int32Expression, IColumn
     {
         #region Private Fields
 
@@ -283,7 +283,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public sealed class DateTimeColumn : DateTimeExpression, IColumn
+    public class DateTimeColumn : DateTimeExpression, IColumn
     {
         #region Private Fields
 
