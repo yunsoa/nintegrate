@@ -1,0 +1,1 @@
+﻿Insert Environment ([Name], [Description]) values ('Dev', N'Development Environment')

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Debug="true" Service="EnterpriseSharedServiceContracts.ICachingService, EnterpriseSharedServiceContracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6" Factory="NIntegrate.WcfServiceHostFactory, NIntegrate, Version=0.6.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6" %>

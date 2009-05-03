@@ -1,0 +1,33 @@
+NIntegrate v0.6.0.1 beta
+
+
+Configuration Database Installation Guide
+-----------------------------------------
+
+1. Create a new database named NIntegrateConfig or 
+   whatever name you want in SQL Server 2005, 2008 or Express
+2. Run NIntegrateConfigAllInOneSetupScript.sql on the created database
+3. Insert a row into [Server] table like 
+   "insert into [Server] (ServerName, ServerAddress, Farm_id) 
+   values ('put your server name here', 'localhost', 1)"
+
+
+Update Since v0.5.0.1
+---------------------
+
+1. Fix bug in Clone() of all ParameterExpressions in NIntegrate.Query.
+2. Add Selected event to QueryDataSource control.
+3. Fix bug for multiple endpoints with the same endpoint address 
+   but different service contracts.
+4. Remove AppCode parameter from 
+   IServiceConfigurationProvider.GetClientConfiguration method
+5. Fix bug for supporting custom service & endpoint behaviors.
+6. Enhance COM support for criterias and expressions.
+7. Add EnterpriseIntegration sample in samples folder. 
+
+
+History
+-------
+
+v0.5.0.1	2009/4/22	The initail version.
+v0.6.0.1	2009/5/03	The first beta version.

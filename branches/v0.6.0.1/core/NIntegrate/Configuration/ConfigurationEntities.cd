@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NIntegrate.Configuration.ClientConfiguration">
+    <Position X="3.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\ClientConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Endpoint" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NIntegrate.Configuration.EndpointConfiguration">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ECAAAIAAAAABAAAAECAAAACAAAIgAAAAIAAAAAQAAAA=</HashCode>
+      <FileName>Configuration\EndpointConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ListenUriMode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NIntegrate.Configuration.ServiceConfiguration">
+    <Position X="6" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIQAEAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\ServiceConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Endpoints" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="NIntegrate.Configuration.ServiceHostType">
+    <Position X="0.5" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\ServiceHostType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NIntegrate.Configuration.TypeLookup">
+    <Position X="0.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACCAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Configuration\TypeLookup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NIntegrate.Configuration.BindingType">
+    <Position X="2.75" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\BindingType.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ChannelType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NIntegrate.Configuration.CustomBehaviorType">
+    <Position X="2.75" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\CustomBehaviorType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NIntegrate.Configuration.ConnectionString">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAQAAA=</HashCode>
+      <FileName>Configuration\ConnectionString.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="NIntegrate.Configuration.EndpointListenUriMode">
+    <Position X="3.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\EndpointListenUriMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NIntegrate.Configuration.ChannelType">
+    <Position X="6.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAIAAAAAAAAAIAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\ChannelType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
