@@ -68,6 +68,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Columns.cs" />
     <Compile Include="SqlClient\ExtensionMethods.cs" />
+    <Compile Include="SqlClient\SqlCriteria.cs" />
+    <Compile Include="SqlClient\SqlExpressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NIntegrate_OpenSource.snk" />

@@ -4,18 +4,23 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
+using NIntegrate.Query.SqlClient;
 
 namespace NIntegrate.Query
 {
     [DataContract]
+    [KnownType(typeof(Condition))]
     [KnownType(typeof(NullExpression))]
     [KnownType(typeof(BooleanExpression))]
     [KnownType(typeof(ByteExpression))]
     [KnownType(typeof(Int16Expression))]
     [KnownType(typeof(Int32Expression))]
+    [KnownType(typeof(SqlInt32Expression))]
     [KnownType(typeof(Int64Expression))]
     [KnownType(typeof(DateTimeExpression))]
+    [KnownType(typeof(SqlDateTimeExpression))]
     [KnownType(typeof(StringExpression))]
+    [KnownType(typeof(SqlStringExpression))]
     [KnownType(typeof(GuidExpression))]
     [KnownType(typeof(DoubleExpression))]
     [KnownType(typeof(DecimalExpression))]
@@ -24,9 +29,12 @@ namespace NIntegrate.Query
     [KnownType(typeof(ByteParameterExpression))]
     [KnownType(typeof(Int16ParameterExpression))]
     [KnownType(typeof(Int32ParameterExpression))]
+    [KnownType(typeof(SqlInt32ParameterExpression))]
     [KnownType(typeof(Int64ParameterExpression))]
     [KnownType(typeof(DateTimeParameterExpression))]
+    [KnownType(typeof(SqlDateTimeParameterExpression))]
     [KnownType(typeof(StringParameterExpression))]
+    [KnownType(typeof(SqlStringParameterExpression))]
     [KnownType(typeof(GuidParameterExpression))]
     [KnownType(typeof(DoubleParameterExpression))]
     [KnownType(typeof(DecimalParameterExpression))]
@@ -34,9 +42,12 @@ namespace NIntegrate.Query
     [KnownType(typeof(ByteColumn))]
     [KnownType(typeof(Int16Column))]
     [KnownType(typeof(Int32Column))]
+    [KnownType(typeof(SqlInt32Column))]
     [KnownType(typeof(Int64Column))]
     [KnownType(typeof(DateTimeColumn))]
+    [KnownType(typeof(SqlDateTimeColumn))]
     [KnownType(typeof(StringColumn))]
+    [KnownType(typeof(SqlStringColumn))]
     [KnownType(typeof(GuidColumn))]
     [KnownType(typeof(DoubleColumn))]
     [KnownType(typeof(DecimalColumn))]
@@ -82,6 +93,11 @@ namespace NIntegrate.Query
         public IList<IExpression> ChildExpressions
         {
             get { return _childExpressions; }
+        }
+
+        public Int32Expression Count()
+        {
+            return Count(false);
         }
 
         public Int32Expression Count(bool distinct)
@@ -139,6 +155,9 @@ namespace NIntegrate.Query
             if (ReferenceEquals(this, obj))
                 return true;
             var objExpr = obj as Expression;
+            if (objExpr == null)
+                return false;
+
             if (_sql == objExpr._sql && _childExpressions.Count == objExpr._childExpressions.Count)
             {
                 for (int i = 0; i < _childExpressions.Count; ++i)
@@ -288,6 +307,22 @@ namespace NIntegrate.Query
         #endregion
 
         #region Others
+
+        public BooleanColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as BooleanColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (BooleanColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new BooleanColumn(this, columnName);
+        }
 
         public override Condition In(IEnumerable values)
         {
@@ -989,6 +1024,22 @@ namespace NIntegrate.Query
 
         #region Others
 
+        public ByteColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as ByteColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (ByteColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new ByteColumn(this, columnName);
+        }
+
         public override Condition In(IEnumerable values)
         {
             var expr = new ExpressionCollection();
@@ -1688,6 +1739,22 @@ namespace NIntegrate.Query
         #endregion
 
         #region Others
+
+        public Int16Column As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as Int16Column;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (Int16Column)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new Int16Column(this, columnName);
+        }
 
         public override Condition In(IEnumerable values)
         {
@@ -2393,6 +2460,22 @@ namespace NIntegrate.Query
 
         #region Others
 
+        public Int32Column As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as Int32Column;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (Int32Column)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new Int32Column(this, columnName);
+        }
+
         public override Condition In(IEnumerable values)
         {
             var expr = new ExpressionCollection();
@@ -3093,6 +3176,22 @@ namespace NIntegrate.Query
 
         #region Others
 
+        public Int64Column As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as Int64Column;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (Int64Column)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new Int64Column(this, columnName);
+        }
+
         public override Condition In(IEnumerable values)
         {
             var expr = new ExpressionCollection();
@@ -3545,6 +3644,22 @@ namespace NIntegrate.Query
 
         #region Others
 
+        public DateTimeColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as DateTimeColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (DateTimeColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new DateTimeColumn(this, columnName);
+        }
+
         public override Condition In(IEnumerable values)
         {
             var expr = new ExpressionCollection();
@@ -3698,6 +3813,22 @@ namespace NIntegrate.Query
         #endregion
 
         #region Others
+
+        public StringColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as StringColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (StringColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new StringColumn(this, columnName, IsUnicode);
+        }
 
         public override Condition In(IEnumerable values)
         {
@@ -3887,6 +4018,22 @@ namespace NIntegrate.Query
         #endregion
 
         #region Others
+
+        public GuidColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as GuidColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (GuidColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new GuidColumn(this, columnName);
+        }
 
         public override Condition In(IEnumerable values)
         {
@@ -4506,6 +4653,22 @@ namespace NIntegrate.Query
 
         #region Others
 
+        public DoubleColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as DoubleColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (DoubleColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new DoubleColumn(this, columnName);
+        }
+
         public override Condition In(IEnumerable values)
         {
             var expr = new ExpressionCollection();
@@ -5124,6 +5287,22 @@ namespace NIntegrate.Query
 
         #region Others
 
+        public DecimalColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = this as DecimalColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (DecimalColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new DecimalColumn(this, columnName);
+        }
+
         public override Condition In(IEnumerable values)
         {
             var expr = new ExpressionCollection();
@@ -5189,12 +5368,6 @@ namespace NIntegrate.Query
 
         #endregion
 
-        #region Constructors
-
-        internal ExpressionCollection() { }
-
-        #endregion
-
         #region IExpression Members
 
         [ComVisible(false)]
@@ -5231,21 +5404,21 @@ namespace NIntegrate.Query
         public Int32Expression Count(bool distinct)
         {
             //should never be called
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         [ComVisible(false)]
         public Condition In(IEnumerable values)
         {
             //should never be called
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         [ComVisible(false)]
         public Condition NotIn(IEnumerable values)
         {
             //should never be called
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         #endregion
@@ -5362,21 +5535,21 @@ namespace NIntegrate.Query
         public Int32Expression Count(bool distinct)
         {
             //should never be called
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         [ComVisible(false)]
         public Condition In(IEnumerable values)
         {
             //should never be called
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         [ComVisible(false)]
         public Condition NotIn(IEnumerable values)
         {
             //should never be called
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         #endregion
@@ -5399,177 +5572,5 @@ namespace NIntegrate.Query
         }
 
         #endregion
-    }
-
-    public static class ExpressionExtensionMethods
-    {
-        #region Expression As Column
-
-        public static BooleanColumn As(this BooleanExpression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as BooleanColumn;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (BooleanColumn)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new BooleanColumn(expr, columnName);
-        }
-
-        public static ByteColumn As(this ByteExpression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as ByteColumn;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (ByteColumn)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new ByteColumn(expr, columnName);
-        }
-
-        public static Int16Column As(this Int16Expression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as Int16Column;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (Int16Column)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new Int16Column(expr, columnName);
-        }
-
-        public static Int32Column As(this Int32Expression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as Int32Column;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (Int32Column)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new Int32Column(expr, columnName);
-        }
-
-        public static Int64Column As(this Int64Expression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as Int64Column;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (Int64Column)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new Int64Column(expr, columnName);
-        }
-
-        public static DateTimeColumn As(this DateTimeExpression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as DateTimeColumn;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (DateTimeColumn)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new DateTimeColumn(expr, columnName);
-        }
-
-        public static StringColumn As(this StringExpression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as StringColumn;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (StringColumn)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new StringColumn(expr, columnName, expr.IsUnicode);
-        }
-
-        public static GuidColumn As(this GuidExpression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as GuidColumn;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (GuidColumn)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new GuidColumn(expr, columnName);
-        }
-
-        public static DoubleColumn As(this DoubleExpression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as DoubleColumn;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (DoubleColumn)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new DoubleColumn(expr, columnName);
-        }
-
-        public static DecimalColumn As(this DecimalExpression expr, string columnName)
-        {
-            if (string.IsNullOrEmpty(columnName))
-                throw new ArgumentNullException("columnName");
-
-            var column = expr as DecimalColumn;
-            if (!ReferenceEquals(column, null))
-            {
-                var asColumn = (DecimalColumn)column.Clone();
-                asColumn._columnName = columnName;
-                return asColumn;
-            }
-
-            return new DecimalColumn(expr, columnName);
-        }
-
-        #endregion
-
-        public static Int32Expression Count(this Expression expr)
-        {
-            return expr.Count(false);
-        }
     }
 }
