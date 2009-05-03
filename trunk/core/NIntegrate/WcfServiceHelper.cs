@@ -187,7 +187,7 @@ namespace NIntegrate
                 }
             }
             var endpointBehaviorElement = new EndpointBehaviorElement();
-            endpointBehaviorElement.DeserializeElement(config.EndpointBehaviorXML);
+            endpointBehaviorElement.DeserializeElement(doc.OuterXml);
             foreach (var item in endpointBehaviorElement)
             {
                 endpoint.Behaviors.Add(item.CreateEndpointBehavior());

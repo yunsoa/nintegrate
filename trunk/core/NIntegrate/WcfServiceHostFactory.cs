@@ -52,7 +52,7 @@ namespace NIntegrate
                     }
                 }
                 var serviceBehaviorElement = new ServiceBehaviorElement();
-                serviceBehaviorElement.DeserializeElement(config.ServiceBehaviorXML);
+                serviceBehaviorElement.DeserializeElement(doc.OuterXml);
                 foreach (var item in serviceBehaviorElement)
                 {
                     serviceHost.Description.Behaviors.Add(item.CreateServiceBehavior());

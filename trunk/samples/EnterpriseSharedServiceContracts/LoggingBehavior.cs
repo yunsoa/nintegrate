@@ -15,15 +15,11 @@ namespace EnterpriseSharedServiceContracts
 
         public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
         {
-            //foreach (var item in clientRuntime.Operations)
-            //{
-            //    //item.
-            //}
         }
 
         public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher)
         {
-            //endpointDispatcher.DispatchRuntime.Operations
+            endpointDispatcher.DispatchRuntime.MessageInspectors.Add(new LoggingMessageInspector());
         }
 
         public void Validate(ServiceEndpoint endpoint)

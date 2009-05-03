@@ -3,7 +3,7 @@ using System.Data;
 
 namespace NIntegrate.Query
 {
-    [ServiceContract]
+    [ServiceContract(Namespace = "http://nintegrate.com/Query")]
     public interface IQueryService
     {
         [OperationContract]

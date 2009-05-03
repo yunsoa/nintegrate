@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -56,10 +57,18 @@
     <Compile Include="ICachingService.cs" />
     <Compile Include="ILoggingService.cs" />
     <Compile Include="LoggingBehavior.cs" />
+    <Compile Include="LoggingBehaviorElement.cs" />
+    <Compile Include="LoggingMessageInspector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NIntegrate_OpenSource.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
+      <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
+      <Name>NIntegrate</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
