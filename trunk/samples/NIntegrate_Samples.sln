@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{E8D5A1F3-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "setup", "setup", "{895E8C77-C1C5-4016-8D1C-A7D0408E1342}"
 	ProjectSection(SolutionItems) = preProject
+		setup\EnterpriseIntegration_data.sql = setup\EnterpriseIntegration_data.sql
 		setup\NIntegrateConfigAllInOneSetupScript.sql = setup\NIntegrateConfigAllInOneSetupScript.sql
 		setup\readme.txt = setup\readme.txt
 		setup\SimpleServiceProviderAndConsumer_data.sql = setup\SimpleServiceProviderAndConsumer_data.sql
