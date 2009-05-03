@@ -1,0 +1,7 @@
+Environment_Initial_Rows.sql
+Farm_Initial_Rows.sql
+ChannelType_lkp_Initial_Rows.sql
+FarmAccessibility_Inital_Rows.sql
+BehaviorCategory_lkp_Initial_Rows.sql
+BindingType_lkp_Initial_Rows.sql
+ServiceHostType_lkp_Initial_Rows.sql

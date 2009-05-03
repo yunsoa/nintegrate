@@ -1,0 +1,41 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Binding](
+	[Binding_id] [int] IDENTITY(1,1) NOT NULL,
+	[BindingType_id] [int] NOT NULL,
+	[BindingName] [varchar](100) NOT NULL,
+	[BindingXML] [varchar](max) NULL,
+	[MexBindingEnabled] [bit] NOT NULL,
+	[AddMexBindingOnly] [bit] NOT NULL,
+ CONSTRAINT [PK_Binding] PRIMARY KEY CLUSTERED 
+(
+	[Binding_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[Binding]  WITH CHECK ADD  CONSTRAINT [FK_Binding_BindingType_lkp] FOREIGN KEY([BindingType_id])
+REFERENCES [dbo].[BindingType_lkp] ([BindingType_id])
+GO
+
+ALTER TABLE [dbo].[Binding] CHECK CONSTRAINT [FK_Binding_BindingType_lkp]
+GO
+
+ALTER TABLE [dbo].[Binding] ADD  CONSTRAINT [DF_Binding_MexBindingEnabled]  DEFAULT ((0)) FOR [MexBindingEnabled]
+GO
+
+ALTER TABLE [dbo].[Binding] ADD  CONSTRAINT [DF_Binding_AddMexBindingOnly]  DEFAULT ((0)) FOR [AddMexBindingOnly]
+GO
+
+
