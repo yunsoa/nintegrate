@@ -49,6 +49,14 @@ EnterpriseIntegration Sample
    to initialize data for running EnterpriseIntegration sample
 5. Change connection strings in all web.config files 
    and ConnectingString table rows.
+6. In IIS 7, ensure the default website's Bindings including:
+   http		80	*	
+   net.tcp			808:*
+   net.pipe			*
+   net.msmq			localhost
+7. Open the solution file, create the virtual directories when prompting,
+   set EnterpriseSharedServices virtual directory's Enabled Protocals to: 
+   http,net.pipe,net.msmq
 
 -----------------------------------------------------------------------------------------
 
