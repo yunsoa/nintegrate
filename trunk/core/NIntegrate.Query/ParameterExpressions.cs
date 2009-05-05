@@ -175,7 +175,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public class Int32ParameterExpression : Int32Expression, IParameterExpression
+    public sealed class Int32ParameterExpression : Int32Expression, IParameterExpression
     {
         #region Private Fields
 
@@ -289,7 +289,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public class DateTimeParameterExpression : DateTimeExpression, IParameterExpression
+    public sealed class DateTimeParameterExpression : DateTimeExpression, IParameterExpression
     {
         #region Private Fields
 
@@ -346,7 +346,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public class StringParameterExpression : StringExpression, IParameterExpression
+    public sealed class StringParameterExpression : StringExpression, IParameterExpression
     {
         #region Private Fields
 

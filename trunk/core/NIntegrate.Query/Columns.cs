@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace NIntegrate.Query
 {
     [DataContract]
-    public sealed class BooleanColumn : BooleanExpression, IColumn
+    public class BooleanColumn : BooleanExpression, IColumn
     {
         #region Private Fields
 
@@ -60,7 +60,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public sealed class ByteColumn : ByteExpression, IColumn
+    public class ByteColumn : ByteExpression, IColumn
     {
         #region Private Fields
 
@@ -115,7 +115,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public sealed class Int16Column : Int16Expression, IColumn
+    public class Int16Column : Int16Expression, IColumn
     {
         #region Private Fields
 
@@ -225,7 +225,7 @@ namespace NIntegrate.Query
     }
 
     [DataContract]
-    public sealed class Int64Column : Int64Expression, IColumn
+    public class Int64Column : Int64Expression, IColumn
     {
         #region Private Fields
 
@@ -352,7 +352,8 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public StringColumn(string columnName, bool isUnicode) : base(isUnicode)
+        public StringColumn(string columnName, bool isUnicode)
+            : base(isUnicode)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
