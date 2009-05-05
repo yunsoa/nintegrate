@@ -50,11 +50,6 @@ namespace NIntegrate
         public const string AppCodeAppSettingName = "NIntegrate.Configuration.AppCode";
 
         /// <summary>
-        /// The appSetting name for specifying endpoint provider type
-        /// </summary>
-        public const string EndpointProviderTypeAppSettingName = "NIntegrate.Configuration.EndpointProvider";
-
-        /// <summary>
         /// The appSetting name for specifying external service locator type
         /// </summary>
         public const string ExternalServiceLocatorTypeAppSettingName = "NIntegrate.ExternalServiceLocator";
