@@ -1,17 +1,17 @@
-﻿using NIntegrate.Query;
+﻿using NIntegrate.Query.SqlClient;
 
 namespace SimpleServiceContracts
 {
-    public sealed class EndpointCriteria : Criteria
+    public sealed class EndpointCriteria : SqlCriteria
     {
         public EndpointCriteria()
             : base("Endpoint", "Sample - SimpleService")
         {
         }
 
-        public Int32Column Endpoint_id = new Int32Column("Endpoint_id");
-        public StringColumn EndpointName = new StringColumn("EndpointName", false);
-        public Int32Column Binding_id = new Int32Column("Binding_id");
-        public StringColumn EndpointAddress = new StringColumn("EndpointAddress", false);
+        public SqlInt32Column Endpoint_id = new SqlInt32Column("Endpoint_id");
+        public SqlStringColumn EndpointName = new SqlStringColumn("EndpointName", false);
+        public SqlInt32Column Binding_id = new SqlInt32Column("Binding_id");
+        public SqlStringColumn EndpointAddress = new SqlStringColumn("EndpointAddress", false);
     }
 }

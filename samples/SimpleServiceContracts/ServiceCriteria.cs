@@ -1,18 +1,18 @@
 ﻿using System.Runtime.Serialization;
-using NIntegrate.Query;
+using NIntegrate.Query.SqlClient;
 
 namespace SimpleServiceContracts
 {
     [DataContract]
-    public sealed class ServiceCriteria : Criteria
+    public sealed class ServiceCriteria : SqlCriteria
     {
         public ServiceCriteria()
             : base("Service", "Sample - SimpleService")
         {
         }
 
-        public Int32Column Service_id = new Int32Column("Service_id");
-        public StringColumn ServiceName = new StringColumn("ServiceName", false);
-        public StringColumn HostXML = new StringColumn("HostXML", false);
+        public SqlInt32Column Service_id = new SqlInt32Column("Service_id");
+        public SqlStringColumn ServiceName = new SqlStringColumn("ServiceName", false);
+        public SqlStringColumn HostXML = new SqlStringColumn("HostXML", false);
     }
 }

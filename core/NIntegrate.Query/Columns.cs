@@ -16,7 +16,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public BooleanColumn(string columnName)
+        internal BooleanColumn(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -71,7 +71,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public ByteColumn(string columnName)
+        internal ByteColumn(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -126,7 +126,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public Int16Column(string columnName)
+        internal Int16Column(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -181,7 +181,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public Int32Column(string columnName)
+        internal Int32Column(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -236,7 +236,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public Int64Column(string columnName)
+        internal Int64Column(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -294,7 +294,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public DateTimeColumn(string columnName)
+        internal DateTimeColumn(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -352,7 +352,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public StringColumn(string columnName, bool isUnicode)
+        internal StringColumn(string columnName, bool isUnicode)
             : base(isUnicode)
         {
             if (string.IsNullOrEmpty(columnName))
@@ -408,7 +408,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public GuidColumn(string columnName)
+        internal GuidColumn(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -463,7 +463,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public DoubleColumn(string columnName)
+        internal DoubleColumn(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -518,7 +518,7 @@ namespace NIntegrate.Query
 
         #region Constructors
 
-        public DecimalColumn(string columnName)
+        internal DecimalColumn(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");

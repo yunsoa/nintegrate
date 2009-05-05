@@ -1,20 +1,20 @@
 ﻿using System.Runtime.Serialization;
-using NIntegrate.Query;
+using NIntegrate.Query.SqlClient;
 
 namespace SimpleServiceContracts
 {
     [DataContract]
-    public sealed class BindingCriteria : Criteria
+    public sealed class BindingCriteria : SqlCriteria
     {
         public BindingCriteria()
             : base("Binding", "Sample - SimpleService")
         {
         }
 
-        public Int32Column Binding_id = new Int32Column("Binding_id");
-        public Int32Column BindingType_id = new Int32Column("BindingType_id");
-        public StringColumn BindingName = new StringColumn("BindingName", false);
-        public StringColumn BindingXML = new StringColumn("BindingXML", false);
-        public BooleanColumn MexBindingEnabled = new BooleanColumn("MexBindingEnabled");
+        public SqlInt32Column Binding_id = new SqlInt32Column("Binding_id");
+        public SqlInt32Column BindingType_id = new SqlInt32Column("BindingType_id");
+        public SqlStringColumn BindingName = new SqlStringColumn("BindingName", false);
+        public SqlStringColumn BindingXML = new SqlStringColumn("BindingXML", false);
+        public SqlBooleanColumn MexBindingEnabled = new SqlBooleanColumn("MexBindingEnabled");
     }
 }
