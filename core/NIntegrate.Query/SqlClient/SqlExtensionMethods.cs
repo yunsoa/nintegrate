@@ -2,7 +2,7 @@
 
 namespace NIntegrate.Query.SqlClient
 {
-    public static class ExtensionMethods
+    public static class SqlExtensionMethods
     {
         #region Criteria
 

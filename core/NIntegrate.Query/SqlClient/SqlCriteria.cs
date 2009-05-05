@@ -12,17 +12,17 @@ namespace NIntegrate.Query.SqlClient
 
         public Criteria AddSortByRandom()
         {
-            return ExtensionMethods.AddSortByRandom(this);
+            return SqlExtensionMethods.AddSortByRandom(this);
         }
 
         public DateTimeExpression GetCurrentDate()
         {
-            return ExtensionMethods.GetCurrentDate(this);
+            return SqlExtensionMethods.GetCurrentDate(this);
         }
 
         public DateTimeExpression GetCurrentUtcDate()
         {
-            return ExtensionMethods.GetCurrentUtcDate(this);
+            return SqlExtensionMethods.GetCurrentUtcDate(this);
         }
     }
 }
