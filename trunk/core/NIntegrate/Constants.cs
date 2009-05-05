@@ -2,8 +2,14 @@
 
 namespace NIntegrate
 {
+    /// <summary>
+    /// Constants used by NIntegrate framework.
+    /// </summary>
     public static class Constants
     {
+        /// <summary>
+        /// Initializes the <see cref="Constants"/> class.
+        /// </summary>
         static Constants()
         {
             DefaultServiceExtension = ConfigurationManager.AppSettings[DefaultServiceExtensionAppSettingName] ?? ".svc";

@@ -2,6 +2,9 @@
 
 namespace NIntegrate
 {
+    /// <summary>
+    /// The interface for ServiceLocators.
+    /// </summary>
     public interface IServiceLocator : IDisposable
     {
         /// <summary>
@@ -18,6 +21,13 @@ namespace NIntegrate
         /// <returns>The service instance</returns>
         T GetService<T>();
 
+        /// <summary>
+        /// Determines whether the specified service contract is singleton.
+        /// </summary>
+        /// <param name="serviceContract">The service contract.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified service contract is singleton; otherwise, <c>false</c>.
+        /// </returns>
         bool IsSingleton(Type serviceContract);
     }
 }

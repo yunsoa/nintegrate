@@ -4,8 +4,18 @@ using System.Reflection;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The LINQ DataContext for all stored procedures.
+    /// </summary>
     partial class StoredProceduresDataContext
     {
+        /// <summary>
+        /// The get service configuration stored procedure.
+        /// </summary>
+        /// <param name="serviceName">Name of the service.</param>
+        /// <param name="serverName">Name of the server.</param>
+        /// <param name="appCode">The app code.</param>
+        /// <returns></returns>
         [Function(Name = "dbo.sp_GetServiceConfiguration")]
         [ResultType(typeof(ServiceConfiguration))]
         [ResultType(typeof(EndpointConfiguration))]

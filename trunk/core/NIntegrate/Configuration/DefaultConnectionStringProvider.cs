@@ -4,10 +4,18 @@ using System.Data.SqlClient;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The build-in IConnectionStringProvider implementaion.
+    /// </summary>
     public class DefaultConnectionStringProvider : IConnectionStringProvider
     {
         #region IConnectionStringProvider Members
 
+        /// <summary>
+        /// Get connection string by given connectionStringName.
+        /// </summary>
+        /// <param name="connectionStringName">Name of the connection string.</param>
+        /// <returns></returns>
         public ConnectionString GetConnectionString(string connectionStringName)
         {
             if (string.IsNullOrEmpty(connectionStringName))
