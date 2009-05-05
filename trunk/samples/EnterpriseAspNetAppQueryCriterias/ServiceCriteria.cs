@@ -13,6 +13,7 @@ namespace EnterpriseAspNetAppQueryCriterias
         public ServiceCriteria()
             : base("Service", "Enterprise Sample Shared")
         {
+            this.ServiceName.Contains("1");
         }
 
         public SqlInt32Column Service_id = new SqlInt32Column("Service_id");
