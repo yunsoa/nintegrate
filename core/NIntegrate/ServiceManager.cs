@@ -4,6 +4,12 @@ using System.Configuration;
 
 namespace NIntegrate
 {
+    /// <summary>
+    /// The ServiceManager class helps to get service locator 
+    /// by given service contract type. It always try return 
+    /// a local service locator first, if no local service locator
+    /// is used, the WcfServiceLocator is returned.
+    /// </summary>
     public sealed class ServiceManager
     {
         #region Private Singleton

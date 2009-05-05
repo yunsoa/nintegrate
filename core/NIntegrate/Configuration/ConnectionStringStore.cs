@@ -4,6 +4,9 @@ using System.Configuration;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The ConnectingString Store
+    /// </summary>
     public sealed class ConnectionStringStore
     {
         #region Private Singleton
@@ -39,6 +42,11 @@ namespace NIntegrate.Configuration
 
         #endregion
 
+        /// <summary>
+        /// Get connection string by given connectionStringName.
+        /// </summary>
+        /// <param name="connectionStringName">Name of the connection string.</param>
+        /// <returns></returns>
         public static ConnectionString GetConnectionString(string connectionStringName)
         {
             if (string.IsNullOrEmpty(connectionStringName))
@@ -61,6 +69,9 @@ namespace NIntegrate.Configuration
             return _cachedConnectionStrings[connectionStringName];
         }
 
+        /// <summary>
+        /// Resets the cache.
+        /// </summary>
         public static void ResetCache()
         {
             lock (_cachedConnectionStrings)

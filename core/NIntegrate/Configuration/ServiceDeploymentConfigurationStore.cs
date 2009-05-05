@@ -5,6 +5,9 @@ using System.ServiceModel.Configuration;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The ServiceDeploymentConfiguration Store.
+    /// </summary>
     public sealed class ServiceDeploymentConfigurationStore
     {
         #region Private Singleton
@@ -110,6 +113,11 @@ namespace NIntegrate.Configuration
 
         #endregion
 
+        /// <summary>
+        /// Gets the service to deploy by path.
+        /// </summary>
+        /// <param name="deployPath">The deploy path.</param>
+        /// <returns></returns>
         public static string GetServiceToDeployByPath(string deployPath)
         {
             if (string.IsNullOrEmpty(deployPath))
@@ -123,6 +131,9 @@ namespace NIntegrate.Configuration
             return serviceName;
         }
 
+        /// <summary>
+        /// Resets the cache.
+        /// </summary>
         public static void ResetCache()
         {
             lock (_cachedServicesToDeploy)

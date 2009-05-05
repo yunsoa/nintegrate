@@ -4,6 +4,9 @@ using System.Configuration;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The AppVariable Store
+    /// </summary>
     public sealed class AppVariableStore
     {
         #region Private Singleton
@@ -39,6 +42,11 @@ namespace NIntegrate.Configuration
 
         #endregion
 
+        /// <summary>
+        /// Gets the app variable.
+        /// </summary>
+        /// <param name="appVariableName">Name of the app variable.</param>
+        /// <returns></returns>
         public static string GetAppVariable(string appVariableName)
         {
             if (string.IsNullOrEmpty(appVariableName))
@@ -62,6 +70,9 @@ namespace NIntegrate.Configuration
             return _cachedAppVariables[appVariableName];
         }
 
+        /// <summary>
+        /// Resets the cache.
+        /// </summary>
         public static void ResetCache()
         {
             lock (_cachedAppVariables)

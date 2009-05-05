@@ -127,6 +127,13 @@ namespace NIntegrate
             return (T)_serviceProxies[typeof(T)];
         }
 
+        /// <summary>
+        /// Determines whether the specified service contract is singleton.
+        /// </summary>
+        /// <param name="serviceContract">The service contract.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified service contract is singleton; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsSingleton(Type serviceContract)
         {
             return false;
@@ -183,6 +190,10 @@ namespace NIntegrate
             disposed = true;
         }
 
+        /// <summary>
+        /// Releases unmanaged resources and performs other cleanup operations before the
+        /// <see cref="WcfServiceLocator"/> is reclaimed by garbage collection.
+        /// </summary>
         ~WcfServiceLocator()
         {
             Dispose(false);

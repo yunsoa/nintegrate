@@ -4,11 +4,19 @@ using System.Data.SqlClient;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The build-in IServiceDeploymentConfigurationProvider implementation.
+    /// </summary>
     public class DefaultServiceDeploymentConfigurationProvider 
         : IServiceDeploymentConfigurationProvider
     {
         #region IServiceDeploymentConfigurationProvider Members
 
+        /// <summary>
+        /// Gets the service deployment configuration.
+        /// </summary>
+        /// <param name="appCode">The app code.</param>
+        /// <returns></returns>
         public IList<ServiceDeploymentConfiguration> GetServiceDeploymentConfiguration(string appCode)
         {
             var list = new List<ServiceDeploymentConfiguration>();

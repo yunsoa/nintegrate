@@ -5,10 +5,17 @@ using System.Data.SqlClient;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The build-in ServiceConfigurationProvider implementation.
+    /// </summary>
     public class DefaultServiceConfigurationProvider : IServiceConfigurationProvider
     {
         #region IServiceConfigurationProvider Members
 
+        /// <summary>
+        /// Gets the binding types.
+        /// </summary>
+        /// <returns></returns>
         public IList<BindingType> GetBindingTypes()
         {
             var list = new List<BindingType>();
@@ -41,6 +48,10 @@ namespace NIntegrate.Configuration
             return list;
         }
 
+        /// <summary>
+        /// Gets the custom behavior types.
+        /// </summary>
+        /// <returns></returns>
         public IList<CustomBehaviorType> GetCustomBehaviorTypes()
         {
             var list = new List<CustomBehaviorType>();
@@ -73,6 +84,10 @@ namespace NIntegrate.Configuration
             return list;
         }
 
+        /// <summary>
+        /// Gets the service host types.
+        /// </summary>
+        /// <returns></returns>
         public IList<ServiceHostType> GetServiceHostTypes()
         {
             var list = new List<ServiceHostType>();
@@ -102,6 +117,12 @@ namespace NIntegrate.Configuration
             return list;
         }
 
+        /// <summary>
+        /// Gets the service configuration.
+        /// </summary>
+        /// <param name="serviceName">Name of the service.</param>
+        /// <param name="appCode">The app code.</param>
+        /// <returns></returns>
         public ServiceConfiguration GetServiceConfiguration(string serviceName, string appCode)
         {
             var config = new ServiceConfiguration();
@@ -136,6 +157,11 @@ namespace NIntegrate.Configuration
             return config;
         }
 
+        /// <summary>
+        /// Gets the client configuration.
+        /// </summary>
+        /// <param name="serviceContract">The service contract.</param>
+        /// <returns></returns>
         public ClientConfiguration GetClientConfiguration(Type serviceContract)
         {
             var config = new ClientConfiguration();

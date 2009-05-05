@@ -1,13 +1,21 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.SqlClient;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The build-in IAppVariableProvider implementation,.
+    /// </summary>
     public class DefaultAppVariableProvider : IAppVariableProvider
     {
         #region IAppVariableProvider Members
 
+        /// <summary>
+        /// Gets AppVariable value by given appVariableName and appCode.
+        /// </summary>
+        /// <param name="appVariableName">Name of the app variable.</param>
+        /// <param name="appCode">The app code.</param>
+        /// <returns></returns>
         public string GetAppVariable(string appVariableName, string appCode)
         {
             if (string.IsNullOrEmpty(appVariableName))

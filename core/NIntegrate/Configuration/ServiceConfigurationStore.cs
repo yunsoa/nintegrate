@@ -5,6 +5,9 @@ using System.Configuration;
 
 namespace NIntegrate.Configuration
 {
+    /// <summary>
+    /// The ServiceConfiguration Store.
+    /// </summary>
     public sealed class ServiceConfigurationStore
     {
         #region Private Singleton
@@ -69,12 +72,22 @@ namespace NIntegrate.Configuration
 
         #endregion
 
+        /// <summary>
+        /// Gets the type of the binding.
+        /// </summary>
+        /// <param name="bindingType_id">The binding type_id.</param>
+        /// <returns></returns>
         public static BindingType GetBindingType(int bindingType_id)
         {
             return GetTypeLookupById<BindingType>(
                 _cachedBindingTypes, bindingType_id);
         }
 
+        /// <summary>
+        /// Gets the type of the custom behavior.
+        /// </summary>
+        /// <param name="customBehaviorExtensionName">Name of the custom behavior extension.</param>
+        /// <returns></returns>
         public static CustomBehaviorType GetCustomBehaviorType(string customBehaviorExtensionName)
         {
             foreach (var item in _cachedCustomBehaviorTypes)
@@ -86,12 +99,22 @@ namespace NIntegrate.Configuration
             return null;
         }
 
+        /// <summary>
+        /// Gets the type of the service host.
+        /// </summary>
+        /// <param name="serviceHostType_id">The service host type_id.</param>
+        /// <returns></returns>
         public static ServiceHostType GetServiceHostType(int serviceHostType_id)
         {
             return GetTypeLookupById<ServiceHostType>(
                 _cachedServiceHostTypes, serviceHostType_id);
         }
 
+        /// <summary>
+        /// Gets the service configuration.
+        /// </summary>
+        /// <param name="serviceName">Name of the service.</param>
+        /// <returns></returns>
         public static ServiceConfiguration GetServiceConfiguration(string serviceName)
         {
             if (string.IsNullOrEmpty(serviceName))
@@ -118,6 +141,11 @@ namespace NIntegrate.Configuration
             return _cachedServiceConfigurations[serviceName];
         }
 
+        /// <summary>
+        /// Gets the client configuration.
+        /// </summary>
+        /// <param name="serviceContract">The service contract.</param>
+        /// <returns></returns>
         public static ClientConfiguration GetClientConfiguration(Type serviceContract)
         {
             if (serviceContract == null)
@@ -141,6 +169,9 @@ namespace NIntegrate.Configuration
             return _cachedClientConfigurations[serviceContract];
         }
 
+        /// <summary>
+        /// Resets the cache.
+        /// </summary>
         public static void ResetCache()
         {
             lock (typeof(ServiceConfigurationStore))
