@@ -1,17 +1,17 @@
-﻿using NIntegrate.Query;
+﻿using NIntegrate.Query.SqlClient;
 
 namespace SimpleServiceContracts
 {
-    public sealed class EndpointAvailabilityCriteria : Criteria
+    public sealed class EndpointAvailabilityCriteria : SqlCriteria
     {
         public EndpointAvailabilityCriteria()
             : base("ServiceEndpoint_lnk", "Sample - SimpleService")
         {
         }
 
-        public Int32Column Service_id = new Int32Column("Service_id");
-        public Int32Column Endpoint_id = new Int32Column("Endpoint_id");
-        public Int32Column Farm_id = new Int32Column("Farm_id");
-        public BooleanColumn Active = new BooleanColumn("Active");
+        public SqlInt32Column Service_id = new SqlInt32Column("Service_id");
+        public SqlInt32Column Endpoint_id = new SqlInt32Column("Endpoint_id");
+        public SqlInt32Column Farm_id = new SqlInt32Column("Farm_id");
+        public SqlBooleanColumn Active = new SqlBooleanColumn("Active");
     }
 }
