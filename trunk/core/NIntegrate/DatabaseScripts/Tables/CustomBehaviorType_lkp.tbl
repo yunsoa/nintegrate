@@ -9,7 +9,7 @@ GO
 
 CREATE TABLE [dbo].[CustomBehaviorType_lkp](
 	[BehaviorType_id] [int] IDENTITY(1,1) NOT NULL,
-	[BehaviorTypeExtensionName] [varchar](100) NULL,
+	[BehaviorTypeExtensionName] [varchar](100) NOT NULL,
 	[BehaviorTypeFriendlyName] [varchar](100) NOT NULL,
 	[BehaviorTypeClassName] [varchar](255) NOT NULL,
 	[BehaviorConfigurationElementTypeClassName] [varchar](255) NOT NULL,

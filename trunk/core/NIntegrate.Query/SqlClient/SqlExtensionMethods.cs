@@ -8,7 +8,7 @@ namespace NIntegrate.Query.SqlClient
 
         public static Criteria AddSortByRandom(this Criteria criteria)
         {
-            criteria._sortBys.Add(new GuidColumn(new GuidExpression("newid()", null), "newid()"), false);
+            criteria._sortBys.Add(new SqlGuidColumn(new GuidExpression("newid()", null), "newid()"), false);
 
             return criteria;
         }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 namespace NIntegrate.Query.SqlClient
 {
     [DataContract]
@@ -7,6 +8,18 @@ namespace NIntegrate.Query.SqlClient
         public SqlBooleanColumn(string columnName)
             : base(columnName)
         {
+        }
+
+        internal SqlBooleanColumn(BooleanExpression expr, string columnName)
+            : base(expr, columnName)
+        {
+        }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlBooleanColumn((BooleanExpression)base.Clone(), ColumnName);
+            return clone;
         }
     }
 
@@ -17,6 +30,18 @@ namespace NIntegrate.Query.SqlClient
             : base(columnName)
         {
         }
+
+        internal SqlByteColumn(ByteExpression expr, string columnName)
+            : base(expr, columnName)
+        {
+        }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlByteColumn((ByteExpression)base.Clone(), ColumnName);
+            return clone;
+        }
     }
 
     [DataContract]
@@ -26,6 +51,18 @@ namespace NIntegrate.Query.SqlClient
             : base(columnName)
         {
         }
+
+        internal SqlInt16Column(Int16Expression expr, string columnName)
+            : base(expr, columnName)
+        {
+        }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlInt16Column((Int16Expression)base.Clone(), ColumnName);
+            return clone;
+        }
     }
 
     [DataContract]
@@ -33,6 +70,11 @@ namespace NIntegrate.Query.SqlClient
     {
         public SqlInt32Column(string columnName)
             : base(columnName)
+        {
+        }
+
+        internal SqlInt32Column(Int32Expression expr, string columnName)
+            : base(expr, columnName)
         {
         }
 
@@ -45,6 +87,13 @@ namespace NIntegrate.Query.SqlClient
         {
             return SqlExtensionMethods.ToNChar(this);
         }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlInt32Column((Int32Expression)base.Clone(), ColumnName);
+            return clone;
+        }
     }
 
     [DataContract]
@@ -54,6 +103,18 @@ namespace NIntegrate.Query.SqlClient
             : base(columnName)
         {
         }
+
+        internal SqlInt64Column(Int64Expression expr, string columnName)
+            : base(expr, columnName)
+        {
+        }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlInt64Column((Int64Expression)base.Clone(), ColumnName);
+            return clone;
+        }
     }
 
     [DataContract]
@@ -61,6 +122,11 @@ namespace NIntegrate.Query.SqlClient
     {
         public SqlDateTimeColumn(string columnName)
             : base(columnName)
+        {
+        }
+
+        internal SqlDateTimeColumn(DateTimeExpression expr, string columnName)
+            : base(expr, columnName)
         {
         }
 
@@ -156,6 +222,13 @@ namespace NIntegrate.Query.SqlClient
         {
             return SqlExtensionMethods.GetSecond(this);
         }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlDateTimeColumn((DateTimeExpression)base.Clone(), ColumnName);
+            return clone;
+        }
     }
 
     [DataContract]
@@ -163,6 +236,11 @@ namespace NIntegrate.Query.SqlClient
     {
         public SqlStringColumn(string columnName, bool isUnicode)
             : base(columnName, isUnicode)
+        {
+        }
+
+        internal SqlStringColumn(StringExpression expr, string columnName, bool isUnicode)
+            : base(expr, columnName, isUnicode)
         {
         }
 
@@ -290,6 +368,13 @@ namespace NIntegrate.Query.SqlClient
         {
             return SqlExtensionMethods.GetLength(this);
         }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlStringColumn((StringExpression)base.Clone(), ColumnName, IsUnicode);
+            return clone;
+        }
     }
 
     [DataContract]
@@ -298,6 +383,18 @@ namespace NIntegrate.Query.SqlClient
         public SqlGuidColumn(string columnName)
             : base(columnName)
         {
+        }
+
+        internal SqlGuidColumn(GuidExpression expr, string columnName)
+            : base(expr, columnName)
+        {
+        }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlGuidColumn((GuidExpression)base.Clone(), ColumnName);
+            return clone;
         }
     }
 
@@ -308,6 +405,18 @@ namespace NIntegrate.Query.SqlClient
             : base(columnName)
         {
         }
+
+        internal SqlDoubleColumn(DoubleExpression expr, string columnName)
+            : base(expr, columnName)
+        {
+        }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlDoubleColumn((DoubleExpression)base.Clone(), ColumnName);
+            return clone;
+        }
     }
 
     [DataContract]
@@ -316,6 +425,18 @@ namespace NIntegrate.Query.SqlClient
         public SqlDecimalColumn(string columnName)
             : base(columnName)
         {
+        }
+
+        internal SqlDecimalColumn(DecimalExpression expr, string columnName)
+            : base(expr, columnName)
+        {
+        }
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new SqlDecimalColumn((DecimalExpression)base.Clone(), ColumnName);
+            return clone;
         }
     }
 }

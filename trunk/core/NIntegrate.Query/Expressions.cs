@@ -33,18 +33,15 @@ namespace NIntegrate.Query
     [KnownType(typeof(DoubleParameterExpression))]
     [KnownType(typeof(DecimalParameterExpression))]
     [KnownType(typeof(BooleanColumn))]
-    [KnownType(typeof(ByteColumn))]
-    [KnownType(typeof(Int16Column))]
-    [KnownType(typeof(Int32Column))]
+    [KnownType(typeof(SqlByteColumn))]
+    [KnownType(typeof(SqlInt16Column))]
     [KnownType(typeof(SqlInt32Column))]
-    [KnownType(typeof(Int64Column))]
-    [KnownType(typeof(DateTimeColumn))]
+    [KnownType(typeof(SqlInt64Column))]
     [KnownType(typeof(SqlDateTimeColumn))]
-    [KnownType(typeof(StringColumn))]
     [KnownType(typeof(SqlStringColumn))]
-    [KnownType(typeof(GuidColumn))]
-    [KnownType(typeof(DoubleColumn))]
-    [KnownType(typeof(DecimalColumn))]
+    [KnownType(typeof(SqlGuidColumn))]
+    [KnownType(typeof(SqlDoubleColumn))]
+    [KnownType(typeof(SqlDecimalColumn))]
     public abstract class Expression : IExpression
     {
         #region Protected Fields
@@ -302,7 +299,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public BooleanColumn As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -1018,7 +1015,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public ByteColumn As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -1734,7 +1731,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public Int16Column As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -2454,7 +2451,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public Int32Column As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -3170,7 +3167,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public Int64Column As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -3638,7 +3635,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public DateTimeColumn As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -3808,7 +3805,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public StringColumn As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -4013,7 +4010,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public GuidColumn As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -4647,7 +4644,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public DoubleColumn As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
@@ -5281,7 +5278,7 @@ namespace NIntegrate.Query
 
         #region Others
 
-        public DecimalColumn As(string columnName)
+        public IColumn As(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentNullException("columnName");
