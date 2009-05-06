@@ -1,5 +1,8 @@
 namespace NIntegrate.Web.EventArgs
 {
+    /// <summary>
+    /// The StatusEventArgs for DataSource
+    /// </summary>
     public class DataSourceStatusEventArgs : System.EventArgs
     {
         private readonly int _affectedRows;

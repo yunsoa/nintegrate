@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
-using System.Reflection;
 using System.Data;
 
 namespace NIntegrate.Query.Command
 {
+    /// <summary>
+    /// The base class for all QueryCommandBuilders which provides most resuable mfunctions.
+    /// </summary>
     public abstract class QueryCommandBuilder : IQueryCommandBuilder
     {
         #region Private Fields
@@ -34,6 +36,12 @@ namespace NIntegrate.Query.Command
 
         #region Protected Methods
 
+        /// <summary>
+        /// Builds the command text.
+        /// </summary>
+        /// <param name="cacheableSql">The cacheable SQL.</param>
+        /// <param name="parameterCollection">The parameter collection.</param>
+        /// <returns></returns>
         protected string BuildCommandText(string cacheableSql, DbParameterCollection parameterCollection)
         {
             var splittedSql = cacheableSql.Split('?');
@@ -57,6 +65,13 @@ namespace NIntegrate.Query.Command
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Builds the cacheable SQL.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="isCountCommand">if set to <c>true</c> [is count command].</param>
+        /// <returns></returns>
         protected string BuildCacheableSql(string tableName, Criteria criteria, bool isCountCommand)
         {
             if (isCountCommand || criteria._skipResults == 0)
@@ -64,10 +79,28 @@ namespace NIntegrate.Query.Command
             return BuildPagingCacheableSql(tableName, criteria);
         }
 
+        /// <summary>
+        /// Builds the paging cacheable SQL.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
         protected abstract string BuildPagingCacheableSql(string tableName, Criteria criteria);
 
+        /// <summary>
+        /// Builds the no paging cacheable SQL.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="isCountCommand">if set to <c>true</c> [is count command].</param>
+        /// <returns></returns>
         protected abstract string BuildNoPagingCacheableSql(string tableName, Criteria criteria, bool isCountCommand);
 
+        /// <summary>
+        /// Appends the sort bys.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="sb">The sb.</param>
         protected static void AppendSortBys(Criteria criteria, StringBuilder sb)
         {
             var separate = "";
@@ -84,6 +117,11 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Appends the conditions.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="sb">The sb.</param>
         protected static void AppendConditions(Criteria criteria, StringBuilder sb)
         {
             for (var i = 0; i < criteria._conditions.Count; ++i)
@@ -104,12 +142,22 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Appends from.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="sb">The sb.</param>
         protected static void AppendFrom(string tableName, StringBuilder sb)
         {
             sb.Append("FROM ");
             sb.Append(tableName.ToDatabaseObjectName());
         }
 
+        /// <summary>
+        /// Appends the result columns.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="sb">The sb.</param>
         protected static void AppendResultColumns(Criteria criteria, StringBuilder sb)
         {
             if (criteria._resultColumns.Count == 0)
@@ -136,6 +184,12 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Builds the command parameters.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="parameterCollection">The parameter collection.</param>
+        /// <param name="setParameterValueOnly">if set to <c>true</c> [set parameter value only].</param>
         protected void BuildCommandParameters(Criteria criteria, DbParameterCollection parameterCollection, bool setParameterValueOnly)
         {
             if (criteria == null) return;
@@ -150,6 +204,12 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Adds the condition parameters.
+        /// </summary>
+        /// <param name="condition">The condition.</param>
+        /// <param name="parameterCollection">The parameter collection.</param>
+        /// <param name="setParameterValueOnly">if set to <c>true</c> [set parameter value only].</param>
         protected void AddConditionParameters(Condition condition, DbParameterCollection parameterCollection, bool setParameterValueOnly)
         {
             AddExpressionParameters(condition.LeftExpression, parameterCollection, setParameterValueOnly);
@@ -162,6 +222,12 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Adds the expression parameters.
+        /// </summary>
+        /// <param name="expr">The expr.</param>
+        /// <param name="parameterCollection">The parameter collection.</param>
+        /// <param name="setParameterValueOnly">if set to <c>true</c> [set parameter value only].</param>
         protected void AddExpressionParameters(IExpression expr, DbParameterCollection parameterCollection, bool setParameterValueOnly)
         {
             var parameterExpr = expr as IParameterExpression;
@@ -179,8 +245,19 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Adjusts the parameter properties.
+        /// </summary>
+        /// <param name="parameterExpr">The parameter expr.</param>
+        /// <param name="parameter">The parameter.</param>
         protected abstract void AdjustParameterProperties(IParameterExpression parameterExpr, DbParameter parameter);
 
+        /// <summary>
+        /// Adds the parameter.
+        /// </summary>
+        /// <param name="parameterExpr">The parameter expr.</param>
+        /// <param name="parameterCollection">The parameter collection.</param>
+        /// <param name="setParameterValueOnly">if set to <c>true</c> [set parameter value only].</param>
         protected void AddParameter(IParameterExpression parameterExpr, DbParameterCollection parameterCollection, bool setParameterValueOnly)
         {
             if (setParameterValueOnly)
@@ -203,21 +280,48 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Clones the command.
+        /// </summary>
+        /// <param name="cmd">The CMD.</param>
+        /// <returns></returns>
         protected virtual DbCommand CloneCommand(DbCommand cmd)
         {
-            return (DbCommand)(cmd as ICloneable).Clone();
+            var cloneable = cmd as ICloneable;
+            if (cloneable != null)
+                return (DbCommand)cloneable.Clone();
+
+            return null;
         }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Format a name string to a parameter name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public abstract string ToParameterName(string name);
 
+        /// <summary>
+        /// Gets the database object name quote characters.
+        /// </summary>
+        /// <returns></returns>
         public abstract string GetDatabaseObjectNameQuoteCharacters();
 
+        /// <summary>
+        /// Gets the db provider factory.
+        /// </summary>
+        /// <returns></returns>
         public abstract DbProviderFactory GetDbProviderFactory();
 
+        /// <summary>
+        /// Builds the query command.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
         public virtual DbCommand BuildQueryCommand(Criteria criteria)
         {
             if (criteria == null)
@@ -255,6 +359,11 @@ namespace NIntegrate.Query.Command
             return cmd;
         }
 
+        /// <summary>
+        /// Builds the count command.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
         public virtual DbCommand BuildCountCommand(Criteria criteria)
         {
             if (criteria == null)

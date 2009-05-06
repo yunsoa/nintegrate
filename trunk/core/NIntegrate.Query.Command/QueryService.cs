@@ -3,8 +3,16 @@ using System.Data;
 
 namespace NIntegrate.Query.Command
 {
+    /// <summary>
+    /// The build-in implementation of IQueryService.
+    /// </summary>
     public sealed class QueryService : IQueryService
     {
+        /// <summary>
+        /// Selects the specified criteria.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
         public DataTable Select(Criteria criteria)
         {
             if (criteria == null)
@@ -30,6 +38,11 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Selects the count.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
         public int SelectCount(Criteria criteria)
         {
             if (criteria == null)
@@ -53,6 +66,13 @@ namespace NIntegrate.Query.Command
             }
         }
 
+        /// <summary>
+        /// Updates the specified criteria.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="modifiedTable">The modified table.</param>
+        /// <param name="conflictDetection">The conflict detection.</param>
+        /// <returns></returns>
         public int Update(Criteria criteria, DataTable modifiedTable, ConflictOption conflictDetection)
         {
             if (criteria == null)

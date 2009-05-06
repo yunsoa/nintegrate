@@ -6,6 +6,10 @@ using NIntegrate.Configuration;
 
 namespace NIntegrate.Query.Command
 {
+    /// <summary>
+    /// The QueryCommandFactory creates query commands by 
+    /// calling different query command builders.
+    /// </summary>
     public sealed class QueryCommandFactory
     {
         #region Private Fields
@@ -41,6 +45,10 @@ namespace NIntegrate.Query.Command
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryCommandFactory"/> class.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
         public QueryCommandFactory(Criteria criteria)
         {
             _criteria = criteria;
@@ -56,6 +64,10 @@ namespace NIntegrate.Query.Command
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets the query command.
+        /// </summary>
+        /// <returns></returns>
         public DbCommand GetQueryCommand()
         {
             var cmd = _queryCommandBuilder.BuildQueryCommand(_criteria);
@@ -63,6 +75,10 @@ namespace NIntegrate.Query.Command
             return cmd;
         }
 
+        /// <summary>
+        /// Gets the count command.
+        /// </summary>
+        /// <returns></returns>
         public DbCommand GetCountCommand()
         {
             var cmd = _queryCommandBuilder.BuildCountCommand(_criteria);
@@ -70,6 +86,10 @@ namespace NIntegrate.Query.Command
             return cmd;
         }
 
+        /// <summary>
+        /// Gets the query data adapter.
+        /// </summary>
+        /// <returns></returns>
         public DbDataAdapter GetQueryDataAdapter()
         {
             var adapter = _queryCommandBuilder.GetDbProviderFactory().CreateDataAdapter();
@@ -78,6 +98,11 @@ namespace NIntegrate.Query.Command
             return adapter;
         }
 
+        /// <summary>
+        /// Gets the updatable query data adapter.
+        /// </summary>
+        /// <param name="option">The option.</param>
+        /// <returns></returns>
         public DbDataAdapter GetUpdatableQueryDataAdapter(ConflictOption option)
         {
             var adapter = _queryCommandBuilder.GetDbProviderFactory().CreateDataAdapter();
