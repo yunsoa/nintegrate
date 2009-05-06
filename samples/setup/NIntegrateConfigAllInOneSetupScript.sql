@@ -297,7 +297,7 @@ GO
 
 CREATE TABLE [dbo].[CustomBehaviorType_lkp](
 	[BehaviorType_id] [int] IDENTITY(1,1) NOT NULL,
-	[BehaviorTypeExtensionName] [varchar](100) NULL,
+	[BehaviorTypeExtensionName] [varchar](100) NOT NULL,
 	[BehaviorTypeFriendlyName] [varchar](100) NOT NULL,
 	[BehaviorTypeClassName] [varchar](255) NOT NULL,
 	[BehaviorConfigurationElementTypeClassName] [varchar](255) NOT NULL,
@@ -823,24 +823,15 @@ GO
 
 -- =============================================
 -- Author:		Teddy Ma
--- Create date: 2009-3-2
--- Description:	Get Connection String from 
--- ConnectionString table by Server Name
+-- Create date: 2009-4-6
+-- Description:	Get all service host types.
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_GetConnectionString]
-	@ConnectionStringName as varchar(100)
-	,@ServerName as varchar(50)
+CREATE PROCEDURE [dbo].[sp_GetAllServiceHostTypes]
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-    select [Value], [ProviderName] from ConnectionString
-    where Name = @ConnectionStringName
-		and Environment_id = (
-			select Environment_id from Farm where Farm_id = (
-				select Farm_id from [Server] where ServerName = @ServerName
-			)
-		)
+	SELECT * FROM ServiceHostType_lkp
 END
 
 GO
@@ -889,67 +880,24 @@ GO
 
 -- =============================================
 -- Author:		Teddy Ma
--- Create date: 2009-4-6
--- Description:	Get all binding types.
+-- Create date: 2009-3-2
+-- Description:	Get Connection String from 
+-- ConnectionString table by Server Name
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_GetAllBindingTypes]
+CREATE PROCEDURE [dbo].[sp_GetConnectionString]
+	@ConnectionStringName as varchar(100)
+	,@ServerName as varchar(50)
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT * FROM BindingType_lkp
-END
-
-GO
-
-
-
-
-
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
--- =============================================
--- Author:		Teddy Ma
--- Create date: 2009-4-6
--- Description:	Get all custom behavior types.
--- =============================================
-CREATE PROCEDURE [dbo].[sp_GetAllCustomBehaviorTypes]
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	SELECT * FROM CustomBehaviorType_lkp
-END
-
-GO
-
-
-
-
-
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
--- =============================================
--- Author:		Teddy Ma
--- Create date: 2009-4-6
--- Description:	Get all service host types.
--- =============================================
-CREATE PROCEDURE [dbo].[sp_GetAllServiceHostTypes]
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	SELECT * FROM ServiceHostType_lkp
+    select [Value], [ProviderName] from ConnectionString
+    where Name = @ConnectionStringName
+		and Environment_id = (
+			select Environment_id from Farm where Farm_id = (
+				select Farm_id from [Server] where ServerName = @ServerName
+			)
+		)
 END
 
 GO
@@ -1013,6 +961,58 @@ BEGIN
 			)
 	ORDER BY bdt.ChannelType_id DESC, s.Service_id DESC
 END
+
+
+
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		Teddy Ma
+-- Create date: 2009-4-6
+-- Description:	Get all binding types.
+-- =============================================
+CREATE PROCEDURE [dbo].[sp_GetAllBindingTypes]
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT * FROM BindingType_lkp
+END
+
+GO
+
+
+
+
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		Teddy Ma
+-- Create date: 2009-4-6
+-- Description:	Get all custom behavior types.
+-- =============================================
+CREATE PROCEDURE [dbo].[sp_GetAllCustomBehaviorTypes]
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT * FROM CustomBehaviorType_lkp
+END
+
+GO
+
 
 
 

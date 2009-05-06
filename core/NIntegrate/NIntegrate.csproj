@@ -126,10 +126,52 @@
     <None Include="Configuration\StoredProcedures.dbml.layout">
       <DependentUpon>StoredProcedures.dbml</DependentUpon>
     </None>
+    <None Include="DatabaseScripts\Scripts\BehaviorCategory_lkp_Initial_Rows.sql" />
+    <None Include="DatabaseScripts\Scripts\BindingType_lkp_Initial_Rows.sql" />
+    <None Include="DatabaseScripts\Scripts\ChannelType_lkp_Initial_Rows.sql" />
+    <None Include="DatabaseScripts\Scripts\EndpointListenUriMode_lkp_Initial_Rows.sql" />
+    <None Include="DatabaseScripts\Scripts\Environment_Initial_Rows.sql" />
+    <None Include="DatabaseScripts\Scripts\FarmAccessibility_Inital_Rows.sql" />
+    <None Include="DatabaseScripts\Scripts\Farm_Initial_Rows.sql" />
+    <None Include="DatabaseScripts\Scripts\ServiceHostType_lkp_Initial_Rows.sql" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetAllBindingTypes.prc" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetAllCustomBehaviorTypes.prc" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetAllServiceHostTypes.prc" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetAppVariable.prc" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetClientConfiguration.prc" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetConnectionString.prc" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetServiceConfiguration.prc" />
+    <None Include="DatabaseScripts\Stored Procedures\sp_GetServiceDeploymentConfiguration.prc" />
+    <None Include="DatabaseScripts\Tables\App.tbl" />
+    <None Include="DatabaseScripts\Tables\AppVariable.tbl" />
+    <None Include="DatabaseScripts\Tables\Behavior.tbl" />
+    <None Include="DatabaseScripts\Tables\BehaviorCategory_lkp.tbl" />
+    <None Include="DatabaseScripts\Tables\Binding.tbl" />
+    <None Include="DatabaseScripts\Tables\BindingType_lkp.tbl" />
+    <None Include="DatabaseScripts\Tables\ChannelType_lkp.tbl" />
+    <None Include="DatabaseScripts\Tables\ConnectionString.tbl" />
+    <None Include="DatabaseScripts\Tables\CustomBehaviorType_lkp.tbl" />
+    <None Include="DatabaseScripts\Tables\Endpoint.tbl" />
+    <None Include="DatabaseScripts\Tables\EndpointClient.tbl" />
+    <None Include="DatabaseScripts\Tables\EndpointListenUriMode_lkp.tbl" />
+    <None Include="DatabaseScripts\Tables\Environment.tbl" />
+    <None Include="DatabaseScripts\Tables\Farm.tbl" />
+    <None Include="DatabaseScripts\Tables\FarmAccessibility.tbl" />
+    <None Include="DatabaseScripts\Tables\Server.tbl" />
+    <None Include="DatabaseScripts\Tables\Service.tbl" />
+    <None Include="DatabaseScripts\Tables\ServiceCategory.tbl" />
+    <None Include="DatabaseScripts\Tables\ServiceContractCompatibility.tbl" />
+    <None Include="DatabaseScripts\Tables\ServiceEndpoint_lnk.tbl" />
+    <None Include="DatabaseScripts\Tables\ServiceHostType_lkp.tbl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatabaseScripts\GenerateAllInOneSetupScript.vbs" />
+    <Content Include="DatabaseScripts\Scripts\Order.txt" />
+    <Content Include="DatabaseScripts\Tables\Order.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

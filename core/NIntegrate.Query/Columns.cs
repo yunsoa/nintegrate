@@ -49,7 +49,6 @@ namespace NIntegrate.Query
 
         #region Public Methods
 
-        [ComVisible(false)]
         public override object Clone()
         {
             var clone = new BooleanColumn((BooleanExpression)base.Clone(), ColumnName);
@@ -559,18 +558,5 @@ namespace NIntegrate.Query
         }
 
         #endregion
-    }
-
-    public static class ColumnExtensionMethods
-    {
-        internal static string ToSelectColumnName(this IColumn column)
-        {
-            var sql = column.ToExpressionCacheableSql();
-            var columnName = column.ColumnName.ToDatabaseObjectName();
-
-            if (sql == columnName)
-                return sql;
-            return sql + " AS " + columnName;
-        }
     }
 }

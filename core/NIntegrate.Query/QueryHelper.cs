@@ -11,6 +11,16 @@ namespace NIntegrate.Query
     [ComVisible(false)]
     public static class QueryHelper
     {
+        internal static string ToSelectColumnName(this IColumn column)
+        {
+            var sql = column.ToExpressionCacheableSql();
+            var columnName = column.ColumnName.ToDatabaseObjectName();
+
+            if (sql == columnName)
+                return sql;
+            return sql + " AS " + columnName;
+        }
+
         internal static void GetLeftRightOperatorsForBetween(bool includeLeft, bool includeRight
             , out ExpressionOperator leftOp, out ExpressionOperator rightOp)
         {
