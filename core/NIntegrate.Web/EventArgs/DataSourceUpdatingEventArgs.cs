@@ -3,6 +3,9 @@ using System.ComponentModel;
 
 namespace NIntegrate.Web.EventArgs
 {
+    /// <summary>
+    /// The UpdatingEventArgs for DataSource
+    /// </summary>
     public class DataSourceUpdatingEventArgs : CancelEventArgs
     {
         private readonly IDictionary _keys;

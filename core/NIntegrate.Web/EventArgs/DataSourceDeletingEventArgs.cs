@@ -3,6 +3,9 @@ using System.ComponentModel;
 
 namespace NIntegrate.Web.EventArgs
 {
+    /// <summary>
+    /// The DeletingEventArgs for DataSource
+    /// </summary>
     public class DataSourceDeletingEventArgs : CancelEventArgs
     {
         private readonly IDictionary _keys;

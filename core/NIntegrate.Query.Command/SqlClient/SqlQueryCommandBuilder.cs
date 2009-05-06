@@ -2,15 +2,23 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Reflection;
 using System.Text;
 
 namespace NIntegrate.Query.Command.SqlClient
 {
+    /// <summary>
+    /// The IQueryCommandBuilder implementation for SQL Server database.
+    /// </summary>
     public class SqlQueryCommandBuilder : QueryCommandBuilder
     {
         #region Override Methods
 
+        /// <summary>
+        /// Builds the paging cacheable SQL.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
         protected override string BuildPagingCacheableSql(string tableName, Criteria criteria)
         {
             var sb = new StringBuilder();
@@ -108,6 +116,13 @@ namespace NIntegrate.Query.Command.SqlClient
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Builds the no paging cacheable SQL.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="isCountCommand">if set to <c>true</c> [is count command].</param>
+        /// <returns></returns>
         protected override string BuildNoPagingCacheableSql(string tableName, Criteria criteria, bool isCountCommand)
         {
             var sb = new StringBuilder();
@@ -179,6 +194,11 @@ namespace NIntegrate.Query.Command.SqlClient
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Toes the name of the parameter.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public override string ToParameterName(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -187,6 +207,11 @@ namespace NIntegrate.Query.Command.SqlClient
             return "@" + name.TrimStart('@');
         }
 
+        /// <summary>
+        /// Adjusts the parameter properties.
+        /// </summary>
+        /// <param name="parameterExpr">The parameter expr.</param>
+        /// <param name="parameter">The parameter.</param>
         protected override void AdjustParameterProperties(IParameterExpression parameterExpr, DbParameter parameter)
         {
             var sqlParameter = parameter as SqlParameter;
@@ -240,11 +265,19 @@ namespace NIntegrate.Query.Command.SqlClient
             return;
         }
 
+        /// <summary>
+        /// Gets the db provider factory.
+        /// </summary>
+        /// <returns></returns>
         public override DbProviderFactory GetDbProviderFactory()
         {
             return SqlClientFactory.Instance;
         }
 
+        /// <summary>
+        /// Gets the database object name quote characters.
+        /// </summary>
+        /// <returns></returns>
         public override string GetDatabaseObjectNameQuoteCharacters()
         {
             return "[]";
@@ -254,10 +287,16 @@ namespace NIntegrate.Query.Command.SqlClient
 
         #region Singleton
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlQueryCommandBuilder"/> class.
+        /// </summary>
         protected SqlQueryCommandBuilder()
         {
         }
 
+        /// <summary>
+        /// The singleton instance.
+        /// </summary>
         public static readonly SqlQueryCommandBuilder Instance = new SqlQueryCommandBuilder();
 
         #endregion
