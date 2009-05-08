@@ -1,0 +1,24 @@
+﻿<behavior name="String">
+  <serviceMetadata
+    httpGetEnabled="false"
+    httpGetUrl="Uri"
+    httpsGetEnabled="false"
+    httpsGetUrl="Uri"
+    externalMetadataLocation="Uri"
+  />
+  <serviceDebug
+    httpHelpPageEnabled="false"
+    httpHelpPageUrl="Uri"
+    httpsHelpPageEnabled="false"
+    httpsHelpPageUrl="Uri"
+    includeExceptionDetailInFaults="false"
+  />
+  <serviceThrottling
+    maxConcurrentCalls="16"
+    maxConcurrentInstances="26"
+    maxConcurrentSessions="10"
+  />
+  <serviceTimeOuts
+    transactionTimeout="0"
+  />
+</behavior>
