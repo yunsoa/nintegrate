@@ -1,4 +1,4 @@
-NIntegrate v0.6.0.1 beta
+NIntegrate v0.7.0.1 beta
 
 
 Configuration Database Installation Guide
@@ -10,6 +10,18 @@ Configuration Database Installation Guide
 3. Insert a row into [Server] table like 
    "insert into [Server] (ServerName, ServerAddress, Farm_id) 
    values ('put your server name here', 'localhost', 1)"
+
+
+Update Since v0.6.0.1
+---------------------
+
+1. Add SqlColumn classes into NIntegrate.Query.SqlClient to enable 
+   calling Sql extension operations in non-.NET client applications through COM.
+2. Add the SDK & Class Library documentations.
+3. Add source code for constructing configuration database in
+   DatabaseScripts folder in NIntegrate project folder.
+4. Add XmlTemplates folder in NIntegrate project folder containing 
+   sample XML snips to configure WCF services.
 
 
 Update Since v0.5.0.1
@@ -31,3 +43,4 @@ History
 
 v0.5.0.1	2009/4/22	The initail version.
 v0.6.0.1	2009/5/03	The first beta version.
+v0.7.0.1	2009/5/08	The second beta version.
