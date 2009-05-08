@@ -1,0 +1,126 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B8B45A33-D35A-4B2E-93CF-09CAD4B03C5C}"
+	ProjectSection(SolutionItems) = preProject
+		adm.gif = adm.gif
+		adm_arch.gif = adm_arch.gif
+		adm_dev.gif = adm_dev.gif
+		adm_dev_arch.gif = adm_dev_arch.gif
+		alert_caution.gif = alert_caution.gif
+		alert_note.gif = alert_note.gif
+		alert_security.gif = alert_security.gif
+		arch.gif = arch.gif
+		big_adm.gif = big_adm.gif
+		big_arch.gif = big_arch.gif
+		big_dev.gif = big_dev.gif
+		big_kw.gif = big_kw.gif
+		box.gif = box.gif
+		Caution.gif = Caution.gif
+		CFW.gif = CFW.gif
+		CheckboxMenu.js = CheckboxMenu.js
+		collall.gif = collall.gif
+		collapse.gif = collapse.gif
+		collapse_all.gif = collapse_all.gif
+		CommonUtilities.js = CommonUtilities.js
+		copycode.gif = copycode.gif
+		copycodeHighlight.gif = copycodeHighlight.gif
+		dev.gif = dev.gif
+		dev_arch.gif = dev_arch.gif
+		dropdown.gif = dropdown.gif
+		Dropdown.js = Dropdown.js
+		dropdownHover.gif = dropdownHover.gif
+		drpdown.gif = drpdown.gif
+		drpdown_orange.gif = drpdown_orange.gif
+		drpdown_orange_up.gif = drpdown_orange_up.gif
+		drpup.gif = drpup.gif
+		EventUtilities.js = EventUtilities.js
+		exp.gif = exp.gif
+		expall.gif = expall.gif
+		expand_all.gif = expand_all.gif
+		filter1a.gif = filter1a.gif
+		filter1c.gif = filter1c.gif
+		footer.gif = footer.gif
+		gradient.gif = gradient.gif
+		greencheck.gif = greencheck.gif
+		greychck.gif = greychck.gif
+		header_sql_tutorial_logo.GIF = header_sql_tutorial_logo.GIF
+		kw.gif = kw.gif
+		kw_adm.gif = kw_adm.gif
+		kw_adm_arch.gif = kw_adm_arch.gif
+		kw_adm_dev.gif = kw_adm_dev.gif
+		kw_adm_dev_arch.gif = kw_adm_dev_arch.gif
+		kw_arch.gif = kw_arch.gif
+		kw_dev.gif = kw_dev.gif
+		kw_dev_arch.gif = kw_dev_arch.gif
+		LastChild.gif = LastChild.gif
+		load.gif = load.gif
+		load_hover.gif = load_hover.gif
+		NIntegrate.hmxz = NIntegrate.hmxz
+		NIntegrate.scproj = NIntegrate.scproj
+		note.gif = note.gif
+		pencil.GIF = pencil.GIF
+		privclass.gif = privclass.gif
+		privdelegate.gif = privdelegate.gif
+		privenum.gif = privenum.gif
+		privenumeration.gif = privenumeration.gif
+		privevent.gif = privevent.gif
+		privextension.gif = privextension.gif
+		privfield.gif = privfield.gif
+		privinterface.gif = privinterface.gif
+		privmethod.gif = privmethod.gif
+		privproperty.gif = privproperty.gif
+		privstructure.gif = privstructure.gif
+		protclass.gif = protclass.gif
+		protdelegate.gif = protdelegate.gif
+		protenum.gif = protenum.gif
+		protenumeration.gif = protenumeration.gif
+		protevent.gif = protevent.gif
+		protextension.gif = protextension.gif
+		protfield.gif = protfield.gif
+		protinterface.gif = protinterface.gif
+		protmethod.gif = protmethod.gif
+		protoperator.gif = protoperator.gif
+		protproperty.gif = protproperty.gif
+		protstructure.gif = protstructure.gif
+		pubclass.gif = pubclass.gif
+		pubdelegate.gif = pubdelegate.gif
+		pubenum.gif = pubenum.gif
+		pubenumeration.gif = pubenumeration.gif
+		pubevent.gif = pubevent.gif
+		pubextension.gif = pubextension.gif
+		pubfield.gif = pubfield.gif
+		pubinterface.gif = pubinterface.gif
+		pubmethod.gif = pubmethod.gif
+		puboperator.gif = puboperator.gif
+		pubproperty.gif = pubproperty.gif
+		pubstructure.gif = pubstructure.gif
+		requirements1a.gif = requirements1a.gif
+		requirements1c.gif = requirements1c.gif
+		save.gif = save.gif
+		save_hover.gif = save_hover.gif
+		script_feedBack.js = script_feedBack.js
+		script_manifold.js = script_manifold.js
+		security.gif = security.gif
+		seealso1a.gif = seealso1a.gif
+		seealso1c.gif = seealso1c.gif
+		SplitScreen.js = SplitScreen.js
+		static.gif = static.gif
+		xna.gif = xna.gif
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{61700FCA-F33A-4D34-8A25-DC7BBD5EBD7A}"
+	ProjectSection(SolutionItems) = preProject
+		images\installation_01.bmp = images\installation_01.bmp
+		images\installation_02.bmp = images\installation_02.bmp
+		images\installation_03.bmp = images\installation_03.bmp
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{61700FCA-F33A-4D34-8A25-DC7BBD5EBD7A} = {B8B45A33-D35A-4B2E-93CF-09CAD4B03C5C}
+	EndGlobalSection
+EndGlobal
