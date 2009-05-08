@@ -16,7 +16,7 @@ namespace EnterpriseAspNetApp
             if (!IsPostBack)
             {
                 var criteria = new ServiceCriteria();
-                QueryDataSource1.Criteria = criteria.AddSortBy(criteria.ServiceName, false);
+                QueryDataSource1.Criteria = criteria.AddResultColumn(criteria.Service_id.As("ID")).AddResultColumn(criteria.ServiceName.As("Name")).AddSortBy(criteria.ServiceName, false);
             }
         }
 
