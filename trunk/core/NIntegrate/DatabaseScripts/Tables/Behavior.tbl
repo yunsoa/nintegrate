@@ -10,7 +10,7 @@ GO
 CREATE TABLE [dbo].[Behavior](
 	[Behavior_id] [int] IDENTITY(1,1) NOT NULL,
 	[BehaviorName] [varchar](100) NOT NULL,
-	[BehaviorXML] [varchar](max) NOT NULL,
+	[BehaviorXML] [varchar](max) NULL,
 	[BehaviorCategory_id] [int] NOT NULL,
  CONSTRAINT [PK_Behavior] PRIMARY KEY CLUSTERED 
 (

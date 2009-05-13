@@ -23,6 +23,16 @@ namespace NIntegrate.Configuration
 
             ConnectionString connectionString = null;
 
+            if (connectionStringName == Constants.ConfigurationDatabaseConnectionStringName)
+            {
+                connectionString = new ConnectionString
+                                       {
+                                           ProviderName = "System.Data.SqlClient",
+                                           Value = WcfServiceHelper.GetConfigurationConnectionString()
+                                       };
+                return connectionString;
+            }
+
             using (var conn = new SqlConnection(WcfServiceHelper.GetConfigurationConnectionString()))
             {
                 conn.Open();

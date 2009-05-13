@@ -382,6 +382,9 @@ namespace NIntegrate.Web
                 return selectingArgs.Result != null ? new DataView(selectingArgs.Result) : null;
             }
 
+            if (_owner.Criteria == null)
+                return null;
+
             var criteria = _owner.Criteria.ToBaseCriteria();
 
             if (arguments != null && arguments != DataSourceSelectArguments.Empty)
