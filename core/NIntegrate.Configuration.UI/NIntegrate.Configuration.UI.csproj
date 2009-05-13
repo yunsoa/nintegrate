@@ -1,0 +1,183 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B88B8715-1962-45C2-AC1F-E9F296EF50C8}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NIntegrate.Configuration.UI</RootNamespace>
+    <AssemblyName>NIntegrate.Configuration.UI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Site.css" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\Criterias\AppCriteria.cs" />
+    <Compile Include="Code\Criterias\AppVariableCriteria.cs" />
+    <Compile Include="Code\Criterias\ConnectionStringCriteria.cs" />
+    <Compile Include="Code\Criterias\FarmCriteria.cs" />
+    <Compile Include="Code\Criterias\ServerCriteria.cs" />
+    <Compile Include="Code\ExtensionMethods.cs" />
+    <Compile Include="Code\Shared.cs" />
+    <Compile Include="Code\Criterias\CriteriaBase.cs" />
+    <Compile Include="Code\Criterias\EnvironmentCriteria.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageApplications.aspx.cs">
+      <DependentUpon>ManageApplications.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageApplications.aspx.designer.cs">
+      <DependentUpon>ManageApplications.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageConnectingStrings.aspx.cs">
+      <DependentUpon>ManageConnectingStrings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageConnectingStrings.aspx.designer.cs">
+      <DependentUpon>ManageConnectingStrings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageEnvironments.aspx.cs">
+      <DependentUpon>ManageEnvironments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageEnvironments.aspx.designer.cs">
+      <DependentUpon>ManageEnvironments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageFarms.aspx.cs">
+      <DependentUpon>ManageFarms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageFarms.aspx.designer.cs">
+      <DependentUpon>ManageFarms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site.master.cs">
+      <DependentUpon>Site.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.master.designer.cs">
+      <DependentUpon>Site.master</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx" />
+    <Content Include="Images\Back.gif" />
+    <Content Include="Images\header_back.gif" />
+    <Content Include="Images\PgFirst.gif" />
+    <Content Include="Images\PgLast.gif" />
+    <Content Include="Images\PgNext.gif" />
+    <Content Include="Images\PgPrev.gif" />
+    <Content Include="Images\plus.gif" />
+    <Content Include="ManageApplications.aspx" />
+    <Content Include="ManageConnectingStrings.aspx" />
+    <Content Include="ManageEnvironments.aspx" />
+    <Content Include="ManageFarms.aspx" />
+    <Content Include="Site.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NIntegrate.Query.Command\NIntegrate.Query.Command.csproj">
+      <Project>{39F21CCC-EABD-48F9-9C25-AC02513E9F31}</Project>
+      <Name>NIntegrate.Query.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NIntegrate.Query\NIntegrate.Query.csproj">
+      <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
+      <Name>NIntegrate.Query</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NIntegrate.Web\NIntegrate.Web.csproj">
+      <Project>{0B23908A-D089-410E-9A0D-C42AAD2AD838}</Project>
+      <Name>NIntegrate.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NIntegrate\NIntegrate.csproj">
+      <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
+      <Name>NIntegrate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3356</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
