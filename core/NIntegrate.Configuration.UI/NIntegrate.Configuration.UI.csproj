@@ -63,6 +63,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\BehaviorCategory.cs" />
     <Compile Include="Code\Criterias\AppCriteria.cs" />
     <Compile Include="Code\Criterias\AppVariableCriteria.cs" />
     <Compile Include="Code\Criterias\ConnectionStringCriteria.cs" />
