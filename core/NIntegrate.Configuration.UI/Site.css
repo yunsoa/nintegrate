@@ -276,3 +276,7 @@ div.bottomhyperlink img
 {
     padding-top: 20px;
 }
+.hidden
+{
+    display: none;
+}

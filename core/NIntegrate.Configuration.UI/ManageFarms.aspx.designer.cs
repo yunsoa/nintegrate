@@ -86,6 +86,24 @@ namespace NIntegrate.Configuration.UI {
         protected global::System.Web.UI.WebControls.Panel panelAddServer;
         
         /// <summary>
+        /// dvAddServer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DetailsView dvAddServer;
+        
+        /// <summary>
+        /// gvFarmAccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvFarmAccess;
+        
+        /// <summary>
         /// hidSelectedFarm_id control.
         /// </summary>
         /// <remarks>
@@ -95,13 +113,13 @@ namespace NIntegrate.Configuration.UI {
         protected global::System.Web.UI.WebControls.HiddenField hidSelectedFarm_id;
         
         /// <summary>
-        /// dvAddServer control.
+        /// hidFarmAccessItemChecked control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DetailsView dvAddServer;
+        protected global::System.Web.UI.WebControls.HiddenField hidFarmAccessItemChecked;
         
         /// <summary>
         /// dsFarms control.
