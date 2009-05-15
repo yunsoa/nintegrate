@@ -30,7 +30,37 @@
         </tr>
         <tr>
             <td>
+                <a href="#">Manage Custom Behavior Types</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">Manage Behaviors</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">Manage ServiceHost Types</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="#">Manage Services</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">Manage Bindings</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">Manage Endpoints</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">Manage ServiceContract Compatibilities</a>
             </td>
         </tr>
     </table>
