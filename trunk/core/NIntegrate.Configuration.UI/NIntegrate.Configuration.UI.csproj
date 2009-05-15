@@ -66,10 +66,10 @@
     <Compile Include="Code\Criterias\AppCriteria.cs" />
     <Compile Include="Code\Criterias\AppVariableCriteria.cs" />
     <Compile Include="Code\Criterias\ConnectionStringCriteria.cs" />
+    <Compile Include="Code\Criterias\FarmAccessibilityCriteria.cs" />
     <Compile Include="Code\Criterias\FarmCriteria.cs" />
     <Compile Include="Code\Criterias\ServerCriteria.cs" />
     <Compile Include="Code\ExtensionMethods.cs" />
-    <Compile Include="Code\Shared.cs" />
     <Compile Include="Code\Criterias\CriteriaBase.cs" />
     <Compile Include="Code\Criterias\EnvironmentCriteria.cs" />
     <Compile Include="Default.aspx.cs">

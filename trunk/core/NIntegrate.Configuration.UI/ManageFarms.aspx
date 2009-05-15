@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Manage Farms" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageFarms.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageFarms" %>
+<%@ Page Title="Manage Farms" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageFarms.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageFarms" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage Farms</h2>
     <div class="bottomhyperlink"><img alt="Add new farm" src="Images/plus.gif" /><asp:LinkButton 
@@ -47,6 +47,11 @@
             <asp:TemplateField HeaderText="Servers">
                 <ItemTemplate>
                     <asp:LinkButton ID="btnViewServers" runat="server" Text="Manage Servers" CommandName="Select" CommandArgument='<%# "ViewServers|" + Eval("Farm_id") %>'></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Accessibility">
+                <ItemTemplate>
+                    <asp:LinkButton ID="btnEditFarmAccess" runat="server" Text="Manage Accessibility" CommandName="Select" CommandArgument='<%# "EditFarmAccess|" + Eval("Farm_id") %>'></asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
@@ -131,7 +136,6 @@
                 </Columns>
             </asp:GridView>
             <asp:Panel ID="panelAddServer" runat="server" CssClass="panelBottom" Visible="false">
-                <asp:HiddenField ID="hidSelectedFarm_id" runat="server" />
                 <asp:DetailsView ID="dvAddServer" runat="server"
                     DataSourceID="dsServers" DefaultMode="Insert"
                     AutoGenerateRows="false"
@@ -165,7 +169,25 @@
                 </asp:DetailsView>            
             </asp:Panel>
         </asp:Panel>
+        <asp:GridView ID="gvFarmAccess" runat="server" CssClass="gridview" ShowHeader="false"
+            DataSourceID="dsFarms" AutoGenerateColumns="false" Visible="false"
+            onrowcommand="gvFarmAccess_RowCommand" 
+            onrowdatabound="gvFarmAccess_RowDataBound">
+            <Columns>
+                <asp:BoundField DataField="FarmName"/>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:CheckBox ID="cbMSMQ" runat="server" Text="MSMQ" /><asp:Button ID="btnMSMQ" runat="server" CssClass="hidden" CommandName="MSMQ" CommandArgument='<%# Eval("Farm_id") %>' />
+                        <asp:CheckBox ID="cbHTTP" runat="server" Text="HTTP" /><asp:Button ID="btnHTTP" runat="server" CssClass="hidden" CommandName="HTTP" CommandArgument='<%# Eval("Farm_id") %>' />
+                        <asp:CheckBox ID="cbTCP" runat="server" Text="TCP" /><asp:Button ID="btnTCP" runat="server" CssClass="hidden" CommandName="TCP" CommandArgument='<%# Eval("Farm_id") %>' />
+                        <asp:CheckBox ID="cbIPC" runat="server" Text="IPC" /><asp:Button ID="btnIPC" runat="server" CssClass="hidden" CommandName="IPC" CommandArgument='<%# Eval("Farm_id") %>' />
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView>
     </asp:Panel>
+    <asp:HiddenField ID="hidSelectedFarm_id" runat="server" />
+    <asp:HiddenField ID="hidFarmAccessItemChecked" runat="server" Value="False" />    
     <ni:QueryDataSource ID="dsFarms" runat="server" UseLocalQueryService="true">
     </ni:QueryDataSource>
     <ni:QueryDataSource ID="dsEnvironments" runat="server" UseLocalQueryService="true">
