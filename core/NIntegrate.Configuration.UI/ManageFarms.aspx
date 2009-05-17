@@ -192,6 +192,7 @@
     </ni:QueryDataSource>
     <ni:QueryDataSource ID="dsEnvironments" runat="server" UseLocalQueryService="true">
     </ni:QueryDataSource>
-    <ni:QueryDataSource ID="dsServers" runat="server" UseLocalQueryService="true">
+    <ni:QueryDataSource ID="dsServers" runat="server" UseLocalQueryService="true" 
+        oninserting="dsServers_Inserting" onupdating="dsServers_Updating">
     </ni:QueryDataSource>
 </asp:Content>
