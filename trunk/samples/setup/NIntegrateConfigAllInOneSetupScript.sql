@@ -337,7 +337,7 @@ GO
 CREATE TABLE [dbo].[Behavior](
 	[Behavior_id] [int] IDENTITY(1,1) NOT NULL,
 	[BehaviorName] [varchar](100) NOT NULL,
-	[BehaviorXML] [varchar](max) NOT NULL,
+	[BehaviorXML] [varchar](max) NULL,
 	[BehaviorCategory_id] [int] NOT NULL,
  CONSTRAINT [PK_Behavior] PRIMARY KEY CLUSTERED 
 (
@@ -478,7 +478,7 @@ GO
 
 CREATE TABLE [dbo].[ServiceHostType_lkp](
 	[ServiceHostType_id] [int] IDENTITY(1,1) NOT NULL,
-	[ServiceHostTypeFriendlyName] [varchar](50) NOT NULL,
+	[ServiceHostTypeFriendlyName] [varchar](100) NOT NULL,
 	[ServiceHostTypeClassName] [varchar](255) NOT NULL,
  CONSTRAINT [PK_ServiceHostType_lkp] PRIMARY KEY CLUSTERED 
 (
