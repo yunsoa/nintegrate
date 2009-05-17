@@ -10,57 +10,57 @@
         </tr>
         <tr>
             <td>
-                <a href="ManageEnvironments.aspx">Manage Environments</a>
+                <a href="ManageEnvironments.aspx">Environments</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="ManageFarms.aspx">Manage Farms</a>
+                <a href="ManageFarms.aspx">Farms</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="ManageConnectingStrings.aspx">Manage ConnectionStrings</a>
+                <a href="ManageConnectingStrings.aspx">ConnectionStrings</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="ManageApplications.aspx">Manage Applications</a>
+                <a href="ManageApplications.aspx">Applications</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Manage Custom Behavior Types</a>
+                <a href="ManageCustomBehaviorTypes.aspx">Custom Behavior Types</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Manage Behaviors</a>
+                <a href="#">Behaviors</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Manage ServiceHost Types</a>
+                <a href="ManageServiceHostTypes.aspx">ServiceHost Types</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Manage Services</a>
+                <a href="#">Services</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Manage Bindings</a>
+                <a href="#">Bindings</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Manage Endpoints</a>
+                <a href="#">Endpoints</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Manage ServiceContract Compatibilities</a>
+                <a href="#">ServiceContract Compatibilities</a>
             </td>
         </tr>
     </table>

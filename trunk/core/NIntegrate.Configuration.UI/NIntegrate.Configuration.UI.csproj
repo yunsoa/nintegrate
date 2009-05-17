@@ -67,9 +67,11 @@
     <Compile Include="Code\Criterias\AppCriteria.cs" />
     <Compile Include="Code\Criterias\AppVariableCriteria.cs" />
     <Compile Include="Code\Criterias\ConnectionStringCriteria.cs" />
+    <Compile Include="Code\Criterias\CustomBehaviorTypeCriteria.cs" />
     <Compile Include="Code\Criterias\FarmAccessibilityCriteria.cs" />
     <Compile Include="Code\Criterias\FarmCriteria.cs" />
     <Compile Include="Code\Criterias\ServerCriteria.cs" />
+    <Compile Include="Code\Criterias\ServiceHostTypeCriteria.cs" />
     <Compile Include="Code\ExtensionMethods.cs" />
     <Compile Include="Code\Criterias\CriteriaBase.cs" />
     <Compile Include="Code\Criterias\EnvironmentCriteria.cs" />
@@ -94,6 +96,13 @@
     <Compile Include="ManageConnectingStrings.aspx.designer.cs">
       <DependentUpon>ManageConnectingStrings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ManageCustomBehaviorTypes.aspx.cs">
+      <DependentUpon>ManageCustomBehaviorTypes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageCustomBehaviorTypes.aspx.designer.cs">
+      <DependentUpon>ManageCustomBehaviorTypes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ManageEnvironments.aspx.cs">
       <DependentUpon>ManageEnvironments.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -107,6 +116,13 @@
     </Compile>
     <Compile Include="ManageFarms.aspx.designer.cs">
       <DependentUpon>ManageFarms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageServiceHostTypes.aspx.cs">
+      <DependentUpon>ManageServiceHostTypes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageServiceHostTypes.aspx.designer.cs">
+      <DependentUpon>ManageServiceHostTypes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.master.cs">
@@ -128,8 +144,10 @@
     <Content Include="Images\plus.gif" />
     <Content Include="ManageApplications.aspx" />
     <Content Include="ManageConnectingStrings.aspx" />
+    <Content Include="ManageCustomBehaviorTypes.aspx" />
     <Content Include="ManageEnvironments.aspx" />
     <Content Include="ManageFarms.aspx" />
+    <Content Include="ManageServiceHostTypes.aspx" />
     <Content Include="Site.master" />
   </ItemGroup>
   <ItemGroup>

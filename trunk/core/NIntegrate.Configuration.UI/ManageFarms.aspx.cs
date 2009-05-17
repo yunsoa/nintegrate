@@ -4,6 +4,7 @@ using NIntegrate.Configuration.UI.Code.Criterias;
 using System.Data;
 using NIntegrate.Query;
 using NIntegrate.Query.Command;
+using NIntegrate.Web.EventArgs;
 
 namespace NIntegrate.Configuration.UI
 {
@@ -227,6 +228,16 @@ namespace NIntegrate.Configuration.UI
                     btnIPC.Visible = false;
                 }
             }
+        }
+
+        protected void dsServers_Inserting(object sender, DataSourceInsertingEventArgs e)
+        {
+            e.NewValues["ServerName"] = e.NewValues["ServerName"].ToString().ToLowerInvariant();
+        }
+
+        protected void dsServers_Updating(object sender, DataSourceUpdatingEventArgs e)
+        {
+            e.NewValues["ServerName"] = e.NewValues["ServerName"].ToString().ToLowerInvariant();
         }
     }
 }
