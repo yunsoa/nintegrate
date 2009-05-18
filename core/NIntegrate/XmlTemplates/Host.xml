@@ -1,9 +1,0 @@
-﻿<host>
-  <baseAddresses>
-    <add baseAddress="String" />
-  </baseAddresses>
-  <timeOuts
-    closeTimeout="TimeSpan"
-    openTimeout="TimeSpan"
-  />
-</host>

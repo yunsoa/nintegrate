@@ -35,7 +35,7 @@
         </tr>
         <tr>
             <td>
-                <a href="#">Behaviors</a>
+                <a href="ManageBehaviors.aspx">Behaviors</a>
             </td>
         </tr>
         <tr>
@@ -45,17 +45,17 @@
         </tr>
         <tr>
             <td>
-                <a href="#">Services</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">Bindings</a>
+                <a href="ManageBindings.aspx">Bindings</a>
             </td>
         </tr>
         <tr>
             <td>
                 <a href="#">Endpoints</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">Services</a>
             </td>
         </tr>
         <tr>

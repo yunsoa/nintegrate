@@ -172,20 +172,6 @@
     <Content Include="DatabaseScripts\GenerateAllInOneSetupScript.vbs" />
     <Content Include="DatabaseScripts\Scripts\Order.txt" />
     <Content Include="DatabaseScripts\Tables\Order.txt" />
-    <Content Include="XmlTemplates\BasicHttpBinding.xml" />
-    <Content Include="XmlTemplates\CustomBinding.xml" />
-    <Content Include="XmlTemplates\EndpointBehavior.xml" />
-    <Content Include="XmlTemplates\Host.xml" />
-    <Content Include="XmlTemplates\Identity.xml" />
-    <Content Include="XmlTemplates\MsmqIntegrationBinding.xml" />
-    <Content Include="XmlTemplates\NetMsmqBinding.xml" />
-    <Content Include="XmlTemplates\NetNamedPipeBinding.xml" />
-    <Content Include="XmlTemplates\NetPeerTcpBinding.xml" />
-    <Content Include="XmlTemplates\NetTcpBinding.xml" />
-    <Content Include="XmlTemplates\ServiceBehavior.xml" />
-    <Content Include="XmlTemplates\WSDualHttpBinding.xml" />
-    <Content Include="XmlTemplates\WSFederationHttpBinding.xml" />
-    <Content Include="XmlTemplates\WSHttpBinding.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

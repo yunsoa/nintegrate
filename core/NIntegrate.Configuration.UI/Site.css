@@ -28,6 +28,10 @@ body.template h2
     font-size: 1.65em;
     color: #888888;
 }
+h5
+{
+    margin-bottom: 5px;
+}
 div.back
 {
     margin-bottom: -20px;
@@ -141,6 +145,10 @@ table.gridview table td
 
 table.gridview th {
     background-image:url(Images/header_back.gif);
+}
+
+table.gridview td {
+    vertical-align: top;
 }
 
 table.listview
