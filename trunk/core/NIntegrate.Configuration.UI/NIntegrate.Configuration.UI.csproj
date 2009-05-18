@@ -66,6 +66,9 @@
     <Compile Include="Code\BehaviorCategory.cs" />
     <Compile Include="Code\Criterias\AppCriteria.cs" />
     <Compile Include="Code\Criterias\AppVariableCriteria.cs" />
+    <Compile Include="Code\Criterias\BehaviorCriteria.cs" />
+    <Compile Include="Code\Criterias\BindingCriteria.cs" />
+    <Compile Include="Code\Criterias\BindingTypeCriteria.cs" />
     <Compile Include="Code\Criterias\ConnectionStringCriteria.cs" />
     <Compile Include="Code\Criterias\CustomBehaviorTypeCriteria.cs" />
     <Compile Include="Code\Criterias\FarmAccessibilityCriteria.cs" />
@@ -88,6 +91,20 @@
     </Compile>
     <Compile Include="ManageApplications.aspx.designer.cs">
       <DependentUpon>ManageApplications.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageBehaviors.aspx.cs">
+      <DependentUpon>ManageBehaviors.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageBehaviors.aspx.designer.cs">
+      <DependentUpon>ManageBehaviors.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageBindings.aspx.cs">
+      <DependentUpon>ManageBindings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageBindings.aspx.designer.cs">
+      <DependentUpon>ManageBindings.aspx</DependentUpon>
     </Compile>
     <Compile Include="ManageConnectingStrings.aspx.cs">
       <DependentUpon>ManageConnectingStrings.aspx</DependentUpon>
@@ -143,12 +160,28 @@
     <Content Include="Images\PgPrev.gif" />
     <Content Include="Images\plus.gif" />
     <Content Include="ManageApplications.aspx" />
+    <Content Include="ManageBehaviors.aspx" />
+    <Content Include="ManageBindings.aspx" />
     <Content Include="ManageConnectingStrings.aspx" />
     <Content Include="ManageCustomBehaviorTypes.aspx" />
     <Content Include="ManageEnvironments.aspx" />
     <Content Include="ManageFarms.aspx" />
     <Content Include="ManageServiceHostTypes.aspx" />
     <Content Include="Site.master" />
+    <Content Include="XmlTemplates\BasicHttpBinding.xml" />
+    <Content Include="XmlTemplates\CustomBinding.xml" />
+    <Content Include="XmlTemplates\EndpointBehavior.xml" />
+    <Content Include="XmlTemplates\Host.xml" />
+    <Content Include="XmlTemplates\Identity.xml" />
+    <Content Include="XmlTemplates\MsmqIntegrationBinding.xml" />
+    <Content Include="XmlTemplates\NetMsmqBinding.xml" />
+    <Content Include="XmlTemplates\NetNamedPipeBinding.xml" />
+    <Content Include="XmlTemplates\NetPeerTcpBinding.xml" />
+    <Content Include="XmlTemplates\NetTcpBinding.xml" />
+    <Content Include="XmlTemplates\ServiceBehavior.xml" />
+    <Content Include="XmlTemplates\WSDualHttpBinding.xml" />
+    <Content Include="XmlTemplates\WSFederationHttpBinding.xml" />
+    <Content Include="XmlTemplates\WSHttpBinding.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NIntegrate.Query.Command\NIntegrate.Query.Command.csproj">
