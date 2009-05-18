@@ -1,0 +1,49 @@
+﻿<wsHttpBinding>
+  <binding
+    name="String"
+    allowCookies="false"
+    bypassProxyOnLocal="false"
+    closeTimeout="00:01:00"
+    hostNameComparisonMode="StrongWildCard/Exact/WeakWildcard"
+    maxBufferPoolSize="524288"
+    maxReceivedMessageSize="65536"
+    messageEncoding="Text/Mtom"
+    openTimeout="00:01:00"
+    proxyAddress="Uri"
+    receiveTimeout="00:10:00"
+    sendTimeout="00:01:00"
+    textEncoding="UnicodeFffeTextEncoding/Utf16TextEncoding/Utf8TextEncoding"
+    transactionFlow="false"
+    useDefaultWebProxy="true"
+  >
+    <security
+      mode="Message/None/Transport/TransportWithCredential"
+    >
+      <transport
+        clientCredentialType="Basic/Certificate/Digest/None/Ntlm/Windows"
+        proxyCredentialType="Basic/Digest/None/Ntlm/Windows"
+        realm="String"
+        defaultClientCredentialType="Basic/Certificate/Digest/None/Ntlm/Windows"
+        defaultProxyCredentialType="Basic/Digest/None/Ntlm/Windows"
+        defaultRealm="String"
+      />
+      <message
+        clientCredentialType ="Certificate/IssuedToken/None/UserName/Windows"
+        negotiateServiceCredential="true"
+        algorithmSuite="Aes128/Aes192/Aes256/Rsa15Aes128/ Rsa15Aes256/TripleDes"
+        establishSecurityContext="true"
+      />
+    </security>
+    <reliableSession
+      ordered="true"
+      inactivityTimeout="00:10:00"
+    />
+    <readerQuotas
+      maxArrayLength="16384"
+      maxDepth="32"
+      maxStringContentLength="8192"
+      maxBytesPerRead="4096"
+      maxNameTableCharCount="16384"
+    />
+  </binding>
+</wsHttpBinding>

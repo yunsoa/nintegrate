@@ -1,0 +1,14 @@
+﻿<identity>
+  <usePrincipalName value="String"/>
+  <servicePrincipalName value="String"/>
+  <dns value="String"/>
+  <rsa value="String"/>
+  <certificate value="String"/>
+  <certificateReference
+    findValue="String"
+    isChainIncluded="false"
+    storeName="AddressBook/AuthRoot/CertificateAuthority/Disallowed/My/Root/TrustedPeople/TrustedPublisher"
+    storeLocation="LocalMachine/CurrentUser"
+    X509FindType="FindByThumbPrint/FindBySubjectName/FindBySubjectDistinguishedName/FindByIssuerName/FindByIssuerDistinguishedName/FindBySerialNumber/FindByTimeValid/FindByTimeNotYetValid/FindByTemplateName/FindByApplicationPolicy/FindByCertificatePolicy/FindByExtension/FindByKeyUsage/FindBySubjectKeyIdentifier"
+  />
+</identity>
