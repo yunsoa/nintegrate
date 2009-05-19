@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Manage Custom Behavior Types" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageCustomBehaviorTypes.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageCustomBehaviorTypes" %>
+﻿<%@ Page Title="Manage Custom Behavior Types" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageCustomBehaviorTypes.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageCustomBehaviorTypes" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage Custom Behavior Types</h2>
     <div class="bottomhyperlink"><img alt="Add new behavior type" src="Images/plus.gif" /><asp:LinkButton 

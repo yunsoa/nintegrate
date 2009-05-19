@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Manage ConnectionStrings" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageConnectingStrings.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageConnectingStrings" %>
+﻿<%@ Page Title="Manage ConnectionStrings" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageConnectingStrings.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageConnectingStrings" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage ConnectionStrings</h2>
     <div class="bottomhyperlink"><img alt="Add new connectionstring" src="Images/plus.gif" /><asp:LinkButton 

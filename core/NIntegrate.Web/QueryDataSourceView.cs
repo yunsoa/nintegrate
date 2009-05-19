@@ -99,10 +99,13 @@ namespace NIntegrate.Web
             criteria._sortBys.Add(new Int32Column(sortBy), isDesc);
         }
 
-        private static object TransformType(Type targetType, object value)
+        private static object TransformType(Type targetType, object value, bool nullable)
         {
             if (targetType == null)
                 throw new ArgumentNullException("targetType");
+
+            if (value == DBNull.Value)
+                value = null;
 
             if (value != null)
             {
@@ -116,8 +119,11 @@ namespace NIntegrate.Web
                 }
             }
 
+            if (value == null && nullable)
+                return value;
+
             var stringValue = value as string;
-            if (stringValue == null)
+            if (stringValue == null && !nullable)
                 return QueryHelper.DefaultValue(targetType);
 
             if (targetType == typeof(bool) || targetType == typeof(bool?))
@@ -168,7 +174,7 @@ namespace NIntegrate.Web
                 {
                     if (
                         !Equals(row[item.Key.ToString()],
-                                TransformType(row.Table.Columns[item.Key.ToString()].DataType, item.Value)))
+                                TransformType(row.Table.Columns[item.Key.ToString()].DataType, item.Value ?? DBNull.Value, row.Table.Columns[item.Key.ToString()].AllowDBNull) ?? DBNull.Value))
                         conflitCheckFailed = true;
                 }
             }
@@ -264,7 +270,7 @@ namespace NIntegrate.Web
             while (en.MoveNext())
             {
                 if (table.Columns.Contains(en.Key.ToString()))
-                    row[en.Key.ToString()] = TransformType(table.Columns[en.Key.ToString()].DataType, en.Value);
+                    row[en.Key.ToString()] = TransformType(table.Columns[en.Key.ToString()].DataType, en.Value ?? DBNull.Value, table.Columns[en.Key.ToString()].AllowDBNull) ?? DBNull.Value;
             }
             table.Rows.Add(row);
 
@@ -316,7 +322,7 @@ namespace NIntegrate.Web
             while (en.MoveNext())
             {
                 if (table.Columns.Contains(en.Key.ToString()))
-                    row[en.Key.ToString()] = TransformType(table.Columns[en.Key.ToString()].DataType, en.Value);
+                    row[en.Key.ToString()] = TransformType(table.Columns[en.Key.ToString()].DataType, en.Value ?? DBNull.Value, table.Columns[en.Key.ToString()].AllowDBNull) ?? DBNull.Value;
             }
 
             var affectedRows = _owner._service.Update(_owner.Criteria, table, conflictDetection);
