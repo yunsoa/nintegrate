@@ -72,30 +72,30 @@
                 <a target="_blank" href="XmlTemplates/CustomBinding.xml">CustomBinding</a>
             </HeaderTemplate>            
             <Fields>
-            <asp:TemplateField HeaderText="BindingName">
-                <InsertItemTemplate>
-                    <asp:TextBox ID="tbBindingName" runat="server" MaxLength="100" Text='<%#Bind("BindingName") %>'></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="tbBindingNameRequired" runat="server"
-                        ControlToValidate="tbBindingName" EnableClientScript="false"
-                        ErrorMessage="Required"></asp:RequiredFieldValidator>
-                </InsertItemTemplate>
-            </asp:TemplateField>
-            <asp:TemplateField HeaderText="Type">
-                <InsertItemTemplate>
-                    <asp:DropDownList ID="ddlBindingTypes" runat="server" SelectedValue='<%# Bind("BindingType_id") %>' DataTextField="BindingTypeFriendlyName" DataValueField="BindingType_id" DataSourceID="dsBindingTypes">
-                    </asp:DropDownList>
-                </InsertItemTemplate>
-            </asp:TemplateField>                        
-            <asp:TemplateField HeaderText="BindingXML">
-                <InsertItemTemplate>
-                    <asp:TextBox ID="tbBindingXML" runat="server" Text='<%#Bind("BindingXML") %>' TextMode="MultiLine" Rows="3" Width="500px"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="tbBindingXMLRequired" runat="server"
-                        ControlToValidate="tbBindingXML" EnableClientScript="false"
-                        ErrorMessage="Required"></asp:RequiredFieldValidator>                    
-                </InsertItemTemplate>
-            </asp:TemplateField>
-            <asp:CheckBoxField HeaderText="MexBindingEnabled" DataField="MexBindingEnabled" />
-            <asp:CheckBoxField HeaderText="AddMexBindingOnly" DataField="AddMexBindingOnly" />
+                <asp:TemplateField HeaderText="BindingName">
+                    <InsertItemTemplate>
+                        <asp:TextBox ID="tbBindingName" runat="server" MaxLength="100" Text='<%#Bind("BindingName") %>'></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="tbBindingNameRequired" runat="server"
+                            ControlToValidate="tbBindingName" EnableClientScript="false"
+                            ErrorMessage="Required"></asp:RequiredFieldValidator>
+                    </InsertItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Type">
+                    <InsertItemTemplate>
+                        <asp:DropDownList ID="ddlBindingTypes" runat="server" SelectedValue='<%# Bind("BindingType_id") %>' DataTextField="BindingTypeFriendlyName" DataValueField="BindingType_id" DataSourceID="dsBindingTypes">
+                        </asp:DropDownList>
+                    </InsertItemTemplate>
+                </asp:TemplateField>                        
+                <asp:TemplateField HeaderText="BindingXML">
+                    <InsertItemTemplate>
+                        <asp:TextBox ID="tbBindingXML" runat="server" Text='<%#Bind("BindingXML") %>' TextMode="MultiLine" Rows="3" Width="500px"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="tbBindingXMLRequired" runat="server"
+                            ControlToValidate="tbBindingXML" EnableClientScript="false"
+                            ErrorMessage="Required"></asp:RequiredFieldValidator>                    
+                    </InsertItemTemplate>
+                </asp:TemplateField>
+                <asp:CheckBoxField HeaderText="MexBindingEnabled" DataField="MexBindingEnabled" />
+                <asp:CheckBoxField HeaderText="AddMexBindingOnly" DataField="AddMexBindingOnly" />
             </Fields>
         </asp:DetailsView>
     </asp:Panel>

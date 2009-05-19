@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Manage Applications" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageApplications.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageApplications" %>
+﻿<%@ Page Title="Manage Applications" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageApplications.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageApplications" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage Applications</h2>
     <div class="bottomhyperlink"><img alt="Add new application" src="Images/plus.gif" /><asp:LinkButton 

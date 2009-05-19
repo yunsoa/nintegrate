@@ -1,4 +1,4 @@
-<%@ Page Title="Manage Farms" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageFarms.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageFarms" %>
+<%@ Page Title="Manage Farms" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageFarms.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageFarms" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage Farms</h2>
     <div class="bottomhyperlink"><img alt="Add new farm" src="Images/plus.gif" /><asp:LinkButton 

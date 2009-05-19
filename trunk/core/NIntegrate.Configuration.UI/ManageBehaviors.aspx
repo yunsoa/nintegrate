@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Manage Behaviors" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageBehaviors.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageBehaviors" ValidateRequest="false" %>
+﻿<%@ Page Title="Manage Behaviors" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageBehaviors.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageBehaviors" ValidateRequest="false" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage Behaviors</h2>
     <div class="bottomhyperlink"><img alt="Add new behavior" src="Images/plus.gif" /><asp:LinkButton 

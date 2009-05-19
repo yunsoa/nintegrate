@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Manage ServiceHost Types" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageServiceHostTypes.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageServiceHostTypes" %>
+﻿<%@ Page Title="Manage ServiceHost Types" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageServiceHostTypes.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageServiceHostTypes" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage ServiceHost Types</h2>
     <div class="bottomhyperlink"><img alt="Add new servicehost type" src="Images/plus.gif" /><asp:LinkButton 

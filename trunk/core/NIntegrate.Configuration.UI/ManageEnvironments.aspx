@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Manage Environments" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageEnvironments.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageEnvironments" %>
+﻿<%@ Page Title="Manage Environments" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="ManageEnvironments.aspx.cs" Inherits="NIntegrate.Configuration.UI.ManageEnvironments" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Manage Environments</h2>
     <div class="bottomhyperlink"><img alt="Add new environment" src="Images/plus.gif" /><asp:LinkButton 

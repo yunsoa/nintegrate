@@ -71,6 +71,7 @@
     <Compile Include="Code\Criterias\BindingTypeCriteria.cs" />
     <Compile Include="Code\Criterias\ConnectionStringCriteria.cs" />
     <Compile Include="Code\Criterias\CustomBehaviorTypeCriteria.cs" />
+    <Compile Include="Code\Criterias\EndpointCriteria.cs" />
     <Compile Include="Code\Criterias\FarmAccessibilityCriteria.cs" />
     <Compile Include="Code\Criterias\FarmCriteria.cs" />
     <Compile Include="Code\Criterias\ServerCriteria.cs" />
@@ -120,6 +121,13 @@
     <Compile Include="ManageCustomBehaviorTypes.aspx.designer.cs">
       <DependentUpon>ManageCustomBehaviorTypes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ManageEndpoints.aspx.cs">
+      <DependentUpon>ManageEndpoints.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageEndpoints.aspx.designer.cs">
+      <DependentUpon>ManageEndpoints.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ManageEnvironments.aspx.cs">
       <DependentUpon>ManageEnvironments.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -164,6 +172,7 @@
     <Content Include="ManageBindings.aspx" />
     <Content Include="ManageConnectingStrings.aspx" />
     <Content Include="ManageCustomBehaviorTypes.aspx" />
+    <Content Include="ManageEndpoints.aspx" />
     <Content Include="ManageEnvironments.aspx" />
     <Content Include="ManageFarms.aspx" />
     <Content Include="ManageServiceHostTypes.aspx" />
