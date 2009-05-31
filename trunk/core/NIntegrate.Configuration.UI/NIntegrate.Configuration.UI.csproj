@@ -71,10 +71,15 @@
     <Compile Include="Code\Criterias\BindingTypeCriteria.cs" />
     <Compile Include="Code\Criterias\ConnectionStringCriteria.cs" />
     <Compile Include="Code\Criterias\CustomBehaviorTypeCriteria.cs" />
+    <Compile Include="Code\Criterias\EndpointClientCriteria.cs" />
     <Compile Include="Code\Criterias\EndpointCriteria.cs" />
     <Compile Include="Code\Criterias\FarmAccessibilityCriteria.cs" />
     <Compile Include="Code\Criterias\FarmCriteria.cs" />
     <Compile Include="Code\Criterias\ServerCriteria.cs" />
+    <Compile Include="Code\Criterias\ServiceCategoryCriteria.cs" />
+    <Compile Include="Code\Criterias\ServiceContractCompatibilityCriteria.cs" />
+    <Compile Include="Code\Criterias\ServiceCriteria.cs" />
+    <Compile Include="Code\Criterias\ServiceEndpointCriteria.cs" />
     <Compile Include="Code\Criterias\ServiceHostTypeCriteria.cs" />
     <Compile Include="Code\ExtensionMethods.cs" />
     <Compile Include="Code\Criterias\CriteriaBase.cs" />
@@ -142,6 +147,27 @@
     <Compile Include="ManageFarms.aspx.designer.cs">
       <DependentUpon>ManageFarms.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ManageServiceCategories.aspx.cs">
+      <DependentUpon>ManageServiceCategories.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageServiceCategories.aspx.designer.cs">
+      <DependentUpon>ManageServiceCategories.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageServiceContractCompatibilities.aspx.cs">
+      <DependentUpon>ManageServiceContractCompatibilities.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageServiceContractCompatibilities.aspx.designer.cs">
+      <DependentUpon>ManageServiceContractCompatibilities.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageServiceEnpoints.aspx.cs">
+      <DependentUpon>ManageServiceEnpoints.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageServiceEnpoints.aspx.designer.cs">
+      <DependentUpon>ManageServiceEnpoints.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ManageServiceHostTypes.aspx.cs">
       <DependentUpon>ManageServiceHostTypes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -175,6 +201,9 @@
     <Content Include="ManageEndpoints.aspx" />
     <Content Include="ManageEnvironments.aspx" />
     <Content Include="ManageFarms.aspx" />
+    <Content Include="ManageServiceCategories.aspx" />
+    <Content Include="ManageServiceContractCompatibilities.aspx" />
+    <Content Include="ManageServiceEnpoints.aspx" />
     <Content Include="ManageServiceHostTypes.aspx" />
     <Content Include="Site.master" />
     <Content Include="XmlTemplates\BasicHttpBinding.xml" />

@@ -50,6 +50,60 @@ namespace NIntegrate.Configuration.UI {
         protected global::System.Web.UI.WebControls.DetailsView dvAddEndpoint;
         
         /// <summary>
+        /// panelClientBehaviors control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelClientBehaviors;
+        
+        /// <summary>
+        /// btnShowSubAddNewPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnShowSubAddNewPanel;
+        
+        /// <summary>
+        /// gvClientBehaviors control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvClientBehaviors;
+        
+        /// <summary>
+        /// panelAddClientBehavior control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelAddClientBehavior;
+        
+        /// <summary>
+        /// hidSelectedEndpoint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidSelectedEndpoint;
+        
+        /// <summary>
+        /// dvAddClientBehavior control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DetailsView dvAddClientBehavior;
+        
+        /// <summary>
         /// dsEndpoints control.
         /// </summary>
         /// <remarks>
@@ -68,6 +122,15 @@ namespace NIntegrate.Configuration.UI {
         protected global::NIntegrate.Web.QueryDataSource dsBindings;
         
         /// <summary>
+        /// dsFarms control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::NIntegrate.Web.QueryDataSource dsFarms;
+        
+        /// <summary>
         /// dsEndpointBehaviors control.
         /// </summary>
         /// <remarks>
@@ -75,5 +138,14 @@ namespace NIntegrate.Configuration.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::NIntegrate.Web.QueryDataSource dsEndpointBehaviors;
+        
+        /// <summary>
+        /// dsClientBehaviors control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::NIntegrate.Web.QueryDataSource dsClientBehaviors;
     }
 }

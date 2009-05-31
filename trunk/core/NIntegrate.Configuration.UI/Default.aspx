@@ -25,11 +25,6 @@
         </tr>
         <tr>
             <td>
-                <a href="ManageApplications.aspx">Applications</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <a href="ManageCustomBehaviorTypes.aspx">Custom Behavior Types</a>
             </td>
         </tr>
@@ -45,17 +40,27 @@
         </tr>
         <tr>
             <td>
+                <a href="ManageServiceCategories.aspx">Service Categories</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="ManageApplications.aspx">Applications</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <a href="ManageBindings.aspx">Bindings</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Endpoints</a>
+                <a href="ManageEndpoints.aspx">Endpoints</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Services</a>
+                <a href="#">Service Endpoints</a>
             </td>
         </tr>
         <tr>
