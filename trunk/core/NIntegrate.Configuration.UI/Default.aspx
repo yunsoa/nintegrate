@@ -60,12 +60,12 @@
         </tr>
         <tr>
             <td>
-                <a href="#">Service Endpoints</a>
+                <a href="ManageServiceEnpoints.aspx">Service Endpoints</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">ServiceContract Compatibilities</a>
+                <a href="ManageServiceContractCompatibilities.aspx">ServiceContract Compatibilities</a>
             </td>
         </tr>
     </table>
