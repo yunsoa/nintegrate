@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.UI.WebControls;
+using NIntegrate.Configuration.UI.Code;
 using NIntegrate.Configuration.UI.Code.Criterias;
 
 namespace NIntegrate.Configuration.UI
@@ -14,6 +15,12 @@ namespace NIntegrate.Configuration.UI
                 dsApps.Criteria = appCriteria.AddSortBy(appCriteria.AppCode, false);
                 var envCriteria = new EnvironmentCriteria();
                 dsEnvironments.Criteria = envCriteria.AddSortBy(envCriteria.Environment_id, false);
+                var serviceCategoryCriteria = new ServiceCategoryCriteria();
+                dsServiceCategories.Criteria = serviceCategoryCriteria.AddSortBy(serviceCategoryCriteria.ServiceCategory_id, false);
+                var behaviorCriteria = new BehaviorCriteria();
+                dsServiceBehaviors.Criteria = behaviorCriteria.AddSortBy(behaviorCriteria.Behavior_id, false).And(behaviorCriteria.BehaviorCategory_id == (int)BehaviorCategory.Service);
+                var serviceHostTypeCriteria = new ServiceHostTypeCriteria();
+                dsServiceHostTypes.Criteria = serviceHostTypeCriteria.AddSortBy(serviceHostTypeCriteria.ServiceHostType_id, false);
             }
         }
 
@@ -49,6 +56,15 @@ namespace NIntegrate.Configuration.UI
                         gvAppVariables.DataBind();
                         panelAppVariables.Visible = true;
                     }
+                    else if (parameters[0] == "ViewServices")
+                    {
+                        var serviceCriteria = new ServiceCriteria();
+                        dsServices.Criteria = serviceCriteria.AddSortBy(serviceCriteria.Service_id, false)
+                            .And(serviceCriteria.AppCode == parameters[1]);
+                        hidSelectedAppCode.Value = parameters[1];
+                        gvServices.DataBind();
+                        panelServices.Visible = true;
+                    }
                 }
             }
         }
@@ -81,7 +97,7 @@ namespace NIntegrate.Configuration.UI
 
         protected void dvAddAppVariable_ItemInserted(object sender, DetailsViewInsertedEventArgs e)
         {
-            gvApps.DataBind();
+            gvAppVariables.DataBind();
         }
 
         protected void dvAddAppVariable_ItemCommand(object sender, DetailsViewCommandEventArgs e)
@@ -96,6 +112,45 @@ namespace NIntegrate.Configuration.UI
         protected void dvAddAppVariable_DataBound(object sender, EventArgs e)
         {
             var ddlApps = dvAddAppVariable.FindControl("ddlApps") as DropDownList;
+            for (var i = 0; i < ddlApps.Items.Count; ++i)
+            {
+                if (ddlApps.Items[i].Value == hidSelectedAppCode.Value)
+                {
+                    ddlApps.SelectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        protected void btnShowSubAddNewPanel2_Click(object sender, EventArgs e)
+        {
+            gvServices.SelectedIndex = -1;
+            panelAddService.Visible = true;
+        }
+
+        protected void gvServices_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            gvServices.SelectedIndex = -1;
+            panelAddService.Visible = false;
+        }
+
+        protected void dvAddService_ItemInserted(object sender, DetailsViewInsertedEventArgs e)
+        {
+            gvServices.DataBind();
+        }
+
+        protected void dvAddService_ItemCommand(object sender, DetailsViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Cancel")
+            {
+                gvServices.SelectedIndex = -1;
+                panelAddService.Visible = false;
+            }
+        }
+
+        protected void dvAddService_DataBound(object sender, EventArgs e)
+        {
+            var ddlApps = dvAddService.FindControl("ddlApps") as DropDownList;
             for (var i = 0; i < ddlApps.Items.Count; ++i)
             {
                 if (ddlApps.Items[i].Value == hidSelectedAppCode.Value)
