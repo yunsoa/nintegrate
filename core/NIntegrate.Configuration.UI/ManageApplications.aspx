@@ -253,6 +253,10 @@
                     CssClass="detailstable" onitemcommand="dvAddService_ItemCommand" 
                     oniteminserted="dvAddService_ItemInserted" 
                     ondatabound="dvAddService_DataBound">
+                    <HeaderTemplate>
+                        <h5>XML Templates:</h5>
+                        <a target="_blank" href="XmlTemplates/Host.xml">Host</a>
+                    </HeaderTemplate>                                
                     <Fields>
                         <asp:TemplateField HeaderText="ServiceName">
                             <InsertItemTemplate>

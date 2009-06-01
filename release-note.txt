@@ -1,4 +1,4 @@
-NIntegrate v0.7.0.1 beta
+NIntegrate v0.8.0.1 beta
 
 
 Configuration Database Installation Guide
@@ -10,6 +10,13 @@ Configuration Database Installation Guide
 3. Insert a row into [Server] table like 
    "insert into [Server] (ServerName, ServerAddress, Farm_id) 
    values ('put your server name here', 'localhost', 1)"
+
+
+Update Since v0.7.0.1
+---------------------
+
+1. Add NIntegrate.Configuration.UI project, which is a website UI for 
+   configuring all configuration database tables.
 
 
 Update Since v0.6.0.1
