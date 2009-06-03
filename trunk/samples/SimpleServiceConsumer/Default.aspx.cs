@@ -41,7 +41,7 @@ namespace SimpleServiceConsumer
             {
                 var queryService = sericeLocator.GetService<IQueryService>();
                 var criteria = new EndpointAvailabilityCriteria();
-                var result = queryService.Select(criteria.AddResultColumn(criteria.Active).And(criteria.Endpoint_id == endpoint_id).ToBaseCriteria());
+                var result = queryService.Select(criteria.AddResultColumn(criteria.Active).And(criteria.Endpoint_id == endpoint_id).ToSerializableCriteria());
                 if (result != null && result.Rows.Count > 0)
                     return Convert.ToBoolean(result.Rows[0][0]);
             }
@@ -62,16 +62,16 @@ namespace SimpleServiceConsumer
                     var queryService = sericeLocator.GetService<IQueryService>();
                     var criteria = new EndpointAvailabilityCriteria();
                     //when passing criteria to query service, 
-                    //ensure to call its ToBaseCriteria() method 
+                    //ensure to call its ToSerializableCriteria() method 
                     //to ensure it is serializable by WCF
-                    var result = queryService.Select(criteria.And(criteria.Endpoint_id == endpoint_id).ToBaseCriteria());
+                    var result = queryService.Select(criteria.And(criteria.Endpoint_id == endpoint_id).ToSerializableCriteria());
                     if (result != null && result.Rows.Count > 0)
                     {
                         result.Rows[0]["Active"] = !isActive;
                         //when passing criteria to query service, 
-                        //ensure to call its ToBaseCriteria() method 
+                        //ensure to call its ToSerializableCriteria() method 
                         //to ensure it is serializable by WCF
-                        queryService.Update(criteria.ToBaseCriteria(),
+                        queryService.Update(criteria.ToSerializableCriteria(),
                             result, ConflictOption.OverwriteChanges);
                     }
                 }
