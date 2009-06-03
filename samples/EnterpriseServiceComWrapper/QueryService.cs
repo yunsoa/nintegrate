@@ -20,12 +20,12 @@ namespace EnterpriseServiceComWrapper
 
         public DataTable Select(Criteria criteria)
         {
-            return _locator.GetService<IQueryService>().Select(criteria.ToBaseCriteria());
+            return _locator.GetService<IQueryService>().Select(criteria.ToSerializableCriteria());
         }
 
         public int SelectCount(Criteria criteria)
         {
-            return _locator.GetService<IQueryService>().SelectCount(criteria.ToBaseCriteria());
+            return _locator.GetService<IQueryService>().SelectCount(criteria.ToSerializableCriteria());
         }
 
         //for update query, it's better to use stored procedure
