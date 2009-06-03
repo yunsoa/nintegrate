@@ -53,9 +53,9 @@ namespace NIntegrate.Query.Command
         {
             _criteria = criteria;
 
-            var connString = ConnectionStringStore.GetConnectionString(criteria._connectionStringName);
+            var connString = ConnectionStringStore.GetConnectionString(criteria.ConnectionStringName);
             if (connString == null)
-                throw new ConfigurationErrorsException(string.Format("Specified ConnectionStringName - {0} could not be found in configuration store!", _criteria._connectionStringName));
+                throw new ConfigurationErrorsException(string.Format("Specified ConnectionStringName - {0} could not be found in configuration store!", _criteria.ConnectionStringName));
             _queryCommandBuilder = GetQueryCommandBuilder(connString.ProviderName);
             _connectionString = connString.Value;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Runtime.Serialization;
 using NIntegrate.Query.SqlClient;
@@ -58,29 +59,83 @@ namespace NIntegrate.Query
         #region Protected Fields
 
         [DataMember]
-        internal protected string _tableName;
+        protected string _tableName;
         [DataMember]
-        internal protected string _connectionStringName;
+        protected string _connectionStringName;
         [DataMember]
-        internal protected readonly List<IColumn> _predefinedColumns = new List<IColumn>();
+        protected readonly List<IColumn> _predefinedColumns = new List<IColumn>();
         [DataMember]
-        internal protected readonly List<IColumn> _resultColumns = new List<IColumn>();
+        protected readonly List<IColumn> _resultColumns = new List<IColumn>();
         [DataMember]
-        internal protected bool _isDistinct;
+        protected bool _isDistinct;
         [DataMember]
-        internal protected int _maxResults;
+        protected int _maxResults;
         [DataMember]
-        internal protected int _skipResults;
+        protected int _skipResults;
         [DataMember]
-        internal protected readonly Dictionary<IColumn, bool> _sortBys = new Dictionary<IColumn, bool>();
+        protected readonly Dictionary<IColumn, bool> _sortBys = new Dictionary<IColumn, bool>();
         [DataMember]
-        internal protected readonly List<ConditionAndOr> _conditionAndOrs = new List<ConditionAndOr>();
+        protected readonly List<ConditionAndOr> _conditionAndOrs = new List<ConditionAndOr>();
         [DataMember]
-        internal protected readonly List<Condition> _conditions = new List<Condition>();
+        protected readonly List<Condition> _conditions = new List<Condition>();
 
         #endregion
 
-        #region Private Fields
+        #region Properties
+
+        public string TableName
+        {
+            get { return _tableName; }
+        }
+
+        public string ConnectionStringName
+        {
+            get { return _connectionStringName; }
+        }
+
+        public ReadOnlyCollection<IColumn> PredefinedColumns
+        {
+            get { return new ReadOnlyCollection<IColumn>(_predefinedColumns); }
+        }
+
+        public IList<IColumn> ResultColumns
+        {
+            get { return _resultColumns; }
+        }
+
+        public bool IsDistinct
+        {
+            get { return _isDistinct; }
+        }
+
+        public int MaxResults
+        {
+            get { return _maxResults; }
+        }
+
+        public int SkipResults
+        {
+            get { return _skipResults; }
+        }
+
+        public IDictionary<IColumn, bool> SortBys
+        {
+            get { return _sortBys; }
+        }
+
+        public ReadOnlyCollection<ConditionAndOr> ConditionAndOrs
+        {
+            get { return new ReadOnlyCollection<ConditionAndOr>(_conditionAndOrs); }
+        }
+
+        public ReadOnlyCollection<Condition> Conditions
+        {
+            get { return new ReadOnlyCollection<Condition>(_conditions); }
+        }
+
+        #endregion
+
+        #region Private Methods
 
         private void ParsePredefinedColumns()
         {
@@ -131,21 +186,21 @@ namespace NIntegrate.Query
             return this;
         }
 
-        public Criteria Distinct()
+        public Criteria SetIsDistinct(bool isDistinct)
         {
-            _isDistinct = true;
+            _isDistinct = isDistinct;
 
             return this;
         }
 
-        public Criteria MaxResults(int n)
+        public Criteria SetMaxResults(int n)
         {
             _maxResults = n;
 
             return this;
         }
 
-        public Criteria SkipResults(int n)
+        public Criteria SetSkipResults(int n)
         {
             _skipResults = n;
 
@@ -218,11 +273,22 @@ namespace NIntegrate.Query
             return clone;
         }
 
-        public Criteria ToBaseCriteria()
+        public Criteria ToSerializableCriteria()
         {
             var clone = new Criteria();
             CloneTo(clone);
             return clone;
+        }
+
+        public void ClearResultColumns()
+        {
+            _resultColumns.Clear();
+        }
+
+        public void ClearConditions()
+        {
+            _conditionAndOrs.Clear();
+            _conditions.Clear();
         }
 
         #endregion

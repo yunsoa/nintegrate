@@ -109,7 +109,7 @@ namespace NIntegrate.Web
 
                 _criteria = value;
                 if (EnableViewState)
-                    ViewState["Criteria"] = QueryHelper.CriteriaSerialize(value.ToBaseCriteria());
+                    ViewState["Criteria"] = QueryHelper.CriteriaSerialize(value.ToSerializableCriteria());
             }
         }
 

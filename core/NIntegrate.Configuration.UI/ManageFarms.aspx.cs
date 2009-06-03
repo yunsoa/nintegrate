@@ -119,7 +119,7 @@ namespace NIntegrate.Configuration.UI
         {
             var service = new QueryService();
             var criteria = GetFarmAccessCriteria(farm_id);
-            return service.Select(criteria.ToBaseCriteria());
+            return service.Select(criteria.ToSerializableCriteria());
         }
 
         private FarmAccessibilityCriteria GetFarmAccessCriteria(int farm_id)
@@ -169,7 +169,7 @@ namespace NIntegrate.Configuration.UI
             }
 
             var service = new QueryService();
-            service.Update(GetFarmAccessCriteria(int.Parse(hidSelectedFarm_id.Value)).ToBaseCriteria(), farmAccessTable, ConflictOption.OverwriteChanges);
+            service.Update(GetFarmAccessCriteria(int.Parse(hidSelectedFarm_id.Value)).ToSerializableCriteria(), farmAccessTable, ConflictOption.OverwriteChanges);
 
             gvFarmAccess.DataBind();
         }

@@ -74,7 +74,7 @@ namespace NIntegrate.Query.Command
         /// <returns></returns>
         protected string BuildCacheableSql(string tableName, Criteria criteria, bool isCountCommand)
         {
-            if (isCountCommand || criteria._skipResults == 0)
+            if (isCountCommand || criteria.SkipResults == 0)
                 return BuildNoPagingCacheableSql(tableName, criteria, isCountCommand);
             return BuildPagingCacheableSql(tableName, criteria);
         }
@@ -104,7 +104,7 @@ namespace NIntegrate.Query.Command
         protected static void AppendSortBys(Criteria criteria, StringBuilder sb)
         {
             var separate = "";
-            var en = criteria._sortBys.GetEnumerator();
+            var en = criteria.SortBys.GetEnumerator();
             while (en.MoveNext())
             {
                 sb.Append(separate);
@@ -124,11 +124,11 @@ namespace NIntegrate.Query.Command
         /// <param name="sb">The sb.</param>
         protected static void AppendConditions(Criteria criteria, StringBuilder sb)
         {
-            for (var i = 0; i < criteria._conditions.Count; ++i)
+            for (var i = 0; i < criteria.Conditions.Count; ++i)
             {
                 if (i > 0)
                 {
-                    if (criteria._conditionAndOrs[i] == ConditionAndOr.And)
+                    if (criteria.ConditionAndOrs[i] == ConditionAndOr.And)
                     {
                         sb.Append(" AND ");
                     }
@@ -138,7 +138,7 @@ namespace NIntegrate.Query.Command
                     }
                 }
 
-                sb.Append(criteria._conditions[i].ToConditionCacheableSql());
+                sb.Append(criteria.Conditions[i].ToConditionCacheableSql());
             }
         }
 
@@ -160,12 +160,12 @@ namespace NIntegrate.Query.Command
         /// <param name="sb">The sb.</param>
         protected static void AppendResultColumns(Criteria criteria, StringBuilder sb)
         {
-            if (criteria._resultColumns.Count == 0)
+            if (criteria.ResultColumns.Count == 0)
             {
-                if (criteria._predefinedColumns.Count > 0)
+                if (criteria.PredefinedColumns.Count > 0)
                 {
                     var separate = "";
-                    foreach (var column in criteria._predefinedColumns)
+                    foreach (var column in criteria.PredefinedColumns)
                     {
                         sb.Append(separate);
                         sb.Append(column.ToSelectColumnName());
@@ -180,7 +180,7 @@ namespace NIntegrate.Query.Command
             }
             else
             {
-                AppendResultColumns(sb, criteria._resultColumns);
+                AppendResultColumns(sb, criteria.ResultColumns);
             }
         }
 
@@ -193,12 +193,12 @@ namespace NIntegrate.Query.Command
         protected void BuildCommandParameters(Criteria criteria, DbParameterCollection parameterCollection, bool setParameterValueOnly)
         {
             if (criteria == null) return;
-            foreach (var column in criteria._resultColumns)
+            foreach (var column in criteria.ResultColumns)
             {
                 AddExpressionParameters(column, parameterCollection, setParameterValueOnly);
             }
 
-            foreach (var condition in criteria._conditions)
+            foreach (var condition in criteria.Conditions)
             {
                 AddConditionParameters(condition, parameterCollection, setParameterValueOnly);
             }
@@ -329,7 +329,7 @@ namespace NIntegrate.Query.Command
 
             DbCommand cmd;
 
-            var cacheableSql = BuildCacheableSql(criteria._tableName, criteria, false);
+            var cacheableSql = BuildCacheableSql(criteria.TableName, criteria, false);
             if (!_cachedCommands.ContainsKey(cacheableSql))
             {
                 lock (_cachedCommands)
@@ -371,7 +371,7 @@ namespace NIntegrate.Query.Command
 
             DbCommand cmd;
 
-            var cacheableSql = BuildCacheableSql(criteria._tableName, criteria, true);
+            var cacheableSql = BuildCacheableSql(criteria.TableName, criteria, true);
             if (!_cachedCommands.ContainsKey(cacheableSql))
             {
                 lock (_cachedCommands)
