@@ -11,7 +11,7 @@ namespace NIntegrate.Query
     [ComVisible(false)]
     public static class QueryHelper
     {
-        internal static string ToSelectColumnName(this IColumn column)
+        public static string ToSelectColumnName(this IColumn column)
         {
             var sql = column.ToExpressionCacheableSql();
             var columnName = column.ColumnName.ToDatabaseObjectName();
@@ -28,7 +28,7 @@ namespace NIntegrate.Query
             rightOp = includeRight ? ExpressionOperator.LessThanOrEquals : ExpressionOperator.LessThan;
         }
 
-        internal static string ToExpressionCacheableSql(this IExpression expr)
+        public static string ToExpressionCacheableSql(this IExpression expr)
         {
             if (ReferenceEquals(expr, null))
                 throw new ArgumentNullException("expr");
@@ -48,7 +48,7 @@ namespace NIntegrate.Query
             return sb.ToString();
         }
 
-        internal static string ToConditionCacheableSql(this Condition condition)
+        public static string ToConditionCacheableSql(this Condition condition)
         {
             if (ReferenceEquals(condition, null))
                 throw new ArgumentNullException("condition");
@@ -158,7 +158,7 @@ namespace NIntegrate.Query
             return string.Empty;
         }
 
-        internal static string ToDatabaseObjectName(this string name)
+        public static string ToDatabaseObjectName(this string name)
         {
             if (name.Contains(")"))
                 return name;

@@ -23,31 +23,31 @@ namespace NIntegrate.Query.Command.SqlClient
         {
             var sb = new StringBuilder();
             sb.Append("WITH [__T] AS (SELECT ");
-            if (criteria._isDistinct)
+            if (criteria.IsDistinct)
             {
                 sb.Append("DISTINCT ");
             }
-            if (criteria._maxResults > 0)
+            if (criteria.MaxResults > 0)
             {
                 sb.Append("TOP ");
-                sb.Append(criteria._maxResults + criteria._skipResults);
+                sb.Append(criteria.MaxResults + criteria.SkipResults);
                 sb.Append(" ");
             }
 
             AppendResultColumns(criteria, sb);
 
             sb.Append(", ROW_NUMBER() OVER (ORDER BY ");
-            if (criteria._sortBys.Count > 0)
+            if (criteria.SortBys.Count > 0)
             {
                 AppendSortBys(criteria, sb);
             }
             else
             {
-                if (criteria._resultColumns.Count == 0)
+                if (criteria.ResultColumns.Count == 0)
                 {
-                    if (criteria._predefinedColumns.Count > 0)
+                    if (criteria.PredefinedColumns.Count > 0)
                     {
-                        sb.Append(criteria._predefinedColumns[0].ToExpressionCacheableSql());
+                        sb.Append(criteria.PredefinedColumns[0].ToExpressionCacheableSql());
                     }
                     else
                     {
@@ -56,7 +56,7 @@ namespace NIntegrate.Query.Command.SqlClient
                 }
                 else
                 {
-                    sb.Append(criteria._resultColumns[0].ToExpressionCacheableSql());
+                    sb.Append(criteria.ResultColumns[0].ToExpressionCacheableSql());
                 }
             }
             sb.Append(") AS [__Pos] ");
@@ -64,7 +64,7 @@ namespace NIntegrate.Query.Command.SqlClient
             AppendFrom(tableName, sb);
             sb.Append(" (NOLOCK)");
 
-            if (criteria._conditions.Count > 0)
+            if (criteria.Conditions.Count > 0)
             {
                 sb.Append(" ");
                 sb.Append("WHERE ");
@@ -72,12 +72,12 @@ namespace NIntegrate.Query.Command.SqlClient
             }
 
             sb.Append(") SELECT ");
-            if (criteria._resultColumns.Count == 0)
+            if (criteria.ResultColumns.Count == 0)
             {
                 var separate = "";
-                if (criteria._predefinedColumns.Count > 0)
+                if (criteria.PredefinedColumns.Count > 0)
                 {
-                    foreach (var column in criteria._predefinedColumns)
+                    foreach (var column in criteria.PredefinedColumns)
                     {
                         sb.Append(separate);
                         sb.Append("[__T].");
@@ -94,7 +94,7 @@ namespace NIntegrate.Query.Command.SqlClient
             else
             {
                 var separate = "";
-                foreach (var column in criteria._resultColumns)
+                foreach (var column in criteria.ResultColumns)
                 {
                     sb.Append(separate);
                     sb.Append("[__T].");
@@ -105,12 +105,12 @@ namespace NIntegrate.Query.Command.SqlClient
             }
             sb.Append(" ");
             sb.Append("FROM [__T] WHERE [__T].[__Pos] > ");
-            sb.Append(criteria._skipResults);
-            if (criteria._maxResults > 0)
+            sb.Append(criteria.SkipResults);
+            if (criteria.MaxResults > 0)
             {
                 sb.Append(" ");
                 sb.Append("AND [__T].[__Pos] <= ");
-                sb.Append(criteria._maxResults + criteria._skipResults);
+                sb.Append(criteria.MaxResults + criteria.SkipResults);
             }
 
             return sb.ToString();
@@ -129,14 +129,14 @@ namespace NIntegrate.Query.Command.SqlClient
             sb.Append("SELECT ");
             if (!isCountCommand)
             {
-                if (criteria._isDistinct)
+                if (criteria.IsDistinct)
                 {
                     sb.Append("DISTINCT ");
                 }
-                if (criteria._maxResults > 0)
+                if (criteria.MaxResults > 0)
                 {
                     sb.Append("TOP ");
-                    sb.Append(criteria._maxResults);
+                    sb.Append(criteria.MaxResults);
                     sb.Append(" ");
                 }
 
@@ -148,13 +148,13 @@ namespace NIntegrate.Query.Command.SqlClient
             }
             sb.Append(" ");
 
-            if (isCountCommand && criteria._isDistinct)
+            if (isCountCommand && criteria.IsDistinct)
             {
                 sb.Append("FROM (SELECT DISTINCT ");
-                if (criteria._maxResults > 0)
+                if (criteria.MaxResults > 0)
                 {
                     sb.Append("TOP ");
-                    sb.Append(criteria._maxResults);
+                    sb.Append(criteria.MaxResults);
                     sb.Append(" ");
                 }
 
@@ -162,7 +162,7 @@ namespace NIntegrate.Query.Command.SqlClient
                 sb.Append(" ");
                 AppendFrom(tableName, sb);
                 sb.Append(" (NOLOCK)");
-                if (criteria._conditions.Count > 0)
+                if (criteria.Conditions.Count > 0)
                 {
                     sb.Append(" ");
                     sb.Append("WHERE ");
@@ -174,7 +174,7 @@ namespace NIntegrate.Query.Command.SqlClient
             {
                 AppendFrom(tableName, sb);
                 sb.Append(" (NOLOCK)");
-                if (criteria._conditions.Count > 0)
+                if (criteria.Conditions.Count > 0)
                 {
                     sb.Append(" ");
                     sb.Append("WHERE ");
@@ -182,7 +182,7 @@ namespace NIntegrate.Query.Command.SqlClient
                 }
                 if (!isCountCommand)
                 {
-                    if (criteria._sortBys.Count > 0)
+                    if (criteria.SortBys.Count > 0)
                     {
                         sb.Append(" ");
                         sb.Append("ORDER BY ");

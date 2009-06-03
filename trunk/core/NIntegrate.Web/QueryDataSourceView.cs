@@ -66,21 +66,21 @@ namespace NIntegrate.Web
 
         private static void InsertSortExpressinAtTopOfSortBys(string sortExpression, Criteria criteria)
         {
-            if (criteria._sortBys.Count == 0)
+            if (criteria.SortBys.Count == 0)
             {
                 AppendSortExpression(criteria, sortExpression);
                 return;
             }
 
             var sortBys = new Dictionary<IColumn, bool>();
-            var en = criteria._sortBys.GetEnumerator();
+            var en = criteria.SortBys.GetEnumerator();
             while (en.MoveNext())
                 sortBys.Add((IColumn)en.Current.Key.Clone(), en.Current.Value);
-            criteria._sortBys.Clear();
+            criteria.SortBys.Clear();
             AppendSortExpression(criteria, sortExpression);
             en = sortBys.GetEnumerator();
             while (en.MoveNext())
-                criteria._sortBys.Add(en.Current.Key, en.Current.Value);
+                criteria.SortBys.Add(en.Current.Key, en.Current.Value);
         }
 
         private static void AppendSortExpression(Criteria criteria, string sortExpression)
@@ -96,7 +96,7 @@ namespace NIntegrate.Web
             {
                 sortBy = sortExpression.Substring(0, sortExpression.Length - " ASC".Length);
             }
-            criteria._sortBys.Add(new Int32Column(sortBy), isDesc);
+            criteria.SortBys.Add(new Int32Column(sortBy), isDesc);
         }
 
         private static object TransformType(Type targetType, object value, bool nullable)
@@ -152,13 +152,12 @@ namespace NIntegrate.Web
 
         private Criteria PrepareCriteriaForUpdate()
         {
-            var criteria = _owner.Criteria.ToBaseCriteria();
-            criteria._skipResults = 0;
-            criteria._maxResults = 0;
-            criteria._isDistinct = false;
-            criteria._sortBys.Clear();
-            criteria._conditionAndOrs.Clear();
-            criteria._conditions.Clear();
+            var criteria = _owner.Criteria.ToSerializableCriteria();
+            criteria.SetSkipResults(0);
+            criteria.SetMaxResults(0);
+            criteria.SetIsDistinct(false);
+            criteria.SortBys.Clear();
+            criteria.ClearConditions();
             return criteria;
         }
 
@@ -391,7 +390,7 @@ namespace NIntegrate.Web
             if (_owner.Criteria == null)
                 return null;
 
-            var criteria = _owner.Criteria.ToBaseCriteria();
+            var criteria = _owner.Criteria.ToSerializableCriteria();
 
             if (arguments != null && arguments != DataSourceSelectArguments.Empty)
             {
@@ -402,16 +401,16 @@ namespace NIntegrate.Web
                     _owner.LastTotalCount = arguments.TotalRowCount;
                 }
                 if (arguments.MaximumRows > 0)
-                    criteria.MaxResults(arguments.MaximumRows);
+                    criteria.SetMaxResults(arguments.MaximumRows);
                 if (arguments.StartRowIndex > 0)
-                    criteria.SkipResults(arguments.StartRowIndex);
+                    criteria.SetSkipResults(arguments.StartRowIndex);
                 if (!string.IsNullOrEmpty(arguments.SortExpression))
                 {
                     if (_owner.AlwaysAppendDefaultSortBysWhenSorting)
                         InsertSortExpressinAtTopOfSortBys(arguments.SortExpression, criteria);
                     else
                     {
-                        criteria._sortBys.Clear();
+                        criteria.SortBys.Clear();
                         AppendSortExpression(criteria, arguments.SortExpression);
                     }
                 }

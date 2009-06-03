@@ -25,7 +25,7 @@ namespace NIntegrate.Query.Command
                 {
                     if (connection.State != ConnectionState.Open)
                         connection.Open();
-                    var table = new DataTable(criteria._tableName);
+                    var table = new DataTable(criteria.TableName);
                     adapter.Fill(table);
                     return table;
                 }
