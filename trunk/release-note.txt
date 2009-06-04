@@ -18,7 +18,7 @@ Update Since v0.7.0.1
 1. Add NIntegrate.Configuration.UI project, which is a website UI for 
    configuring all configuration database tables.
 2. Remove InternalVisibleTo NIntegrate.Query.Command of NIntegrate.Query assembly.
-3. Add NIntegrate.Text project to NIntegrate_OpenSource.sln.
+3. Add NIntegrate.Test project to NIntegrate_OpenSource.sln.
 
 
 Update Since v0.6.0.1
