@@ -5,12 +5,63 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Xml;
+using NIntegrate.Query.SqlClient;
 
 namespace NIntegrate.Query
 {
     [ComVisible(false)]
     public static class QueryHelper
     {
+        internal static Type[] KnownTypes()
+        {
+            return new[]
+                       {
+                           typeof(Condition),
+                           typeof(NullExpression),
+                           typeof(BooleanExpression),
+                           typeof(ByteExpression),
+                           typeof(Int16Expression),
+                           typeof(Int32Expression),
+                           typeof(Int64Expression),
+                           typeof(DateTimeExpression),
+                           typeof(StringExpression),
+                           typeof(GuidExpression),
+                           typeof(DoubleExpression),
+                           typeof(DecimalExpression),
+                           typeof(ExpressionCollection),
+                           typeof(BooleanParameterExpression),
+                           typeof(ByteParameterExpression),
+                           typeof(Int16ParameterExpression),
+                           typeof(Int32ParameterExpression),
+                           typeof(Int64ParameterExpression),
+                           typeof(DateTimeParameterExpression),
+                           typeof(StringParameterExpression),
+                           typeof(GuidParameterExpression),
+                           typeof(DoubleParameterExpression),
+                           typeof(DecimalParameterExpression),
+                           typeof(BooleanColumn),
+                           typeof(ByteColumn),
+                           typeof(Int16Column),
+                           typeof(Int32Column),
+                           typeof(Int64Column),
+                           typeof(DateTimeColumn),
+                           typeof(StringColumn),
+                           typeof(GuidColumn),
+                           typeof(DoubleColumn),
+                           typeof(DecimalColumn),
+                           typeof(SqlBooleanColumn),
+                           typeof(SqlByteColumn),
+                           typeof(SqlInt16Column),
+                           typeof(SqlInt32Column),
+                           typeof(SqlInt64Column),
+                           typeof(SqlDateTimeColumn),
+                           typeof(SqlStringColumn),
+                           typeof(SqlGuidColumn),
+                           typeof(SqlDoubleColumn),
+                           typeof(SqlDecimalColumn)
+                       };
+        }
+
         public static string ToSelectColumnName(this IColumn column)
         {
             var sql = column.ToExpressionCacheableSql();
