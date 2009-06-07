@@ -4,56 +4,22 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
-using NIntegrate.Query.SqlClient;
 
 namespace NIntegrate.Query
 {
     [DataContract]
-    [KnownType(typeof(Condition))]
-    [KnownType(typeof(NullExpression))]
-    [KnownType(typeof(BooleanExpression))]
-    [KnownType(typeof(ByteExpression))]
-    [KnownType(typeof(Int16Expression))]
-    [KnownType(typeof(Int32Expression))]
-    [KnownType(typeof(Int64Expression))]
-    [KnownType(typeof(DateTimeExpression))]
-    [KnownType(typeof(StringExpression))]
-    [KnownType(typeof(GuidExpression))]
-    [KnownType(typeof(DoubleExpression))]
-    [KnownType(typeof(DecimalExpression))]
-    [KnownType(typeof(ExpressionCollection))]
-    [KnownType(typeof(BooleanParameterExpression))]
-    [KnownType(typeof(ByteParameterExpression))]
-    [KnownType(typeof(Int16ParameterExpression))]
-    [KnownType(typeof(Int32ParameterExpression))]
-    [KnownType(typeof(Int64ParameterExpression))]
-    [KnownType(typeof(DateTimeParameterExpression))]
-    [KnownType(typeof(StringParameterExpression))]
-    [KnownType(typeof(GuidParameterExpression))]
-    [KnownType(typeof(DoubleParameterExpression))]
-    [KnownType(typeof(DecimalParameterExpression))]
-    [KnownType(typeof(BooleanColumn))]
-    [KnownType(typeof(ByteColumn))]
-    [KnownType(typeof(Int16Column))]
-    [KnownType(typeof(Int32Column))]
-    [KnownType(typeof(Int64Column))]
-    [KnownType(typeof(DateTimeColumn))]
-    [KnownType(typeof(StringColumn))]
-    [KnownType(typeof(GuidColumn))]
-    [KnownType(typeof(DoubleColumn))]
-    [KnownType(typeof(DecimalColumn))]
-    [KnownType(typeof(SqlBooleanColumn))]
-    [KnownType(typeof(SqlByteColumn))]
-    [KnownType(typeof(SqlInt16Column))]
-    [KnownType(typeof(SqlInt32Column))]
-    [KnownType(typeof(SqlInt64Column))]
-    [KnownType(typeof(SqlDateTimeColumn))]
-    [KnownType(typeof(SqlStringColumn))]
-    [KnownType(typeof(SqlGuidColumn))]
-    [KnownType(typeof(SqlDoubleColumn))]
-    [KnownType(typeof(SqlDecimalColumn))]
+    [KnownType("KnownTypes")]
     public abstract class Expression : IExpression
     {
+        #region KnownTypes
+
+        internal static Type[] KnownTypes()
+        {
+            return QueryHelper.KnownTypes();
+        }
+
+        #endregion
+
         #region Protected Fields
 
         [DataMember]
@@ -5329,40 +5295,18 @@ namespace NIntegrate.Query
     }
 
     [CollectionDataContract]
-    [KnownType(typeof(NullExpression))]
-    [KnownType(typeof(BooleanExpression))]
-    [KnownType(typeof(ByteExpression))]
-    [KnownType(typeof(Int16Expression))]
-    [KnownType(typeof(Int32Expression))]
-    [KnownType(typeof(Int64Expression))]
-    [KnownType(typeof(DateTimeExpression))]
-    [KnownType(typeof(StringExpression))]
-    [KnownType(typeof(GuidExpression))]
-    [KnownType(typeof(DoubleExpression))]
-    [KnownType(typeof(DecimalExpression))]
-    [KnownType(typeof(ExpressionCollection))]
-    [KnownType(typeof(BooleanParameterExpression))]
-    [KnownType(typeof(ByteParameterExpression))]
-    [KnownType(typeof(Int16ParameterExpression))]
-    [KnownType(typeof(Int32ParameterExpression))]
-    [KnownType(typeof(Int64ParameterExpression))]
-    [KnownType(typeof(DateTimeParameterExpression))]
-    [KnownType(typeof(StringParameterExpression))]
-    [KnownType(typeof(GuidParameterExpression))]
-    [KnownType(typeof(DoubleParameterExpression))]
-    [KnownType(typeof(DecimalParameterExpression))]
-    [KnownType(typeof(BooleanColumn))]
-    [KnownType(typeof(ByteColumn))]
-    [KnownType(typeof(Int16Column))]
-    [KnownType(typeof(Int32Column))]
-    [KnownType(typeof(Int64Column))]
-    [KnownType(typeof(DateTimeColumn))]
-    [KnownType(typeof(StringColumn))]
-    [KnownType(typeof(GuidColumn))]
-    [KnownType(typeof(DoubleColumn))]
-    [KnownType(typeof(DecimalColumn))]
+    [KnownType("KnownTypes")]
     internal sealed class ExpressionCollection : IExpression, ICollection<IExpression>
     {
+        #region KnownTypes
+
+        internal static Type[] KnownTypes()
+        {
+            return QueryHelper.KnownTypes();
+        }
+
+        #endregion
+
         #region Private Fields
 
         private readonly List<IExpression> _list = new List<IExpression>();
