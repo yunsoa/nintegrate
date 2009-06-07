@@ -163,7 +163,7 @@ namespace NIntegrate.Query
             if (name.Contains(")"))
                 return name;
 
-            return "[" + name.TrimStart('[').TrimEnd(']') + "]";
+            return "[" + name.TrimStart('[').TrimEnd(']').Replace(".", "].[") + "]";
         }
 
         internal static string CriteriaSerialize(Criteria criteria)
