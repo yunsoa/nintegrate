@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Xml;
+using NIntegrate.Query.OracleClient;
 using NIntegrate.Query.SqlClient;
 
 namespace NIntegrate.Query
@@ -58,7 +59,17 @@ namespace NIntegrate.Query
                            typeof(SqlStringColumn),
                            typeof(SqlGuidColumn),
                            typeof(SqlDoubleColumn),
-                           typeof(SqlDecimalColumn)
+                           typeof(SqlDecimalColumn),
+                           typeof(OracleBooleanColumn),
+                           typeof(OracleByteColumn),
+                           typeof(OracleInt16Column),
+                           typeof(OracleInt32Column),
+                           typeof(OracleInt64Column),
+                           typeof(OracleDateTimeColumn),
+                           typeof(OracleStringColumn),
+                           typeof(OracleGuidColumn),
+                           typeof(OracleDoubleColumn),
+                           typeof(OracleDecimalColumn)
                        };
         }
 

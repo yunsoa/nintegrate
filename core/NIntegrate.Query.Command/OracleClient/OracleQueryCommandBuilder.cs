@@ -1,16 +1,53 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
+using System.Data.OracleClient;
 using System.Text;
 
-namespace NIntegrate.Query.Command.SqlClient
+namespace NIntegrate.Query.Command.OracleClient
 {
     /// <summary>
-    /// The IQueryCommandBuilder implementation for SQL Server database.
+    /// The IQueryCommandBuilder implementation for Oracle database.
     /// </summary>
-    public class SqlQueryCommandBuilder : QueryCommandBuilder
+    public class OracleQueryCommandBuilder : QueryCommandBuilder
     {
+        #region Private Methods
+
+        private string BuildCountCacheableSql(string tableName, Criteria criteria)
+        {
+            var sb = new StringBuilder();
+            sb.Append("SELECT COUNT(1) ");
+
+            if (criteria.IsDistinct)
+            {
+                sb.Append("FROM (SELECT DISTINCT ");
+                AppendResultColumns(criteria, sb);
+                sb.Append(" ");
+                AppendFrom(tableName, sb);
+                if (criteria.Conditions.Count > 0)
+                {
+                    sb.Append(" ");
+                    sb.Append("WHERE ");
+                    AppendConditions(criteria, sb);
+                    sb.Append(") [__T]");
+                }
+            }
+            else
+            {
+                AppendFrom(tableName, sb);
+                if (criteria.Conditions.Count > 0)
+                {
+                    sb.Append(" ");
+                    sb.Append("WHERE ");
+                    AppendConditions(criteria, sb);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        #endregion
+
         #region Override Methods
 
         /// <summary>
@@ -22,56 +59,7 @@ namespace NIntegrate.Query.Command.SqlClient
         protected override string BuildPagingCacheableSql(string tableName, Criteria criteria)
         {
             var sb = new StringBuilder();
-            sb.Append("WITH [__T] AS (SELECT ");
-            if (criteria.IsDistinct)
-            {
-                sb.Append("DISTINCT ");
-            }
-            if (criteria.MaxResults + criteria.SkipResults > 0)
-            {
-                sb.Append("TOP ");
-                sb.Append(criteria.MaxResults + criteria.SkipResults);
-                sb.Append(" ");
-            }
-
-            AppendResultColumns(criteria, sb);
-
-            sb.Append(", ROW_NUMBER() OVER (ORDER BY ");
-            if (criteria.SortBys.Count > 0)
-            {
-                AppendSortBys(criteria, sb);
-            }
-            else
-            {
-                if (criteria.ResultColumns.Count == 0)
-                {
-                    if (criteria.PredefinedColumns.Count > 0)
-                    {
-                        sb.Append(criteria.PredefinedColumns[0].ToExpressionCacheableSql());
-                    }
-                    else
-                    {
-                        sb.Append("1");
-                    }
-                }
-                else
-                {
-                    sb.Append(criteria.ResultColumns[0].ToExpressionCacheableSql());
-                }
-            }
-            sb.Append(") AS [__Pos] ");
-
-            AppendFrom(tableName, sb);
-            sb.Append(" (NOLOCK)");
-
-            if (criteria.Conditions.Count > 0)
-            {
-                sb.Append(" ");
-                sb.Append("WHERE ");
-                AppendConditions(criteria, sb);
-            }
-
-            sb.Append(") SELECT ");
+            sb.Append("SELECT ");
             if (criteria.ResultColumns.Count == 0)
             {
                 var separate = "";
@@ -104,7 +92,51 @@ namespace NIntegrate.Query.Command.SqlClient
                 }
             }
             sb.Append(" ");
-            sb.Append("FROM [__T] WHERE [__T].[__Pos] > ");
+            sb.Append("FROM ");
+            sb.Append("(SELECT ");
+            if (criteria.IsDistinct)
+            {
+                sb.Append("DISTINCT ");
+            }
+
+            AppendResultColumns(criteria, sb);
+
+            sb.Append(", ROW_NUMBER() OVER (ORDER BY ");
+            if (criteria.SortBys.Count > 0)
+            {
+                AppendSortBys(criteria, sb);
+            }
+            else
+            {
+                if (criteria.ResultColumns.Count == 0)
+                {
+                    if (criteria.PredefinedColumns.Count > 0)
+                    {
+                        sb.Append(criteria.PredefinedColumns[0].ToExpressionCacheableSql());
+                    }
+                    else
+                    {
+                        sb.Append("1");
+                    }
+                }
+                else
+                {
+                    sb.Append(criteria.ResultColumns[0].ToExpressionCacheableSql());
+                }
+            }
+            sb.Append(") AS [__Pos] ");
+
+            AppendFrom(tableName, sb);
+
+            if (criteria.Conditions.Count > 0)
+            {
+                sb.Append(" ");
+                sb.Append("WHERE ");
+                AppendConditions(criteria, sb);
+            }
+
+            sb.Append(") [__T] WHERE [__T].[__Pos] > ");
+
             sb.Append(criteria.SkipResults);
             if (criteria.MaxResults > 0)
             {
@@ -125,63 +157,35 @@ namespace NIntegrate.Query.Command.SqlClient
         /// <returns></returns>
         protected override string BuildNoPagingCacheableSql(string tableName, Criteria criteria, bool isCountCommand)
         {
+            if (isCountCommand)
+                return BuildCountCacheableSql(tableName, criteria);
+
+            if (criteria.MaxResults > 0)
+                return BuildPagingCacheableSql(tableName, criteria);
+
             var sb = new StringBuilder();
             sb.Append("SELECT ");
-            if (!isCountCommand)
+            if (criteria.IsDistinct)
             {
-                if (criteria.IsDistinct)
-                {
-                    sb.Append("DISTINCT ");
-                }
-                if (criteria.MaxResults > 0)
-                {
-                    sb.Append("TOP ");
-                    sb.Append(criteria.MaxResults);
-                    sb.Append(" ");
-                }
+                sb.Append("DISTINCT ");
+            }
 
-                AppendResultColumns(criteria, sb);
-            }
-            else
-            {
-                sb.Append("COUNT(1)");
-            }
+            AppendResultColumns(criteria, sb);
+
             sb.Append(" ");
 
-            if (isCountCommand && criteria.IsDistinct)
+            AppendFrom(tableName, sb);
+            if (criteria.Conditions.Count > 0)
             {
-                sb.Append("FROM (SELECT DISTINCT ");
-                AppendResultColumns(criteria, sb);
                 sb.Append(" ");
-                AppendFrom(tableName, sb);
-                sb.Append(" (NOLOCK)");
-                if (criteria.Conditions.Count > 0)
-                {
-                    sb.Append(" ");
-                    sb.Append("WHERE ");
-                    AppendConditions(criteria, sb);
-                    sb.Append(") [__T]");
-                }
+                sb.Append("WHERE ");
+                AppendConditions(criteria, sb);
             }
-            else
+            if (criteria.SortBys.Count > 0)
             {
-                AppendFrom(tableName, sb);
-                sb.Append(" (NOLOCK)");
-                if (criteria.Conditions.Count > 0)
-                {
-                    sb.Append(" ");
-                    sb.Append("WHERE ");
-                    AppendConditions(criteria, sb);
-                }
-                if (!isCountCommand)
-                {
-                    if (criteria.SortBys.Count > 0)
-                    {
-                        sb.Append(" ");
-                        sb.Append("ORDER BY ");
-                        AppendSortBys(criteria, sb);
-                    }
-                }
+                sb.Append(" ");
+                sb.Append("ORDER BY ");
+                AppendSortBys(criteria, sb);
             }
 
             return sb.ToString();
@@ -197,7 +201,7 @@ namespace NIntegrate.Query.Command.SqlClient
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
 
-            return "@" + name.TrimStart('@');
+            return ":" + name.TrimStart(':');
         }
 
         /// <summary>
@@ -207,7 +211,7 @@ namespace NIntegrate.Query.Command.SqlClient
         /// <param name="parameter">The parameter.</param>
         protected override void AdjustParameterProperties(IParameterExpression parameterExpr, DbParameter parameter)
         {
-            var sqlParameter = parameter as SqlParameter;
+            var oracleParameter = parameter as OracleParameter;
 
             if (parameter.Value == null)
             {
@@ -229,31 +233,33 @@ namespace NIntegrate.Query.Command.SqlClient
             }
             if (type == typeof(Guid))
             {
-                sqlParameter.SqlDbType = SqlDbType.UniqueIdentifier;
+                oracleParameter.OracleType = OracleType.Char;
+                oracleParameter.Size = 36;
+                parameter.Value = parameter.Value.ToString();
                 return;
             }
             if (type == typeof(byte[]))
             {
                 if (((byte[])parameter.Value).Length > 8000)
                 {
-                    sqlParameter.SqlDbType = SqlDbType.Image;
+                    oracleParameter.OracleType = OracleType.Blob;
                 }
                 return;
             }
             if (type == typeof(DateTime))
             {
-                sqlParameter.SqlDbType = SqlDbType.DateTime;
+                oracleParameter.OracleType = OracleType.DateTime;
                 return;
             }
             if (type != typeof(string)) return;
             var stringParameterExpr = parameterExpr as StringParameterExpression;
             if (stringParameterExpr.IsUnicode)
             {
-                sqlParameter.SqlDbType = parameter.Value.ToString().Length > 4000 ? SqlDbType.NText : SqlDbType.NVarChar;
+                oracleParameter.OracleType = parameter.Value.ToString().Length > 2000 ? OracleType.NClob : OracleType.NVarChar;
             }
             else
             {
-                sqlParameter.SqlDbType = parameter.Value.ToString().Length > 8000 ? SqlDbType.Text : SqlDbType.VarChar;
+                oracleParameter.OracleType = parameter.Value.ToString().Length > 4000 ? OracleType.Clob : OracleType.VarChar;
             }
             return;
         }
@@ -264,7 +270,7 @@ namespace NIntegrate.Query.Command.SqlClient
         /// <returns></returns>
         public override DbProviderFactory GetDbProviderFactory()
         {
-            return SqlClientFactory.Instance;
+            return OracleClientFactory.Instance;
         }
 
         /// <summary>
@@ -273,7 +279,7 @@ namespace NIntegrate.Query.Command.SqlClient
         /// <returns></returns>
         public override string GetDatabaseObjectNameQuoteCharacters()
         {
-            return "[]";
+            return "\"\"";
         }
 
         #endregion
@@ -281,16 +287,16 @@ namespace NIntegrate.Query.Command.SqlClient
         #region Singleton
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SqlQueryCommandBuilder"/> class.
+        /// Initializes a new instance of the <see cref="OracleQueryCommandBuilder"/> class.
         /// </summary>
-        protected SqlQueryCommandBuilder()
+        protected OracleQueryCommandBuilder()
         {
         }
 
         /// <summary>
         /// The singleton instance.
         /// </summary>
-        public static readonly SqlQueryCommandBuilder Instance = new SqlQueryCommandBuilder();
+        public static readonly OracleQueryCommandBuilder Instance = new OracleQueryCommandBuilder();
 
         #endregion
     }
