@@ -89,12 +89,14 @@
     <Compile Include="Query\ExpressionsTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Query\OracleClientExtensionMethodsTest.cs" />
     <Compile Include="Query\QueryCommandFactoryTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Query\SqlClientExtensionMethodsTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Query\TestClasses\OracleJobCriteria.cs" />
     <Compile Include="Query\TestClasses\TestCriteria.cs">
       <SubType>Code</SubType>
     </Compile>

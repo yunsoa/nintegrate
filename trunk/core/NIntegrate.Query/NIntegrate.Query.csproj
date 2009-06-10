@@ -60,6 +60,9 @@
     <Compile Include="Criteria.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IQueryService.cs" />
+    <Compile Include="OracleClient\OracleColumns.cs" />
+    <Compile Include="OracleClient\OracleCriteria.cs" />
+    <Compile Include="OracleClient\OracleExtensionMethods.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="ExpressionOperator.cs" />
     <Compile Include="Expressions.cs" />

@@ -26,6 +26,8 @@ namespace NIntegrate.Query.Command
         {
             if (string.CompareOrdinal(providerName, "System.Data.SqlClient") == 0)
                 return SqlClient.SqlQueryCommandBuilder.Instance;
+            if (string.CompareOrdinal(providerName, "System.Data.OracleClient") == 0)
+                return OracleClient.OracleQueryCommandBuilder.Instance;
 
             var providerTypeName = ConfigurationManager.AppSettings[providerName];
             var providerType = Type.GetType(providerTypeName);
