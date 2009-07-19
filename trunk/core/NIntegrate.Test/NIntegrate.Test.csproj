@@ -106,9 +106,13 @@
     <Compile Include="TestClasses\ITestService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestClasses\TestBindingElement.cs" />
+    <Compile Include="TestClasses\TestBindingExtensionElement.cs" />
     <Compile Include="TestClasses\TestExternalServices.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestClasses\TestServiceBehavior.cs" />
+    <Compile Include="TestClasses\TestServiceBehaviorElement.cs" />
     <Compile Include="TestClasses\TestServiceImpl.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -134,6 +138,10 @@
     <ProjectReference Include="..\NIntegrate.Query\NIntegrate.Query.csproj">
       <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
       <Name>NIntegrate.Query</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NIntegrate.ServiceModel\NIntegrate.ServiceModel.csproj">
+      <Project>{C39288B4-5C84-4FDE-953D-23CC630576F7}</Project>
+      <Name>NIntegrate.ServiceModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\NIntegrate\NIntegrate.csproj">
       <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NIntegrate.Test.TestClasses;
 using NIntegrate.Configuration;
 using System.ServiceModel;
+using NIntegrate.ServiceModel.Configuration;
 
 namespace NIntegrate.Test
 {
@@ -11,71 +13,343 @@ namespace NIntegrate.Test
     ///This is a test class for WcfServiceHostFactoryTest and is intended
     ///to contain all WcfServiceHostFactoryTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class WcfServiceHostFactoryTest
     {
-        [TestMethod]
-        public void TestBindingTypes()
+        [ClassInitialize]
+        public static void MyClassInitialize(TestContext testContext)
         {
-            var basicHttpBinding = ServiceConfigurationStore.GetBindingType(1);
-            Assert.IsNotNull(basicHttpBinding);
-            Assert.AreEqual(ChannelType.HTTP, basicHttpBinding.ChannelType);
-            Assert.AreEqual(typeof(BasicHttpBinding).AssemblyQualifiedName, basicHttpBinding.ClassName);
-            Assert.AreEqual(typeof(BasicHttpBindingElement).AssemblyQualifiedName, basicHttpBinding.ConfigurationElementTypeClassName);
-            Assert.AreEqual("BasicHttpBinding", basicHttpBinding.FriendlyName);
+            BehaviorExtensionRegistry.Instance.AddItem("testBehavior", typeof (TestServiceBehaviorElement));
+            BindingElementExtensionRegistry.Instance.AddItem("testBindingExtension", typeof (TestBindingExtensionElement));
         }
 
         [TestMethod]
-        public void TestCustomBehaviorTypes()
+        public void TestServiceHosting()
         {
-            var test = ServiceConfigurationStore.GetCustomBehaviorType("test");
-            Assert.IsNotNull(test);
-            Assert.AreEqual("testclassname", test.ClassName);
-            Assert.AreEqual("testelementname", test.ConfigurationElementTypeClassName);
-            Assert.AreEqual("testfriendlyname", test.FriendlyName);
+            var services = GetTestCases();
+
+            var baseAddresses = new Uri[0];
+
+            foreach (var service in services)
+            {
+                var serviceHost = ServiceModel.Activation.WcfServiceHostFactory.CreateServiceHost(typeof(TestServiceImpl), ref baseAddresses, null, service);
+                serviceHost.Open();
+                serviceHost.Close();
+            }
         }
 
-        [TestMethod]
-        public void TestServiceHostTypes()
+        #region Test Cases
+
+        private WcfService CreateService()
         {
-            var serviceHost = ServiceConfigurationStore.GetServiceHostType(1);
-            Assert.IsNotNull(serviceHost);
-            Assert.AreEqual(typeof(ServiceHost).AssemblyQualifiedName, serviceHost.ClassName);
-            Assert.AreEqual("ServiceHost", serviceHost.FriendlyName);
+            var service = new WcfService
+                              {
+                                  HostXml =
+                                      new HostXml(
+                                      "<host><baseAddresses><add baseAddress=\"http://localhost:88/TestService\" /><add baseAddress=\"net.tcp://localhost:888/TestService\" /><add baseAddress=\"net.pipe://localhost/TestService\" /></baseAddresses></host>")
+                              };
+            return service;
         }
 
-        [TestMethod]
-        public void TestGetServiceConfiguration()
+        private List<WcfService> GetTestCases()
         {
-            var config = ServiceConfigurationStore.GetServiceConfiguration(typeof(TestServiceImpl).AssemblyQualifiedName);
-            Assert.IsNotNull(config);
-            Assert.AreEqual(1, config.ServiceHostType_id);
-            Assert.IsNotNull(config.ServiceBehaviorXML);
-            Assert.IsNull(config.HostXML);
-            Assert.IsNotNull(config.Endpoints);
-            Assert.AreEqual(2, config.Endpoints.Count);
-            Assert.IsNull(config.Endpoints[0].BindingNamespace);
-            Assert.AreEqual("http://localhost/TestWSHttp", config.Endpoints[0].EndpointAddress);
-            Assert.IsNull(config.Endpoints[0].EndpointBehaviorXML);
-            Assert.IsNull(config.Endpoints[0].IdentityXML);
-            Assert.IsNotNull(config.Endpoints[0].ListenUri);
-            Assert.IsNull(config.Endpoints[0].ListenUriMode);
-            Assert.AreEqual("WSHttpBinding", ServiceConfigurationStore.GetBindingType(config.Endpoints[0].BindingType_id).FriendlyName);
-            Assert.IsNotNull(config.Endpoints[0].BindingXML);
-            Assert.IsTrue(config.Endpoints[0].MexBindingEnabled);
+            var services = new List<WcfService>();
+
+            services.Add(BasicHttpDefaultAddressTestCase());
+            services.Add(BasicHttpFullAddressTestCase());
+            services.Add(BasicHttpRelativeAddressTestCase());
+            services.Add(BasicHttpAbsoluteAddressTestCase());
+            services.Add(BasicHttpAndNetTcpEndpointsTestCase());
+            services.Add(BasicHttpAndMexHttpEndpointsTestCase());
+            services.Add(NetTcpAndMexHttpEndpointsTestCase());
+            services.Add(NetTcpAndMexTcpEndpointsTestCase());
+            services.Add(BasicHttpAndNetTcpEndpointsServingDifferentSericeContractsTestCase());
+            services.Add(TwoBasicHttpEndpointsServingDifferentSericeContractSharingSameListenUriTestCase());
+            services.Add(TwoBasicHttpEndpointsServingSameContractSharingSameListenUriTestCase());
+            services.Add(NetNamedPipeAndMexNamedPipeEndpointsTestCase());
+            services.Add(CustomEndpointsTestCase());
+
+            return services;
         }
 
-        /// <summary>
-        ///A test for CreateServiceHost
-        ///</summary>
-        [TestMethod()]
-        public void TestCreateServiceHost()
+        private WcfService BasicHttpDefaultAddressTestCase()
         {
-            var target = new WcfServiceHostFactory();
-            var serviceType = typeof(TestServiceImpl);
-            var host = target.CreateServiceHost(serviceType);
-            host.Open();
-            host.Close();
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /><testBehavior /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+            service.Endpoints = new[] { endpoint };
+
+            return service;
         }
+
+        private WcfService BasicHttpRelativeAddressTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                Address = "relative",
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+            service.Endpoints = new[] { endpoint };
+
+            return service;
+        }
+
+        private WcfService BasicHttpFullAddressTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                Address = "http://localhost:88/123",
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+            service.Endpoints = new[] { endpoint };
+
+            return service;
+        }
+
+        private WcfService BasicHttpAbsoluteAddressTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                Address = "/relative",
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+            service.Endpoints = new[] { endpoint };
+
+            return service;
+        }
+
+        private WcfService BasicHttpAndNetTcpEndpointsTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService BasicHttpAndMexHttpEndpointsTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                Address = "mex",
+                BindingXml = new BindingXml("mexHttpBinding", null),
+                ServiceContractType = "IMetadataExchange"
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService NetTcpAndMexHttpEndpointsTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                Address = "mex",
+                BindingXml = new BindingXml("mexHttpBinding", null),
+                ServiceContractType = "IMetadataExchange"
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService NetTcpAndMexTcpEndpointsTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"false\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                Address = "mextcp",
+                BindingXml = new BindingXml("mexTcpBinding", null),
+                ServiceContractType = "IMetadataExchange"
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService BasicHttpAndNetTcpEndpointsServingDifferentSericeContractsTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService2, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService TwoBasicHttpEndpointsServingDifferentSericeContractSharingSameListenUriTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService2, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService TwoBasicHttpEndpointsServingSameContractSharingSameListenUriTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                Address = "urn:t1",
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6",
+                ListenUri = "",
+                ListenUriMode = WcfListenUriMode.Explicit
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                Address = "urn:t2",
+                BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6",
+                ListenUri = "",
+                ListenUriMode = WcfListenUriMode.Explicit
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService NetNamedPipeAndMexNamedPipeEndpointsTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"false\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("netNamedPipeBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            var endpoint2 = new WcfServiceEndpoint
+            {
+                Address = "mexipc",
+                BindingXml = new BindingXml("mexNamedPipeBinding", null),
+                ServiceContractType = "IMetadataExchange"
+            };
+
+            service.Endpoints = new[] { endpoint, endpoint2 };
+
+            return service;
+        }
+
+        private WcfService CustomEndpointsTestCase()
+        {
+            var service = CreateService();
+            service.ServiceBehaviorXml = new ServiceBehaviorXml(
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"false\" /></behavior>");
+
+            var endpoint = new WcfServiceEndpoint
+            {
+                BindingXml = new BindingXml("customNamedPipeBinding", "<binding name=\"custom\"><binaryMessageEncoding /><namedPipeTransport /><testBindingExtension /></binding>"),
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.8.0.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+            };
+
+            service.Endpoints = new[] { endpoint };
+
+            return service;
+        }
+
+        #endregion
     }
 }
