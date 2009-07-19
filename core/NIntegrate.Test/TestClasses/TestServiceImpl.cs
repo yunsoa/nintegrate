@@ -6,7 +6,7 @@ namespace NIntegrate.Test.TestClasses
         ConcurrencyMode = ConcurrencyMode.Single,
         InstanceContextMode = InstanceContextMode.PerSession
     )]
-    public class TestServiceImpl : ITestService
+    public class TestServiceImpl : ITestService, ITestService2
     {
         #region ITestService Members
 
@@ -40,6 +40,15 @@ namespace NIntegrate.Test.TestClasses
         public int TransactionOperation()
         {
             return 0;
+        }
+
+        #endregion
+
+        #region ITestService2 Members
+
+        public string Hello2()
+        {
+            return "hello";
         }
 
         #endregion

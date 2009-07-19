@@ -22,4 +22,11 @@ namespace NIntegrate.Test.TestClasses
 
         int TransactionOperation();
     }
+
+    [ServiceContract]
+    public interface ITestService2
+    {
+        [OperationContract]
+        string Hello2();
+    }
 }
