@@ -174,22 +174,18 @@ namespace NIntegrate.ServiceModel.Activation
                     }
 
                     ServiceEndpoint serviceEndpoint;
-                    EndpointAddress endpointAddress;
                     if (endpoint.Address != endpoint.ListenUri)
                     {
                         serviceEndpoint = serviceHost.AddServiceEndpoint(
                             serviceContract, binding,
                             endpoint.Address, new Uri(listenUri));
-
-                        endpointAddress = CreateEndpointAddressWithHeadersAndIdentity(serviceEndpoint, endpoint);
                     }
                     else
                     {
                         serviceEndpoint = serviceHost.AddServiceEndpoint(
                             serviceContract, binding, listenUri);
-
-                        endpointAddress = CreateEndpointAddressWithHeadersAndIdentity(serviceEndpoint, endpoint);
                     }
+                    var endpointAddress = CreateEndpointAddressWithHeadersAndIdentity(serviceEndpoint, endpoint);
                     serviceHost.Description.Endpoints.Remove(serviceEndpoint);
                     serviceEndpoint = new ServiceEndpoint(serviceEndpoint.Contract, binding, endpointAddress);
                     serviceHost.Description.Endpoints.Add(serviceEndpoint);
