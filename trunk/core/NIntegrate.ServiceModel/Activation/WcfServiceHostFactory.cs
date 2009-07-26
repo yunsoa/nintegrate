@@ -13,6 +13,12 @@ namespace NIntegrate.ServiceModel.Activation
 {
     public abstract class WcfServiceHostFactory : ServiceHostFactory
     {
+        #region Events
+
+        public event EventHandler<LoadServiceConfigurationEventArgs> OnLoadServiceConfiguration;
+
+        #endregion
+
         #region Public Methods
 
         public ServiceHost CreateServiceHost(Type serviceType)
@@ -51,17 +57,21 @@ namespace NIntegrate.ServiceModel.Activation
             }
         }
 
-        #endregion
-
-        #region Non-Public Methods
-
-        #region LoadServiceConfiguration Default Implementation
-
-
         public virtual WcfService LoadServiceConfiguration(Type serviceType)
         {
             if (serviceType == null)
                 return null;
+
+            if (OnLoadServiceConfiguration != null)
+            {
+                var args = new LoadServiceConfigurationEventArgs
+                               {
+                                   ServiceType = serviceType
+                               };
+                OnLoadServiceConfiguration(this, args);
+                if (args.Service != null)
+                    return args.Service;
+            }
 
             AppConfigLoader.EnsureExtensionsLoaded();
 
@@ -69,6 +79,8 @@ namespace NIntegrate.ServiceModel.Activation
         }
 
         #endregion
+
+        #region Non-Public Methods
 
         protected virtual void OnServiceHostCreationExceptionRaised(ServiceHostCreationException ex)
         {

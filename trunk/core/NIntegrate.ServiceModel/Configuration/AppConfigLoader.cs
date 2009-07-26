@@ -200,47 +200,57 @@ namespace NIntegrate.ServiceModel.Configuration
             {
                 foreach (ChannelEndpointElement channelEndpoint in clientSection.Endpoints)
                 {
-                    var endpoint = new WcfClientEndpoint();
-
-                    if (channelEndpoint.Address != default(Uri))
-                        endpoint.Address = channelEndpoint.Address.ToString();
-                    if (!string.IsNullOrEmpty(channelEndpoint.Binding))
+                    if (
+                        string.Compare(serviceContractType.FullName, channelEndpoint.Contract,
+                                       StringComparison.OrdinalIgnoreCase) == 0)
                     {
-                        string xml = null;
-                        if (!string.IsNullOrEmpty(channelEndpoint.BindingConfiguration))
+                        var endpoint = new WcfClientEndpoint();
+
+                        if (channelEndpoint.Address != default(Uri))
+                            endpoint.Address = channelEndpoint.Address.ToString();
+                        if (!string.IsNullOrEmpty(channelEndpoint.Binding))
                         {
-                            foreach (var bindingElement in bindingsSection[channelEndpoint.Binding].ConfiguredBindings)
+                            string xml = null;
+                            if (!string.IsNullOrEmpty(channelEndpoint.BindingConfiguration))
                             {
-                                if (string.Compare(channelEndpoint.BindingConfiguration, bindingElement.Name, StringComparison.OrdinalIgnoreCase) == 0)
+                                foreach (
+                                    var bindingElement in bindingsSection[channelEndpoint.Binding].ConfiguredBindings)
                                 {
-                                    xml = Serialize(bindingElement as ConfigurationElement);
-                                    break;
+                                    if (
+                                        string.Compare(channelEndpoint.BindingConfiguration, bindingElement.Name,
+                                                       StringComparison.OrdinalIgnoreCase) == 0)
+                                    {
+                                        xml = Serialize(bindingElement as ConfigurationElement);
+                                        break;
+                                    }
+                                }
+                            }
+                            endpoint.BindingXml = new BindingXml(channelEndpoint.Binding, xml);
+                        }
+                        if (!string.IsNullOrEmpty(channelEndpoint.BehaviorConfiguration))
+                        {
+                            if (behaviorsSection != null && behaviorsSection.ServiceBehaviors != null)
+                            {
+                                foreach (EndpointBehaviorElement behavior in behaviorsSection.EndpointBehaviors)
+                                {
+                                    if (
+                                        string.Compare(channelEndpoint.BehaviorConfiguration, behavior.Name,
+                                                       StringComparison.OrdinalIgnoreCase) == 0)
+                                    {
+                                        endpoint.EndpointBehaviorXml = new EndpointBehaviorXml(Serialize(behavior));
+                                        break;
+                                    }
                                 }
                             }
                         }
-                        endpoint.BindingXml = new BindingXml(channelEndpoint.Binding, xml);
-                    }
-                    if (!string.IsNullOrEmpty(channelEndpoint.BehaviorConfiguration))
-                    {
-                        if (behaviorsSection != null && behaviorsSection.ServiceBehaviors != null)
-                        {
-                            foreach (EndpointBehaviorElement behavior in behaviorsSection.EndpointBehaviors)
-                            {
-                                if (string.Compare(channelEndpoint.BehaviorConfiguration, behavior.Name, StringComparison.OrdinalIgnoreCase) == 0)
-                                {
-                                    endpoint.EndpointBehaviorXml = new EndpointBehaviorXml(Serialize(behavior));
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (channelEndpoint.Headers != null)
-                        endpoint.HeadersXml = new HeadersXml(Serialize(channelEndpoint.Headers));
-                    if (channelEndpoint.Identity != null)
-                        endpoint.IdentityXml = new IdentityXml(Serialize(channelEndpoint.Identity));
-                    endpoint.ServiceContractType = channelEndpoint.Contract;
+                        if (channelEndpoint.Headers != null)
+                            endpoint.HeadersXml = new HeadersXml(Serialize(channelEndpoint.Headers));
+                        if (channelEndpoint.Identity != null)
+                            endpoint.IdentityXml = new IdentityXml(Serialize(channelEndpoint.Identity));
+                        endpoint.ServiceContractType = channelEndpoint.Contract;
 
-                    return endpoint;
+                        return endpoint;
+                    }
                 }
             }
 
