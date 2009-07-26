@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NIntegrate.ServiceModel")]
+[assembly: AssemblyTitle("NIntegrate.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NIntegrate.com")]
@@ -18,12 +18,12 @@ using System.Runtime.InteropServices;
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
+[assembly: ComVisible(true)]
 
 [assembly: CLSCompliant(true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b5f35a5b-b03f-48a3-9141-d9211b4df24f")]
+[assembly: Guid("44874f06-55ad-49bf-a62e-07b2ab1caaea")]
 
 // Version information for an assembly consists of the following four values:
 //
