@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activation\LoadServiceConfigurationEventArgs.cs" />
     <Compile Include="Activation\ServiceHostCreationException.cs" />
     <Compile Include="Activation\WcfServiceHostFactory.cs" />
     <Compile Include="ChannelFactoryCreationException.cs" />
