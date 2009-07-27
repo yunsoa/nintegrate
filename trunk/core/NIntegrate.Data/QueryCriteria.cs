@@ -6,13 +6,32 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
+    [DataContract]
+    public enum QueryType
+    {
+        [EnumMember]
+        Select,
+
+        [EnumMember]
+        Insert,
+
+        [EnumMember]
+        Update,
+
+        [EnumMember]
+        Delete
+    }
+
     /// <summary>
     /// Base class of all Custom Query Criterias
     /// </summary>
     [DataContract]
     [KnownType("KnownTypes")]
-    public class QueryCriteria
+    public sealed class QueryCriteria
     {
+        [DataMember]
+        private QueryType _queryType;
+
         [DataMember]
         private string _tableName;
 
@@ -46,6 +65,9 @@ namespace NIntegrate.Data
         [DataMember]
         private readonly List<Assignment> _assignments = new List<Assignment>();
 
+        [DataMember]
+        private bool _isReadonly;
+
         #region KnownTypes
 
         static Type[] KnownTypes()
@@ -59,10 +81,10 @@ namespace NIntegrate.Data
 
         private QueryCriteria()
         {
-            ParsePredefinedColumns();
+            _queryType = QueryType.Select;
         }
 
-        protected QueryCriteria(string tableName, string connectionStringName)
+        internal QueryCriteria(string tableName, string connectionStringName, bool isReadonly, IEnumerable<IColumn> predefinedColumns)
             : this()
         {
             if (string.IsNullOrEmpty(tableName))
@@ -72,6 +94,9 @@ namespace NIntegrate.Data
 
             _tableName = tableName;
             _connectionStringName = connectionStringName;
+            _isReadonly = isReadonly;
+            if (predefinedColumns != null)
+                _predefinedColumns.AddRange(predefinedColumns);
         }
 
         #endregion
@@ -133,14 +158,26 @@ namespace NIntegrate.Data
             get { return new ReadOnlyCollection<Assignment>(_assignments); }
         }
 
+        public bool IsReadOnly
+        {
+            get { return _isReadonly; }
+        }
+
+        public QueryType QueryType
+        {
+            get { return _queryType; }
+        }
+
         #endregion
 
         #region Public Methods
 
-        public QueryCriteria AddResultColumns(params IColumn[] columns)
+        public QueryCriteria Select(params IColumn[] columns)
         {
             if (columns == null || columns.Length == 0)
                 throw new ArgumentNullException("columns");
+
+            _queryType = QueryType.Select;
 
             foreach (var column in columns)
             {
@@ -210,12 +247,12 @@ namespace NIntegrate.Data
             return And(condition);
         }
 
-        public QueryCriteria ToSerializableCriteria()
-        {
-            var clone = new QueryCriteria();
-            CloneTo(clone);
-            return clone;
-        }
+        //public QueryCriteria ToSerializableCriteria()
+        //{
+        //    var clone = new QueryCriteria();
+        //    CloneTo(clone);
+        //    return clone;
+        //}
 
         public void ClearResultColumns()
         {
@@ -228,12 +265,38 @@ namespace NIntegrate.Data
             _conditions.Clear();
         }
 
-        public QueryCriteria SetColumnValues(Assignment assignments)
+        public void ClearSortBys()
+        {
+            _sortBys.Clear();
+        }
+
+        public QueryCriteria Insert(Assignment assignments)
         {
             if (assignments == null)
                 throw new ArgumentNullException("assignments");
 
+            _queryType = QueryType.Insert;
+
             _assignments.Add(assignments);
+
+            return this;
+        }
+
+        public QueryCriteria Update(Assignment assignments)
+        {
+            if (assignments == null)
+                throw new ArgumentNullException("assignments");
+
+            _queryType = QueryType.Update;
+
+            _assignments.Add(assignments);
+
+            return this;
+        }
+
+        public QueryCriteria Delete()
+        {
+            _queryType = QueryType.Delete;
 
             return this;
         }
@@ -250,7 +313,7 @@ namespace NIntegrate.Data
             }
         }
 
-        internal protected QueryCriteria CloneTo(QueryCriteria clone)
+        internal QueryCriteria CloneTo(QueryCriteria clone)
         {
             if (clone == null)
                 throw new ArgumentNullException("clone");
@@ -262,6 +325,8 @@ namespace NIntegrate.Data
             clone._isDistinct = _isDistinct;
             clone._maxResults = _maxResults;
             clone._skipResults = _skipResults;
+            clone._queryType = _queryType;
+            clone._isReadonly = _isReadonly;
             var en = _sortBys.GetEnumerator();
             while (en.MoveNext())
                 clone._sortBys.Add((IColumn)en.Current.Key.Clone(), en.Current.Value);
@@ -273,22 +338,6 @@ namespace NIntegrate.Data
                 clone._predefinedColumns.Add((IColumn)column.Clone());
 
             return clone;
-        }
-
-        private void ParsePredefinedColumns()
-        {
-            foreach (var field in GetType().GetFields())
-            {
-                if (!typeof(IColumn).IsAssignableFrom(field.FieldType)) continue;
-                var column = (IColumn)field.GetValue(this);
-                _predefinedColumns.Add(column);
-            }
-            foreach (var property in GetType().GetProperties())
-            {
-                if (!property.CanRead || !typeof(IColumn).IsAssignableFrom(property.PropertyType)) continue;
-                var column = (IColumn)property.GetValue(this, null);
-                _predefinedColumns.Add(column);
-            }
         }
 
         #endregion
