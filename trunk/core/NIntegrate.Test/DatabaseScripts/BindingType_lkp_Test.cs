@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NIntegrate.Query.Command;
+using NIntegrate.Data;
 using NIntegrate.Test.DatabaseScripts.Criterias;
 using System.Data;
 
@@ -12,9 +12,10 @@ namespace NIntegrate.Test.DatabaseScripts
         [TestMethod]
         public void TestBindingTypesInitialization()
         {
-            var criteria = new BindingTypeCriteria();
-            var cmdFac = new QueryCommandFactory(criteria);
-            using (var cmd = cmdFac.GetQueryCommand())
+            var table = new BindingTypeTable();
+            var criteria = table.CreateCriteria();
+            var cmdFac = new QueryCommandFactory();
+            using (var cmd = cmdFac.CreateCommand(criteria))
             {
                 try
                 {
@@ -23,11 +24,10 @@ namespace NIntegrate.Test.DatabaseScripts
                     {
                         while (rdr.Read())
                         {
-                            Type type = null;
-                            type = Type.GetType(rdr.GetString(rdr.GetOrdinal(criteria.BindingTypeClassName.ColumnName)));
+                            Type type = Type.GetType(rdr.GetString(rdr.GetOrdinal(table.BindingTypeClassName.ColumnName)));
                             Assert.IsNotNull(type);
                             Assert.IsNotNull(Activator.CreateInstance(type));
-                            type = Type.GetType(rdr.GetString(rdr.GetOrdinal(criteria.BindingConfigurationElementTypeClassName.ColumnName)));
+                            type = Type.GetType(rdr.GetString(rdr.GetOrdinal(table.BindingConfigurationElementTypeClassName.ColumnName)));
                             Assert.IsNotNull(type);
                             Assert.IsNotNull(Activator.CreateInstance(type));
                         }

@@ -7,7 +7,7 @@ namespace NIntegrate.Data
     {
         private readonly string _tableName;
         private readonly string _connectionStringName;
-        private readonly bool _isReadonly;
+        private readonly bool _readOnly;
         private readonly List<IColumn> _predefinedColumns = new List<IColumn>();
 
         #region Constructors
@@ -21,7 +21,7 @@ namespace NIntegrate.Data
 
             _tableName = tableName;
             _connectionStringName = connectionStringName;
-            _isReadonly = isReadonly;
+            _readOnly = isReadonly;
 
             ParsePredefinedColumns();
         }
@@ -32,7 +32,7 @@ namespace NIntegrate.Data
 
         public QueryCriteria CreateCriteria()
         {
-            return new QueryCriteria(_tableName, _connectionStringName, _isReadonly, _predefinedColumns);
+            return new QueryCriteria(_tableName, _connectionStringName, _readOnly, _predefinedColumns);
         }
 
         #endregion

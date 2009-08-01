@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NIntegrate.Test.Query.TestClasses;
-using NIntegrate.Query;
+using NIntegrate.Data;
 
 namespace NIntegrate.Test.Query
 {
@@ -14,7 +14,7 @@ namespace NIntegrate.Test.Query
     [TestClass]
     public class ColumnsTest
     {
-        private readonly TestCriteria _criteria = new TestCriteria();
+        private readonly TestTable _criteria = new TestTable();
 
         [TestMethod]
         public void TestColumnName()

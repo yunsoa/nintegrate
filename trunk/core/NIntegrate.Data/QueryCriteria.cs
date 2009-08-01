@@ -66,7 +66,7 @@ namespace NIntegrate.Data
         private readonly List<Assignment> _assignments = new List<Assignment>();
 
         [DataMember]
-        private bool _isReadonly;
+        private bool _readOnly;
 
         #region KnownTypes
 
@@ -84,7 +84,7 @@ namespace NIntegrate.Data
             _queryType = QueryType.Select;
         }
 
-        internal QueryCriteria(string tableName, string connectionStringName, bool isReadonly, IEnumerable<IColumn> predefinedColumns)
+        internal QueryCriteria(string tableName, string connectionStringName, bool readOnly, IEnumerable<IColumn> predefinedColumns)
             : this()
         {
             if (string.IsNullOrEmpty(tableName))
@@ -94,7 +94,7 @@ namespace NIntegrate.Data
 
             _tableName = tableName;
             _connectionStringName = connectionStringName;
-            _isReadonly = isReadonly;
+            _readOnly = readOnly;
             if (predefinedColumns != null)
                 _predefinedColumns.AddRange(predefinedColumns);
         }
@@ -158,9 +158,9 @@ namespace NIntegrate.Data
             get { return new ReadOnlyCollection<Assignment>(_assignments); }
         }
 
-        public bool IsReadOnly
+        public bool ReadOnly
         {
-            get { return _isReadonly; }
+            get { return _readOnly; }
         }
 
         public QueryType QueryType
@@ -247,13 +247,6 @@ namespace NIntegrate.Data
             return And(condition);
         }
 
-        //public QueryCriteria ToSerializableCriteria()
-        //{
-        //    var clone = new QueryCriteria();
-        //    CloneTo(clone);
-        //    return clone;
-        //}
-
         public void ClearResultColumns()
         {
             _resultColumns.Clear();
@@ -311,33 +304,6 @@ namespace NIntegrate.Data
             {
                 condition.UpdateIdentifiedParameterValue(id, value);
             }
-        }
-
-        internal QueryCriteria CloneTo(QueryCriteria clone)
-        {
-            if (clone == null)
-                throw new ArgumentNullException("clone");
-
-            clone._tableName = _tableName;
-            clone._connectionStringName = _connectionStringName;
-            foreach (var column in _resultColumns)
-                clone._resultColumns.Add((IColumn)column.Clone());
-            clone._isDistinct = _isDistinct;
-            clone._maxResults = _maxResults;
-            clone._skipResults = _skipResults;
-            clone._queryType = _queryType;
-            clone._isReadonly = _isReadonly;
-            var en = _sortBys.GetEnumerator();
-            while (en.MoveNext())
-                clone._sortBys.Add((IColumn)en.Current.Key.Clone(), en.Current.Value);
-            foreach (var andOr in _conditionAndOrs)
-                clone._conditionAndOrs.Add(andOr);
-            foreach (var condition in _conditions)
-                clone._conditions.Add((Condition)condition.Clone());
-            foreach (var column in _predefinedColumns)
-                clone._predefinedColumns.Add((IColumn)column.Clone());
-
-            return clone;
         }
 
         #endregion

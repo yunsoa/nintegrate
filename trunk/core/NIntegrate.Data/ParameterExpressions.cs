@@ -39,7 +39,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new BooleanParameterExpression(_id, _value) {Sql = Sql};
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new BooleanParameterExpression(_value) { Sql = Sql }
+                       :
+                           new BooleanParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
@@ -96,7 +100,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new ByteParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new ByteParameterExpression(_value) { Sql = Sql }
+                       :
+                           new ByteParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
@@ -153,7 +161,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new Int16ParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new Int16ParameterExpression(_value) { Sql = Sql }
+                       :
+                           new Int16ParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
@@ -210,7 +222,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new Int32ParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new Int32ParameterExpression(_value) { Sql = Sql }
+                       :
+                           new Int32ParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
@@ -267,7 +283,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new Int64ParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new Int64ParameterExpression(_value) {Sql = Sql}
+                       :
+                           new Int64ParameterExpression(_id, _value) {Sql = Sql};
         }
 
         #endregion
@@ -323,7 +343,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new DateTimeParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new DateTimeParameterExpression(_value) { Sql = Sql }
+                       :
+                           new DateTimeParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
@@ -383,7 +407,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new StringParameterExpression(_id, _value, IsUnicode) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new StringParameterExpression(_value, IsUnicode) {Sql = Sql}
+                       :
+                           new StringParameterExpression(_id, _value, IsUnicode) {Sql = Sql};
         }
 
         #endregion
@@ -440,7 +468,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new GuidParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new GuidParameterExpression(_value) { Sql = Sql }
+                       :
+                           new GuidParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
@@ -497,7 +529,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new DoubleParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new DoubleParameterExpression(_value) { Sql = Sql }
+                       :
+                           new DoubleParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
@@ -554,7 +590,11 @@ namespace NIntegrate.Data
 
         public override object Clone()
         {
-            return new DecimalParameterExpression(_id, _value) { Sql = Sql };
+            return string.IsNullOrEmpty(_id)
+                       ?
+                           new DecimalParameterExpression(_value) { Sql = Sql }
+                       :
+                           new DecimalParameterExpression(_id, _value) { Sql = Sql };
         }
 
         #endregion
