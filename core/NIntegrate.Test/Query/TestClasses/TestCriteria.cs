@@ -1,10 +1,10 @@
-﻿using NIntegrate.Query;
+﻿using NIntegrate.Data;
 namespace NIntegrate.Test.Query.TestClasses
 {
-    public class TestCriteria : Criteria
+    public class TestTable : QueryTable
     {
-        public TestCriteria()
-            : base("TestTable", "Test")
+        public TestTable()
+            : base("TestTable", "Test", false)
         {
         }
 

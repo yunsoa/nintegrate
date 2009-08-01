@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NIntegrate.Query;
-using NIntegrate.Query.OracleClient;
+using NIntegrate.Data;
+using NIntegrate.Data.OracleClient;
 using NIntegrate.Test.Query.TestClasses;
 
 namespace NIntegrate.Test.Query
@@ -14,47 +14,47 @@ namespace NIntegrate.Test.Query
         [TestMethod]
         public void TestOracleClientCriteriaExtensionMethods()
         {
-            var criteria = new TestCriteria();
-
-            Assert.AreEqual("CURRENT_TIMESTAMP", criteria.GetCurrentDate()._sql);
+            var table = new TestTable();
+            var criteria = table.CreateCriteria();
+            Assert.AreEqual("CURRENT_TIMESTAMP", criteria.GetCurrentDate().Sql);
         }
 
         [TestMethod]
         public void TestOracleClientInt32ExpressionExtenstionMethods()
         {
-            var criteria = new TestCriteria();
-            Assert.AreEqual("CHR([Int32Column])", QueryHelper.ToExpressionCacheableSql(criteria.Int32Column.ToChar()));
+            var table = new TestTable();
+            Assert.AreEqual("CHR([Int32Column])", table.Int32Column.ToChar().ToExpressionCacheableSql());
         }
 
         [TestMethod]
         public void TestOracleClientDateTimeExpressionExtenstionMethods()
         {
-            var criteria = new TestCriteria();
-            Assert.AreEqual("ADD_MONTHS(month, ?, [DateTimeColumn])", QueryHelper.ToExpressionCacheableSql(criteria.DateTimeColumn.AddMonth(1)));
-            Assert.AreEqual("ADD_MONTHS(month, ?, [DateTimeColumn])", QueryHelper.ToExpressionCacheableSql(criteria.DateTimeColumn.AddMonth(new Int32ParameterExpression(1))));
+            var table = new TestTable();
+            Assert.AreEqual("ADD_MONTHS(month, ?, [DateTimeColumn])", table.DateTimeColumn.AddMonth(1).ToExpressionCacheableSql());
+            Assert.AreEqual("ADD_MONTHS(month, ?, [DateTimeColumn])", table.DateTimeColumn.AddMonth(new Int32ParameterExpression(1)).ToExpressionCacheableSql());
         }
 
         [TestMethod]
         public void TestOracleClientStringExpressionExtenstionMethods()
         {
-            var criteria = new TestCriteria();
-            Assert.AreEqual("[StringColumn] LIKE '%' + ? + '%'", QueryHelper.ToConditionCacheableSql(criteria.StringColumn.Contains("a")));
-            Assert.AreEqual("[StringColumn] LIKE ? + '%'", QueryHelper.ToConditionCacheableSql(criteria.StringColumn.StartsWith("a")));
-            Assert.AreEqual("[StringColumn] LIKE '%' + ?", QueryHelper.ToConditionCacheableSql(criteria.StringColumn.EndsWith("a")));
-            Assert.AreEqual("INSTR([StringColumn], ?) - 1", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.IndexOf("a")));
-            Assert.AreEqual("INSTR([StringColumn], ?) - 1", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.IndexOf(new StringParameterExpression("a", true))));
-            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Replace("a", "b")));
-            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Replace("a", new StringParameterExpression("b", true))));
-            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Replace(new StringParameterExpression("a", true), "b")));
-            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Replace(new StringParameterExpression("a", true), new StringParameterExpression("b", true))));
-            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Substring(1, 1)));
-            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Substring(1, new Int32ParameterExpression(1))));
-            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Substring(new Int32ParameterExpression(1), 1)));
-            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.Substring(new Int32ParameterExpression(1), new Int32ParameterExpression(1))));
-            Assert.AreEqual("LTRIM([StringColumn])", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.LTrim()));
-            Assert.AreEqual("RTRIM([StringColumn])", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.RTrim()));
-            Assert.AreEqual("ASCII([StringColumn])", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.ToAscii()));
-            Assert.AreEqual("LENGTH([StringColumn])", QueryHelper.ToExpressionCacheableSql(criteria.StringColumn.GetLength()));
+            var table = new TestTable();
+            Assert.AreEqual("[StringColumn] LIKE '%' + ? + '%'", table.StringColumn.Contains("a").ToConditionCacheableSql());
+            Assert.AreEqual("[StringColumn] LIKE ? + '%'", table.StringColumn.StartsWith("a").ToConditionCacheableSql());
+            Assert.AreEqual("[StringColumn] LIKE '%' + ?", table.StringColumn.EndsWith("a").ToConditionCacheableSql());
+            Assert.AreEqual("INSTR([StringColumn], ?) - 1", table.StringColumn.IndexOf("a").ToExpressionCacheableSql());
+            Assert.AreEqual("INSTR([StringColumn], ?) - 1", table.StringColumn.IndexOf(new StringParameterExpression("a", true)).ToExpressionCacheableSql());
+            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", table.StringColumn.Replace("a", "b").ToExpressionCacheableSql());
+            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", table.StringColumn.Replace("a", new StringParameterExpression("b", true)).ToExpressionCacheableSql());
+            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", table.StringColumn.Replace(new StringParameterExpression("a", true), "b").ToExpressionCacheableSql());
+            Assert.AreEqual("REPLACE([StringColumn], ?, ?)", table.StringColumn.Replace(new StringParameterExpression("a", true), new StringParameterExpression("b", true)).ToExpressionCacheableSql());
+            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", table.StringColumn.Substring(1, 1).ToExpressionCacheableSql());
+            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", table.StringColumn.Substring(1, new Int32ParameterExpression(1)).ToExpressionCacheableSql());
+            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", table.StringColumn.Substring(new Int32ParameterExpression(1), 1).ToExpressionCacheableSql());
+            Assert.AreEqual("SUBSTR([StringColumn], ? + 1, ?)", table.StringColumn.Substring(new Int32ParameterExpression(1), new Int32ParameterExpression(1)).ToExpressionCacheableSql());
+            Assert.AreEqual("LTRIM([StringColumn])", table.StringColumn.LTrim().ToExpressionCacheableSql());
+            Assert.AreEqual("RTRIM([StringColumn])", table.StringColumn.RTrim().ToExpressionCacheableSql());
+            Assert.AreEqual("ASCII([StringColumn])", table.StringColumn.ToAscii().ToExpressionCacheableSql());
+            Assert.AreEqual("LENGTH([StringColumn])", table.StringColumn.GetLength().ToExpressionCacheableSql());
         }
     }
 }

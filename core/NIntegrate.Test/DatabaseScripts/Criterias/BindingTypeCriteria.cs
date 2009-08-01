@@ -1,13 +1,13 @@
-﻿using NIntegrate.Query;
+﻿using NIntegrate.Data;
 using System.Runtime.Serialization;
 
 namespace NIntegrate.Test.DatabaseScripts.Criterias
 {
     [DataContract]
-    public sealed class BindingTypeCriteria : Criteria
+    public sealed class BindingTypeTable : QueryTable
     {
-        public BindingTypeCriteria()
-            : base("BindingType_lkp", "NIntegrateConfig")
+        public BindingTypeTable()
+            : base("BindingType_lkp", "NIntegrateConfig", false)
         {
         }
 

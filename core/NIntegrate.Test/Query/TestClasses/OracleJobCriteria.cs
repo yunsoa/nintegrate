@@ -1,11 +1,11 @@
-﻿using NIntegrate.Query.OracleClient;
-using NIntegrate.Query;
+﻿using NIntegrate.Data;
 
 namespace NIntegrate.Test.Query.TestClasses
 {
-    public class OracleJobCriteria : OracleCriteria
+    public class OracleJobTable : QueryTable
     {
-        public OracleJobCriteria() : base("HR.JOBS", "OracleTest")
+        public OracleJobTable()
+            : base("HR.JOBS", "OracleTest", false)
         {
         }
 
