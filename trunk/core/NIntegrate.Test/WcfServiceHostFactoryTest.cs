@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ServiceModel.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NIntegrate.Test.TestClasses;
-using NIntegrate.Configuration;
-using System.ServiceModel;
 using NIntegrate.ServiceModel.Configuration;
 
 namespace NIntegrate.Test

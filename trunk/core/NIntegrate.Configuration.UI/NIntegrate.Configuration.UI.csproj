@@ -222,14 +222,6 @@
     <Content Include="XmlTemplates\WSHttpBinding.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NIntegrate.Query.Command\NIntegrate.Query.Command.csproj">
-      <Project>{39F21CCC-EABD-48F9-9C25-AC02513E9F31}</Project>
-      <Name>NIntegrate.Query.Command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NIntegrate.Query\NIntegrate.Query.csproj">
-      <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
-      <Name>NIntegrate.Query</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NIntegrate.Web\NIntegrate.Web.csproj">
       <Project>{0B23908A-D089-410E-9A0D-C42AAD2AD838}</Project>
       <Name>NIntegrate.Web</Name>
