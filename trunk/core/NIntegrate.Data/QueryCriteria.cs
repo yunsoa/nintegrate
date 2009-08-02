@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using NIntegrate.Data.Configuration;
+using System.Linq;
 
 namespace NIntegrate.Data
 {
@@ -67,6 +68,12 @@ namespace NIntegrate.Data
 
         [DataMember]
         private bool _readOnly;
+
+        #region Events
+
+        public event EventHandler Changed;
+
+        #endregion
 
         #region KnownTypes
 
@@ -185,12 +192,16 @@ namespace NIntegrate.Data
                     _resultColumns.Add(column);
             }
 
+            OnChanged();
+
             return this;
         }
 
         public QueryCriteria SetIsDistinct(bool isDistinct)
         {
             _isDistinct = isDistinct;
+
+            OnChanged();
 
             return this;
         }
@@ -199,12 +210,16 @@ namespace NIntegrate.Data
         {
             _maxResults = n;
 
+            OnChanged();
+
             return this;
         }
 
         public QueryCriteria SetSkipResults(int n)
         {
             _skipResults = n;
+
+            OnChanged();
 
             return this;
         }
@@ -217,6 +232,8 @@ namespace NIntegrate.Data
             if (!_sortBys.ContainsKey(column))
                 _sortBys.Add(column, isDescendent);
 
+            OnChanged();
+
             return this;
         }
 
@@ -227,6 +244,8 @@ namespace NIntegrate.Data
 
             _conditionAndOrs.Add(ConditionAndOr.And);
             _conditions.Add(condition);
+
+            OnChanged();
 
             return this;
         }
@@ -239,28 +258,38 @@ namespace NIntegrate.Data
             _conditionAndOrs.Add(ConditionAndOr.Or);
             _conditions.Add(condition);
 
+            OnChanged();
+
             return this;
         }
 
         public QueryCriteria Where(Condition condition)
         {
+            OnChanged();
+
             return And(condition);
         }
 
         public void ClearResultColumns()
         {
             _resultColumns.Clear();
+
+            OnChanged();
         }
 
         public void ClearConditions()
         {
             _conditionAndOrs.Clear();
             _conditions.Clear();
+
+            OnChanged();
         }
 
         public void ClearSortBys()
         {
             _sortBys.Clear();
+
+            OnChanged();
         }
 
         public QueryCriteria Insert(params Assignment[] assignments)
@@ -271,6 +300,8 @@ namespace NIntegrate.Data
             _queryType = QueryType.Insert;
 
             _assignments.AddRange(assignments);
+
+            OnChanged();
 
             return this;
         }
@@ -284,12 +315,16 @@ namespace NIntegrate.Data
 
             _assignments.AddRange(assignments);
 
+            OnChanged();
+
             return this;
         }
 
         public QueryCriteria Delete()
         {
             _queryType = QueryType.Delete;
+
+            OnChanged();
 
             return this;
         }
@@ -321,6 +356,12 @@ namespace NIntegrate.Data
         #endregion
 
         #region Non-Public Methods
+
+        internal void OnChanged()
+        {
+            if (Changed != null)
+                Changed(this, EventArgs.Empty);
+        }
 
         internal void UpdateIdentifiedParameterValue(string id, object value)
         {

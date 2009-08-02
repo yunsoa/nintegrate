@@ -35,7 +35,7 @@ namespace NIntegrate.ServiceModel.Configuration
                         {
                             foreach (ExtensionElement item in extensions.BehaviorExtensions)
                             {
-                                var type = Type.GetType(item.Type);
+                                var type = Activation.WcfServiceHostFactory.GetType(item.Type, true);
                                 BehaviorExtensionRegistry.Instance.AddItem(item.Name, type);
                             }
                         }
@@ -43,7 +43,7 @@ namespace NIntegrate.ServiceModel.Configuration
                         {
                             foreach (ExtensionElement item in extensions.BindingElementExtensions)
                             {
-                                var type = Type.GetType(item.Type);
+                                var type = Activation.WcfServiceHostFactory.GetType(item.Type, true);
                                 BindingElementExtensionRegistry.Instance.AddItem(item.Name, type);
                             }
                         }
@@ -51,7 +51,7 @@ namespace NIntegrate.ServiceModel.Configuration
                         {
                             foreach (ExtensionElement item in extensions.BindingExtensions)
                             {
-                                var type = Type.GetType(item.Type);
+                                var type = Activation.WcfServiceHostFactory.GetType(item.Type, true);
                                 while (type != typeof (object) &&
                                        string.Compare(type.Name, "StandardBindingCollectionElement",
                                                       StringComparison.OrdinalIgnoreCase) != 0)

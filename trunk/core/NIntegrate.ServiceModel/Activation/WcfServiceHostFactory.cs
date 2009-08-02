@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.Reflection;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Channels;
-using System.ServiceModel.Configuration;
 using System.ServiceModel.Description;
 using NIntegrate.ServiceModel.Configuration;
 
@@ -78,6 +78,29 @@ namespace NIntegrate.ServiceModel.Activation
             return AppConfigLoader.LoadService(serviceType);
         }
 
+        public static Type GetType(string typeName, bool throwOnError)
+        {
+            var type = Type.GetType(typeName);
+
+            if (type == null)
+            {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                for (var i = 0; i < assemblies.Length; i++)
+                {
+                    type = assemblies[i].GetType(typeName, false);
+                    if (type != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (type == null && throwOnError)
+                throw new TypeLoadException(string.Format(SR.COULD_NOT_LOAD_TYPE, typeName));
+
+            return type;
+        }
+
         #endregion
 
         #region Non-Public Methods
@@ -116,7 +139,7 @@ namespace NIntegrate.ServiceModel.Activation
 
             if (!string.IsNullOrEmpty(service.CustomServiceHostType))
             {
-                var serviceHostType = Type.GetType(service.CustomServiceHostType, true);
+                var serviceHostType = GetType(service.CustomServiceHostType, true);
                 if (serviceInstance != null)
                 {
                     serviceHost =
@@ -153,7 +176,7 @@ namespace NIntegrate.ServiceModel.Activation
                         "IMetadataExchange",
                         endpoint.ServiceContractType, StringComparison.OrdinalIgnoreCase) == 0
                         ? typeof (IMetadataExchange)
-                        : Type.GetType(endpoint.ServiceContractType);
+                        : GetType(endpoint.ServiceContractType, true);
                 if (serviceContract == null)
                     throw new ConfigurationErrorsException(string.Format(CultureInfo.InvariantCulture, SR.SPECIFIED_SERVICECONTRACT_COULD_NOT_BE_LOADED, endpoint.ServiceContractType));
                 if (endpoint.BindingXml == null)
