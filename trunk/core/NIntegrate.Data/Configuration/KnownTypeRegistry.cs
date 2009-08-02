@@ -3,27 +3,105 @@ using System.Collections.Generic;
 
 namespace NIntegrate.Data.Configuration
 {
+    /// <summary>
+    /// Registry for all known types for serializing QueryCriteria class.
+    /// </summary>
     public sealed class KnownTypeRegistry
     {
+        /// <summary>
+        /// The singleton.
+        /// </summary>
+        public static readonly KnownTypeRegistry Instance;
+
         private readonly List<Type> _knownTypes;
         private readonly object _knownTypesLock;
 
-        public static readonly KnownTypeRegistry Instance;
-
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KnownTypeRegistry"/> class.
+        /// </summary>
         private KnownTypeRegistry()
         {
             _knownTypes = new List<Type>();
             _knownTypesLock = new object();
         }
 
+        /// <summary>
+        /// Initializes the <see cref="KnownTypeRegistry"/> class.
+        /// </summary>
         static KnownTypeRegistry()
         {
             Instance = new KnownTypeRegistry();
 
             AddPredefinedKnownTypes();
         }
+
+        #endregion
+
+        #region Non-Public Properties
+
+        public Type[] KnownTypes { get; private set; }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Add a known type to registry.
+        /// </summary>
+        /// <param name="type">The known type to add.</param>
+        /// <returns></returns>
+        public bool AddKnownType(Type type)
+        {
+            if (type != null)
+            {
+                if (!_knownTypes.Contains(type))
+                {
+                    lock (_knownTypesLock)
+                    {
+                        if (!_knownTypes.Contains(type))
+                        {
+                            _knownTypes.Add(type);
+                            KnownTypes = _knownTypes.ToArray();
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Remove a known type from registry.
+        /// </summary>
+        /// <param name="type">The known type to remove.</param>
+        /// <returns></returns>
+        public bool RemoveKnownType(Type type)
+        {
+            if (type != null)
+            {
+                if (_knownTypes.Contains(type))
+                {
+                    lock (_knownTypesLock)
+                    {
+                        if (_knownTypes.Contains(type))
+                        {
+                            var result = _knownTypes.Remove(type);
+                            KnownTypes = _knownTypes.ToArray();
+                            return result;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Non-Public Methods
 
         private static void AddPredefinedKnownTypes()
         {
@@ -64,63 +142,11 @@ namespace NIntegrate.Data.Configuration
                            typeof(DoubleColumn),
                            typeof(DecimalColumn)
                        };
-            
+
             foreach (var type in knownTypes)
             {
                 Instance.AddKnownType(type);
             }
-        }
-
-        #endregion
-
-        #region Properties
-
-        public Type[] KnownTypes { get; private set; }
-
-        #endregion
-
-        #region Public Methods
-
-        public bool AddKnownType(Type type)
-        {
-            if (type != null)
-            {
-                if (!_knownTypes.Contains(type))
-                {
-                    lock (_knownTypesLock)
-                    {
-                        if (!_knownTypes.Contains(type))
-                        {
-                            _knownTypes.Add(type);
-                            KnownTypes = _knownTypes.ToArray();
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public bool RemoveKnownType(Type type)
-        {
-            if (type != null)
-            {
-                if (_knownTypes.Contains(type))
-                {
-                    lock (_knownTypesLock)
-                    {
-                        if (_knownTypes.Contains(type))
-                        {
-                            var result = _knownTypes.Remove(type);
-                            KnownTypes = _knownTypes.ToArray();
-                            return result;
-                        }
-                    }
-                }
-            }
-
-            return false;
         }
 
         #endregion

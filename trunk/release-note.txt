@@ -1,15 +1,14 @@
-NIntegrate v0.8.0.1 beta
+NIntegrate v0.9.0.1 beta
 
 
-Configuration Database Installation Guide
------------------------------------------
+Update since v0.8.0.1
+---------------------
 
-1. Create a new database named NIntegrateConfig or 
-   whatever name you want in SQL Server 2005, 2008 or Express
-2. Run NIntegrateConfigAllInOneSetupScript.sql on the created database
-3. Insert a row into [Server] table like 
-   "insert into [Server] (ServerName, ServerAddress, Farm_id) 
-   values ('put your server name here', 'localhost', 1)"
+1. Redesign based on v0.8.0.1
+2. New namespaces instead of all old ones: NIntegrate.ServiceModel, 
+   NIntegrate.Data and NIntegrate.Web.
+3. No build-in configuration database or UI anymore.
+4. New configuration API for integration with any 3rd party frameworks.
 
 
 Update Since v0.7.0.1

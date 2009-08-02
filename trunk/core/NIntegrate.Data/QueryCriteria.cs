@@ -3,7 +3,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using NIntegrate.Data.Configuration;
-using System.Linq;
 
 namespace NIntegrate.Data
 {
@@ -24,7 +23,7 @@ namespace NIntegrate.Data
     }
 
     /// <summary>
-    /// Base class of all Custom Query Criterias
+    /// A QueryCriteria instance represents a C/R/U/D query on a query table.
     /// </summary>
     [DataContract]
     [KnownType("KnownTypes")]
@@ -40,10 +39,10 @@ namespace NIntegrate.Data
         private string _connectionStringName;
 
         [DataMember]
-        private readonly List<IColumn> _predefinedColumns = new List<IColumn>();
+        private readonly List<IColumn> _predefinedColumns;
 
         [DataMember]
-        private readonly List<IColumn> _resultColumns = new List<IColumn>();
+        private readonly List<IColumn> _resultColumns;
 
         [DataMember]
         private bool _isDistinct;
@@ -55,16 +54,16 @@ namespace NIntegrate.Data
         private int _skipResults;
 
         [DataMember]
-        private readonly Dictionary<IColumn, bool> _sortBys = new Dictionary<IColumn, bool>();
+        private readonly Dictionary<IColumn, bool> _sortBys;
 
         [DataMember]
-        private readonly List<ConditionAndOr> _conditionAndOrs = new List<ConditionAndOr>();
+        private readonly List<ConditionAndOr> _conditionAndOrs;
 
         [DataMember]
-        private readonly List<Condition> _conditions = new List<Condition>();
+        private readonly List<Condition> _conditions;
 
         [DataMember]
-        private readonly List<Assignment> _assignments = new List<Assignment>();
+        private readonly List<Assignment> _assignments;
 
         [DataMember]
         private bool _readOnly;
@@ -88,11 +87,16 @@ namespace NIntegrate.Data
 
         private QueryCriteria()
         {
+            _predefinedColumns = new List<IColumn>();
+            _resultColumns = new List<IColumn>();
+            _sortBys = new Dictionary<IColumn, bool>();
+            _conditionAndOrs = new List<ConditionAndOr>();
+            _conditions = new List<Condition>();
+            _assignments = new List<Assignment>(); 
             _queryType = QueryType.Select;
         }
 
         internal QueryCriteria(string tableName, string connectionStringName, bool readOnly, IEnumerable<IColumn> predefinedColumns)
-            : this()
         {
             if (string.IsNullOrEmpty(tableName))
                 throw new ArgumentNullException("tableName");
@@ -102,8 +106,15 @@ namespace NIntegrate.Data
             _tableName = tableName;
             _connectionStringName = connectionStringName;
             _readOnly = readOnly;
+            _predefinedColumns = new List<IColumn>();
             if (predefinedColumns != null)
                 _predefinedColumns.AddRange(predefinedColumns);
+            _resultColumns = new List<IColumn>();
+            _sortBys = new Dictionary<IColumn, bool>();
+            _conditionAndOrs = new List<ConditionAndOr>();
+            _conditions = new List<Condition>();
+            _assignments = new List<Assignment>();
+            _queryType = QueryType.Select;
         }
 
         #endregion
@@ -120,56 +131,102 @@ namespace NIntegrate.Data
             get { return _connectionStringName; }
         }
 
+        /// <summary>
+        /// Gets the predefined columns to return if no columns is specified in Select() method.
+        /// </summary>
+        /// <value>The predefined columns.</value>
         public ReadOnlyCollection<IColumn> PredefinedColumns
         {
             get { return new ReadOnlyCollection<IColumn>(_predefinedColumns); }
         }
 
+        /// <summary>
+        /// The result columns specified to return in select.
+        /// </summary>
+        /// <value>The result columns.</value>
         public ReadOnlyCollection<IColumn> ResultColumns
         {
             get { return new ReadOnlyCollection<IColumn>(_resultColumns); }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the select returns distinct results.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if return distinct results; otherwise, <c>false</c>.
+        /// </value>
         public bool IsDistinct
         {
             get { return _isDistinct; }
         }
 
+        /// <summary>
+        /// Get the max number of results to return.
+        /// </summary>
+        /// <value>The max results.</value>
         public int MaxResults
         {
             get { return _maxResults; }
         }
 
+        /// <summary>
+        /// Get the skip number of results.
+        /// </summary>
+        /// <value>The skip results.</value>
         public int SkipResults
         {
             get { return _skipResults; }
         }
 
+        /// <summary>
+        /// Get the sort bys.
+        /// </summary>
+        /// <value>The sort bys.</value>
         public IDictionary<IColumn, bool> SortBys
         {
             get { return _sortBys; }
         }
 
+        /// <summary>
+        /// Get the And/Or logic operators of the query conditions.
+        /// </summary>
+        /// <value>The condition and ors.</value>
         public ReadOnlyCollection<ConditionAndOr> ConditionAndOrs
         {
             get { return new ReadOnlyCollection<ConditionAndOr>(_conditionAndOrs); }
         }
 
+        /// <summary>
+        /// Get the query conditions.
+        /// </summary>
+        /// <value>The conditions.</value>
         public ReadOnlyCollection<Condition> Conditions
         {
             get { return new ReadOnlyCollection<Condition>(_conditions); }
         }
 
+        /// <summary>
+        /// Get the assignments for Insert & Update operations.
+        /// </summary>
+        /// <value>The assignments.</value>
         public ReadOnlyCollection<Assignment> Assignments
         {
             get { return new ReadOnlyCollection<Assignment>(_assignments); }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the query is readonly.
+        /// </summary>
+        /// <value><c>true</c> if the query is readonly; otherwise, <c>false</c>.</value>
         public bool ReadOnly
         {
             get { return _readOnly; }
         }
 
+        /// <summary>
+        /// Get the QueryType.
+        /// </summary>
+        /// <value>The QueryType.</value>
         public QueryType QueryType
         {
             get { return _queryType; }
@@ -265,8 +322,6 @@ namespace NIntegrate.Data
 
         public QueryCriteria Where(Condition condition)
         {
-            OnChanged();
-
             return And(condition);
         }
 

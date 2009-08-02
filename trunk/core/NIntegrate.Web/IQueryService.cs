@@ -1,8 +1,12 @@
 ﻿using System.ServiceModel;
 using System.Data;
+using NIntegrate.Data;
 
-namespace NIntegrate.Data
+namespace NIntegrate.Web
 {
+    /// <summary>
+    /// A build-in simple query service contract used by QueryDataCourse control.
+    /// </summary>
     [ServiceContract]
     public interface IQueryService
     {

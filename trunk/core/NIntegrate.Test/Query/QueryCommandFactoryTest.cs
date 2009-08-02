@@ -59,13 +59,13 @@ namespace NIntegrate.Test.Query
 
 
             var insertCriteria =
-                table.CreateCriteria().Insert(table.Int32Column.Set(1) && table.DateTimeColumn.Set(DateTime.Now));
+                table.CreateCriteria().Insert(table.Int32Column.Set(1), table.DateTimeColumn.Set(DateTime.Now));
             var insertCmd = fac.CreateCommand(insertCriteria, false);
             Assert.AreEqual("INSERT INTO [TestTable] ([Int32Column], [DateTimeColumn]) VALUES (@p1, @p2)", insertCmd.CommandText);
             Assert.AreEqual(2, insertCmd.Parameters.Count);
 
             var updateCriteria =
-                table.CreateCriteria().Update(table.Int32Column.Set(1) && table.DateTimeColumn.Set(DateTime.Now)).Where(table.GuidColumn == Guid.NewGuid());
+                table.CreateCriteria().Update(table.Int32Column.Set(1), table.DateTimeColumn.Set(DateTime.Now)).Where(table.GuidColumn == Guid.NewGuid());
             var updateCmd = fac.CreateCommand(updateCriteria, false);
             Assert.AreEqual("UPDATE [TestTable] SET [Int32Column] = @p1, [DateTimeColumn] = @p2 WHERE [GuidColumn] = @p3", updateCmd.CommandText);
             Assert.AreEqual(3, updateCmd.Parameters.Count);

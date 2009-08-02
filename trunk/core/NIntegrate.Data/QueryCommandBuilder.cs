@@ -176,12 +176,6 @@ namespace NIntegrate.Data
                 foreach (var assignment in assignments)
                 {
                     result[assignment.LeftColumn.ColumnName.ToDatabaseObjectName()] = assignment.RightExpression;
-
-                    var linkedColumnValues = GetColumnValues(assignment.LinkedAssignments);
-                    foreach (var linkedColumnValue in linkedColumnValues)
-                    {
-                        result[linkedColumnValue.Key] = linkedColumnValue.Value;
-                    }
                 }
             }
 
@@ -365,11 +359,6 @@ namespace NIntegrate.Data
             AddExpressionParameters(assignment.LeftColumn, parameterCollection, setParameterValueOnly);
             if (!ReferenceEquals(assignment.RightExpression, null))
                 AddExpressionParameters(assignment.RightExpression, parameterCollection, setParameterValueOnly);
-
-            foreach (var linkedAssignment in assignment.LinkedAssignments)
-            {
-                AddAssignmentParameters(linkedAssignment, parameterCollection, setParameterValueOnly);
-            }
         }
 
         /// <summary>
