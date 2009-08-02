@@ -217,7 +217,7 @@ namespace NIntegrate.Data
             return sb.ToString();
         }
 
-        private string BuildDeleteCacheableSql(QueryCriteria criteria)
+        private static string BuildDeleteCacheableSql(QueryCriteria criteria)
         {
             var sb = new StringBuilder();
             sb.Append("DELETE FROM ");

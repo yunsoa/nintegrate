@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data.Common;
 using System.Runtime.InteropServices;
 using System.Globalization;
@@ -14,14 +15,20 @@ namespace NIntegrate.Data
     {
         #region Public Methods
 
-        public DbCommand CreateCommand(QueryCriteria criteria)
+        /// <summary>
+        /// Create a DbCommand from query criteria.
+        /// </summary>
+        /// <param name="criteria">The query criteria.</param>
+        /// <param name="isCountCommand">if a count command is expected to create.</param>
+        /// <returns></returns>
+        public DbCommand CreateCommand(QueryCriteria criteria, bool isCountCommand)
         {
             if (criteria == null)
-                return null;
+                throw new ArgumentNullException("criteria");
 
             var connStr = GetConnectionString(criteria.ConnectionStringName);
             var cmdBuilder = GetQueryCommandBuilder(connStr.ProviderName);
-            var cmd = cmdBuilder.BuildCommand(criteria, false);
+            var cmd = cmdBuilder.BuildCommand(criteria, isCountCommand);
 
             if (cmd != null)
             {
@@ -32,22 +39,19 @@ namespace NIntegrate.Data
             return cmd;
         }
 
-        public DbCommand CreateCountCommand(QueryCriteria criteria)
+        /// <summary>
+        /// Get DbProviderFactory from query criteria.
+        /// </summary>
+        /// <param name="criteria">The query criteria.</param>
+        /// <returns></returns>
+        public DbProviderFactory GetDbProviderFactory(QueryCriteria criteria)
         {
             if (criteria == null)
-                return null;
+                throw new ArgumentNullException("criteria");
 
             var connStr = GetConnectionString(criteria.ConnectionStringName);
             var cmdBuilder = GetQueryCommandBuilder(connStr.ProviderName);
-            var cmd = cmdBuilder.BuildCommand(criteria, true);
-
-            if (cmd != null)
-            {
-                cmd.Connection = cmdBuilder.GetDbProviderFactory().CreateConnection();
-                cmd.Connection.ConnectionString = connStr.ConnectionString;
-            }
-
-            return cmd;
+            return cmdBuilder.GetDbProviderFactory();
         }
 
         #endregion
@@ -61,7 +65,7 @@ namespace NIntegrate.Data
 
         protected virtual QueryCommandBuilder GetQueryCommandBuilder(string providerName)
         {
-            if (string.CompareOrdinal(providerName, "System.Data.SqlClient") == 0)
+            if (string.IsNullOrEmpty(providerName) || string.CompareOrdinal(providerName, "System.Data.SqlClient") == 0)
                 return SqlClient.SqlQueryCommandBuilder.Instance;
             if (string.CompareOrdinal(providerName, "System.Data.OracleClient") == 0)
                 return OracleClient.OracleQueryCommandBuilder.Instance;

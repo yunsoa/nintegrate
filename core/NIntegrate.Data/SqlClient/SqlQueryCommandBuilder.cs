@@ -127,7 +127,7 @@ namespace NIntegrate.Data.SqlClient
         {
             var sb = new StringBuilder();
             sb.Append("SELECT ");
-            if (criteria.QueryType == QueryType.Select)
+            if (!isCountCommand)
             {
                 if (criteria.IsDistinct)
                 {
@@ -173,7 +173,7 @@ namespace NIntegrate.Data.SqlClient
                     sb.Append("WHERE ");
                     AppendConditions(criteria, sb);
                 }
-                if (criteria.QueryType == QueryType.Select)
+                if (!isCountCommand)
                 {
                     if (criteria.SortBys.Count > 0)
                     {

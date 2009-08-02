@@ -131,6 +131,54 @@ namespace NIntegrate.Data
             return new StringParameterExpression(value.ToString(), true);
         }
 
+        public static string Serialize<T>(T value)
+        {
+            if (ReferenceEquals(value, default(T)))
+                throw new ArgumentNullException("value");
+
+            var ms = new MemoryStream();
+            string xml;
+            try
+            {
+                var dcs = new DataContractSerializer(typeof(T));
+
+                using (var xmlTextWriter = new XmlTextWriter(ms, Encoding.Default))
+                {
+                    xmlTextWriter.Formatting = Formatting.None;
+                    dcs.WriteObject(xmlTextWriter, value);
+                    xmlTextWriter.Flush();
+                    ms = (MemoryStream)xmlTextWriter.BaseStream;
+                    ms.Flush();
+                    xml = Encoding.UTF8.GetString(ms.ToArray());
+                }
+            }
+            finally
+            {
+                if (ms != null)
+                {
+                    ms.Close();
+                }
+            }
+
+            return xml;
+        }
+
+        public static T Deserialize<T>(string xml)
+        {
+            if (string.IsNullOrEmpty(xml))
+                throw new ArgumentNullException("xml");
+
+            object result;
+            var dcs = new DataContractSerializer(typeof(T));
+            using (var reader = new StringReader(xml))
+            using (XmlReader xmlReader = new XmlTextReader(reader))
+            {
+                result = dcs.ReadObject(xmlReader);
+            }
+
+            return (T)result;
+        }
+
         #endregion
 
         #region Non-Public Methods
@@ -213,54 +261,6 @@ namespace NIntegrate.Data
         }
 
         #endregion
-
-        //internal static string CriteriaSerialize(Criteria criteria)
-        //{
-        //    if (criteria == null)
-        //        throw new ArgumentNullException("criteria");
-
-        //    var ms = new MemoryStream();
-        //    string xml;
-        //    try
-        //    {
-        //        var dcs = new DataContractSerializer(typeof(Criteria));
-
-        //        using (var xmlTextWriter = new XmlTextWriter(ms, Encoding.Default))
-        //        {
-        //            xmlTextWriter.Formatting = Formatting.None;
-        //            dcs.WriteObject(xmlTextWriter, criteria);
-        //            xmlTextWriter.Flush();
-        //            ms = (MemoryStream)xmlTextWriter.BaseStream;
-        //            ms.Flush();
-        //            xml = Encoding.UTF8.GetString(ms.ToArray());
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (ms != null)
-        //        {
-        //            ms.Close();
-        //        }
-        //    }
-
-        //    return xml;
-        //}
-
-        //internal static Criteria CriteriaDeserialize(string xml)
-        //{
-        //    if (string.IsNullOrEmpty(xml))
-        //        throw new ArgumentNullException("xml");
-
-        //    object result;
-        //    var dcs = new DataContractSerializer(typeof(Criteria));
-        //    using (var reader = new StringReader(xml))
-        //    using (XmlReader xmlReader = new XmlTextReader(reader))
-        //    {
-        //        result = dcs.ReadObject(xmlReader);
-        //    }
-
-        //    return (Criteria)result;
-        //}
 
         #region DefaultValue
 

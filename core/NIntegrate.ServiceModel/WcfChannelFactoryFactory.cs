@@ -4,7 +4,7 @@ using NIntegrate.ServiceModel.Configuration;
 
 namespace NIntegrate.ServiceModel
 {
-    public static class ChannelFactoryFactory
+    public static class WcfChannelFactoryFactory
     {
         public static ChannelFactory<TChannel> CreateChannelFactory<TChannel>(WcfClientEndpoint endpoint, params Uri[] baseAddresses)
         {

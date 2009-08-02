@@ -5,183 +5,16 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Web;
 using System.Web.UI;
-using NIntegrate.Query;
+using NIntegrate.Data;
 using System.Data;
 using NIntegrate.Web.EventArgs;
+using System.Globalization;
 
 namespace NIntegrate.Web
 {
     internal sealed class QueryDataSourceView : DataSourceView
     {
-        #region Private Fields
-
         private readonly QueryDataSource _owner;
-        private readonly static Condition _neverEquivalentCondition 
-            = new Condition(NullExpression.Value, ExpressionOperator.Equals, NullExpression.Value);
-
-        #endregion
-
-        #region Private Methods
-
-        internal void SelectParametersChangedEventHandler(object o, System.EventArgs e)
-        {
-            OnDataSourceViewChanged(System.EventArgs.Empty);
-        }
-
-        private static Condition BuildLoadByKeysCondition(IDictionary keys)
-        {
-            if (keys == null || keys.Count == 0)
-                throw new ArgumentNullException("keys");
-
-            var en = keys.GetEnumerator();
-            if (en.MoveNext())
-            {
-                var condition = CreateColumnEqualsCondition(en.Key.ToString(), en.Value);
-                while (en.MoveNext())
-                    condition = condition.And(CreateColumnEqualsCondition(en.Key.ToString(), en.Value));
-                return condition;
-            }
-
-            return null;
-        }
-
-        private static Condition CreateColumnEqualsCondition(string columnName, object value)
-        {
-            var childExprs = new List<IExpression> {QueryHelper.CreateParameterExpression(value)};
-            var condition = new Condition(new Int32Expression(columnName.ToDatabaseObjectName() + " " +
-                (childExprs[0] is NullExpression ? "IS" : "=") + " ?", childExprs),
-                ExpressionOperator.None, null);
-            return condition;
-        }
-
-        private static IDictionary GetReadOnlyDictionary(IDictionary dictionary)
-        {
-            var result = new OrderedDictionary();
-            foreach (DictionaryEntry entry in dictionary)
-            {
-                result.Add(entry.Key, entry.Value);
-            }
-            return result.AsReadOnly();
-        }
-
-        private static void InsertSortExpressinAtTopOfSortBys(string sortExpression, Criteria criteria)
-        {
-            if (criteria.SortBys.Count == 0)
-            {
-                AppendSortExpression(criteria, sortExpression);
-                return;
-            }
-
-            var sortBys = new Dictionary<IColumn, bool>();
-            var en = criteria.SortBys.GetEnumerator();
-            while (en.MoveNext())
-                sortBys.Add((IColumn)en.Current.Key.Clone(), en.Current.Value);
-            criteria.SortBys.Clear();
-            AppendSortExpression(criteria, sortExpression);
-            en = sortBys.GetEnumerator();
-            while (en.MoveNext())
-                criteria.SortBys.Add(en.Current.Key, en.Current.Value);
-        }
-
-        private static void AppendSortExpression(Criteria criteria, string sortExpression)
-        {
-            var sortBy = sortExpression;
-            var isDesc = false;
-            if (sortExpression.ToUpperInvariant().EndsWith(" DESC"))
-            {
-                isDesc = true;
-                sortBy = sortExpression.Substring(0, sortExpression.Length - " DESC".Length);
-            }
-            else if (sortExpression.ToUpperInvariant().EndsWith(" ASC"))
-            {
-                sortBy = sortExpression.Substring(0, sortExpression.Length - " ASC".Length);
-            }
-            criteria.SortBys.Add(new Int32Column(sortBy), isDesc);
-        }
-
-        private static object TransformType(Type targetType, object value, bool nullable)
-        {
-            if (targetType == null)
-                throw new ArgumentNullException("targetType");
-
-            if (value == DBNull.Value)
-                value = null;
-
-            if (value != null)
-            {
-                var valueType = value.GetType();
-                if (valueType != typeof(string))
-                {
-                    if (valueType == targetType)
-                        return value;
-
-                    return Convert.ChangeType(value, targetType);
-                }
-            }
-
-            if (value == null && nullable)
-                return value;
-
-            var stringValue = value as string;
-            if (stringValue == null && !nullable)
-                return QueryHelper.DefaultValue(targetType);
-
-            if (targetType == typeof(bool) || targetType == typeof(bool?))
-            {
-                switch (stringValue)
-                {
-                    case "0":
-                        stringValue = "false";
-                        break;
-                    case "1":
-                        stringValue = "true";
-                        break;
-                }
-            }
-            var converter = TypeDescriptor.GetConverter(targetType);
-            try
-            {
-                value = converter.ConvertFromString(stringValue);
-            }
-            catch
-            {
-                throw new InvalidOperationException("Cannot convert type from " + typeof(string).FullName + " to " + targetType.FullName);
-            }
-            return value;
-        }
-
-        private Criteria PrepareCriteriaForUpdate()
-        {
-            var criteria = _owner.Criteria.ToSerializableCriteria();
-            criteria.SetSkipResults(0);
-            criteria.SetMaxResults(0);
-            criteria.SetIsDistinct(false);
-            criteria.SortBys.Clear();
-            criteria.ClearConditions();
-            return criteria;
-        }
-
-        private static void DetectDataRowConflicts(IDictionary oldValues, DataRow row)
-        {
-            if ((oldValues == null) || (oldValues.Count == 0))
-                new ArgumentException("oldValues could not be null or empty when ConflictDetection is CompareAllValues.");
-
-            var conflitCheckFailed = false;
-            foreach (DictionaryEntry item in oldValues)
-            {
-                if (row.Table.Columns.Contains(item.Key.ToString()))
-                {
-                    if (
-                        !Equals(row[item.Key.ToString()],
-                                TransformType(row.Table.Columns[item.Key.ToString()].DataType, item.Value ?? DBNull.Value, row.Table.Columns[item.Key.ToString()].AllowDBNull) ?? DBNull.Value))
-                        conflitCheckFailed = true;
-                }
-            }
-            if (conflitCheckFailed)
-                throw new DataException("Conflict detection failed, the row is changed by others!");
-        }
-
-        #endregion
 
         #region Constructors
 
@@ -202,7 +35,7 @@ namespace NIntegrate.Web
         {
             get
             {
-                return true;
+                return !_owner.Criteria.ReadOnly;
             }
         }
 
@@ -210,7 +43,7 @@ namespace NIntegrate.Web
         {
             get
             {
-                return true;
+                return !_owner.Criteria.ReadOnly;
             }
         }
 
@@ -218,7 +51,7 @@ namespace NIntegrate.Web
         {
             get
             {
-                return true;
+                return !_owner.Criteria.ReadOnly;
             }
         }
 
@@ -248,10 +81,12 @@ namespace NIntegrate.Web
 
         #endregion
 
-        #region Protected Methods
+        #region Override CRUD Methods
 
         protected override int ExecuteInsert(IDictionary values)
         {
+            if (_owner.Criteria == null)
+                throw new ArgumentException("Missing QueryTableType or Criteria setting on QueryDataSource");
             if (values == null || values.Count == 0)
                 throw new ArgumentNullException("values");
 
@@ -260,28 +95,10 @@ namespace NIntegrate.Web
             if (insertingArgs.Cancel)
                 return 0;
 
-            var criteria = PrepareCriteriaForUpdate();
-            criteria.And(_neverEquivalentCondition);
+            var criteria = CreateInsertCriteria(values);
+            var affectedRows = _owner.QueryService.Execute(criteria, false);
 
-            var table = _owner._service.Select(criteria);
-            var row = table.NewRow();
-            var en = values.GetEnumerator();
-            while (en.MoveNext())
-            {
-                if (table.Columns.Contains(en.Key.ToString()))
-                    row[en.Key.ToString()] = TransformType(table.Columns[en.Key.ToString()].DataType, en.Value ?? DBNull.Value, table.Columns[en.Key.ToString()].AllowDBNull) ?? DBNull.Value;
-            }
-            table.Rows.Add(row);
-
-            var conflictDetection = ConflictOption.OverwriteChanges;
-            if (_owner.ConflictDetection == ConflictOptions.CompareAllValues)
-            {
-                conflictDetection = ConflictOption.CompareAllSearchableValues;
-            }
-
-            var affectedRows = _owner._service.Update(_owner.Criteria, table, conflictDetection);
-
-            var statusArgs = new DataSourceStatusEventArgs(row, affectedRows);
+            var statusArgs = new DataSourceStatusEventArgs(this, affectedRows);
             _owner.OnInserted(statusArgs);
 
             if (affectedRows > 0)
@@ -291,6 +108,8 @@ namespace NIntegrate.Web
 
         protected override int ExecuteUpdate(IDictionary keys, IDictionary values, IDictionary oldValues)
         {
+            if (_owner.Criteria == null)
+                throw new ArgumentException("Missing QueryTableType or Criteria setting on QueryDataSource");
             if (keys == null || keys.Count == 0)
                 throw new ArgumentNullException("keys");
             if (values == null || values.Count == 0)
@@ -301,32 +120,15 @@ namespace NIntegrate.Web
             if (updatingArgs.Cancel)
                 return 0;
 
-            var criteria = PrepareCriteriaForUpdate();
-            criteria.And(BuildLoadByKeysCondition(keys));
-
-            var table = _owner._service.Select(criteria);
-            if (table == null || table.Rows.Count == 0)
-                throw new DataException("No row is matching specified key values.");
-            if (table.Rows.Count > 1)
-                throw new DataException("More than one rows are matching specified key values, please check the key columns setting.");
-            var row = table.Rows[0];
-            var conflictDetection = ConflictOption.OverwriteChanges;
             if (_owner.ConflictDetection == ConflictOptions.CompareAllValues)
             {
-                DetectDataRowConflicts(oldValues, row);
-                conflictDetection = ConflictOption.CompareAllSearchableValues;
+                DetectCompareAllValuesConflicts(oldValues, keys);
             }
 
-            var en = values.GetEnumerator();
-            while (en.MoveNext())
-            {
-                if (table.Columns.Contains(en.Key.ToString()))
-                    row[en.Key.ToString()] = TransformType(table.Columns[en.Key.ToString()].DataType, en.Value ?? DBNull.Value, table.Columns[en.Key.ToString()].AllowDBNull) ?? DBNull.Value;
-            }
+            var criteria = CreateUpdateCriteria(keys, values);
+            var affectedRows = _owner.QueryService.Execute(criteria, false);
 
-            var affectedRows = _owner._service.Update(_owner.Criteria, table, conflictDetection);
-
-            var statusArgs = new DataSourceStatusEventArgs(row, affectedRows);
+            var statusArgs = new DataSourceStatusEventArgs(this, affectedRows);
             _owner.OnUpdated(statusArgs);
 
             if (affectedRows > 0)
@@ -336,6 +138,8 @@ namespace NIntegrate.Web
 
         protected override int ExecuteDelete(IDictionary keys, IDictionary oldValues)
         {
+            if (_owner.Criteria == null)
+                throw new ArgumentException("Missing QueryTableType or Criteria setting on QueryDataSource");
             if (keys == null || keys.Count == 0)
                 throw new ArgumentNullException("keys");
 
@@ -344,27 +148,16 @@ namespace NIntegrate.Web
             if (deletingArgs.Cancel)
                 return 0;
 
-            var criteria = PrepareCriteriaForUpdate();
-            criteria.And(BuildLoadByKeysCondition(keys));
-
-            var table = _owner._service.Select(criteria);
-            if (table == null || table.Rows.Count == 0)
-                throw new DataException("No row is matching specified key values.");
-            if (table.Rows.Count > 1)
-                throw new DataException("More than one rows are matching specified key values, please check the key columns setting.");
-
-            var row = table.Rows[0];
-            var conflictDetection = ConflictOption.OverwriteChanges;
             if (_owner.ConflictDetection == ConflictOptions.CompareAllValues)
             {
-                DetectDataRowConflicts(oldValues, row);
-                conflictDetection = ConflictOption.CompareAllSearchableValues;
+                DetectCompareAllValuesConflicts(oldValues, keys);
             }
 
-            row.Delete();
+            var criteria = CreateDeleteCriteria(keys);
+            criteria.And(BuildLoadByKeysCondition(keys));
 
-            var affectedRows = _owner._service.Update(_owner.Criteria, table, conflictDetection);
-            var statusArgs = new DataSourceStatusEventArgs(table, affectedRows);
+            var affectedRows = _owner.QueryService.Execute(criteria, false);
+            var statusArgs = new DataSourceStatusEventArgs(this, affectedRows);
             _owner.OnDeleted(statusArgs);
 
             if (affectedRows > 0)
@@ -374,6 +167,9 @@ namespace NIntegrate.Web
 
         protected override IEnumerable ExecuteSelect(DataSourceSelectArguments arguments)
         {
+            if (_owner.Criteria == null)
+                throw new ArgumentException("Missing QueryTableType or Criteria setting on QueryDataSource");
+
             var adjustedParameterValues = _owner.CriteriaParameters.GetValues(HttpContext.Current, _owner);
             var en = adjustedParameterValues.GetEnumerator();
             while (en.MoveNext())
@@ -381,23 +177,20 @@ namespace NIntegrate.Web
                 _owner.Criteria.UpdateIdentifiedParameterValue(en.Key.ToString(), en.Value);
             }
             var selectingArgs = new DataSourceSelectingEventArgs(_owner.Criteria, adjustedParameterValues);
-                _owner.OnSelecting(selectingArgs);
+            _owner.OnSelecting(selectingArgs);
             if (selectingArgs.Cancel)
             {
                 return selectingArgs.Result != null ? new DataView(selectingArgs.Result) : null;
             }
 
-            if (_owner.Criteria == null)
-                return null;
-
-            var criteria = _owner.Criteria.ToSerializableCriteria();
+            var criteria = _owner.Criteria.Clone();
 
             if (arguments != null && arguments != DataSourceSelectArguments.Empty)
             {
                 //adjust criteria according to arguments
                 if (arguments.RetrieveTotalRowCount)
                 {
-                    arguments.TotalRowCount = _owner._service.SelectCount(criteria);
+                    arguments.TotalRowCount = _owner.QueryService.Execute(criteria, true);
                     _owner.LastTotalCount = arguments.TotalRowCount;
                 }
                 if (arguments.MaximumRows > 0)
@@ -416,11 +209,247 @@ namespace NIntegrate.Web
                 }
             }
 
-            var result = _owner._service.Select(criteria);
+            var result = _owner.QueryService.Query(criteria);
 
             _owner.OnSelected(new DataSourceSelectedEventArgs(result));
 
             return new DataView(result);
+        }
+
+        #endregion
+
+        #region Non-Public Methods
+
+        internal void SelectParametersChangedEventHandler(object o, System.EventArgs e)
+        {
+            OnDataSourceViewChanged(System.EventArgs.Empty);
+        }
+
+        private static Condition BuildLoadByKeysCondition(IDictionary keys)
+        {
+            if (keys == null || keys.Count == 0)
+                throw new ArgumentNullException("keys");
+
+            var en = keys.GetEnumerator();
+            if (en.MoveNext())
+            {
+                var condition = CreateColumnEqualsCondition(en.Key.ToString(), en.Value);
+                while (en.MoveNext())
+                    condition = condition.And(CreateColumnEqualsCondition(en.Key.ToString(), en.Value));
+                return condition;
+            }
+
+            return null;
+        }
+
+        private static Condition CreateColumnEqualsCondition(string columnName, object value)
+        {
+            var childExprs = new List<IExpression> { ExpressionHelper.CreateParameterExpression(value) };
+            var condition = new Condition(new Int32Expression(columnName.ToDatabaseObjectName() + " " +
+                (childExprs[0] is NullExpression ? "IS" : "=") + " ?", childExprs),
+                ExpressionOperator.None, null);
+            return condition;
+        }
+
+        private static IDictionary GetReadOnlyDictionary(IDictionary dictionary)
+        {
+            var result = new OrderedDictionary();
+            foreach (DictionaryEntry entry in dictionary)
+            {
+                result.Add(entry.Key, entry.Value);
+            }
+            return result.AsReadOnly();
+        }
+
+        private static void InsertSortExpressinAtTopOfSortBys(string sortExpression, QueryCriteria criteria)
+        {
+            if (criteria.SortBys.Count == 0)
+            {
+                AppendSortExpression(criteria, sortExpression);
+                return;
+            }
+
+            var sortBys = new Dictionary<IColumn, bool>();
+            var en = criteria.SortBys.GetEnumerator();
+            while (en.MoveNext())
+                sortBys.Add((IColumn)en.Current.Key.Clone(), en.Current.Value);
+            criteria.SortBys.Clear();
+            AppendSortExpression(criteria, sortExpression);
+            en = sortBys.GetEnumerator();
+            while (en.MoveNext())
+                criteria.SortBys.Add(en.Current.Key, en.Current.Value);
+        }
+
+        private static void AppendSortExpression(QueryCriteria criteria, string sortExpression)
+        {
+            var sortBy = sortExpression;
+            var isDesc = false;
+            if (sortExpression.EndsWith(" DESC", StringComparison.OrdinalIgnoreCase))
+            {
+                isDesc = true;
+                sortBy = sortExpression.Substring(0, sortExpression.Length - " DESC".Length);
+            }
+            else if (sortExpression.EndsWith(" ASC", StringComparison.OrdinalIgnoreCase))
+            {
+                sortBy = sortExpression.Substring(0, sortExpression.Length - " ASC".Length);
+            }
+            criteria.SortBys.Add(new Int32Column(sortBy), isDesc);
+        }
+
+        private static object TransformType(Type targetType, object value, bool nullable)
+        {
+            if (targetType == null)
+                throw new ArgumentNullException("targetType");
+
+            if (value == DBNull.Value)
+                value = null;
+
+            if (value != null)
+            {
+                var valueType = value.GetType();
+                if (valueType != typeof(string))
+                {
+                    if (valueType == targetType)
+                        return value;
+
+                    return Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+                }
+            }
+
+            if (value == null && nullable)
+                return value;
+
+            var stringValue = value as string;
+            if (stringValue == null && !nullable)
+                return ExpressionHelper.DefaultValue(targetType);
+
+            if (targetType == typeof(bool) || targetType == typeof(bool?))
+            {
+                switch (stringValue)
+                {
+                    case "0":
+                        stringValue = "false";
+                        break;
+                    case "1":
+                        stringValue = "true";
+                        break;
+                }
+            }
+            var converter = TypeDescriptor.GetConverter(targetType);
+            try
+            {
+                value = converter.ConvertFromString(stringValue);
+            }
+            catch
+            {
+                throw new InvalidOperationException("Cannot convert type from " + typeof(string).FullName + " to " + targetType.FullName);
+            }
+            return value;
+        }
+
+        private IColumn GetColumn(string columnName)
+        {
+            foreach (var column in _owner.Criteria.PredefinedColumns)
+            {
+                if (string.Compare(columnName, column.ColumnName, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    return column;
+                }
+            }
+
+            return null;
+        }
+
+        private QueryCriteria CreateInsertCriteria(IDictionary values)
+        {
+            var assignments = new List<Assignment>(values.Count);
+            var en = values.GetEnumerator();
+            while (en.MoveNext())
+            {
+                assignments.Add(
+                    new Assignment(
+                        GetColumn(en.Key.ToString()),
+                        ExpressionHelper.CreateParameterExpression(en.Value)));
+            }
+
+            var criteria = new QueryCriteria(_owner.Criteria.TableName,
+                                             _owner.Criteria.ConnectionStringName,
+                                             false, null);
+            criteria.Insert(assignments.ToArray());
+
+            return criteria;
+        }
+
+        private QueryCriteria CreateUpdateCriteria(IDictionary keys, IDictionary values)
+        {
+            var assignments = new List<Assignment>(values.Count);
+            var en = values.GetEnumerator();
+            while (en.MoveNext())
+            {
+                assignments.Add(
+                    new Assignment(
+                        GetColumn(en.Key.ToString()),
+                        ExpressionHelper.CreateParameterExpression(en.Value)));
+            }
+
+            var criteria = new QueryCriteria(_owner.Criteria.TableName,
+                                             _owner.Criteria.ConnectionStringName,
+                                             false, null);
+            criteria.Update(assignments.ToArray());
+            criteria.Where(BuildLoadByKeysCondition(keys));
+
+            return criteria;
+        }
+
+        private QueryCriteria CreateDeleteCriteria(IDictionary keys)
+        {
+            var criteria = new QueryCriteria(_owner.Criteria.TableName,
+                                             _owner.Criteria.ConnectionStringName,
+                                             false, null);
+            criteria.Where(BuildLoadByKeysCondition(keys));
+
+            return criteria;
+        }
+
+        private void DetectCompareAllValuesConflicts(IDictionary oldValues, IDictionary keys)
+        {
+            if ((oldValues == null) || (oldValues.Count == 0))
+                throw new ArgumentException("oldValues could not be null or empty when ConflictDetection is CompareAllValues.");
+            if ((keys == null) || (keys.Count == 0))
+                throw new ArgumentException("keys could not be null or empty when ConflictDetection is CompareAllValues.");
+
+            var criteria = new QueryCriteria(_owner.Criteria.TableName,
+                                             _owner.Criteria.ConnectionStringName,
+                                             false, _owner.Criteria.PredefinedColumns);
+            criteria.Where(BuildLoadByKeysCondition(keys));
+            var table = _owner.QueryService.Query(criteria);
+
+            var conflitCheckFailed = false;
+            DataRow row;
+            if (table != null && table.Rows.Count == 1)
+            {
+                row = table.Rows[0];
+
+                foreach (DictionaryEntry item in oldValues)
+                {
+                    if (row.Table.Columns.Contains(item.Key.ToString()))
+                    {
+                        if (
+                            !Equals(row[item.Key.ToString()],
+                                    TransformType(row.Table.Columns[item.Key.ToString()].DataType,
+                                                  item.Value ?? DBNull.Value,
+                                                  row.Table.Columns[item.Key.ToString()].AllowDBNull) ?? DBNull.Value))
+                            conflitCheckFailed = true;
+                    }
+                }
+            }
+            else
+            {
+                conflitCheckFailed = true;
+            }
+
+            if (conflitCheckFailed)
+                throw new DataException("Conflict detection failed, the row is changed by others or is not unique!");
         }
 
         #endregion
