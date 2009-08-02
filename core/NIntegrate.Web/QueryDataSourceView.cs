@@ -154,7 +154,6 @@ namespace NIntegrate.Web
             }
 
             var criteria = CreateDeleteCriteria(keys);
-            criteria.And(BuildLoadByKeysCondition(keys));
 
             var affectedRows = _owner.QueryService.Execute(criteria, false);
             var statusArgs = new DataSourceStatusEventArgs(this, affectedRows);
@@ -406,7 +405,7 @@ namespace NIntegrate.Web
             var criteria = new QueryCriteria(_owner.Criteria.TableName,
                                              _owner.Criteria.ConnectionStringName,
                                              false, null);
-            criteria.Where(BuildLoadByKeysCondition(keys));
+            criteria.Delete().Where(BuildLoadByKeysCondition(keys));
 
             return criteria;
         }
@@ -434,11 +433,20 @@ namespace NIntegrate.Web
                 {
                     if (row.Table.Columns.Contains(item.Key.ToString()))
                     {
-                        if (
+                        if (row.Table.Columns[item.Key.ToString()].DataType == typeof(string))
+                        {
+                            if (
                             !Equals(row[item.Key.ToString()],
                                     TransformType(row.Table.Columns[item.Key.ToString()].DataType,
                                                   item.Value ?? DBNull.Value,
                                                   row.Table.Columns[item.Key.ToString()].AllowDBNull) ?? DBNull.Value))
+                                conflitCheckFailed = true;
+                        }
+                        else if (
+                            !Equals(string.Format("{0}", row[item.Key.ToString()]),
+                                    string.Format("{0}", TransformType(row.Table.Columns[item.Key.ToString()].DataType,
+                                                  item.Value ?? DBNull.Value,
+                                                  row.Table.Columns[item.Key.ToString()].AllowDBNull) ?? DBNull.Value)))
                             conflitCheckFailed = true;
                     }
                 }

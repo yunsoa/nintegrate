@@ -8,6 +8,7 @@ using System.Web;
 using System.Security.Permissions;
 using NIntegrate.Data;
 using NIntegrate.ServiceModel;
+using NIntegrate.ServiceModel.Activation;
 using NIntegrate.ServiceModel.Configuration;
 using NIntegrate.Web.EventArgs;
 
@@ -81,14 +82,14 @@ namespace NIntegrate.Web
         /// <summary>
         /// Specify the assembly qualified type name of query table.
         /// </summary>
-        [Category("Data"), Description("Specify the assembly qualified type name of query table.")]
+        [Category("Data"), DefaultValue(""), Description("Specify the type full name or qualified name of query table.")]
         public string QueryTableType
         {
             set
             {
                 if (Criteria == null && !string.IsNullOrEmpty(value))
                 {
-                    var type = Type.GetType(value, true);
+                    var type = WcfServiceHostFactory.GetType(value, true);
                     if (type != null)
                     {
                         var instance = Activator.CreateInstance(type) as QueryTable;
@@ -107,7 +108,7 @@ namespace NIntegrate.Web
         /// <value>The criteria.</value>
         public QueryCriteria Criteria
         {
-            internal get
+            get
             {
                 if (_criteria == null && EnableViewState 
                     && ViewState["Criteria"] != null)
@@ -123,9 +124,14 @@ namespace NIntegrate.Web
                 if (value == null)
                     return;
 
-                _criteria = value;
+                _criteria = value.Clone();
                 if (EnableViewState)
+                {
+                    _criteria.Changed +=
+                        ((sender, args) => ViewState["Criteria"] = ExpressionHelper.Serialize(sender as QueryCriteria));
+
                     ViewState["Criteria"] = ExpressionHelper.Serialize(value);
+                }
             }
         }
 

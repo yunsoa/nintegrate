@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Globalization;
 
 namespace NIntegrate.Data
@@ -27,12 +28,13 @@ namespace NIntegrate.Data
         public int Execute(QueryCriteria criteria, bool isCountQuery)
         {
             var fac = new QueryCommandFactory();
-            var cmd = fac.CreateCommand(criteria, false);
+            var cmd = fac.CreateCommand(criteria, isCountQuery);
             using (var conn = cmd.Connection)
             {
                 if (conn.State != ConnectionState.Open)
                     conn.Open();
-                return cmd.ExecuteNonQuery();
+
+                return isCountQuery ? Convert.ToInt32(cmd.ExecuteScalar()) : cmd.ExecuteNonQuery();
             }
         }
 

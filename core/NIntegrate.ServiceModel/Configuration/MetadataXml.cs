@@ -37,7 +37,7 @@ namespace NIntegrate.ServiceModel.Configuration
 
             foreach (PolicyImporterElement item in _element.PolicyImporters)
             {
-                var type = Type.GetType(item.Type);
+                var type = Activation.WcfServiceHostFactory.GetType(item.Type, true);
                 var extension = Activator.CreateInstance(type) as IPolicyImportExtension;
                 importer.PolicyImportExtensions.Add(extension);
             }
@@ -59,7 +59,7 @@ namespace NIntegrate.ServiceModel.Configuration
 
             foreach (WsdlImporterElement item in _element.WsdlImporters)
             {
-                var type = Type.GetType(item.Type);
+                var type = Activation.WcfServiceHostFactory.GetType(item.Type, true);
                 var extension = Activator.CreateInstance(type) as IWsdlImportExtension;
                 importer.WsdlImportExtensions.Add(extension);
             }
