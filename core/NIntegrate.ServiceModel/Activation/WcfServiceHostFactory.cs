@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Reflection;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Channels;
@@ -11,7 +10,7 @@ using NIntegrate.ServiceModel.Configuration;
 
 namespace NIntegrate.ServiceModel.Activation
 {
-    public abstract class WcfServiceHostFactory : ServiceHostFactory
+    public class WcfServiceHostFactory : ServiceHostFactory
     {
         #region Events
 
@@ -73,9 +72,7 @@ namespace NIntegrate.ServiceModel.Activation
                     return args.Service;
             }
 
-            AppConfigLoader.EnsureExtensionsLoaded();
-
-            return AppConfigLoader.LoadService(serviceType);
+            return AppConfigLoader.Default.LoadService(serviceType);
         }
 
         public static Type GetType(string typeName, bool throwOnError)
@@ -168,6 +165,8 @@ namespace NIntegrate.ServiceModel.Activation
 
         private static void AddEndpoints(ServiceHost serviceHost, Uri[] baseAddresses, WcfService service)
         {
+            serviceHost.Description.Endpoints.Clear();
+
             var bindingCache = new Dictionary<string, Binding>();
             foreach (var endpoint in service.Endpoints)
             {
