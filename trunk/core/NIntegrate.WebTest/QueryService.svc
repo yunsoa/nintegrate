@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Service="NIntegrate.Data.QueryService" Factory="NIntegrate.ServiceModel.Activation.WcfServiceHostFactory" %>

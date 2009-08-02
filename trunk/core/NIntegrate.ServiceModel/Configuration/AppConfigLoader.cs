@@ -9,18 +9,34 @@ using System.Globalization;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
-    internal static class AppConfigLoader
+    public sealed class AppConfigLoader
     {
-        private static bool _defaultExtensionsLoaded;
-        private static readonly object _syncLock = new object();
+        public readonly static AppConfigLoader Default = new AppConfigLoader(ConfigurationManager.GetSection);
+
+        private readonly GetSectionHandler _getSection;
+
+        private bool _defaultExtensionsLoaded;
+        private readonly object _syncLock = new object();
 
         private static readonly MethodInfo _methodSerializeElement = typeof(ConfigurationElement).GetMethod(
                 "SerializeElement",
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
+        #region Constructors
+
+        public AppConfigLoader(GetSectionHandler getSection)
+        {
+            if (getSection == null)
+                return;
+
+            _getSection = getSection;
+        }
+
+        #endregion
+
         #region Public Methods
 
-        public static void EnsureExtensionsLoaded()
+        public void EnsureExtensionsLoaded()
         {
             if (!_defaultExtensionsLoaded)
             {
@@ -30,7 +46,7 @@ namespace NIntegrate.ServiceModel.Configuration
                     {
 
                         var extensions =
-                            ConfigurationManager.GetSection("system.serviceModel/extensions") as ExtensionsSection;
+                            _getSection("system.serviceModel/extensions") as ExtensionsSection;
                         if (extensions.BehaviorExtensions != null)
                         {
                             foreach (ExtensionElement item in extensions.BehaviorExtensions)
@@ -97,17 +113,19 @@ namespace NIntegrate.ServiceModel.Configuration
             }
         }
 
-        public static WcfService LoadService(Type serviceType)
+        public WcfService LoadService(Type serviceType)
         {
-            var servicesSection = ConfigurationManager.GetSection("system.serviceModel/services") as ServicesSection;
-            var behaviorsSection = ConfigurationManager.GetSection("system.serviceModel/behaviors") as BehaviorsSection;
-            var bindingsSection = ConfigurationManager.GetSection("system.serviceModel/bindings") as BindingsSection;
+            EnsureExtensionsLoaded();
+
+            var servicesSection = _getSection("system.serviceModel/services") as ServicesSection;
+            var behaviorsSection = _getSection("system.serviceModel/behaviors") as BehaviorsSection;
+            var bindingsSection = _getSection("system.serviceModel/bindings") as BindingsSection;
 
             if (servicesSection != null)
             {
                 foreach (ServiceElement item in servicesSection.Services)
                 {
-                    if (string.Compare(serviceType.FullName, item.Name, StringComparison.OrdinalIgnoreCase) == 0)
+                    if (MatchTypeName(serviceType, item.Name))
                     {
                         var service = new WcfService();
                         if (item.Host != null)
@@ -133,6 +151,9 @@ namespace NIntegrate.ServiceModel.Configuration
                             service.Endpoints = new WcfServiceEndpoint[item.Endpoints.Count];
                             foreach (ServiceEndpointElement serviceEndpoint in item.Endpoints)
                             {
+                                if (string.IsNullOrEmpty(serviceEndpoint.Contract))
+                                    continue;
+
                                 var endpoint = new WcfServiceEndpoint();
                                 if (serviceEndpoint.Address != default(Uri))
                                     endpoint.Address = serviceEndpoint.Address.ToString();
@@ -172,7 +193,7 @@ namespace NIntegrate.ServiceModel.Configuration
                                     endpoint.IdentityXml = new IdentityXml(Serialize(serviceEndpoint.Identity));
                                 if (serviceEndpoint.ListenUri != default(Uri))
                                     endpoint.ListenUri = serviceEndpoint.ListenUri.ToString();
-                                endpoint.ListenUriMode = (WcfListenUriMode)Enum.Parse(typeof(WcfListenUriMode), serviceEndpoint.ListenUri.ToString());
+                                endpoint.ListenUriMode = (WcfListenUriMode)Enum.Parse(typeof(WcfListenUriMode), serviceEndpoint.ListenUriMode.ToString());
                                 endpoint.ServiceContractType = serviceEndpoint.Contract;
 
                                 service.Endpoints[i++] = endpoint;
@@ -187,22 +208,22 @@ namespace NIntegrate.ServiceModel.Configuration
             return null;
         }
 
-        public static WcfClientEndpoint LoadClientEndpoint(Type serviceContractType)
+        public WcfClientEndpoint LoadClientEndpoint(Type serviceContractType)
         {
             if (serviceContractType == null)
                 return null;
 
-            var clientSection = ConfigurationManager.GetSection("system.serviceModel/client") as ClientSection;
-            var behaviorsSection = ConfigurationManager.GetSection("system.serviceModel/behaviors") as BehaviorsSection;
-            var bindingsSection = ConfigurationManager.GetSection("system.serviceModel/bindings") as BindingsSection;
+            EnsureExtensionsLoaded();
+
+            var clientSection = _getSection("system.serviceModel/client") as ClientSection;
+            var behaviorsSection = _getSection("system.serviceModel/behaviors") as BehaviorsSection;
+            var bindingsSection = _getSection("system.serviceModel/bindings") as BindingsSection;
 
             if (clientSection != null && clientSection.Endpoints != null)
             {
                 foreach (ChannelEndpointElement channelEndpoint in clientSection.Endpoints)
                 {
-                    if (
-                        string.Compare(serviceContractType.FullName, channelEndpoint.Contract,
-                                       StringComparison.OrdinalIgnoreCase) == 0)
+                    if (MatchTypeName(serviceContractType, channelEndpoint.Contract))
                     {
                         var endpoint = new WcfClientEndpoint();
 
@@ -261,6 +282,12 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Non-Public Methods
 
+        private static bool MatchTypeName(Type type, string typeName)
+        {
+            return string.Compare(type.FullName, typeName, StringComparison.OrdinalIgnoreCase) == 0
+                   || string.Compare(type.AssemblyQualifiedName, typeName, StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
         private static string Serialize(ConfigurationElement element)
         {
             if (element == null)
@@ -275,5 +302,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #endregion
 
+        #region Nested Classes
+
+        public delegate object GetSectionHandler(string sectionName);
+
+        #endregion
     }
 }

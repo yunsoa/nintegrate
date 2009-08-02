@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using NIntegrate.ServiceModel.Configuration;
+using NIntegrate.Data;
 
 namespace NIntegrate.WebTest
 {
@@ -11,7 +13,7 @@ namespace NIntegrate.WebTest
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            QueryDataSource1.Endpoint = AppConfigLoader.Default.LoadClientEndpoint(typeof(IQueryService));
         }
 
         protected void DetailsView1_ItemInserted(object sender, DetailsViewInsertedEventArgs e)

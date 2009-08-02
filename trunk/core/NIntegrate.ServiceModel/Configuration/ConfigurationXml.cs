@@ -63,6 +63,9 @@ namespace NIntegrate.ServiceModel.Configuration
 
         protected void Deserialize(ConfigurationElement element)
         {
+            if (string.IsNullOrEmpty(_xml))
+                return;
+
             Deserialize(_xml, element);
         }
 

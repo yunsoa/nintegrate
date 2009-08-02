@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
+    <Content Include="QueryService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
