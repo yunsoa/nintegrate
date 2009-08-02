@@ -64,18 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseScripts\BindingType_lkp_Test.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DatabaseScripts\ConfigurationElementDeserializationTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DatabaseScripts\Criterias\BindingTypeCriteria.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DatabaseScripts\TestClasses\TestCustomServiceBehavior.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\ColumnsTest.cs">
       <SubType>Code</SubType>
@@ -100,9 +88,6 @@
     <Compile Include="Query\TestClasses\TestCriteria.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ServiceManagerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestClasses\ITestService.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -116,13 +101,7 @@
     <Compile Include="TestClasses\TestServiceImpl.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestClasses\TestServiceLocator.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="WcfServiceHostFactoryTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="WcfServiceLocatorTest.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -138,10 +117,6 @@
     <ProjectReference Include="..\NIntegrate.ServiceModel\NIntegrate.ServiceModel.csproj">
       <Project>{C39288B4-5C84-4FDE-953D-23CC630576F7}</Project>
       <Name>NIntegrate.ServiceModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NIntegrate\NIntegrate.csproj">
-      <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
-      <Name>NIntegrate</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

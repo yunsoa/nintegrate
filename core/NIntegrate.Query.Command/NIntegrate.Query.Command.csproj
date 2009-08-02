@@ -65,10 +65,6 @@
     <None Include="NIntegrate_OpenSource.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NIntegrate.Query\NIntegrate.Query.csproj">
-      <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
-      <Name>NIntegrate.Query</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NIntegrate\NIntegrate.csproj">
       <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
       <Name>NIntegrate</Name>
