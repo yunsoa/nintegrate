@@ -15,7 +15,7 @@ namespace NIntegrate.Test.DatabaseScripts
             var table = new BindingTypeTable();
             var criteria = table.CreateCriteria();
             var cmdFac = new QueryCommandFactory();
-            using (var cmd = cmdFac.CreateCommand(criteria))
+            using (var cmd = cmdFac.CreateCommand(criteria, false))
             {
                 try
                 {

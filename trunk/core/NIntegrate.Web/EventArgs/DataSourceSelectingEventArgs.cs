@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Collections.Specialized;
-using NIntegrate.Query;
+using NIntegrate.Data;
 using System.Data;
 
 namespace NIntegrate.Web.EventArgs
@@ -10,7 +10,7 @@ namespace NIntegrate.Web.EventArgs
     /// </summary>
     public class DataSourceSelectingEventArgs : CancelEventArgs
     {
-        private readonly Criteria _criteria;
+        private readonly QueryCriteria _criteria;
         private readonly IOrderedDictionary _parameters;
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace NIntegrate.Web.EventArgs
         /// </summary>
         /// <param name="criteria">The criteria.</param>
         /// <param name="parameters">The parameters.</param>
-        public DataSourceSelectingEventArgs(Criteria criteria, IOrderedDictionary parameters)
+        public DataSourceSelectingEventArgs(QueryCriteria criteria, IOrderedDictionary parameters)
         {
             _criteria = criteria;
             _parameters = parameters;
@@ -28,7 +28,7 @@ namespace NIntegrate.Web.EventArgs
         /// Gets the criteria.
         /// </summary>
         /// <value>The criteria.</value>
-        public Criteria Criteria
+        public QueryCriteria Criteria
         {
             get { return _criteria; }
         }

@@ -60,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingParameter.cs" />
-    <Compile Include="AppVariableParameter.cs" />
     <Compile Include="EventArgs\DataSourceDeletingEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceInsertingEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceSelectedEventArgs.cs" />
@@ -71,18 +70,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryDataSource.cs" />
     <Compile Include="QueryDataSourceView.cs" />
-    <Compile Include="WcfVirtualFile.cs" />
-    <Compile Include="WcfVirtualPathProvider.cs" />
-    <Compile Include="WcfVirtualPathProviderRegistrationModule.cs" />
+    <Compile Include="_Constants.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NIntegrate.Query\NIntegrate.Query.csproj">
-      <Project>{31B4FDFA-5FA9-4F41-9825-1613FFD3D440}</Project>
-      <Name>NIntegrate.Query</Name>
+    <ProjectReference Include="..\NIntegrate.Data\NIntegrate.Data.csproj">
+      <Project>{ABB6193C-5749-4457-881D-7B987697782E}</Project>
+      <Name>NIntegrate.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NIntegrate\NIntegrate.csproj">
-      <Project>{AD280D0D-B1C3-4226-93E6-2CC026593D23}</Project>
-      <Name>NIntegrate</Name>
+    <ProjectReference Include="..\NIntegrate.ServiceModel\NIntegrate.ServiceModel.csproj">
+      <Project>{C39288B4-5C84-4FDE-953D-23CC630576F7}</Project>
+      <Name>NIntegrate.ServiceModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

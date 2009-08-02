@@ -27,7 +27,7 @@ namespace NIntegrate.Data
     /// </summary>
     [DataContract]
     [KnownType("KnownTypes")]
-    public sealed class QueryCriteria
+    public sealed class QueryCriteria : ICloneable
     {
         [DataMember]
         private QueryType _queryType;
@@ -263,26 +263,26 @@ namespace NIntegrate.Data
             _sortBys.Clear();
         }
 
-        public QueryCriteria Insert(Assignment assignments)
+        public QueryCriteria Insert(params Assignment[] assignments)
         {
-            if (assignments == null)
+            if (assignments == null || assignments.Length == 0)
                 throw new ArgumentNullException("assignments");
 
             _queryType = QueryType.Insert;
 
-            _assignments.Add(assignments);
+            _assignments.AddRange(assignments);
 
             return this;
         }
 
-        public QueryCriteria Update(Assignment assignments)
+        public QueryCriteria Update(params Assignment[] assignments)
         {
-            if (assignments == null)
+            if (assignments == null || assignments.Length == 0)
                 throw new ArgumentNullException("assignments");
 
             _queryType = QueryType.Update;
 
-            _assignments.Add(assignments);
+            _assignments.AddRange(assignments);
 
             return this;
         }
@@ -292,6 +292,30 @@ namespace NIntegrate.Data
             _queryType = QueryType.Delete;
 
             return this;
+        }
+
+        public QueryCriteria Clone()
+        {
+            var clone = new QueryCriteria();
+
+            clone._assignments.AddRange(_assignments);
+            clone._conditionAndOrs.AddRange(_conditionAndOrs);
+            clone._conditions.AddRange(_conditions);
+            clone._connectionStringName = _connectionStringName;
+            clone._isDistinct = _isDistinct;
+            clone._maxResults = _maxResults;
+            clone._predefinedColumns.AddRange(_predefinedColumns);
+            clone._queryType = _queryType;
+            clone._readOnly = _readOnly;
+            clone._resultColumns.AddRange(_resultColumns);
+            clone._skipResults = _skipResults;
+            foreach (var item in _sortBys)
+            {
+                clone._sortBys.Add(item.Key, item.Value);
+            }
+            clone._tableName = _tableName;
+
+            return clone;
         }
 
         #endregion
@@ -304,6 +328,15 @@ namespace NIntegrate.Data
             {
                 condition.UpdateIdentifiedParameterValue(id, value);
             }
+        }
+
+        #endregion
+
+        #region ICloneable Members
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
 
         #endregion

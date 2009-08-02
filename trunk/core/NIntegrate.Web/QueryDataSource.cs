@@ -1,12 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
+using System.ServiceModel;
 using System.Web.UI;
 using System.Drawing.Design;
 using System.Web.UI.WebControls;
 using System.Web;
 using System.Security.Permissions;
-using NIntegrate.Query;
+using NIntegrate.Data;
+using NIntegrate.ServiceModel;
+using NIntegrate.ServiceModel.Configuration;
 using NIntegrate.Web.EventArgs;
 
 namespace NIntegrate.Web
@@ -18,85 +20,99 @@ namespace NIntegrate.Web
         ParseChildren(true), PersistChildren(false)]
     public sealed class QueryDataSource : DataSourceControl
     {
-        #region Private Fields
-
-        private const string _defaultQueryServiceImplType = "NIntegrate.Query.Command.QueryService, NIntegrate.Query.Command";
         private QueryDataSourceView _view;
-        private Criteria _criteria;
+        private QueryCriteria _criteria;
         private ParameterCollection _criteriaParameters;
-        private IServiceLocator _locator;
-        internal IQueryService _service;
+        private WcfClientEndpoint _endpoint;
+        private bool _disposed;
+        private IQueryService _service;
 
-        #endregion
-
-        #region Protected Methods
+        #region Properties
 
         /// <summary>
-        /// Gets the named data source view associated with the data source control.
+        /// Specify a WCF endpoint configuration for query service.
+        /// If not specified, local query service is used.
         /// </summary>
-        /// <param name="viewName">The name of the <see cref="T:System.Web.UI.DataSourceView"/> to retrieve. In data source controls that support only one view, such as <see cref="T:System.Web.UI.WebControls.SqlDataSource"/>, this parameter is ignored.</param>
-        /// <returns>
-        /// Returns the named <see cref="T:System.Web.UI.DataSourceView"/> associated with the <see cref="T:System.Web.UI.DataSourceControl"/>.
-        /// </returns>
-        protected override DataSourceView GetView(string viewName)
+        public WcfClientEndpoint Endpoint
         {
-            if (_view == null)
-                _view = new QueryDataSourceView(this);
-            return _view;
+            internal get
+            {
+                if (_endpoint == null && EnableViewState
+                    && ViewState["Endpoint"] != null)
+                {
+                    _endpoint = ExpressionHelper.Deserialize<WcfClientEndpoint>(
+                        (string)ViewState["Endpoint"]);
+                }
+
+                return _endpoint;
+            }
+            set
+            {
+                if (value == null)
+                    return;
+
+                _endpoint = value;
+                if (EnableViewState)
+                    ViewState["Endpoint"] = ExpressionHelper.Serialize(value);
+            }
         }
 
-        /// <summary>
-        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
-        /// </summary>
-        /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-        protected override void OnInit(System.EventArgs e)
+        internal IQueryService QueryService
         {
-            base.OnInit(e);
-
-            if (HttpContext.Current == null)
-                return;
-            
-            if (!UseLocalQueryService)
+            get
             {
-                _locator = ServiceManager.GetServiceLocator(typeof(IQueryService));
-                _service = _locator.GetService<IQueryService>();
-            }
-            else
-            {
-                var assemblyVersion = GetType().AssemblyQualifiedName.Substring(GetType().AssemblyQualifiedName.IndexOf(", Version="));
-                var serviceType = Type.GetType(_defaultQueryServiceImplType + assemblyVersion);
-                _service = (IQueryService)Activator.CreateInstance(serviceType);
                 if (_service == null)
-                    throw new FileLoadException("Could not load assembly - NIntegrate.Query.Command.dll.");
+                {
+                    var endpoint = Endpoint;
+                    if (endpoint != null)
+                    {
+                        _service = WcfChannelFactoryFactory.CreateChannelFactory<IQueryService>(endpoint).CreateChannel();
+                    }
+                    else
+                    {
+                        _service = new QueryService();
+                    }
+                }
+
+                return _service;
             }
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
-        /// When the value of this property equals true, it always using NIntegrate.Query.Command.QueryService class as QueryService insteads of trying to get the IQueryService implementation instance from ServiceManager class.
+        /// Specify the assembly qualified type name of query table.
         /// </summary>
-        /// <value>
-        /// 	<c>true</c> if use local query service; otherwise, <c>false</c>.
-        /// </value>
-        [Category("Data"), DefaultValue(false), Description("When the value of this property equals true, it always using NIntegrate.Query.Command.QueryService class as QueryService insteads of trying to get the IQueryService implementation instance from ServiceManager class.")]
-        public bool UseLocalQueryService { get; set; }
+        [Category("Data"), Description("Specify the assembly qualified type name of query table.")]
+        public string QueryTableType
+        {
+            set
+            {
+                if (Criteria == null && !string.IsNullOrEmpty(value))
+                {
+                    var type = Type.GetType(value, true);
+                    if (type != null)
+                    {
+                        var instance = Activator.CreateInstance(type) as QueryTable;
+                        if (instance != null)
+                        {
+                            Criteria = instance.CreateCriteria();
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
-        /// Gets or sets the criteria.
+        /// Gets or sets the query criteria.
         /// </summary>
         /// <value>The criteria.</value>
-        [Category("Data"), Description("Specify the criteria.")]
-        public Criteria Criteria
+        public QueryCriteria Criteria
         {
             internal get
             {
                 if (_criteria == null && EnableViewState 
                     && ViewState["Criteria"] != null)
                 {
-                    _criteria = QueryHelper.CriteriaDeserialize(
+                    _criteria = ExpressionHelper.Deserialize<QueryCriteria>(
                         (string)ViewState["Criteria"]);
                 }
 
@@ -109,7 +125,7 @@ namespace NIntegrate.Web
 
                 _criteria = value;
                 if (EnableViewState)
-                    ViewState["Criteria"] = QueryHelper.CriteriaSerialize(value.ToSerializableCriteria());
+                    ViewState["Criteria"] = ExpressionHelper.Serialize(value);
             }
         }
 
@@ -121,18 +137,18 @@ namespace NIntegrate.Web
         public ConflictOptions ConflictDetection { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [always append default sort bys when sorting].
+        /// Gets or sets a value indicating whether always append default sort bys when sorting.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if [always append default sort bys when sorting]; otherwise, <c>false</c>.
+        /// 	<c>true</c> if always append default sort bys when sorting; otherwise, <c>false</c>.
         /// </value>
         [Category("Data"), DefaultValue(false), Description("Always append default SortBys specified Criteria as secondary SortBys when sorting.")]
         public bool AlwaysAppendDefaultSortBysWhenSorting { get; set; }
 
         /// <summary>
-        /// Gets the criteria parameters.
+        /// Gets the query criteria parameters.
         /// </summary>
-        /// <value>The criteria parameters.</value>
+        /// <value>The query criteria parameters.</value>
         [Editor("System.Web.UI.Design.WebControls.ParameterCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor)), DefaultValue((string)null), MergableProperty(false), PersistenceMode(PersistenceMode.InnerProperty), Category("Data"), Description("CriteriaParameters")]
         public ParameterCollection CriteriaParameters
         {
@@ -148,7 +164,7 @@ namespace NIntegrate.Web
         }
 
         /// <summary>
-        /// Gets or sets the last total count.
+        /// Gets the last total count.
         /// </summary>
         /// <value>The last total count.</value>
         public int LastTotalCount
@@ -313,21 +329,44 @@ namespace NIntegrate.Web
             GC.SuppressFinalize(this);
         }
 
-        private bool disposed;
-
         private void Dispose(bool disposing)
         {
-            if (disposed) return;
+            if (_disposed) return;
             if (disposing)
             {
-                var dispose = _service as IDisposable;
-                if (dispose != null)
-                    dispose.Dispose();
-                if (_locator != null)
-                    _locator.Dispose();
+                //close channel factory in best practice
+                //refer to: http://bloggingabout.net/blogs/erwyn/archive/2006/12/09/WCF-Service-Proxy-Helper.aspx
+                ICommunicationObject commObj = null;
+                try
+                {
+                    commObj = _service as ICommunicationObject;
+                    if (commObj != null)
+                        commObj.Close();
+
+                    var dispose = _service as IDisposable;
+                    if (dispose != null)
+                        dispose.Dispose();
+                }
+                catch (CommunicationException)
+                {
+                    if (commObj != null)
+                        commObj.Abort();
+                }
+                catch (TimeoutException)
+                {
+                    if (commObj != null)
+                        commObj.Abort();
+                }
+                catch (Exception)
+                {
+                    if (commObj != null)
+                        commObj.Abort();
+
+                    throw;
+                }
             }
 
-            disposed = true;
+            _disposed = true;
         }
 
         /// <summary>
@@ -337,6 +376,36 @@ namespace NIntegrate.Web
         ~QueryDataSource()
         {
             Dispose(false);
+        }
+
+        #endregion
+
+        #region Non-Public Methods
+
+        /// <summary>
+        /// Gets the named data source view associated with the data source control.
+        /// </summary>
+        /// <param name="viewName">The name of the <see cref="T:System.Web.UI.DataSourceView"/> to retrieve. In data source controls that support only one view, such as <see cref="T:System.Web.UI.WebControls.SqlDataSource"/>, this parameter is ignored.</param>
+        /// <returns>
+        /// Returns the named <see cref="T:System.Web.UI.DataSourceView"/> associated with the <see cref="T:System.Web.UI.DataSourceControl"/>.
+        /// </returns>
+        protected override DataSourceView GetView(string viewName)
+        {
+            if (_view == null)
+                _view = new QueryDataSourceView(this);
+            return _view;
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnInit(System.EventArgs e)
+        {
+            base.OnInit(e);
+
+            if (HttpContext.Current == null)
+                return;
         }
 
         #endregion

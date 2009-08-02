@@ -7,5 +7,6 @@ namespace NIntegrate.Data
     public interface IQueryService
     {
         DataTable Query(QueryCriteria criteria);
+        int Execute(QueryCriteria criteria, bool isCountQuery);
     }
 }

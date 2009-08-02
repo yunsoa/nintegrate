@@ -64,7 +64,7 @@
     <Compile Include="Activation\ServiceHostCreationException.cs" />
     <Compile Include="Activation\WcfServiceHostFactory.cs" />
     <Compile Include="ChannelFactoryCreationException.cs" />
-    <Compile Include="ChannelFactoryFactory.cs" />
+    <Compile Include="WcfChannelFactoryFactory.cs" />
     <Compile Include="Collections\Generic\Registry.cs" />
     <Compile Include="Configuration\AppConfigLoader.cs" />
     <Compile Include="Configuration\BehaviorExtensionRegistry.cs" />
