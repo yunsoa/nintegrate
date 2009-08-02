@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Globalization;
+using NIntegrate.Data;
 
-namespace NIntegrate.Data
+namespace NIntegrate.Web
 {
+    /// <summary>
+    /// The default implementation for IQueryService.
+    /// </summary>
     public sealed class QueryService : IQueryService
     {
         #region IQueryService Members
@@ -16,8 +20,7 @@ namespace NIntegrate.Data
             {
                 if (conn.State != ConnectionState.Open)
                     conn.Open();
-                var result = new DataTable(criteria.TableName);
-                result.Locale = CultureInfo.InvariantCulture;
+                var result = new DataTable(criteria.TableName) {Locale = CultureInfo.InvariantCulture};
                 var adapter = fac.GetDbProviderFactory(criteria).CreateDataAdapter();
                 adapter.SelectCommand = cmd;
                 adapter.Fill(result);

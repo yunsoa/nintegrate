@@ -14,50 +14,45 @@ namespace NIntegrate.Data.OracleClient
     [ComVisible(false)]
     public class OracleQueryCommandBuilder : QueryCommandBuilder
     {
-        #region Private Methods
+        /// <summary>
+        /// The singleton.
+        /// </summary>
+        public static readonly OracleQueryCommandBuilder Instance;
 
-        private static string BuildCountCacheableSql(QueryCriteria criteria)
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OracleQueryCommandBuilder"/> class.
+        /// </summary>
+        protected OracleQueryCommandBuilder()
         {
-            var sb = new StringBuilder();
-            sb.Append("SELECT COUNT(1) ");
+        }
 
-            if (criteria.IsDistinct)
-            {
-                sb.Append("FROM (SELECT DISTINCT ");
-                AppendResultColumns(criteria, sb);
-                sb.Append(" ");
-                AppendFrom(criteria.TableName, sb);
-                if (criteria.Conditions.Count > 0)
-                {
-                    sb.Append(" ");
-                    sb.Append("WHERE ");
-                    AppendConditions(criteria, sb);
-                    sb.Append(") [__T]");
-                }
-            }
-            else
-            {
-                AppendFrom(criteria.TableName, sb);
-                if (criteria.Conditions.Count > 0)
-                {
-                    sb.Append(" ");
-                    sb.Append("WHERE ");
-                    AppendConditions(criteria, sb);
-                }
-            }
-
-            return sb.ToString();
+        /// <summary>
+        /// Initializes the <see cref="OracleQueryCommandBuilder"/> class.
+        /// </summary>
+        static OracleQueryCommandBuilder()
+        {
+            Instance = new OracleQueryCommandBuilder();
         }
 
         #endregion
 
-        #region Override Methods
+        #region Public Methods
 
         /// <summary>
-        /// Builds the paging cacheable SQL.
+        /// Gets the db provider factory.
         /// </summary>
-        /// <param name="criteria">The criteria.</param>
         /// <returns></returns>
+        public override DbProviderFactory GetDbProviderFactory()
+        {
+            return OracleClientFactory.Instance;
+        }
+
+        #endregion
+
+        #region Non-Public Methods
+
         protected override string BuildPagingCacheableSql(QueryCriteria criteria)
         {
             var sb = new StringBuilder();
@@ -186,11 +181,6 @@ namespace NIntegrate.Data.OracleClient
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Toes the name of the parameter.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <returns></returns>
         protected override string ToParameterName(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -199,11 +189,6 @@ namespace NIntegrate.Data.OracleClient
             return ":" + name.TrimStart(':');
         }
 
-        /// <summary>
-        /// Adjusts the parameter properties.
-        /// </summary>
-        /// <param name="parameterExpr">The parameter expr.</param>
-        /// <param name="parameter">The parameter.</param>
         protected override void AdjustParameterProperties(IParameterExpression parameterExpr, DbParameter parameter)
         {
             var oracleParameter = parameter as OracleParameter;
@@ -259,39 +244,43 @@ namespace NIntegrate.Data.OracleClient
             return;
         }
 
-        /// <summary>
-        /// Gets the db provider factory.
-        /// </summary>
-        /// <returns></returns>
-        public override DbProviderFactory GetDbProviderFactory()
-        {
-            return OracleClientFactory.Instance;
-        }
-
-        /// <summary>
-        /// Gets the database object name quote characters.
-        /// </summary>
-        /// <returns></returns>
         protected override string GetDatabaseObjectNameQuoteCharacters()
         {
             return "\"\"";
         }
 
-        #endregion
-
-        #region Singleton
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OracleQueryCommandBuilder"/> class.
-        /// </summary>
-        protected OracleQueryCommandBuilder()
+        private static string BuildCountCacheableSql(QueryCriteria criteria)
         {
-        }
+            var sb = new StringBuilder();
+            sb.Append("SELECT COUNT(1) ");
 
-        /// <summary>
-        /// The singleton instance.
-        /// </summary>
-        public static readonly OracleQueryCommandBuilder Instance = new OracleQueryCommandBuilder();
+            if (criteria.IsDistinct)
+            {
+                sb.Append("FROM (SELECT DISTINCT ");
+                AppendResultColumns(criteria, sb);
+                sb.Append(" ");
+                AppendFrom(criteria.TableName, sb);
+                if (criteria.Conditions.Count > 0)
+                {
+                    sb.Append(" ");
+                    sb.Append("WHERE ");
+                    AppendConditions(criteria, sb);
+                    sb.Append(") [__T]");
+                }
+            }
+            else
+            {
+                AppendFrom(criteria.TableName, sb);
+                if (criteria.Conditions.Count > 0)
+                {
+                    sb.Append(" ");
+                    sb.Append("WHERE ");
+                    AppendConditions(criteria, sb);
+                }
+            }
+
+            return sb.ToString();
+        }
 
         #endregion
     }

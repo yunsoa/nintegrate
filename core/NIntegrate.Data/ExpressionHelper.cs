@@ -3,12 +3,11 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Runtime.InteropServices;
 using System.Xml;
 
 namespace NIntegrate.Data
 {
-    public static class ExpressionHelper
+    internal static class ExpressionHelper
     {
         #region Public Methods
 
@@ -179,11 +178,7 @@ namespace NIntegrate.Data
             return (T)result;
         }
 
-        #endregion
-
-        #region Non-Public Methods
-
-        internal static string ToString(ExpressionOperator op)
+        public static string ToString(ExpressionOperator op)
         {
             switch (op)
             {
@@ -212,12 +207,29 @@ namespace NIntegrate.Data
             return string.Empty;
         }
 
-        internal static void GetLeftRightOperatorsForBetween(bool includeLeft, bool includeRight
+        public static void GetLeftRightOperatorsForBetween(bool includeLeft, bool includeRight
             , out ExpressionOperator leftOp, out ExpressionOperator rightOp)
         {
             leftOp = includeLeft ? ExpressionOperator.GreaterThanOrEquals : ExpressionOperator.GreaterThan;
             rightOp = includeRight ? ExpressionOperator.LessThanOrEquals : ExpressionOperator.LessThan;
         }
+
+        public static T DefaultValue<T>()
+        {
+            return default(T);
+        }
+
+        public static object DefaultValue(Type type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            return typeof(ExpressionHelper).GetMethod("DefaultValue", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, null, Type.EmptyTypes, null).MakeGenericMethod(type).Invoke(null, null);
+        }
+
+        #endregion
+
+        #region Non-Public Methods
 
         private static string ToCacheableSql(IExpression leftExpression, ExpressionOperator op, IExpression rightExpression)
         {
@@ -258,32 +270,6 @@ namespace NIntegrate.Data
             }
 
             return string.Empty;
-        }
-
-        #endregion
-
-        #region DefaultValue
-
-        /// <summary>
-        /// Gets the default value of a specified Type.
-        /// </summary>
-        /// <returns>The default value.</returns>
-        public static T DefaultValue<T>()
-        {
-            return default(T);
-        }
-
-        /// <summary>
-        /// Gets the default value of a specified Type.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
-        public static object DefaultValue(Type type)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-
-            return typeof(ExpressionHelper).GetMethod("DefaultValue", BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public, null, Type.EmptyTypes, null).MakeGenericMethod(type).Invoke(null, null);
         }
 
         #endregion
