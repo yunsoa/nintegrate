@@ -2,7 +2,6 @@
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Configuration;
-using System.ServiceModel.Description;
 using System.ServiceModel.MsmqIntegration;
 using NIntegrate.ServiceModel.Collections.Generic;
 
