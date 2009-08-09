@@ -60,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingParameter.cs" />
+    <Compile Include="BoundDropDownListField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BoundFieldBase.cs" />
+    <Compile Include="BoundTextField.cs" />
+    <Compile Include="BoundXmlField.cs" />
     <Compile Include="EventArgs\DataSourceDeletingEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceInsertingEventArgs.cs" />
     <Compile Include="EventArgs\DataSourceSelectedEventArgs.cs" />
@@ -72,6 +78,11 @@
     <Compile Include="QueryDataSource.cs" />
     <Compile Include="QueryDataSourceView.cs" />
     <Compile Include="QueryService.cs" />
+    <Compile Include="WcfClientEndpointView.cs" />
+    <Compile Include="WcfConfigurationView.cs" />
+    <Compile Include="WcfEndpointView.cs" />
+    <Compile Include="WcfServiceEndpointView.cs" />
+    <Compile Include="WcfServiceView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NIntegrate.Data\NIntegrate.Data.csproj">

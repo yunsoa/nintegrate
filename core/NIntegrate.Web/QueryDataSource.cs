@@ -17,8 +17,9 @@ namespace NIntegrate.Web
     /// <summary>
     /// The DataSourceControl implementation based on NIntegrate.Query.IQueryService.
     /// </summary>
-    [AspNetHostingPermission(SecurityAction.Demand, Level = AspNetHostingPermissionLevel.Minimal), 
-        ParseChildren(true), PersistChildren(false)]
+    [AspNetHostingPermission(SecurityAction.Demand, Level = AspNetHostingPermissionLevel.Minimal)]
+    [ParseChildren(true)]
+    [PersistChildren(false)]
     public sealed class QueryDataSource : DataSourceControl
     {
         private QueryDataSourceView _view;

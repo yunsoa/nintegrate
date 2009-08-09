@@ -18,8 +18,11 @@ namespace NIntegrate.ServiceModel.Configuration
         private bool _defaultExtensionsLoaded;
         private readonly object _syncLock = new object();
 
-        private static readonly MethodInfo _methodSerializeElement = typeof(ConfigurationElement).GetMethod(
-                "SerializeElement",
+        private static readonly MethodInfo _methodSerializeToXmlElement = typeof(ConfigurationElement).GetMethod(
+                "SerializeToXmlElement",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly PropertyInfo _propertyElementTagName = typeof(ConfigurationElement).GetProperty(
+                "ElementTagName",
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
         #region Constructors
@@ -127,7 +130,7 @@ namespace NIntegrate.ServiceModel.Configuration
                 {
                     if (MatchTypeName(serviceType, item.Name))
                     {
-                        var service = new WcfService();
+                        var service = new WcfService { ServiceType = item.Name};
                         if (item.Host != null)
                             service.HostXml = new HostXml(Serialize(item.Host));
                         if (!string.IsNullOrEmpty(item.BehaviorConfiguration))
@@ -295,7 +298,8 @@ namespace NIntegrate.ServiceModel.Configuration
 
             var sb = new StringBuilder();
             var wr = new XmlTextWriter(new StringWriter(sb, CultureInfo.InvariantCulture));
-            _methodSerializeElement.Invoke(element, new object[] { wr, false });
+            var tagName = _propertyElementTagName.GetValue(element, null);
+            _methodSerializeToXmlElement.Invoke(element, new[] { wr, tagName });
 
             return sb.ToString();
         }
