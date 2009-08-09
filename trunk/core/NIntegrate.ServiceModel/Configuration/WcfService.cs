@@ -6,6 +6,9 @@ namespace NIntegrate.ServiceModel.Configuration
     public sealed class WcfService
     {
         [DataMember]
+        public string ServiceType { get; set; }
+
+        [DataMember]
         public string CustomServiceHostType { get; set; }
 
         [DataMember]

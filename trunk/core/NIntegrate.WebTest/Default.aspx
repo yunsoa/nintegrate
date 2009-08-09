@@ -33,6 +33,10 @@
         QueryTableType="NIntegrate.WebTest.Code.ProductCategoryTable" runat="server" 
         ConflictDetection="CompareAllValues">
     </ni:QueryDataSource>
+    <br />
+    <br />
+    <ni:WcfServiceEndpointView ID="WcfServiceEndpointView1" AutoGenerateEditButton="true" OnModeChanging="WcfServiceEndpointView1_ModeChanging" DefaultMode="Edit" runat="server">
+    </ni:WcfServiceEndpointView>
     </form>
 </body>
 </html>

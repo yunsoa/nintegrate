@@ -40,6 +40,15 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #endregion
 
+        #region Properties
+
+        public string BindingTypeCode
+        {
+            get { return _bindingTypeCode; }
+        }
+
+        #endregion
+
         #region Public Methods
 
         public Binding CreateBinding()
