@@ -12,8 +12,8 @@ namespace NIntegrate.WebTest
         {
             QueryDataSource1.Endpoint = AppConfigLoader.Default.LoadClientEndpoint(typeof(IQueryService));
 
-            WcfServiceEndpointView1.DataSource = new [] { AppConfigLoader.Default.LoadService(typeof(QueryService)).Endpoints[0]};
-            WcfServiceEndpointView1.DataBind();
+            WcfServiceView1.DataSource = new[] { AppConfigLoader.Default.LoadService(typeof(QueryService)) };
+            WcfServiceView1.DataBind();
         }
 
         protected void WcfServiceEndpointView1_ModeChanging(object sender, DetailsViewModeEventArgs e)

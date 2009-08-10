@@ -1,8 +1,15 @@
-﻿using System.Web.UI.WebControls;
+﻿using System.Security.Permissions;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace NIntegrate.Web
 {
-    internal sealed class WcfClientEndpointView : WcfEndpointView
+    [ToolboxData("<{0}:WcfClientEndpointView runat=\"server\"></{0}:WcfClientEndpointView>")]
+    [SupportsEventValidation]
+    [AspNetHostingPermission(SecurityAction.LinkDemand, Level = AspNetHostingPermissionLevel.Minimal)]
+    [AspNetHostingPermission(SecurityAction.InheritanceDemand, Level = AspNetHostingPermissionLevel.Minimal)]
+    public sealed class WcfClientEndpointView : WcfEndpointView
     {
         protected override void OnInit(System.EventArgs e)
         {
