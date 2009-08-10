@@ -35,8 +35,10 @@
     </ni:QueryDataSource>
     <br />
     <br />
-    <ni:WcfServiceEndpointView ID="WcfServiceEndpointView1" AutoGenerateEditButton="true" OnModeChanging="WcfServiceEndpointView1_ModeChanging" DefaultMode="Edit" runat="server">
-    </ni:WcfServiceEndpointView>
+    
+    <ni:WcfServiceView ID="WcfServiceView1" runat="server" DefaultMode="Edit">
+    </ni:WcfServiceView>
+    
     </form>
 </body>
 </html>

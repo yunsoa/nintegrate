@@ -1,10 +1,12 @@
 ﻿using System.Web.UI.WebControls;
-using NIntegrate.ServiceModel.Configuration;
+using System.Web;
 
 namespace NIntegrate.Web
 {
     public abstract class WcfConfigurationView : DetailsView
     {
+        private Unit _fieldWidth;
+
         #region Constructors
 
         internal WcfConfigurationView()
@@ -13,7 +15,13 @@ namespace NIntegrate.Web
 
         #endregion
 
-        #region Sealed Override Members
+        #region Properties
+
+        public Unit FieldWidth
+        {
+            get { return _fieldWidth == default(Unit) ? new Unit("300px") : _fieldWidth; }
+            set { _fieldWidth = value; }
+        }
 
         public sealed override bool AllowPaging
         {
@@ -34,6 +42,18 @@ namespace NIntegrate.Web
             }
             set
             {
+            }
+        }
+
+        #endregion
+
+        #region Non-Public Methods
+
+        protected override void Render(System.Web.UI.HtmlTextWriter writer)
+        {
+            if (HttpContext.Current == null)
+            {
+                writer.Write(GetType().Name);
             }
         }
 

@@ -50,12 +50,12 @@ namespace NIntegrate.WebTest {
         protected global::NIntegrate.Web.QueryDataSource QueryDataSource1;
         
         /// <summary>
-        /// WcfServiceEndpointView1 control.
+        /// WcfServiceView1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::NIntegrate.Web.WcfServiceEndpointView WcfServiceEndpointView1;
+        protected global::NIntegrate.Web.WcfServiceView WcfServiceView1;
     }
 }

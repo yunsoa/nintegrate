@@ -47,17 +47,9 @@ namespace NIntegrate.Web
         {
             PropertyInfo result;
 
-            while (true)
+            while ((result = type.GetProperty(property)) == null && type.BaseType != null)
             {
-                result = type.GetProperty(property);
-                if (result != null)
-                    break;
-                
-                if (type.BaseType != null && type.BaseType != typeof(object)
-                    && type.BaseType != typeof(ValueType))
-                {
-                    type = type.BaseType;
-                }
+                type = type.BaseType;
             }
 
             if (result == null)

@@ -4,22 +4,10 @@ namespace NIntegrate.Web
 {
     public abstract class WcfEndpointView : WcfConfigurationView
     {
-        private Unit _fieldWidth;
-
         #region Constructors
 
         internal WcfEndpointView()
         {
-        }
-
-        #endregion
-
-        #region Properties
-
-        public Unit FieldWidth
-        {
-            get { return _fieldWidth == default(Unit) ? new Unit("350") : _fieldWidth; }
-            set { _fieldWidth = value; }
         }
 
         #endregion
@@ -32,7 +20,7 @@ namespace NIntegrate.Web
 
             Fields.Add(new BoundTextField
                            {
-                               HeaderText = "ServiceContract",
+                               HeaderText = "ServiceContractType",
                                DataField = "ServiceContractType",
                                FieldWidth = FieldWidth,
                            });
