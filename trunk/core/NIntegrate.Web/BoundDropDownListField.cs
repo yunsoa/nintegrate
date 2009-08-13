@@ -11,7 +11,7 @@ using NIntegrate.ServiceModel.Activation;
 namespace NIntegrate.Web
 {
     [AspNetHostingPermission(SecurityAction.InheritanceDemand, Level=AspNetHostingPermissionLevel.Minimal), AspNetHostingPermission(SecurityAction.LinkDemand, Level=AspNetHostingPermissionLevel.Minimal)]
-    internal sealed class BoundDropDownListField : BoundFieldBase
+    public sealed class BoundDropDownListField : BoundFieldBase
     {
         protected override DataControlField CreateField()
         {

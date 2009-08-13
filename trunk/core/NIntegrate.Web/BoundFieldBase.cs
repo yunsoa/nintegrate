@@ -4,7 +4,7 @@ using System.Web.UI.WebControls;
 
 namespace NIntegrate.Web
 {
-    internal class BoundFieldBase : BoundField
+    public class BoundFieldBase : BoundField
     {
         public Unit FieldWidth { get; set; }
         public Unit FieldHeight { get; set; }
