@@ -2,7 +2,7 @@
 
 namespace NIntegrate.Web
 {
-    internal class BoundTextField : BoundFieldBase
+    public class BoundTextField : BoundFieldBase
     {
         protected override void InitializeDataCell(DataControlFieldCell cell, DataControlRowState rowState)
         {

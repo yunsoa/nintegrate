@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace NIntegrate.Web
 {
-    internal class BoundXmlField : BoundTextField
+    public class BoundXmlField : BoundTextField
     {
         protected override void InitializeDataCell(DataControlFieldCell cell, DataControlRowState rowState)
         {
