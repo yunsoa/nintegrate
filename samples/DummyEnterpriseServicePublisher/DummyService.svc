@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Service="DummyEnterpriseService.Implementation.DummyService" Factory="DummyEnterpriseFramework.DummyWcfServiceHostFactory" %>
