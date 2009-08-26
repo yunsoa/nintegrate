@@ -298,10 +298,21 @@ namespace NIntegrate.ServiceModel.Configuration
 
             var sb = new StringBuilder();
             var wr = new XmlTextWriter(new StringWriter(sb, CultureInfo.InvariantCulture));
-            var tagName = _propertyElementTagName.GetValue(element, null);
-            _methodSerializeToXmlElement.Invoke(element, new[] { wr, tagName });
+            var tagName = ParseTagName(element);
+            _methodSerializeToXmlElement.Invoke(element, new object[] { wr, tagName });
 
             return sb.ToString();
+        }
+
+        private static string ParseTagName(ConfigurationElement element)
+        {
+            var tagName = (string)_propertyElementTagName.GetValue(element, null);
+            if (string.IsNullOrEmpty(tagName))
+            {
+                if (element is ServiceBehaviorElement)
+                    return "behavior";
+            }
+            return tagName;
         }
 
         #endregion
