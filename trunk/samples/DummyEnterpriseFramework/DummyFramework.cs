@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.ServiceModel;
 using DummyEnterpriseFramework.Configuration;
 using NIntegrate.ServiceModel;
-using NIntegrate.ServiceModel.Configuration;
 
 namespace DummyEnterpriseFramework
 {
     public class DummyFramework
     {
         private readonly IDummyFrameworkConfiguation _config;
+        private static readonly Dictionary<Type, ChannelFactory> _cfCache = new Dictionary<Type, ChannelFactory>();
+        private static readonly object _cfCacheLock = new object();
+
 
         public DummyFramework(IDummyFrameworkConfiguation config)
         {
@@ -37,10 +40,24 @@ namespace DummyEnterpriseFramework
             return _config.GetConnectionString(key);
         }
 
-        public ChannelFactory<T> GetWcfChannelFactory<T>()
+        public ChannelFactory<T> CreateWcfChannelFactory<T>()
         {
-            var endpoint = _config.GetWcfClientEndpointConfiguration(typeof(T));
-            return WcfChannelFactoryFactory.CreateChannelFactory<T>(endpoint);
+            ChannelFactory cf;
+
+            if (!_cfCache.TryGetValue(typeof(T), out cf))
+            {
+                lock (_cfCacheLock)
+                {
+                    if (!_cfCache.TryGetValue(typeof(T), out cf))
+                    {
+                        var endpoint = _config.GetWcfClientEndpointConfiguration(typeof (T));
+                        cf = WcfChannelFactoryFactory.CreateChannelFactory<T>(endpoint);
+                        _cfCache[typeof (T)] = cf;
+                    }
+                }
+            }
+
+            return cf as ChannelFactory<T>;
         }
     }
 }

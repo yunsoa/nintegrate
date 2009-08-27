@@ -2,7 +2,6 @@
 using DummyEnterpriseFramework;
 using DummyEnterpriseFramework.Configuration;
 using DummyEnterpriseService.Interface;
-using NIntegrate.ServiceModel;
 
 namespace DummyEnterpriseServiceConsumer
 {
@@ -11,9 +10,9 @@ namespace DummyEnterpriseServiceConsumer
         protected void Page_Load(object sender, EventArgs e)
         {
             var df = new DummyFramework(DummyFrameworkConfiguationManager.GetConfiguration());
-            using (var cf = df.GetWcfChannelFactory<IDummyService>())
+            using (var wrapper = new WcfChannelWrapper<IDummyService>(df.CreateWcfChannelFactory<IDummyService>().CreateChannel()))
             {
-                Response.Write(cf.CreateChannel().SayHello());
+                Response.Write(wrapper.Channel.SayHello());
             }
         }
     }
