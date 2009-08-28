@@ -40,7 +40,8 @@ namespace DummyEnterpriseFramework
             return _config.GetConnectionString(key);
         }
 
-        public ChannelFactory<T> CreateWcfChannelFactory<T>()
+        public WcfChannelWrapper<T> CreateWcfChannel<T>()
+            where T : class 
         {
             ChannelFactory cf;
 
@@ -57,7 +58,7 @@ namespace DummyEnterpriseFramework
                 }
             }
 
-            return cf as ChannelFactory<T>;
+            return new WcfChannelWrapper<T>((cf as ChannelFactory<T>).CreateChannel());
         }
     }
 }

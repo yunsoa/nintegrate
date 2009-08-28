@@ -10,7 +10,7 @@ namespace DummyEnterpriseServiceConsumer
         protected void Page_Load(object sender, EventArgs e)
         {
             var df = new DummyFramework(DummyFrameworkConfiguationManager.GetConfiguration());
-            using (var wrapper = new WcfChannelWrapper<IDummyService>(df.CreateWcfChannelFactory<IDummyService>().CreateChannel()))
+            using (var wrapper = df.CreateWcfChannel<IDummyService>())
             {
                 Response.Write(wrapper.Channel.SayHello());
             }

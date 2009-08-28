@@ -3,7 +3,7 @@ using System.ServiceModel;
 
 namespace DummyEnterpriseFramework
 {
-    public class WcfChannelWrapper<T> : IDisposable
+    public sealed class WcfChannelWrapper<T> : IDisposable
         where T : class 
     {
         private readonly T _channel;
