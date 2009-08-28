@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 
-namespace DummyEnterpriseFramework
+namespace NIntegrate.ServiceModel
 {
     public sealed class WcfChannelWrapper<T> : IDisposable
         where T : class 

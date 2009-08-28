@@ -55,7 +55,6 @@
     <Compile Include="DummyFramework.cs" />
     <Compile Include="DummyWcfServiceHostFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WcfChannelWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\core\NIntegrate.ServiceModel\NIntegrate.ServiceModel.csproj">
