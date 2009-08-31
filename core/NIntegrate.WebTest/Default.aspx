@@ -33,12 +33,7 @@
         QueryTableType="NIntegrate.WebTest.Code.ProductCategoryTable" runat="server" 
         ConflictDetection="CompareAllValues">
     </ni:QueryDataSource>
-    <br />
-    <br />
-    
-    <ni:WcfServiceView ID="WcfServiceView1" runat="server" DefaultMode="Edit">
-    </ni:WcfServiceView>
-    
+       
     </form>
 </body>
 </html>
