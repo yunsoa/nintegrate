@@ -349,6 +349,9 @@ namespace NIntegrate.Data
 
         public QueryCriteria Insert(params Assignment[] assignments)
         {
+            if (_readOnly)
+                throw new InvalidOperationException("Readonly Criteria could not be used for insert.");
+
             if (assignments == null || assignments.Length == 0)
                 throw new ArgumentNullException("assignments");
 
@@ -363,6 +366,9 @@ namespace NIntegrate.Data
 
         public QueryCriteria Update(params Assignment[] assignments)
         {
+            if (_readOnly)
+                throw new InvalidOperationException("Readonly Criteria could not be used for update.");
+
             if (assignments == null || assignments.Length == 0)
                 throw new ArgumentNullException("assignments");
 
@@ -377,6 +383,9 @@ namespace NIntegrate.Data
 
         public QueryCriteria Delete()
         {
+            if (_readOnly)
+                throw new InvalidOperationException("Readonly Criteria could not be used for delete.");
+
             _queryType = QueryType.Delete;
 
             OnChanged();

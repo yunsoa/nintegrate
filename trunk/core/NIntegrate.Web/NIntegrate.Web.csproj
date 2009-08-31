@@ -78,11 +78,6 @@
     <Compile Include="QueryDataSource.cs" />
     <Compile Include="QueryDataSourceView.cs" />
     <Compile Include="QueryService.cs" />
-    <Compile Include="WcfClientEndpointView.cs" />
-    <Compile Include="WcfConfigurationView.cs" />
-    <Compile Include="WcfEndpointView.cs" />
-    <Compile Include="WcfServiceEndpointView.cs" />
-    <Compile Include="WcfServiceView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NIntegrate.Data\NIntegrate.Data.csproj">
