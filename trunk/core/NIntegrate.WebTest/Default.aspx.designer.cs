@@ -48,14 +48,5 @@ namespace NIntegrate.WebTest {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::NIntegrate.Web.QueryDataSource QueryDataSource1;
-        
-        /// <summary>
-        /// WcfServiceView1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::NIntegrate.Web.WcfServiceView WcfServiceView1;
     }
 }

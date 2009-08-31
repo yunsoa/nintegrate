@@ -11,14 +11,6 @@ namespace NIntegrate.WebTest
         protected void Page_Load(object sender, EventArgs e)
         {
             QueryDataSource1.Endpoint = AppConfigLoader.Default.LoadClientEndpoint(typeof(IQueryService));
-
-            WcfServiceView1.DataSource = new[] { AppConfigLoader.Default.LoadService(typeof(QueryService)) };
-            WcfServiceView1.DataBind();
-        }
-
-        protected void WcfServiceEndpointView1_ModeChanging(object sender, DetailsViewModeEventArgs e)
-        {
-            //e.NewMode = DetailsViewMode.Edit;
         }
 
         protected void DetailsView1_ItemInserted(object sender, DetailsViewInsertedEventArgs e)
