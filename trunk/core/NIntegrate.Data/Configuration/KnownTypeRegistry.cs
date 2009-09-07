@@ -109,6 +109,7 @@ namespace NIntegrate.Data.Configuration
                        {
                            typeof(Condition),
                            typeof(Assignment),
+                           typeof(ParameterEqualsCondition),
                            typeof(NullExpression),
                            typeof(BooleanExpression),
                            typeof(ByteExpression),

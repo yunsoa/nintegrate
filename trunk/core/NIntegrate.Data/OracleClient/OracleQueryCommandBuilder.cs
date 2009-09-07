@@ -181,7 +181,7 @@ namespace NIntegrate.Data.OracleClient
             return sb.ToString();
         }
 
-        protected override string ToParameterName(string name)
+        internal protected override string ToParameterName(string name)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");

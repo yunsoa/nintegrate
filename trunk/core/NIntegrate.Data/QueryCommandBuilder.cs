@@ -64,14 +64,14 @@ namespace NIntegrate.Data
 
         #endregion
 
-        #region Protected Methods
+        #region Non-Public Methods
 
         /// <summary>
         /// Format a name string to a parameter name.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        protected abstract string ToParameterName(string name);
+        internal protected abstract string ToParameterName(string name);
 
         /// <summary>
         /// Gets the database object name quote characters.
@@ -377,6 +377,22 @@ namespace NIntegrate.Data
             {
                 AddConditionParameters(linkedCondition, parameterCollection, setParameterValueOnly);
             }
+        }
+
+        internal void AddParameterEqualsConditionParameter(ParameterEqualsCondition condition, DbParameterCollection parameterCollection)
+        {
+            var parameter = GetDbProviderFactory().CreateParameter();
+            parameter.ParameterName = ToParameterName(condition.LeftExpression.ID);
+            var direction = SprocParameterDirection.Input;
+            if (condition.LeftExpression.Direction.HasValue)
+                direction = condition.LeftExpression.Direction.Value;
+            parameter.Direction =
+                (ParameterDirection)
+                Enum.Parse(typeof(ParameterDirection), direction.ToString());
+            parameter.Value = (condition.RightExpression == null ? 
+                DBNull.Value : condition.RightExpression.Value);
+            AdjustParameterProperties(condition.LeftExpression, parameter);
+            parameterCollection.Add(parameter);
         }
 
         /// <summary>

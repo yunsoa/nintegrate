@@ -19,7 +19,10 @@ namespace NIntegrate.Data
         Update,
 
         [EnumMember]
-        Delete
+        Delete,
+
+        [EnumMember]
+        Sproc
     }
 
     /// <summary>
@@ -68,6 +71,9 @@ namespace NIntegrate.Data
         [DataMember]
         private bool _readOnly;
 
+        [DataMember]
+        private readonly List<ParameterEqualsCondition> _sprocParameterConditions;
+
         #region Events
 
         public event EventHandler Changed;
@@ -92,7 +98,8 @@ namespace NIntegrate.Data
             _sortBys = new Dictionary<IColumn, bool>();
             _conditionAndOrs = new List<ConditionAndOr>();
             _conditions = new List<Condition>();
-            _assignments = new List<Assignment>(); 
+            _assignments = new List<Assignment>();
+            _sprocParameterConditions = new List<ParameterEqualsCondition>();
             _queryType = QueryType.Select;
         }
 
@@ -114,6 +121,7 @@ namespace NIntegrate.Data
             _conditionAndOrs = new List<ConditionAndOr>();
             _conditions = new List<Condition>();
             _assignments = new List<Assignment>();
+            _sprocParameterConditions = new List<ParameterEqualsCondition>();
             _queryType = QueryType.Select;
         }
 
@@ -212,6 +220,11 @@ namespace NIntegrate.Data
         public ReadOnlyCollection<Assignment> Assignments
         {
             get { return new ReadOnlyCollection<Assignment>(_assignments); }
+        }
+
+        internal ReadOnlyCollection<ParameterEqualsCondition> SprocParameterConditions
+        {
+            get { return new ReadOnlyCollection<ParameterEqualsCondition>(_sprocParameterConditions); }
         }
 
         /// <summary>
@@ -393,11 +406,24 @@ namespace NIntegrate.Data
             return this;
         }
 
+        internal QueryCriteria Sproc(params ParameterEqualsCondition[] parameterConditions)
+        {
+            _queryType = QueryType.Sproc;
+
+            if (parameterConditions != null)
+            {
+                _sprocParameterConditions.AddRange(parameterConditions);
+            }
+
+            return this;
+        }
+
         public QueryCriteria Clone()
         {
             var clone = new QueryCriteria();
 
             clone._assignments.AddRange(_assignments);
+            clone._sprocParameterConditions.AddRange(_sprocParameterConditions);
             clone._conditionAndOrs.AddRange(_conditionAndOrs);
             clone._conditions.AddRange(_conditions);
             clone._connectionStringName = _connectionStringName;

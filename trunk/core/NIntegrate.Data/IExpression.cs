@@ -25,5 +25,7 @@ namespace NIntegrate.Data
 
         [ComVisible(false)]
         object Value { get; set; }
+
+        SprocParameterDirection? Direction { get;  }
     }
 }

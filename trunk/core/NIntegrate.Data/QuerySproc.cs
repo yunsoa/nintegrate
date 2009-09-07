@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Data;
+using System.Runtime.Serialization;
+using System.Reflection;
 
 namespace NIntegrate.Data
 {
+    [DataContract]
     public abstract class QuerySproc
     {
+        [DataMember]
         private readonly string _sprocName;
+
+        [DataMember]
         private readonly string _connectionStringName;
 
         #region Constructors
@@ -22,7 +29,7 @@ namespace NIntegrate.Data
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         public string SprocName
         {
@@ -32,6 +39,15 @@ namespace NIntegrate.Data
         public string ConnectionStringName
         {
             get { return _connectionStringName; }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public QueryCriteria CreateSprocCriteria(params ParameterEqualsCondition[] parameterConditions)
+        {
+            return new QueryCriteria(SprocName, ConnectionStringName, false, null).Sproc(parameterConditions);
         }
 
         #endregion
