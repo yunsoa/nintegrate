@@ -81,6 +81,7 @@
     <Compile Include="Query\QueryCommandFactoryTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Query\QuerySprocTest.cs" />
     <Compile Include="Query\SqlClientExtensionMethodsTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -88,6 +89,7 @@
     <Compile Include="Query\TestClasses\TestCriteria.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Query\TestClasses\TestSproc.cs" />
     <Compile Include="TestClasses\ITestService.cs">
       <SubType>Code</SubType>
     </Compile>

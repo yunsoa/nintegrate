@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
 namespace NIntegrate.Data
@@ -6,59 +7,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class BooleanParameterExpression : BooleanExpression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private bool _value;
-
         #region Constructors
 
-        public BooleanParameterExpression(string id, bool value) : this(value)
+        public BooleanParameterExpression(string id, bool? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public BooleanParameterExpression(bool value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public BooleanParameterExpression(bool? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public BooleanParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public bool? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (bool?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public bool Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new BooleanParameterExpression(_value) { Sql = Sql }
+                           new BooleanParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new BooleanParameterExpression(_id, _value) { Sql = Sql };
+                           new BooleanParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(bool value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new BooleanParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(bool? value)
         {
-            get { return _value; }
-            set { _value = (bool)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(bool value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new BooleanParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(bool? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(BooleanParameterExpression left, bool? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(BooleanParameterExpression left, bool? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(bool? left, BooleanParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(bool? left, BooleanParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -67,59 +135,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class ByteParameterExpression : ByteExpression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private byte _value;
-
         #region Constructors
 
-        public ByteParameterExpression(string id, byte value) : this(value)
+        public ByteParameterExpression(string id, byte? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public ByteParameterExpression(byte value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public ByteParameterExpression(byte? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public ByteParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public byte? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (byte?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public byte Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new ByteParameterExpression(_value) { Sql = Sql }
+                           new ByteParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new ByteParameterExpression(_id, _value) { Sql = Sql };
+                           new ByteParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(byte value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new ByteParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(byte? value)
         {
-            get { return _value; }
-            set { _value = (byte)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(byte value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new ByteParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(byte? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(ByteParameterExpression left, byte? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(ByteParameterExpression left, byte? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(byte? left, ByteParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(byte? left, ByteParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -128,59 +263,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class Int16ParameterExpression : Int16Expression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private short _value;
-
         #region Constructors
 
-        public Int16ParameterExpression(string id, short value) : this(value)
+        public Int16ParameterExpression(string id, short? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public Int16ParameterExpression(short value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public Int16ParameterExpression(short? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public Int16ParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public short? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (short?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public short Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new Int16ParameterExpression(_value) { Sql = Sql }
+                           new Int16ParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new Int16ParameterExpression(_id, _value) { Sql = Sql };
+                           new Int16ParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(short value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new Int16ParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(short? value)
         {
-            get { return _value; }
-            set { _value = (short)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(short value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new Int16ParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(short? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(Int16ParameterExpression left, short? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(Int16ParameterExpression left, short? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(short? left, Int16ParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(short? left, Int16ParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -189,59 +391,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class Int32ParameterExpression : Int32Expression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private int _value;
-
         #region Constructors
 
-        public Int32ParameterExpression(string id, int value) : this(value)
+        public Int32ParameterExpression(string id, int? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public Int32ParameterExpression(int value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public Int32ParameterExpression(int? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public Int32ParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public int? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (int?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public int Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new Int32ParameterExpression(_value) { Sql = Sql }
+                           new Int32ParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new Int32ParameterExpression(_id, _value) { Sql = Sql };
+                           new Int32ParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(int value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new Int32ParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(int? value)
         {
-            get { return _value; }
-            set { _value = (int)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(int value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new Int32ParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(int? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(Int32ParameterExpression left, int? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(Int32ParameterExpression left, int? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(int? left, Int32ParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(int? left, Int32ParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -250,59 +519,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class Int64ParameterExpression : Int64Expression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private long _value;
-
         #region Constructors
 
-        public Int64ParameterExpression(string id, long value) : this(value)
+        public Int64ParameterExpression(string id, long? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public Int64ParameterExpression(long value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public Int64ParameterExpression(long? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public Int64ParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public long? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (long?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public long Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new Int64ParameterExpression(_value) {Sql = Sql}
+                           new Int64ParameterExpression(Value) {Sql = Sql}
                        :
-                           new Int64ParameterExpression(_id, _value) {Sql = Sql};
+                           new Int64ParameterExpression(ID, Value) {Sql = Sql};
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(long value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new Int64ParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(long? value)
         {
-            get { return _value; }
-            set { _value = (long)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(long value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new Int64ParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(long? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(Int64ParameterExpression left, long? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(Int64ParameterExpression left, long? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(long? left, Int64ParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(long? left, Int64ParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -311,58 +647,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class DateTimeParameterExpression : DateTimeExpression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-        [DataMember]
-        private DateTime _value;
-
         #region Constructors
 
-        public DateTimeParameterExpression(string id, DateTime value) : this(value)
+        public DateTimeParameterExpression(string id, DateTime? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public DateTimeParameterExpression(DateTime value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public DateTimeParameterExpression(DateTime? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public DateTimeParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public DateTime? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (DateTime?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public DateTime Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new DateTimeParameterExpression(_value) { Sql = Sql }
+                           new DateTimeParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new DateTimeParameterExpression(_id, _value) { Sql = Sql };
+                           new DateTimeParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(DateTime value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new DateTimeParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(DateTime? value)
         {
-            get { return _value; }
-            set { _value = (DateTime)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(DateTime value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new DateTimeParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(DateTime? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(DateTimeParameterExpression left, DateTime? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(DateTimeParameterExpression left, DateTime? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(DateTime? left, DateTimeParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(DateTime? left, DateTimeParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -371,20 +775,16 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class StringParameterExpression : StringExpression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        internal string _value;
-
         #region Constructors
 
-        public StringParameterExpression(string id, string value, bool isUnicode) : this(value, isUnicode)
+        public StringParameterExpression(string id, string value, bool isUnicode) : base(isUnicode)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
+            ID = id;
+            Value = value;
+            Sql = "?";
         }
 
         public StringParameterExpression(string value, bool isUnicode) : base(isUnicode)
@@ -392,41 +792,101 @@ namespace NIntegrate.Data
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            _value = value;
+            Value = value;
             Sql = "?";
         }
+
+        public StringParameterExpression(string sprocParamName, SprocParameterDirection direction, bool IsUnicode)
+            : base(IsUnicode)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public string Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (string)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public string Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new StringParameterExpression(_value, IsUnicode) {Sql = Sql}
+                           new StringParameterExpression(Value, IsUnicode) { Sql = Sql, Direction = Direction }
                        :
-                           new StringParameterExpression(_id, _value, IsUnicode) {Sql = Sql};
+                           new StringParameterExpression(ID, Value, IsUnicode) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(string value)
         {
-            get { return _id; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new StringParameterExpression(value, IsUnicode));
         }
 
-        object IParameterExpression.Value
+        public new ParameterEqualsCondition NotEquals(string value)
         {
-            get { return _value; }
-            set { _value = (string)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new StringParameterExpression(value, IsUnicode));
+        }
+
+        public static ParameterEqualsCondition operator ==(StringParameterExpression left, string right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(StringParameterExpression left, string right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(string left, StringParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(string left, StringParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -435,59 +895,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class GuidParameterExpression : GuidExpression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private Guid _value;
-
         #region Constructors
 
-        public GuidParameterExpression(string id, Guid value) : this(value)
+        public GuidParameterExpression(string id, Guid? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public GuidParameterExpression(Guid value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public GuidParameterExpression(Guid? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public GuidParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public Guid? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (Guid?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public Guid Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new GuidParameterExpression(_value) { Sql = Sql }
+                           new GuidParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new GuidParameterExpression(_id, _value) { Sql = Sql };
+                           new GuidParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(Guid value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new GuidParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(Guid? value)
         {
-            get { return _value; }
-            set { _value = (Guid)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(Guid value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new GuidParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(Guid? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(GuidParameterExpression left, Guid? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(GuidParameterExpression left, Guid? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(Guid? left, GuidParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(Guid? left, GuidParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -496,59 +1023,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class DoubleParameterExpression : DoubleExpression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private double _value;
-
         #region Constructors
 
-        public DoubleParameterExpression(string id, double value) : this(value)
+        public DoubleParameterExpression(string id, double? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public DoubleParameterExpression(double value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public DoubleParameterExpression(double? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public DoubleParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public double? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (double?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public double Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new DoubleParameterExpression(_value) { Sql = Sql }
+                           new DoubleParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new DoubleParameterExpression(_id, _value) { Sql = Sql };
+                           new DoubleParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(double value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new DoubleParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(double? value)
         {
-            get { return _value; }
-            set { _value = (double)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(double value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new DoubleParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(double? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(DoubleParameterExpression left, double? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(DoubleParameterExpression left, double? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(double? left, DoubleParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(double? left, DoubleParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -557,59 +1151,126 @@ namespace NIntegrate.Data
     [DataContract]
     public sealed class DecimalParameterExpression : DecimalExpression, IParameterExpression
     {
-        [DataMember]
-        private readonly string _id;
-
-        [DataMember]
-        private decimal _value;
-
         #region Constructors
 
-        public DecimalParameterExpression(string id, decimal value) : this(value)
+        public DecimalParameterExpression(string id, decimal? value)
         {
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException("id");
 
-            _id = id;
-        }
-
-        public DecimalParameterExpression(decimal value)
-        {
-            _value = value;
+            ID = id;
+            Value = value;
             Sql = "?";
         }
+
+        public DecimalParameterExpression(decimal? value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public DecimalParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public decimal? Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (decimal?)value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
 
         #endregion
 
         #region Public Methods
 
-        public decimal Value
-        {
-            get { return _value; }
-        }
-
         public override object Clone()
         {
-            return string.IsNullOrEmpty(_id)
+            return string.IsNullOrEmpty(ID)
                        ?
-                           new DecimalParameterExpression(_value) { Sql = Sql }
+                           new DecimalParameterExpression(Value) { Sql = Sql, Direction = Direction }
                        :
-                           new DecimalParameterExpression(_id, _value) { Sql = Sql };
+                           new DecimalParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
         }
 
         #endregion
 
-        #region IParameterExpression Members
+        #region Equals & NotEquals
 
-        public string ID
+        public new ParameterEqualsCondition Equals(decimal value)
         {
-            get { return _id; }
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new DecimalParameterExpression(value));
         }
 
-        object IParameterExpression.Value
+        public ParameterEqualsCondition Equals(decimal? value)
         {
-            get { return _value; }
-            set { _value = (decimal)value; }
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return Equals(value.Value);
+        }
+
+        public new ParameterEqualsCondition NotEquals(decimal value)
+        {
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new DecimalParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(decimal? value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return NotEquals(value.Value);
+        }
+
+        public static ParameterEqualsCondition operator ==(DecimalParameterExpression left, decimal? right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(DecimalParameterExpression left, decimal? right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(decimal? left, DecimalParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(decimal? left, DecimalParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion

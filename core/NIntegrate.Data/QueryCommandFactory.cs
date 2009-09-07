@@ -29,30 +29,29 @@ namespace NIntegrate.Data
 
             var connStr = GetConnectionString(criteria.ConnectionStringName);
             var cmdBuilder = GetQueryCommandBuilder(connStr.ProviderName);
-            var cmd = cmdBuilder.BuildCommand(criteria, isCountCommand);
+            DbCommand cmd;
+            if (criteria.QueryType == QueryType.Sproc)
+            {
+                cmd = cmdBuilder.GetDbProviderFactory().CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = criteria.TableName;
+            }
+            else
+            {
+                cmd = cmdBuilder.BuildCommand(criteria, isCountCommand);
+            }
             cmd.Connection = cmdBuilder.GetDbProviderFactory().CreateConnection();
             cmd.Connection.ConnectionString = connStr.ConnectionString;
 
-            return cmd;
-        }
-
-        /// <summary>
-        /// Create a DbCommand for a query stored procedure.
-        /// </summary>
-        /// <param name="sproc">The query sproc.</param>
-        /// <returns></returns>
-        public DbCommand CreateCommand(QuerySproc sproc)
-        {
-            if (sproc == null)
-                throw new ArgumentNullException("sproc");
-
-            var connStr = GetConnectionString(sproc.ConnectionStringName);
-            var cmdBuilder = GetQueryCommandBuilder(connStr.ProviderName);
-            var cmd = cmdBuilder.GetDbProviderFactory().CreateCommand();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = sproc.SprocName;
-            cmd.Connection = cmdBuilder.GetDbProviderFactory().CreateConnection();
-            cmd.Connection.ConnectionString = connStr.ConnectionString;
+            if (criteria.QueryType == QueryType.Sproc)
+            {
+                var sprocCmd = new SprocDbCommand(cmd, cmdBuilder);
+                foreach (var parameterCondition in criteria.SprocParameterConditions)
+                {
+                    sprocCmd.AddParameter(parameterCondition);
+                }
+                return sprocCmd;
+            }
 
             return cmd;
         }

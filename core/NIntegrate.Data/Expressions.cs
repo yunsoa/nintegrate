@@ -3801,6 +3801,10 @@ namespace NIntegrate.Data
             {
                 return new Condition(right, ExpressionOperator.Is, NullExpression.Value);
             }
+            if (ReferenceEquals(right, NullExpression.Value))
+            {
+                return new Condition(left, ExpressionOperator.Is, right);
+            }
             return new Condition(left, ExpressionOperator.Equals, right);
         }
 
@@ -3814,27 +3818,31 @@ namespace NIntegrate.Data
             {
                 return new Condition(right, ExpressionOperator.IsNot, NullExpression.Value);
             }
+            if (ReferenceEquals(right, NullExpression.Value))
+            {
+                return new Condition(left, ExpressionOperator.IsNot, right);
+            }
             return new Condition(left, ExpressionOperator.NotEquals, right);
         }
 
         public static Condition operator ==(StringExpression left, string right)
         {
-            return new Condition(left, ExpressionOperator.Equals, new StringParameterExpression(right, left.IsUnicode));
+            return left.Equals(right);
         }
 
         public static Condition operator !=(StringExpression left, string right)
         {
-            return new Condition(left, ExpressionOperator.NotEquals, new StringParameterExpression(right, left.IsUnicode));
+            return left.NotEquals(right);
         }
 
         public static Condition operator ==(string left, StringExpression right)
         {
-            return new Condition(new StringParameterExpression(left, right.IsUnicode), ExpressionOperator.Equals, right);
+            return right.Equals(left);
         }
 
         public static Condition operator !=(string left, StringExpression right)
         {
-            return new Condition(new StringParameterExpression(left, right.IsUnicode), ExpressionOperator.NotEquals, right);
+            return right.NotEquals(left);
         }
 
         [ComVisible(false)]
