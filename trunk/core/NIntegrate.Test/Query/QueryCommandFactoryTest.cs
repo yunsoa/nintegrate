@@ -15,11 +15,11 @@ namespace NIntegrate.Test.Query
         public void TestSqlQueryCommandFactory()
         {
             var table = new TestTable();
-            var criteria = table.CreateCriteria();
+            var criteria = table.Select();
             var fac = new QueryCommandFactory();
 
             criteria.SetMaxResults(10);
-            criteria.AddSortBy(table.Int32Column, true).AddSortBy(table.StringColumn, false);
+            criteria.SortBy(table.Int32Column, true).ThenSortBy(table.StringColumn, false);
             criteria.And(table.Int32Column == null).Or(table.StringColumn.Like("test"));
 
             var predefinedColumnsCmd = fac.CreateCommand(criteria, false);
@@ -59,19 +59,19 @@ namespace NIntegrate.Test.Query
 
 
             var insertCriteria =
-                table.CreateCriteria().Insert(table.Int32Column.Set(1), table.DateTimeColumn.Set(DateTime.Now));
+                table.Insert(table.Int32Column.Set(1), table.DateTimeColumn.Set(DateTime.Now));
             var insertCmd = fac.CreateCommand(insertCriteria, false);
             Assert.AreEqual("INSERT INTO [TestTable] ([Int32Column], [DateTimeColumn]) VALUES (@p1, @p2)", insertCmd.CommandText);
             Assert.AreEqual(2, insertCmd.Parameters.Count);
 
             var updateCriteria =
-                table.CreateCriteria().Update(table.Int32Column.Set(1), table.DateTimeColumn.Set(DateTime.Now)).Where(table.GuidColumn == Guid.NewGuid());
+                table.Update(table.Int32Column.Set(1), table.DateTimeColumn.Set(DateTime.Now)).Where(table.GuidColumn == Guid.NewGuid());
             var updateCmd = fac.CreateCommand(updateCriteria, false);
             Assert.AreEqual("UPDATE [TestTable] SET [Int32Column] = @p1, [DateTimeColumn] = @p2 WHERE [GuidColumn] = @p3", updateCmd.CommandText);
             Assert.AreEqual(3, updateCmd.Parameters.Count);
 
             var deleteCriteria =
-                table.CreateCriteria().Delete().Where(table.GuidColumn == Guid.NewGuid());
+                table.Delete(table.GuidColumn == Guid.NewGuid());
             var deleteCmd = fac.CreateCommand(deleteCriteria, false);
             Assert.AreEqual("DELETE FROM [TestTable] WHERE [GuidColumn] = @p1", deleteCmd.CommandText);
             Assert.AreEqual(1, deleteCmd.Parameters.Count);
@@ -81,10 +81,10 @@ namespace NIntegrate.Test.Query
         public void TestOracleQueryCommandFactory()
         {
             var table = new OracleJobTable();
-            var criteria = table.CreateCriteria();
+            var criteria = table.Select();
             var fac = new QueryCommandFactory();
 
-            criteria.AddSortBy(table.JOB_ID, true).AddSortBy(table.JOB_TITLE, false);
+            criteria.SortBy(table.JOB_ID, true).ThenSortBy(table.JOB_TITLE, false);
             criteria.And(table.JOB_ID == null).Or(table.JOB_TITLE.Like("test"));
 
             var predefinedColumnsCmd = fac.CreateCommand(criteria, false);

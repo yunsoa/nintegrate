@@ -249,24 +249,6 @@ namespace NIntegrate.Data
 
         #region Public Methods
 
-        public QueryCriteria Select(params IColumn[] columns)
-        {
-            if (columns == null || columns.Length == 0)
-                throw new ArgumentNullException("columns");
-
-            _queryType = QueryType.Select;
-
-            foreach (var column in columns)
-            {
-                if (!_resultColumns.Contains(column))
-                    _resultColumns.Add(column);
-            }
-
-            OnChanged();
-
-            return this;
-        }
-
         public QueryCriteria SetIsDistinct(bool isDistinct)
         {
             _isDistinct = isDistinct;
@@ -294,7 +276,7 @@ namespace NIntegrate.Data
             return this;
         }
 
-        public QueryCriteria AddSortBy(IColumn column, bool isDescendent)
+        public QueryCriteria SortBy(IColumn column, bool isDescendent)
         {
             if (ReferenceEquals(column, null))
                 throw new ArgumentNullException("column");
@@ -305,6 +287,11 @@ namespace NIntegrate.Data
             OnChanged();
 
             return this;
+        }
+
+        public QueryCriteria ThenSortBy(IColumn column, bool isDescendent)
+        {
+            return SortBy(column, isDescendent);
         }
 
         public QueryCriteria And(Condition condition)
@@ -360,64 +347,6 @@ namespace NIntegrate.Data
             OnChanged();
         }
 
-        public QueryCriteria Insert(params Assignment[] assignments)
-        {
-            if (_readOnly)
-                throw new InvalidOperationException("Readonly Criteria could not be used for insert.");
-
-            if (assignments == null || assignments.Length == 0)
-                throw new ArgumentNullException("assignments");
-
-            _queryType = QueryType.Insert;
-
-            _assignments.AddRange(assignments);
-
-            OnChanged();
-
-            return this;
-        }
-
-        public QueryCriteria Update(params Assignment[] assignments)
-        {
-            if (_readOnly)
-                throw new InvalidOperationException("Readonly Criteria could not be used for update.");
-
-            if (assignments == null || assignments.Length == 0)
-                throw new ArgumentNullException("assignments");
-
-            _queryType = QueryType.Update;
-
-            _assignments.AddRange(assignments);
-
-            OnChanged();
-
-            return this;
-        }
-
-        public QueryCriteria Delete()
-        {
-            if (_readOnly)
-                throw new InvalidOperationException("Readonly Criteria could not be used for delete.");
-
-            _queryType = QueryType.Delete;
-
-            OnChanged();
-
-            return this;
-        }
-
-        internal QueryCriteria Sproc(params ParameterEqualsCondition[] parameterConditions)
-        {
-            _queryType = QueryType.Sproc;
-
-            if (parameterConditions != null)
-            {
-                _sprocParameterConditions.AddRange(parameterConditions);
-            }
-
-            return this;
-        }
-
         public QueryCriteria Clone()
         {
             var clone = new QueryCriteria();
@@ -446,6 +375,79 @@ namespace NIntegrate.Data
         #endregion
 
         #region Non-Public Methods
+
+        internal QueryCriteria Select(params IColumn[] columns)
+        {
+            _queryType = QueryType.Select;
+
+            foreach (var column in columns)
+            {
+                if (!_resultColumns.Contains(column))
+                    _resultColumns.Add(column);
+            }
+
+            OnChanged();
+
+            return this;
+        }
+
+        internal QueryCriteria Insert(params Assignment[] assignments)
+        {
+            if (_readOnly)
+                throw new InvalidOperationException("Readonly Criteria could not be used for insert.");
+
+            if (assignments == null || assignments.Length == 0)
+                throw new ArgumentNullException("assignments");
+
+            _queryType = QueryType.Insert;
+
+            _assignments.AddRange(assignments);
+
+            OnChanged();
+
+            return this;
+        }
+
+        internal QueryCriteria Update(params Assignment[] assignments)
+        {
+            if (_readOnly)
+                throw new InvalidOperationException("Readonly Criteria could not be used for update.");
+
+            if (assignments == null || assignments.Length == 0)
+                throw new ArgumentNullException("assignments");
+
+            _queryType = QueryType.Update;
+
+            _assignments.AddRange(assignments);
+
+            OnChanged();
+
+            return this;
+        }
+
+        internal QueryCriteria Delete()
+        {
+            if (_readOnly)
+                throw new InvalidOperationException("Readonly Criteria could not be used for delete.");
+
+            _queryType = QueryType.Delete;
+
+            OnChanged();
+
+            return this;
+        }
+
+        internal QueryCriteria Sproc(params ParameterEqualsCondition[] parameterConditions)
+        {
+            _queryType = QueryType.Sproc;
+
+            if (parameterConditions != null)
+            {
+                _sprocParameterConditions.AddRange(parameterConditions);
+            }
+
+            return this;
+        }
 
         internal void OnChanged()
         {

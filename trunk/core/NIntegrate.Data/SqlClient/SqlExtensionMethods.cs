@@ -6,11 +6,16 @@ namespace NIntegrate.Data.SqlClient
     {
         #region QueryCriteria
 
-        public static QueryCriteria AddSortByRandom(this QueryCriteria criteria)
+        public static QueryCriteria SortByRandom(this QueryCriteria criteria)
         {
             criteria.SortBys.Add(new GuidColumn(new GuidExpression("newid()", null), "newid()"), false);
 
             return criteria;
+        }
+
+        public static QueryCriteria ThenSortByRandom(this QueryCriteria criteria)
+        {
+            return SortByRandom(criteria);
         }
 
         public static DateTimeExpression GetCurrentDate(this QueryCriteria criteria)
