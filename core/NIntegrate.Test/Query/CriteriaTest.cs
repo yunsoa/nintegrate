@@ -17,8 +17,7 @@ namespace NIntegrate.Test.Query
         public void TestCriteriaMembers()
         {
             var table = new TestTable();
-            var criteria = table.CreateCriteria();
-            criteria.Select(table.Int32Column, table.StringColumn, table.StringColumn);
+            var criteria = table.Select(table.Int32Column, table.StringColumn, table.StringColumn);
             Assert.AreEqual(2, criteria.ResultColumns.Count);
 
             criteria.SetIsDistinct(true);
@@ -28,7 +27,7 @@ namespace NIntegrate.Test.Query
             criteria.SetSkipResults(10).SetSkipResults(10);
             Assert.AreEqual(10, criteria.SkipResults);
 
-            criteria.AddSortBy(table.Int32Column, true).AddSortBy(table.StringColumn, false);
+            criteria.SortBy(table.Int32Column, true).ThenSortBy(table.StringColumn, false);
             Assert.AreEqual(2, criteria.SortBys.Count);
 
             criteria.And(table.Int32Column == 1 && table.StringColumn.Like("%abc%"))

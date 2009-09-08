@@ -96,7 +96,7 @@ namespace NIntegrate.Web
                         var instance = Activator.CreateInstance(type) as QueryTable;
                         if (instance != null)
                         {
-                            Criteria = instance.CreateCriteria();
+                            Criteria = instance.Select();
                         }
                     }
                 }

@@ -47,13 +47,37 @@ namespace NIntegrate.Data
 
         #region Public Methods
 
-        /// <summary>
-        /// Create a new query criteria from the query table.
-        /// </summary>
-        /// <returns>A default query criteria, which select * from the table.</returns>
-        public QueryCriteria CreateCriteria()
+        public QueryCriteria Select(params IColumn[] columns)
         {
-            return new QueryCriteria(_tableName, _connectionStringName, _readOnly, _predefinedColumns);
+            return new QueryCriteria(_tableName, _connectionStringName,
+                _readOnly, _predefinedColumns).Select(columns);
+        }
+
+        public QueryCriteria Insert(params Assignment[] assignments)
+        {
+            return new QueryCriteria(_tableName, _connectionStringName,
+                _readOnly, _predefinedColumns).Insert(assignments);
+        }
+
+        public QueryCriteria Update(params Assignment[] assignments)
+        {
+            return new QueryCriteria(_tableName, _connectionStringName,
+                _readOnly, _predefinedColumns).Update(assignments);
+        }
+
+        public QueryCriteria Delete(params Condition[] conditions)
+        {
+            var criteria = new QueryCriteria(_tableName, _connectionStringName,
+                _readOnly, _predefinedColumns).Delete();
+            if (conditions != null && conditions.Length > 0)
+            {
+                foreach (var condition in conditions)
+                {
+                    criteria.And(condition);
+                }
+            }
+
+            return criteria;
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace NIntegrate.Test.Query
         public void TestOracleClientCriteriaExtensionMethods()
         {
             var table = new TestTable();
-            var criteria = table.CreateCriteria();
+            var criteria = table.Select();
             Assert.AreEqual("CURRENT_TIMESTAMP", criteria.GetCurrentDate().Sql);
         }
 

@@ -15,8 +15,8 @@ namespace NIntegrate.Test.Query
         public void TestSqlClientCriteriaExtensionMethods()
         {
             var table = new TestTable();
-            var criteria = table.CreateCriteria();
-            var en = criteria.AddSortByRandom().SortBys.Keys.GetEnumerator();
+            var criteria = table.Select();
+            var en = criteria.SortByRandom().SortBys.Keys.GetEnumerator();
             en.MoveNext();
             Assert.AreEqual("newid()", en.Current.ColumnName);
 
