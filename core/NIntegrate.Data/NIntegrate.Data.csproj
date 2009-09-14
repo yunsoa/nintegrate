@@ -60,11 +60,9 @@
     <Compile Include="SprocDbCommand.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="_Helpers\CodeGenerator.cs" />
     <Compile Include="Columns.cs" />
     <Compile Include="Condition.cs" />
     <Compile Include="Configuration\KnownTypeRegistry.cs" />
-    <Compile Include="_Helpers\DesignByContract.cs" />
     <Compile Include="OracleClient\OracleExtensionMethods.cs" />
     <Compile Include="OracleClient\OracleQueryCommandBuilder.cs" />
     <Compile Include="SprocParameterDirection.cs" />
