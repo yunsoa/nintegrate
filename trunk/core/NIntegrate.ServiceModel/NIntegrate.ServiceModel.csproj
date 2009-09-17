@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Activation\LoadServiceConfigurationEventArgs.cs" />
     <Compile Include="Activation\ServiceHostCreationException.cs" />
     <Compile Include="Activation\WcfServiceHostFactory.cs" />

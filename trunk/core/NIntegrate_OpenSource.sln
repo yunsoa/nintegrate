@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Data", "NIntegra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.WebTest", "NIntegrate.WebTest\NIntegrate.WebTest.csproj", "{BFECC285-D8C7-4444-9686-54CBC6C6DDB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Utilities", "NIntegrate.Utilities\NIntegrate.Utilities.csproj", "{F7825B16-08AC-4351-AEC5-C6D1FB68B493}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -48,6 +50,10 @@ Global
 		{BFECC285-D8C7-4444-9686-54CBC6C6DDB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFECC285-D8C7-4444-9686-54CBC6C6DDB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFECC285-D8C7-4444-9686-54CBC6C6DDB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7825B16-08AC-4351-AEC5-C6D1FB68B493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7825B16-08AC-4351-AEC5-C6D1FB68B493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7825B16-08AC-4351-AEC5-C6D1FB68B493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7825B16-08AC-4351-AEC5-C6D1FB68B493}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
