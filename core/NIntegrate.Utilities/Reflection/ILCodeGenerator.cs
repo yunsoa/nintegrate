@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Collections;
@@ -225,6 +224,9 @@ namespace NIntegrate.Utilities.Reflection
 
         public ILCodeGenerator Load(string strVar)
         {
+            if (strVar == null)
+                return LoadNull();
+
             _gen.Emit(OpCodes.Ldstr, strVar);
 
             return this;
@@ -758,27 +760,27 @@ namespace NIntegrate.Utilities.Reflection
             return this;
         }
 
-        public ILCodeGenerator ReferenceEquals(ILExpression left, ILExpression right)
+        public ILCodeGenerator CallReferenceEquals(ILExpression left, ILExpression right)
         {
             return CallStaticMethod(_objectReferenceEqualsMethod, left, right);
         }
 
-        public ILCodeGenerator Equals(ILExpression left, ILExpression right)
+        public ILCodeGenerator CallEquals(ILExpression left, ILExpression right)
         {
             return CallStaticMethod(_objectEqualsMethod, left, right);
         }
 
-        public ILCodeGenerator StringConcat(ILExpression left, ILExpression right)
+        public ILCodeGenerator CallStringConcat(ILExpression left, ILExpression right)
         {
             return CallStaticMethod(_stringConcat2Method, left, right);
         }
 
-        public ILCodeGenerator StringConcat(ILExpression str1, ILExpression str2, ILExpression str3)
+        public ILCodeGenerator CallStringConcat(ILExpression str1, ILExpression str2, ILExpression str3)
         {
             return CallStaticMethod(_stringConcat3Method, str1, str2, str3);
         }
 
-        public ILCodeGenerator StringFormat(ILExpression msg, params ILExpression[] vals)
+        public ILCodeGenerator CallStringFormat(ILExpression msg, params ILExpression[] vals)
         {
             if (msg == null)
                 throw new ArgumentNullException("msg");
@@ -800,7 +802,7 @@ namespace NIntegrate.Utilities.Reflection
                 gen => gen.LoadLocalVariable(stringFormatArray.LocalIndex));
         }
 
-        public ILCodeGenerator ToString(Type type, ILExpression val)
+        public ILCodeGenerator CallToString(Type type, ILExpression val)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -809,13 +811,314 @@ namespace NIntegrate.Utilities.Reflection
 
             if (type.IsValueType)
                 return CallMethod(
-                    gen => 
-                        gen.Box(type, 
-                        gen2 => gen2.Load(val)), 
-                        _objectToStringMethod);
+                    gen => gen.Box(type, gen2 => gen2.Load(val)), 
+                    _objectToStringMethod);
 
             return CallMethod(gen => gen.Load(val), _objectToStringMethod);
         }
+
+        #endregion
+
+        #region Arithmetic Methods
+
+        public ILCodeGenerator Add(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Add);
+
+            return this;
+        }
+
+        public ILCodeGenerator Subtract(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Sub);
+
+            return this;
+        }
+
+        public ILCodeGenerator Negate(ILExpression val)
+        {
+            if (val == null)
+                throw new ArgumentNullException("val");
+
+            Load(val);
+            _gen.Emit(OpCodes.Neg);
+
+            return this;
+        }
+
+        public ILCodeGenerator Not(ILExpression val)
+        {
+            if (val == null)
+                throw new ArgumentNullException("val");
+
+            Load(val);
+            _gen.Emit(OpCodes.Not);
+
+            return this;
+        }
+
+        public ILCodeGenerator And(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.And);
+
+            return this;
+        }
+
+        public ILCodeGenerator Or(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Or);
+
+            return this;
+        }
+
+        public ILCodeGenerator Xor(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Xor);
+
+            return this;
+        }
+
+        public ILCodeGenerator Equals(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Ceq);
+
+            return this;
+        }
+
+        public ILCodeGenerator GreaterThan(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Cgt);
+
+            return this;
+        }
+
+        public ILCodeGenerator GreaterThanOrEquals(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Clt_Un);
+
+            return this;
+        }
+
+        public ILCodeGenerator LessThan(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Clt);
+
+            return this;
+        }
+
+        public ILCodeGenerator LessThanOrEquals(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Cgt_Un);
+
+            return this;
+        }
+
+        public ILCodeGenerator Multiple(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Mul);
+
+            return this;
+        }
+
+        public ILCodeGenerator Divide(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Div);
+
+            return this;
+        }
+
+        public ILCodeGenerator Modulo(ILExpression left, ILExpression right)
+        {
+            if (left == null)
+                throw new ArgumentNullException("left");
+            if (right == null)
+                throw new ArgumentNullException("right");
+
+            LoadExpressions(left, right);
+            _gen.Emit(OpCodes.Rem);
+
+            return this;
+        }
+
+        #endregion
+
+        #region Condition Methods
+
+        public Label DefineLabel()
+        {
+            return _gen.DefineLabel();
+        }
+
+        public ILCodeGenerator If(ILExpression boolVal)
+        {
+            Load(boolVal);
+            InternalIf(Cmp.True);
+
+            return this;
+        }
+
+        public ILCodeGenerator IfNot(ILExpression boolVal)
+        {
+            Load(boolVal);
+            InternalIf(Cmp.False);
+
+            return this;
+        }
+
+        public ILCodeGenerator IfLessThan(ILExpression left, ILExpression right)
+        {
+            LoadExpressions(left, right);
+            InternalIf(Cmp.GreaterThan);
+
+            return this;
+        }
+
+        public ILCodeGenerator IfGreaterThan(ILExpression left, ILExpression right)
+        {
+            LoadExpressions(left, right);
+            InternalIf(Cmp.LessThan);
+
+            return this;
+        }
+
+        public ILCodeGenerator IfLessThanOrEquals(ILExpression left, ILExpression right)
+        {
+            LoadExpressions(left, right);
+            InternalIf(Cmp.GreaterThanOrEquals);
+
+            return this;
+        }
+
+        public ILCodeGenerator IfGreaterThanOrEquals(ILExpression left, ILExpression right)
+        {
+            LoadExpressions(left, right);
+            InternalIf(Cmp.LessThanOrEquals);
+
+            return this;
+        }
+
+        public ILCodeGenerator IfEquals(ILExpression left, ILExpression right)
+        {
+            LoadExpressions(left, right);
+            InternalIf(Cmp.NotEquals);
+
+            return this;
+        }
+
+        public ILCodeGenerator IfNotEquals(ILExpression left, ILExpression right)
+        {
+            LoadExpressions(left, right);
+            InternalIf(Cmp.Equals);
+
+            return this;
+        }
+
+        public ILCodeGenerator Else()
+        {
+            var state = PopIfState();
+            GoTo(state.EndIfLabel);
+            MarkLabel(state.ElseBeginLabel);
+            state.ElseBeginLabel = state.EndIfLabel;
+            _blockStack.Push(state);
+
+            return this;
+        }
+
+        public ILCodeGenerator EndIf()
+        {
+            var state = PopIfState();
+            if (!state.ElseBeginLabel.Equals(state.EndIfLabel))
+            {
+                MarkLabel(state.ElseBeginLabel);
+            }
+            return MarkLabel(state.EndIfLabel);
+        }
+
+        public ILCodeGenerator GoTo(Label label)
+        {
+            if (label == null)
+                throw new ArgumentNullException("label");
+
+            _gen.Emit(OpCodes.Br, label);
+
+            return this;
+        }
+
+        //for & for each
+
+        //switch
 
         #endregion
 
@@ -886,9 +1189,23 @@ namespace NIntegrate.Utilities.Reflection
             return this;
         }
 
+        public ILCodeGenerator Rethrow()
+        {
+            _gen.Emit(OpCodes.Rethrow);
+
+            return this;
+        }
+
         public ILCodeGenerator Dup()
         {
             _gen.Emit(OpCodes.Dup);
+
+            return this;
+        }
+
+        public ILCodeGenerator Nop()
+        {
+            _gen.Emit(OpCodes.Nop);
 
             return this;
         }
@@ -1125,6 +1442,39 @@ namespace NIntegrate.Utilities.Reflection
             return OpCodes.Nop;
         }
 
+        private static OpCode GetBranchCode(Cmp cmp)
+        {
+            switch (cmp)
+            {
+                case Cmp.True:
+                    return OpCodes.Brfalse;
+
+                case Cmp.False:
+                    return OpCodes.Brtrue;
+
+                case Cmp.LessThan:
+                    return OpCodes.Bge;
+
+                case Cmp.Equals:
+                    return OpCodes.Bne_Un;
+
+                case Cmp.LessThanOrEquals:
+                    return OpCodes.Bgt;
+
+                case Cmp.GreaterThanOrEquals:
+                    return OpCodes.Blt;
+
+                case Cmp.GreaterThan:
+                    return OpCodes.Ble;
+
+                case Cmp.NotEquals:
+                    return OpCodes.Beq;
+            }
+
+            //never reach here
+            return OpCodes.Blt;
+        }
+
         private void LoadExpressions(params ILExpression[] expressions)
         {
             if (expressions != null)
@@ -1186,18 +1536,33 @@ namespace NIntegrate.Utilities.Reflection
             }
         }
 
+        private void InternalIf(Cmp cmp)
+        {
+            var state = new IfState {EndIfLabel = DefineLabel(), ElseBeginLabel = DefineLabel()};
+            _gen.Emit(GetBranchCode(cmp), state.ElseBeginLabel);
+            _blockStack.Push(state);
+        }
+
+        private IfState PopIfState()
+        {
+            var state = _blockStack.Pop();
+            return state as IfState;
+        }
+
         #endregion
 
         #region Nested Classes
 
         private enum Cmp
         {
+            True,
+            False,
             LessThan,
-            EqualTo,
-            LessThanOrEqualTo,
+            Equals,
+            LessThanOrEquals,
             GreaterThan,
-            NotEqualTo,
-            GreaterThanOrEqualTo
+            NotEquals,
+            GreaterThanOrEquals
         }
 
         private sealed class IfState
