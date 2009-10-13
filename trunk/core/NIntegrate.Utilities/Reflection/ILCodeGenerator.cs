@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace NIntegrate.Utilities.Reflection
 {
@@ -11,7 +11,7 @@ namespace NIntegrate.Utilities.Reflection
     public sealed class ILCodeGenerator
     {
         private readonly ILGenerator _gen;
-        private readonly Stack _blockStack = new Stack();
+        private readonly Stack<IfState> _ifStateStack = new Stack<IfState>();
 
         #region MethodInfos
 
@@ -312,11 +312,13 @@ namespace NIntegrate.Utilities.Reflection
                 case 3:
                     _gen.Emit(OpCodes.Ldloc_3);
                     break;
+                default:
+                    if (slot <= 0xff)
+                        _gen.Emit(OpCodes.Ldloc_S, slot);
+                    else
+                        _gen.Emit(OpCodes.Ldloc, slot);
+                    break;
             }
-            if (slot <= 0xff)
-                _gen.Emit(OpCodes.Ldloc_S, slot);
-            else
-                _gen.Emit(OpCodes.Ldloc, slot);
 
             return this;
         }
@@ -328,7 +330,7 @@ namespace NIntegrate.Utilities.Reflection
 
             if (localType.IsValueType)
             {
-                LoadLocalVariableAddress(slot);
+                InternalLoadLocalVariableAddress(slot);
                 return this;
             }
 
@@ -353,11 +355,13 @@ namespace NIntegrate.Utilities.Reflection
                 case 3:
                     _gen.Emit(OpCodes.Stloc_3);
                     break;
+                default:
+                    if (slot <= 0xff)
+                        _gen.Emit(OpCodes.Stloc_S, slot);
+                    else
+                        _gen.Emit(OpCodes.Stloc, slot);
+                    break;
             }
-            if (slot <= 0xff)
-                _gen.Emit(OpCodes.Stloc_S, slot);
-            else
-                _gen.Emit(OpCodes.Stloc, slot);
 
             return this;
         }
@@ -382,11 +386,13 @@ namespace NIntegrate.Utilities.Reflection
                 case 3:
                     _gen.Emit(OpCodes.Ldarg_3);
                     break;
+                default:
+                    if (slot <= 0xff)
+                        _gen.Emit(OpCodes.Ldarg_S, slot);
+                    else
+                        _gen.Emit(OpCodes.Ldarg, slot);
+                    break;
             }
-            if (slot <= 0xff)
-                _gen.Emit(OpCodes.Ldarg_S, slot);
-            else
-                _gen.Emit(OpCodes.Ldarg, slot);
 
             return this;
         }
@@ -468,7 +474,7 @@ namespace NIntegrate.Utilities.Reflection
 
             Load(thisObj);
             Load(val);
-            _gen.Emit(OpCodes.Stsfld, field);
+            _gen.Emit(OpCodes.Stfld, field);
 
             return this;
         }
@@ -554,7 +560,8 @@ namespace NIntegrate.Utilities.Reflection
                 throw new ArgumentException(valueType.FullName + " is not value type");
             if (val == null)
                 throw new ArgumentNullException("val");
-            
+
+            Load(val);
             _gen.Emit(OpCodes.Box, valueType);
 
             return this;
@@ -569,6 +576,7 @@ namespace NIntegrate.Utilities.Reflection
             if (val == null)
                 throw new ArgumentNullException("val");
 
+            Load(val);
             _gen.Emit(OpCodes.Unbox, valueType);
 
             return this;
@@ -586,6 +594,7 @@ namespace NIntegrate.Utilities.Reflection
             if (val == null)
                 throw new ArgumentNullException("val");
 
+            Load(val);
             _gen.Emit(OpCodes.Unbox_Any, valueType);
 
             return this;
@@ -1021,6 +1030,13 @@ namespace NIntegrate.Utilities.Reflection
             return _gen.DefineLabel();
         }
 
+        public ILCodeGenerator MarkLabel(Label label)
+        {
+            _gen.MarkLabel(label);
+
+            return this;
+        }
+
         public ILCodeGenerator If(ILExpression boolVal)
         {
             Load(boolVal);
@@ -1087,18 +1103,31 @@ namespace NIntegrate.Utilities.Reflection
 
         public ILCodeGenerator Else()
         {
-            var state = PopIfState();
+            var state = _ifStateStack.Pop();
             GoTo(state.EndIfLabel);
             MarkLabel(state.ElseBeginLabel);
             state.ElseBeginLabel = state.EndIfLabel;
-            _blockStack.Push(state);
+            _ifStateStack.Push(state);
+
+            return this;
+        }
+
+        public ILCodeGenerator ElseIf(ILExpression boolVal)
+        {
+            var state = _ifStateStack.Pop();
+            GoTo(state.EndIfLabel);
+            MarkLabel(state.ElseBeginLabel);
+            Load(boolVal);
+            state.ElseBeginLabel = DefineLabel();
+            _gen.Emit(GetBranchCode(Cmp.True), state.ElseBeginLabel);
+            _ifStateStack.Push(state);
 
             return this;
         }
 
         public ILCodeGenerator EndIf()
         {
-            var state = PopIfState();
+            var state = _ifStateStack.Pop();
             if (!state.ElseBeginLabel.Equals(state.EndIfLabel))
             {
                 MarkLabel(state.ElseBeginLabel);
@@ -1116,20 +1145,58 @@ namespace NIntegrate.Utilities.Reflection
             return this;
         }
 
-        //for & for each
+        #endregion
 
-        //switch
+        #region  Try/Catch/Finally/Throw
+
+        public ILCodeGenerator Try()
+        {
+            _gen.BeginExceptionBlock();
+
+            return this;
+        }
+
+        public ILCodeGenerator Catch(Type exceptionType)
+        {
+            _gen.BeginCatchBlock(exceptionType);
+
+            return this;
+        }
+
+        public ILCodeGenerator Finally()
+        {
+            _gen.BeginFinallyBlock();
+
+            return this;
+        }
+
+        public ILCodeGenerator EndTry()
+        {
+            _gen.EndExceptionBlock();
+
+            return this;
+        }
+
+        public ILCodeGenerator Throw(ILExpression ex)
+        {
+            if (ex == null)
+                throw new ArgumentNullException("ex");
+
+            _gen.Emit(OpCodes.Throw);
+
+            return this;
+        }
+
+        public ILCodeGenerator Rethrow()
+        {
+            _gen.Emit(OpCodes.Rethrow);
+
+            return this;
+        }
 
         #endregion
 
         #region Misc Methods
-
-        public ILCodeGenerator MarkLabel(Label label)
-        {
-            _gen.MarkLabel(label);
-
-            return this;
-        }
 
         public ILCodeGenerator New(ConstructorInfo constructorInfo, params ILExpression[] vals)
         {
@@ -1158,7 +1225,7 @@ namespace NIntegrate.Utilities.Reflection
                 throw new ArgumentNullException("targetType");
 
             Load(sourceVal);
-            InternalConvert(sourceType, sourceType, false);
+            InternalConvert(sourceType, targetType, false);
 
             return this;
         }
@@ -1174,24 +1241,7 @@ namespace NIntegrate.Utilities.Reflection
                 throw new ArgumentNullException("targetType");
 
             Load(sourceValAddress);
-            InternalConvert(sourceType, sourceType, true);
-
-            return this;
-        }
-
-        public ILCodeGenerator Throw(ILExpression ex)
-        {
-            if (ex == null)
-                throw new ArgumentNullException("ex");
-
-            _gen.Emit(OpCodes.Throw);
-
-            return this;
-        }
-
-        public ILCodeGenerator Rethrow()
-        {
-            _gen.Emit(OpCodes.Rethrow);
+            InternalConvert(sourceType, targetType, true);
 
             return this;
         }
@@ -1489,7 +1539,7 @@ namespace NIntegrate.Utilities.Reflection
             }
         }
 
-        private void LoadLocalVariableAddress(int slot)
+        private void InternalLoadLocalVariableAddress(int slot)
         {
             if (slot <= 0xff)
                 _gen.Emit(OpCodes.Ldloca_S, slot);
@@ -1540,13 +1590,7 @@ namespace NIntegrate.Utilities.Reflection
         {
             var state = new IfState {EndIfLabel = DefineLabel(), ElseBeginLabel = DefineLabel()};
             _gen.Emit(GetBranchCode(cmp), state.ElseBeginLabel);
-            _blockStack.Push(state);
-        }
-
-        private IfState PopIfState()
-        {
-            var state = _blockStack.Pop();
-            return state as IfState;
+            _ifStateStack.Push(state);
         }
 
         #endregion
@@ -1569,23 +1613,6 @@ namespace NIntegrate.Utilities.Reflection
         {
             public Label ElseBeginLabel;
             public Label EndIfLabel;
-        }
-
-        private sealed class SwitchState
-        {
-            public bool DefaultDefined;
-            public Label DefaultLabel;
-            public Label EndOfSwitchLabel;
-        }
-
-        private sealed class ForState
-        {
-            public Label BeginLabel;
-            public object End;
-            public Label EndLabel;
-            public LocalBuilder IndexVar;
-            public bool RequiresEndLabel;
-            public Label TestLabel;
         }
 
         #endregion

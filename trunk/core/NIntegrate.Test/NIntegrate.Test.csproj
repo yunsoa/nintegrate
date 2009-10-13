@@ -106,6 +106,8 @@
     <Compile Include="TestClasses\TestServiceImpl.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utilities\ILCodeGeneratorTest.cs" />
+    <Compile Include="Utilities\TestClasses\TestClass.cs" />
     <Compile Include="WcfServiceHostFactoryTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,6 +124,10 @@
     <ProjectReference Include="..\NIntegrate.ServiceModel\NIntegrate.ServiceModel.csproj">
       <Project>{C39288B4-5C84-4FDE-953D-23CC630576F7}</Project>
       <Name>NIntegrate.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NIntegrate.Utilities\NIntegrate.Utilities.csproj">
+      <Project>{F7825B16-08AC-4351-AEC5-C6D1FB68B493}</Project>
+      <Name>NIntegrate.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
