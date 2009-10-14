@@ -17,6 +17,10 @@ namespace NIntegrate.Test.Utilities
 
         public delegate void TestFieldPropertyMethodsDelegate(TestClass obj);
 
+        public delegate string TestCallStringFormatMethodDelegate(int intVal, string strVal, TestClass test);
+
+        public delegate int TestConditionMethodsDelegate(int left1, int right1, int left2, int right2);
+
         [TestMethod]
         public void TestLoadMethods()
         {
@@ -130,6 +134,64 @@ namespace NIntegrate.Test.Utilities
             Assert.AreEqual("str", obj.StringProperty);
             Assert.AreEqual(1, TestClass.ReadonlyIntValue);
             Assert.AreEqual("1", obj.GetWriteonlyStringValue());
+        }
+
+        [TestMethod]
+        public void TestCallStringFormatMethod()
+        {
+            DynamicMethod dm;
+            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
+                "TestCallStringFormatMethod", typeof(TestCallStringFormatMethodDelegate), out dm);
+
+            gen.CallStringFormat(
+                msg => msg.Load("{0}{1}{2}"),
+                intVal => intVal.Box(typeof(int), box1 => box1.LoadArgument(0)),
+                strVal => strVal.LoadArgument(1),
+                test => test.LoadArgument(2))
+                .Ret();
+
+            var method = (TestCallStringFormatMethodDelegate)dm.CreateDelegate(typeof(TestCallStringFormatMethodDelegate));
+            var result = method(1, "2", new TestClass());
+
+            Assert.AreEqual(string.Format("{0}{1}{2}", 1, "2", new TestClass()), result);
+        }
+
+        [TestMethod]
+        public void TestConditionMethods()
+        {
+            DynamicMethod dm;
+            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
+                "TestConditionMethods", typeof(TestConditionMethodsDelegate), out dm);
+
+            gen.IfGreaterThan(
+                left1 => left1.LoadArgument(0),
+                right1 => right1.LoadArgument(1))
+                
+                .Load(1)
+
+                .Else().If(boolVal => boolVal.LessThanOrEquals(
+                    left2 => left2.LoadArgument(2),
+                    right2 => right2.LoadArgument(3)))
+
+                    .Load(2)
+
+                    .Else()
+
+                    .Load(3)
+
+                    .EndIf()
+
+                    .EndIf()
+
+                    .Ret();
+
+            var method = (TestConditionMethodsDelegate)dm.CreateDelegate(typeof(TestConditionMethodsDelegate));
+            var result = method(1, 2, 3, 4);
+            Assert.AreEqual(2, result);
+            result = method(5, 2, 3, 4);
+            Assert.AreEqual(1, result);
+            result = method(1, 2, 4, 3);
+            Assert.AreEqual(3, result);
         }
     }
 }

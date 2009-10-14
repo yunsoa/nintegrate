@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Collections.Generic;
@@ -710,7 +711,7 @@ namespace NIntegrate.Utilities.Reflection
             if (arrayElementType.IsEnum)
                 return LoadArrayElement(array, Enum.GetUnderlyingType(arrayElementType), arrayIndex);
 
-            array(this);
+            Load(array);
             Load(arrayIndex);
             if (IsStruct(arrayElementType))
             {
@@ -729,6 +730,7 @@ namespace NIntegrate.Utilities.Reflection
             if (array == null)
                 throw new ArgumentNullException("array");
 
+            Load(array);
             _gen.Emit(OpCodes.Ldlen);
             _gen.Emit(OpCodes.Conv_I4);
 
@@ -805,7 +807,6 @@ namespace NIntegrate.Utilities.Reflection
                 StoreArrayElement(gen => gen.LoadLocalVariable(stringFormatArray.LocalIndex), 
                     typeof(object), i, gen => gen.Load(val), typeof(object));
             }
-            LoadLocalVariable(stringFormatArray.LocalIndex);
             return CallStaticMethod(_stringFormatMethod, 
                 gen => gen.Load(msg),
                 gen => gen.LoadLocalVariable(stringFormatArray.LocalIndex));
@@ -1040,7 +1041,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator If(ILExpression boolVal)
         {
             Load(boolVal);
-            InternalIf(Cmp.True);
+            InternalIf(Cmp.False);
 
             return this;
         }
@@ -1048,7 +1049,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfNot(ILExpression boolVal)
         {
             Load(boolVal);
-            InternalIf(Cmp.False);
+            InternalIf(Cmp.True);
 
             return this;
         }
@@ -1056,7 +1057,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfLessThan(ILExpression left, ILExpression right)
         {
             LoadExpressions(left, right);
-            InternalIf(Cmp.GreaterThan);
+            InternalIf(Cmp.LessThan);
 
             return this;
         }
@@ -1064,7 +1065,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfGreaterThan(ILExpression left, ILExpression right)
         {
             LoadExpressions(left, right);
-            InternalIf(Cmp.LessThan);
+            InternalIf(Cmp.GreaterThan);
 
             return this;
         }
@@ -1072,7 +1073,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfLessThanOrEquals(ILExpression left, ILExpression right)
         {
             LoadExpressions(left, right);
-            InternalIf(Cmp.GreaterThanOrEquals);
+            InternalIf(Cmp.LessThanOrEquals);
 
             return this;
         }
@@ -1080,7 +1081,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfGreaterThanOrEquals(ILExpression left, ILExpression right)
         {
             LoadExpressions(left, right);
-            InternalIf(Cmp.LessThanOrEquals);
+            InternalIf(Cmp.GreaterThanOrEquals);
 
             return this;
         }
@@ -1119,7 +1120,7 @@ namespace NIntegrate.Utilities.Reflection
             MarkLabel(state.ElseBeginLabel);
             Load(boolVal);
             state.ElseBeginLabel = DefineLabel();
-            _gen.Emit(GetBranchCode(Cmp.True), state.ElseBeginLabel);
+            _gen.Emit(GetBranchCode(Cmp.False), state.ElseBeginLabel);
             _ifStateStack.Push(state);
 
             return this;
@@ -1562,7 +1563,7 @@ namespace NIntegrate.Utilities.Reflection
                     {
                         if (!sourceType.IsAssignableFrom(targetType))
                             throw new InvalidOperationException(
-                                string.Format("{0} is not assignable from {1}",
+                                string.Format(CultureInfo.InvariantCulture, "{0} is not assignable from {1}",
                                     sourceType.FullName, targetType.FullName));
 
                         _gen.Emit(OpCodes.Unbox, targetType);
