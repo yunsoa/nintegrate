@@ -1089,7 +1089,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfEquals(ILExpression left, ILExpression right)
         {
             LoadExpressions(left, right);
-            InternalIf(Cmp.NotEquals);
+            InternalIf(Cmp.Equals);
 
             return this;
         }
@@ -1097,7 +1097,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfNotEquals(ILExpression left, ILExpression right)
         {
             LoadExpressions(left, right);
-            InternalIf(Cmp.Equals);
+            InternalIf(Cmp.NotEquals);
 
             return this;
         }
