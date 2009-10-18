@@ -21,6 +21,8 @@ namespace NIntegrate.Test.Utilities
 
         public delegate int TestConditionMethodsDelegate(int left1, int right1, int left2, int right2);
 
+        public delegate void TestTryCatchMethodsDelegate(int intVal);
+
         [TestMethod]
         public void TestLoadMethods()
         {
@@ -169,7 +171,7 @@ namespace NIntegrate.Test.Utilities
                 
                 .Load(1)
 
-                .Else().If(boolVal => boolVal.LessThanOrEquals(
+                .ElseIf(boolVal => boolVal.Equals(
                     left2 => left2.LoadArgument(2),
                     right2 => right2.LoadArgument(3)))
 
@@ -181,17 +183,61 @@ namespace NIntegrate.Test.Utilities
 
                     .EndIf()
 
-                    .EndIf()
-
                     .Ret();
 
             var method = (TestConditionMethodsDelegate)dm.CreateDelegate(typeof(TestConditionMethodsDelegate));
             var result = method(1, 2, 3, 4);
-            Assert.AreEqual(2, result);
+            Assert.AreEqual(3, result);
             result = method(5, 2, 3, 4);
             Assert.AreEqual(1, result);
-            result = method(1, 2, 4, 3);
-            Assert.AreEqual(3, result);
+            result = method(1, 2, 3, 3);
+            Assert.AreEqual(2, result);
+        }
+
+        [TestMethod]
+        public void TestTryCatchMethods()
+        {
+            DynamicMethod dm;
+            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
+                "TestTryCatchMethods", typeof(TestTryCatchMethodsDelegate), out dm);
+
+            gen.Try()
+                .IfEquals(left => left.LoadArgument(0), right => right.Load(1))
+                .Throw(typeof(ArgumentNullException), ex => ex.New(typeof(ArgumentNullException).GetConstructor(new[] { typeof(string) }), p1 => p1.Load("test")))
+                .Else()
+                .Throw(typeof(ArgumentException), ex => ex.New(typeof(ArgumentException).GetConstructor(Type.EmptyTypes)))
+                .EndIf()
+                .Catch(typeof(ArgumentException))
+                .Rethrow()
+                .Finally()
+                .EndTry()
+                .Ret();
+
+            var method = (TestTryCatchMethodsDelegate)dm.CreateDelegate(typeof(TestTryCatchMethodsDelegate));
+
+            Exception expected = null;
+            try
+            {
+                method(1);
+            }
+            catch (ArgumentNullException ex)
+            {
+                expected = ex;
+            }
+
+            Assert.IsNotNull(expected);
+            expected = null;
+
+            try
+            {
+                method(2);
+            }
+            catch (ArgumentException ex)
+            {
+                expected = ex;
+            }
+
+            Assert.IsNotNull(expected);
         }
     }
 }

@@ -1120,7 +1120,7 @@ namespace NIntegrate.Utilities.Reflection
             MarkLabel(state.ElseBeginLabel);
             Load(boolVal);
             state.ElseBeginLabel = DefineLabel();
-            _gen.Emit(GetBranchCode(Cmp.False), state.ElseBeginLabel);
+            _gen.Emit(GetBranchCode(Cmp.True), state.ElseBeginLabel);
             _ifStateStack.Push(state);
 
             return this;
@@ -1178,12 +1178,14 @@ namespace NIntegrate.Utilities.Reflection
             return this;
         }
 
-        public ILCodeGenerator Throw(ILExpression ex)
+        public ILCodeGenerator Throw(Type exType, ILExpression ex)
         {
+            if (exType == null)
+                throw new ArgumentNullException("exType");
             if (ex == null)
                 throw new ArgumentNullException("ex");
 
-            _gen.Emit(OpCodes.Throw);
+            _gen.ThrowException(exType);
 
             return this;
         }

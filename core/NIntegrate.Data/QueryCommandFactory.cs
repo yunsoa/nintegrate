@@ -28,6 +28,8 @@ namespace NIntegrate.Data
                 throw new ArgumentNullException("criteria");
 
             var connStr = GetConnectionString(criteria.ConnectionStringName);
+            if (connStr == null)
+                throw new ConfigurationErrorsException(string.Format("Could not find speficied connectionstring key from configuration store: {0}.", criteria.ConnectionStringName));
             var cmdBuilder = GetQueryCommandBuilder(connStr.ProviderName);
             DbCommand cmd;
             if (criteria.QueryType == QueryType.Sproc)
