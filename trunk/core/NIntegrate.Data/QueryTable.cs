@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
@@ -10,12 +12,27 @@ namespace NIntegrate.Data
     /// for easily query database with the dynamic query language provided 
     /// by NIntegrate.
     /// </summary>
+    [DataContract]
+    [KnownType("KnownTypes")]
     public abstract class QueryTable
     {
+        [DataMember]
         private readonly string _tableName;
+        [DataMember]
         private readonly string _connectionStringName;
+        [DataMember]
         private readonly bool _readOnly;
+        [DataMember]
         private readonly List<IColumn> _predefinedColumns;
+
+        #region KnownTypes
+
+        static Type[] KnownTypes()
+        {
+            return KnownTypeRegistry.Instance.KnownTypes;
+        }
+
+        #endregion
 
         #region Constructors
 
