@@ -141,7 +141,10 @@ namespace NIntegrate.Data.Configuration
                            typeof(StringColumn),
                            typeof(GuidColumn),
                            typeof(DoubleColumn),
-                           typeof(DecimalColumn)
+                           typeof(DecimalColumn),
+                           typeof(QueryTable),
+                           typeof(QuerySproc),
+                           typeof(QueryCriteria)
                        };
 
             foreach (var type in knownTypes)
