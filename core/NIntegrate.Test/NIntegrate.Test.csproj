@@ -93,6 +93,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Query\TestClasses\TestSproc.cs" />
+    <Compile Include="Sandbox\Class1.cs" />
     <Compile Include="TestClasses\ITestService.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +108,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities\ILCodeGeneratorTest.cs" />
+    <Compile Include="Utilities\MapperFactoryTest.cs" />
     <Compile Include="Utilities\TestClasses\TestClass.cs" />
     <Compile Include="WcfServiceHostFactoryTest.cs">
       <SubType>Code</SubType>
