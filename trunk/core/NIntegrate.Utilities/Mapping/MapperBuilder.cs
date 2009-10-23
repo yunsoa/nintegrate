@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
+using System.Data;
 
 namespace NIntegrate.Utilities.Mapping
 {
@@ -19,11 +21,23 @@ namespace NIntegrate.Utilities.Mapping
 
     public class MapperBuilder<TFrom, TTo> : MapperBuilder
     {
+        private readonly MapperFactory _fac;
+        private readonly bool _isToArray;
+
         #region Constructors
 
-        internal MapperBuilder(bool autoMap, bool ignoreCase, bool ignoreUnderscore)
+        internal MapperBuilder(MapperFactory fac, bool autoMap, bool ignoreCase, bool ignoreUnderscore)
         {
-            
+            if (fac == null)
+                throw new ArgumentNullException("fac");
+
+            _fac = fac;
+
+            if ((typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)) || typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
+                && typeof(TTo).IsArray)
+            {
+                _isToArray = true;
+            }
         }
 
         #endregion
@@ -61,7 +75,22 @@ namespace NIntegrate.Utilities.Mapping
 
         internal sealed override Delegate BuildMapper()
         {
-            throw new NotImplementedException();
+            Delegate result = null;
+
+            if (_isToArray)
+            {
+                //Array.CreateInstance(typeof(TTo).GetElementType(), length);
+                //...
+            }
+            else
+            {
+                //collection
+                //...
+                //non-collection
+                //...
+            }
+
+            return result;
         }
 
         #endregion
