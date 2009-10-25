@@ -324,6 +324,14 @@ namespace NIntegrate.Utilities.Reflection
             return this;
         }
 
+        public ILCodeGenerator LoadLocalVariable(LocalBuilder local)
+        {
+            if (local == null)
+                throw new ArgumentNullException("local");
+
+            return LoadLocalVariable(local.LocalIndex);
+        }
+
         public ILCodeGenerator LoadLocalVariableAddress(Type localType, int slot)
         {
             if (localType == null)
@@ -336,6 +344,14 @@ namespace NIntegrate.Utilities.Reflection
             }
 
             return LoadLocalVariable(slot);
+        }
+
+        public ILCodeGenerator LoadLocalVariableAddress(LocalBuilder local)
+        {
+            if (local == null)
+                throw new ArgumentNullException("local");
+
+            return LoadLocalVariableAddress(local.LocalType, local.LocalIndex);
         }
 
         public ILCodeGenerator StoreLocalVariable(int slot, ILExpression val)
@@ -366,6 +382,15 @@ namespace NIntegrate.Utilities.Reflection
 
             return this;
         }
+
+        public ILCodeGenerator StoreLocalVariable(LocalBuilder local, ILExpression val)
+        {
+            if (local == null)
+                throw new ArgumentNullException("local");
+
+            return StoreLocalVariable(local.LocalIndex, val);
+        }
+
 
         #endregion
 
@@ -416,6 +441,57 @@ namespace NIntegrate.Utilities.Reflection
                 _gen.Emit(OpCodes.Starg_S, slot);
             else
                 _gen.Emit(OpCodes.Starg, slot);
+
+            return this;
+        }
+
+        public ILCodeGenerator LoadArgumentIndirectly(int slot, Type type)
+        {
+            LoadArgument(slot);
+
+            if (type == typeof(sbyte))
+                _gen.Emit(OpCodes.Ldind_I1);
+            else if (type == typeof(short))
+                _gen.Emit(OpCodes.Ldind_I2);
+            else if (type == typeof(int))
+                _gen.Emit(OpCodes.Ldind_I4);
+            else if (type == typeof(byte))
+                _gen.Emit(OpCodes.Ldind_U1);
+            else if (type == typeof(ushort))
+                _gen.Emit(OpCodes.Ldind_U2);
+            else if (type == typeof(uint))
+                _gen.Emit(OpCodes.Ldind_U4);
+            else if (type == typeof(long) || type == typeof(ulong))
+                _gen.Emit(OpCodes.Ldind_I8);
+            else if (type == typeof(float))
+                _gen.Emit(OpCodes.Ldind_R4);
+            else if (type == typeof(double))
+                _gen.Emit(OpCodes.Ldind_R8);
+            else
+                _gen.Emit(OpCodes.Ldind_Ref);
+
+            return this;
+        }
+
+        public ILCodeGenerator StoreArgumentIndirectly(int slot, Type type, ILExpression val)
+        {
+            LoadArgument(slot);
+            Load(val);
+
+            if (type == typeof(sbyte) || type == typeof(byte))
+                _gen.Emit(OpCodes.Stind_I1);
+            else if (type == typeof(short) || type == typeof(ushort))
+                _gen.Emit(OpCodes.Stind_I2);
+            else if (type == typeof(int) || type == typeof(uint))
+                _gen.Emit(OpCodes.Stind_I4);
+            else if (type == typeof(long) || type == typeof(ulong))
+                _gen.Emit(OpCodes.Stind_I8);
+            else if (type == typeof(float))
+                _gen.Emit(OpCodes.Stind_R4);
+            else if (type == typeof(double))
+                _gen.Emit(OpCodes.Stind_R8);
+            else
+                _gen.Emit(OpCodes.Stind_Ref);
 
             return this;
         }
@@ -1041,7 +1117,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator If(ILExpression boolVal)
         {
             Load(boolVal);
-            InternalIf(Cmp.False);
+            InternalIf(Cmp.True);
 
             return this;
         }
@@ -1049,7 +1125,7 @@ namespace NIntegrate.Utilities.Reflection
         public ILCodeGenerator IfNot(ILExpression boolVal)
         {
             Load(boolVal);
-            InternalIf(Cmp.True);
+            InternalIf(Cmp.False);
 
             return this;
         }

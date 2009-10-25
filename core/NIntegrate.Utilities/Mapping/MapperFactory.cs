@@ -5,7 +5,7 @@ namespace NIntegrate.Utilities.Mapping
 {
     public delegate TTo Mapper<TFrom, TTo>(TFrom from);
 
-    internal delegate void InternalMapper<TFrom, TTo>(TFrom from, ref TTo to);
+    internal delegate void InternalMapper<TFrom, TTo>(MapperFactory fac, TFrom from, ref TTo to);
 
     public class MapperFactory
     {
@@ -44,9 +44,13 @@ namespace NIntegrate.Utilities.Mapping
             }
 
             var internalMapper = (InternalMapper<TFrom, TTo>)builder.BuildMapper();
+
+            if (internalMapper == null)
+                return null;
+
             return from =>
                        {
-                           TTo to = default(TTo);
+                           var to = default(TTo);
                            var type = typeof(TTo);
                            if (!PrimitiveTypeMapperBuilder.IsNullableType(type)
                                && !type.IsArray
@@ -54,7 +58,7 @@ namespace NIntegrate.Utilities.Mapping
                            {
                                to = Create<TTo>();
                            }
-                           internalMapper(from, ref to);
+                           internalMapper(this, from, ref to);
                            return to;
                        };
         }
@@ -67,7 +71,7 @@ namespace NIntegrate.Utilities.Mapping
         public MapperBuilder<TFrom, TTo> ConfigureMapper<TFrom, TTo>(
             bool autoMap, bool ignoreCase, bool IgnoreUnderscore)
         {
-            var builder = new MapperBuilder<TFrom, TTo>(this, autoMap, ignoreCase, IgnoreUnderscore);
+            var builder = new MapperBuilder<TFrom, TTo>(autoMap, ignoreCase, IgnoreUnderscore);
             lock (_mapperCacheLock)
             {
                 _mapperCache[builder.GetCacheKey()] = builder;
