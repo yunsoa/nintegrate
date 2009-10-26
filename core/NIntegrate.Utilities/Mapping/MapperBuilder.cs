@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Collections;
 using System.Data;
+using System.Reflection;
 using NIntegrate.Utilities.Reflection;
 using System.Reflection.Emit;
 
@@ -12,8 +11,6 @@ namespace NIntegrate.Utilities.Mapping
 {
     public delegate TValue MappingFrom<TFrom, TValue>(TFrom from);
     public delegate TTo MappingTo<TTo, TValue>(TTo to, TValue value);
-    public delegate TTo MappingTo2<TTo, TValue1, TValue2>(TTo to, TValue1 value1, TValue2 value2);
-    public delegate TTo MappingTo3<TTo, TValue1, TValue2, TValue3>(TTo to, TValue1 value1, TValue2 value2, TValue3 value3);
 
     public abstract class MapperBuilder
     {
@@ -27,6 +24,7 @@ namespace NIntegrate.Utilities.Mapping
         private readonly bool _isToArray;
         private readonly bool _isToCollection;
         private readonly List<Delegate> _mappingChain = new List<Delegate>();
+        private bool _expectsTo;
 
         #region Constructors
 
@@ -36,7 +34,7 @@ namespace NIntegrate.Utilities.Mapping
             {
                 if (typeof(TTo).IsArray)
                     _isToArray = true;
-                else if (typeof(Collection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
                     _isToCollection = true;
             }
         }
@@ -49,8 +47,12 @@ namespace NIntegrate.Utilities.Mapping
         {
             if (from == null)
                 throw new ArgumentNullException("from");
+            if (_expectsTo)
+                throw new InvalidOperationException("Expects To() but called From().");
 
             _mappingChain.Add(from);
+
+            _expectsTo = true;
 
             return this;
         }
@@ -59,35 +61,22 @@ namespace NIntegrate.Utilities.Mapping
         {
             if (to == null)
                 throw new ArgumentNullException("to");
+            if (!_expectsTo)
+                throw new InvalidOperationException("Expects From() but called To().");
 
             _mappingChain.Add(to);
+
+            _expectsTo = false;
 
             return this;
         }
 
-        public MapperBuilder<TFrom, TTo> To<TValue1, TValue2>(MappingTo2<TTo, TValue1, TValue2> to)
-        {
-            if (to == null)
-                throw new ArgumentNullException("to");
+        #endregion
 
-            _mappingChain.Add(to);
+        #region Non-Public Methods
 
-            return this;
-        }
-
-        public MapperBuilder<TFrom, TTo> To<TValue1, TValue2, TValue3>(MappingTo3<TTo, TValue1, TValue2, TValue3> to)
-        {
-            if (to == null)
-                throw new ArgumentNullException("to");
-
-            _mappingChain.Add(to);
-
-            return this;
-        }
-
-        public static void ExecuteFromTo<TFromValue, TToValue>(
-            MapperFactory fac, TFrom fromObj, ref TTo toObj, 
-            MappingFrom<TFrom, TFromValue> from, MappingTo<TTo, TToValue> to)
+        internal static void ExecuteFromTo<TFromValue, TToValue>(
+            MapperFactory fac, TFrom fromObj, ref TTo toObj, int fromToIndex)
         {
             if (fac == null)
                 throw new ArgumentNullException("fac");
@@ -95,29 +84,26 @@ namespace NIntegrate.Utilities.Mapping
                 throw new ArgumentNullException("fromObj");
             if (Equals(toObj, default(TTo)))
                 throw new ArgumentNullException("toObj");
-            if (from == null)
-                throw new ArgumentNullException("from");
-            if (to == null)
-                throw new ArgumentNullException("to");
 
-            var fromValue = from(fromObj);
-            if (typeof(TFromValue) != typeof(TToValue))
+            MapperBuilder builder;
+            fac.MapperCache.TryGetValue(new MapperCacheKey(typeof(TFrom), typeof(TTo)), out builder);
+            var genericBuilder = builder as MapperBuilder<TFrom, TTo>;
+            if (genericBuilder != null && fromToIndex < genericBuilder._mappingChain.Count / 2)
             {
-                var valueMapper = fac.GetMapper<TFromValue, TToValue>();
-                toObj = to(toObj, valueMapper(fromValue));
-            }
-            else
-            {
-                toObj = to(toObj, (TToValue) (object) fromValue);
+                var from = (MappingFrom<TFrom, TFromValue>)genericBuilder._mappingChain[fromToIndex * 2];
+                var to = (MappingTo<TTo, TToValue>)genericBuilder._mappingChain[fromToIndex * 2 + 1];
+                var fromValue = from(fromObj);
+                if (typeof (TFromValue) != typeof (TToValue))
+                {
+                    var valueMapper = fac.GetMapper<TFromValue, TToValue>();
+                    toObj = to(toObj, valueMapper(fromValue));
+                }
+                else
+                {
+                    toObj = to(toObj, (TToValue) (object) fromValue);
+                }
             }
         }
-
-        //deal with MappingTo2 & MappingTo3
-        //...
-
-        #endregion
-
-        #region Non-Public Methods
 
         internal sealed override MapperCacheKey GetCacheKey()
         {
@@ -126,7 +112,7 @@ namespace NIntegrate.Utilities.Mapping
 
         internal sealed override Delegate BuildMapper()
         {
-            Delegate result = null;
+            Delegate result;
 
             if (_isToArray)
                 result = MapToArray();
@@ -234,14 +220,14 @@ namespace NIntegrate.Utilities.Mapping
 
             var fromElementType = GetElementType(typeof(TFrom));
             var toElementType = GetElementType(typeof(TTo));
-            var collectionType = typeof(Collection<>).MakeGenericType(toElementType);
+            var collectionType = typeof(ICollection<>).MakeGenericType(toElementType);
             var collection = gen.DeclareLocalVariable(typeof(TTo));
             var en = gen.DeclareLocalVariable(typeof(IEnumerator));
             var foreachBegin = gen.DefineLabel();
             var foreachEnd = gen.DefineLabel();
             gen.StoreLocalVariable(
                 collection,
-                val => val.LoadArgument(2));
+                val => val.LoadArgumentIndirectly(2, typeof(TTo)));
             gen.StoreLocalVariable(
                 en,
                 val => val.CallMethod(
@@ -296,7 +282,7 @@ namespace NIntegrate.Utilities.Mapping
             gen.GoTo(foreachEnd);
             gen.EndIf();
             gen.MarkLabel(foreachEnd);
-            ExecuteMappingChain(gen);
+            ExecuteMappingChain(gen, collection);
             gen.StoreArgumentIndirectly(
                 2,
                 typeof(TTo),
@@ -319,8 +305,8 @@ namespace NIntegrate.Utilities.Mapping
             var obj = gen.DeclareLocalVariable(typeof(TTo));
             gen.StoreLocalVariable(
                 obj,
-                val => val.LoadArgument(2));
-            ExecuteMappingChain(gen);
+                val => val.LoadArgumentIndirectly(2, typeof(TTo)));
+            ExecuteMappingChain(gen, obj);
             gen.StoreArgumentIndirectly(
                 2,
                 typeof(TTo),
@@ -331,17 +317,27 @@ namespace NIntegrate.Utilities.Mapping
             return result;
         }
 
-        private void ExecuteMappingChain(ILCodeGenerator gen)
+        private void ExecuteMappingChain(ILCodeGenerator gen, LocalBuilder local)
         {
             if (_mappingChain.Count == 0)
                 return;
 
-            //call ExecuteFromTos
-            //...
-            //foreach (var item in _mappingChain)
-            //{
-            //    throw new NotImplementedException();
-            //}
+            for (var i = 0; i < _mappingChain.Count / 2; i += 2)
+            {
+                var fromToIndex = i;
+                var fromDelegate = _mappingChain[i];
+                var fromValueType = fromDelegate.GetType().GetGenericArguments()[1];
+                var toDelegate = _mappingChain[i + 1];
+                var toValueType = toDelegate.GetType().ReflectedType;
+
+                gen.CallMethod(
+                    thisObj => thisObj.LoadNull(),
+                    typeof (MapperBuilder<TFrom, TTo>).GetMethod("ExecuteFromTo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(fromValueType, toValueType),
+                    val1 => val1.LoadArgument(0),
+                    val2 => val2.LoadArgument(1),
+                    val3 => val3.LoadLocalVariableAddress(local),
+                    val4 => val4.Load(fromToIndex));
+            }
         }
 
         private static Type GetElementType(Type type)
