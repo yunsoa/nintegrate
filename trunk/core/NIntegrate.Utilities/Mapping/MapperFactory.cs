@@ -14,6 +14,15 @@ namespace NIntegrate.Utilities.Mapping
         private readonly object _mapperCacheLock = new object();
         private bool _initialized;
 
+        #region Non-Public Properties
+
+        internal IDictionary<MapperCacheKey, MapperBuilder> MapperCache
+        {
+            get { return _mapperCache; }
+        }
+
+        #endregion
+
         #region Public Methods
 
         public Mapper<TFrom, TTo> GetMapper<TFrom, TTo>()
