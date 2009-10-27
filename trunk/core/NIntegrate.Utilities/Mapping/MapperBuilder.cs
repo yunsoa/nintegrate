@@ -193,7 +193,8 @@ namespace NIntegrate.Utilities.Mapping
                     val1 => val1.CallMethod(
                         thisObj2 => thisObj2.CallMethod(
                             thisObj3 => thisObj3.LoadArgument(0),
-                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(fromElementType, toElementType)),
+                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(fromElementType, toElementType)
+                        ),
                         typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
                         valFrom => valFrom.ConvertValue(
                             sourceVal => sourceVal.LoadProperty(
