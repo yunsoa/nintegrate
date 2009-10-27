@@ -109,6 +109,8 @@
     </Compile>
     <Compile Include="Utilities\ILCodeGeneratorTest.cs" />
     <Compile Include="Utilities\MapperFactoryTest.cs" />
+    <Compile Include="Utilities\TestClasses\MappingFrom.cs" />
+    <Compile Include="Utilities\TestClasses\MappingTo.cs" />
     <Compile Include="Utilities\TestClasses\TestClass.cs" />
     <Compile Include="WcfServiceHostFactoryTest.cs">
       <SubType>Code</SubType>

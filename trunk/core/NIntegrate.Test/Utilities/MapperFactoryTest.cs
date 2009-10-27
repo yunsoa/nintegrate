@@ -31,6 +31,21 @@ namespace NIntegrate.Test.Utilities
             var stringListToDoubleArrayMapper = fac.GetMapper<List<string>, double[]>();
             var doubleArray = stringListToDoubleArrayMapper(new List<string> { "1.1", "2.2", "3.3" });
             Assert.AreEqual(2.2, doubleArray[1]);
+
+            fac.ConfigureMapper<MappingFrom, MappingTo>(false, true, true)
+                .From(from => from.Other)
+                .To<double>(
+                (to, val) =>
+                    {
+                        to.Other2 = val.ToString();
+                        return to;
+                    });
+            var customMapper = fac.GetMapper<MappingFrom, MappingTo>();
+            var customFrom = new MappingFrom { FromID = 1, Name = "name" };
+            var customTo = customMapper(customFrom);
+            //Assert.AreEqual(1, customTo.From_id);
+            //Assert.AreEqual("name", customTo.Name);
+            Assert.AreEqual("0.0", customTo.Other2);
         }
 
         private void temp(ref uint a, ref ulong b)
