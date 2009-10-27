@@ -21,6 +21,9 @@ namespace NIntegrate.Utilities.Mapping
 
     public class MapperBuilder<TFrom, TTo> : MapperBuilder
     {
+        private readonly bool _autoMap;
+        private readonly bool _ignoreCase;
+        private readonly bool _ignoreUnderscore;
         private readonly bool _isToArray;
         private readonly bool _isToCollection;
         private readonly List<Delegate> _mappingChain = new List<Delegate>();
@@ -30,6 +33,10 @@ namespace NIntegrate.Utilities.Mapping
 
         internal MapperBuilder(bool autoMap, bool ignoreCase, bool ignoreUnderscore)
         {
+            _autoMap = autoMap;
+            _ignoreCase = ignoreCase;
+            _ignoreUnderscore = ignoreUnderscore;
+
             if (typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)) || typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
             {
                 if (typeof(TTo).IsArray)
@@ -328,6 +335,8 @@ namespace NIntegrate.Utilities.Mapping
             gen.EndIf();
             gen.MarkLabel(foreachEnd);
             ExecuteMappingChain(gen, collection);
+            if (_autoMap)
+                ExecuteAutoMap(gen, collection);
             gen.StoreArgumentIndirectly(
                 2,
                 typeof(TTo),
@@ -354,6 +363,8 @@ namespace NIntegrate.Utilities.Mapping
                 val => val.LoadArgumentIndirectly(2, typeof(TTo))
             );
             ExecuteMappingChain(gen, obj);
+            if (_autoMap)
+                ExecuteAutoMap(gen, obj);
             gen.StoreArgumentIndirectly(
                 2,
                 typeof(TTo),
@@ -363,6 +374,200 @@ namespace NIntegrate.Utilities.Mapping
 
             var result = toObjectMethod.CreateDelegate(resultDelegate);
             return result;
+        }
+
+        private void ExecuteAutoMap(ILCodeGenerator gen, LocalBuilder local)
+        {
+            //map from object properties/fields to to object properties/fields
+            var baseType = typeof(TFrom);
+            while (baseType != typeof(object) && baseType != typeof(ValueType))
+            {
+                foreach (var property in baseType.GetProperties())
+                {
+                    if (!property.CanRead)
+                        continue;
+
+                    var targetProperty = GetPropertyInfo(typeof (TTo), property.Name, _ignoreCase, _ignoreUnderscore);
+                    if (targetProperty != null && targetProperty.CanWrite)
+                    {
+                        var sourceProperty = property;
+                        gen.StoreProperty(
+                            thisObj => thisObj.LoadLocalVariable(local),
+                            targetProperty,
+                            val => val.CallMethod(
+                                thisObj2 => thisObj2.CallMethod(
+                                    thisObj3 => thisObj3.LoadArgument(0),
+                                    typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
+                                        sourceProperty.PropertyType, targetProperty.PropertyType)
+                                ),
+                                typeof(Mapper<,>).MakeGenericType(
+                                    sourceProperty.PropertyType,
+                                    targetProperty.PropertyType).GetMethod("Invoke"),
+                                valFrom => valFrom.LoadProperty(
+                                    thisObj2 => thisObj2.LoadArgument(1),
+                                    sourceProperty
+                                )
+                            )
+                        );
+                    }
+                    else
+                    {
+                        var targetField = GetFieldInfo(typeof (TTo), property.Name, _ignoreCase, _ignoreUnderscore);
+                        if (targetField != null)
+                        {
+                            var sourceProperty = property;
+                            gen.StoreField(
+                                thisObj => thisObj.LoadLocalVariable(local),
+                                targetField,
+                                val => val.CallMethod(
+                                    thisObj2 => thisObj2.CallMethod(
+                                        thisObj3 => thisObj3.LoadArgument(0),
+                                        typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
+                                            sourceProperty.PropertyType, targetField.FieldType)
+                                    ),
+                                    typeof(Mapper<,>).MakeGenericType(
+                                        sourceProperty.PropertyType,
+                                        targetField.FieldType).GetMethod("Invoke"),
+                                    valFrom => valFrom.LoadProperty(
+                                        thisObj2 => thisObj2.LoadArgument(1),
+                                        sourceProperty
+                                    )
+                                )
+                            );
+                        }
+                    }
+                }
+                foreach (var field in baseType.GetFields())
+                {
+                    var targetProperty = GetPropertyInfo(typeof(TTo), field.Name, _ignoreCase, _ignoreUnderscore);
+                    if (targetProperty != null && targetProperty.CanWrite)
+                    {
+                        var sourceField = field;
+                        gen.StoreProperty(
+                            thisObj => thisObj.LoadLocalVariable(local),
+                            targetProperty,
+                            val => val.CallMethod(
+                                thisObj2 => thisObj2.CallMethod(
+                                    thisObj3 => thisObj3.LoadArgument(0),
+                                    typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
+                                        sourceField.FieldType, targetProperty.PropertyType)
+                                ),
+                                typeof(Mapper<,>).MakeGenericType(
+                                    sourceField.FieldType,
+                                    targetProperty.PropertyType).GetMethod("Invoke"),
+                                valFrom => valFrom.LoadField(
+                                    thisObj2 => thisObj2.LoadArgument(1),
+                                    sourceField
+                                )
+                            )
+                        );
+                    }
+                    else
+                    {
+                        var targetField = GetFieldInfo(typeof(TTo), field.Name, _ignoreCase, _ignoreUnderscore);
+                        if (targetField != null)
+                        {
+                            var sourceField = field;
+                            gen.StoreField(
+                                thisObj => thisObj.LoadLocalVariable(local),
+                                targetField,
+                                val => val.CallMethod(
+                                    thisObj2 => thisObj2.CallMethod(
+                                        thisObj3 => thisObj3.LoadArgument(0),
+                                        typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
+                                            sourceField.FieldType, targetField.FieldType)
+                                    ),
+                                    typeof(Mapper<,>).MakeGenericType(
+                                        sourceField.FieldType,
+                                        targetField.FieldType).GetMethod("Invoke"),
+                                    valFrom => valFrom.LoadField(
+                                        thisObj2 => thisObj2.LoadArgument(1),
+                                        sourceField
+                                    )
+                                )
+                            );
+                        }
+                    }
+                }
+
+                baseType = baseType.BaseType;
+            }
+        }
+
+        private static PropertyInfo GetPropertyInfo(Type type, string propertyName, bool ignoreCase, bool ignoreUnderscore)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            var baseType = type;
+            while (baseType != typeof(object) && baseType != typeof(ValueType))
+            {
+                foreach (var property in baseType.GetProperties())
+                {
+                    if (ignoreCase && ignoreUnderscore)
+                    {
+                        if (string.Compare(
+                            propertyName.Replace("_", string.Empty),
+                            property.Name.Replace("_", string.Empty),
+                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                        {
+                            return property;
+                        }
+                    }
+                    else
+                    {
+                        if (string.Compare(
+                            propertyName,
+                            property.Name,
+                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                        {
+                            return property;
+                        }
+                    }
+                }
+
+                baseType = baseType.BaseType;
+            }
+
+            return null;
+        }
+
+        private static FieldInfo GetFieldInfo(Type type, string fieldName, bool ignoreCase, bool ignoreUnderscore)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            var baseType = type;
+            while (baseType != typeof(object) && baseType != typeof(ValueType))
+            {
+                foreach (var field in baseType.GetFields())
+                {
+                    if (ignoreCase && ignoreUnderscore)
+                    {
+                        if (string.Compare(
+                            fieldName.Replace("_", string.Empty),
+                            field.Name.Replace("_", string.Empty),
+                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                        {
+                            return field;
+                        }
+                    }
+                    else
+                    {
+                        if (string.Compare(
+                            fieldName,
+                            field.Name,
+                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                        {
+                            return field;
+                        }
+                    }
+                }
+
+                baseType = baseType.BaseType;
+            }
+
+            return null;
         }
 
         private void ExecuteMappingChain(ILCodeGenerator gen, LocalBuilder local)
