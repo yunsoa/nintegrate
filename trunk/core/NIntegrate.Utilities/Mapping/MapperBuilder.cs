@@ -359,7 +359,10 @@ namespace NIntegrate.Utilities.Mapping
                 out toObjectMethod);
 
             ExecuteMappingChain(gen);
-
+            if (typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
+            {
+                throw new NotImplementedException();
+            }
             var obj = gen.DeclareLocalVariable(typeof(TTo));
             gen.StoreLocalVariable(
                 obj,
