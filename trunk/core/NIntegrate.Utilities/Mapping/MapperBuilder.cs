@@ -243,6 +243,8 @@ namespace NIntegrate.Utilities.Mapping
                 out toCollectionMethod
             );
 
+            ExecuteMappingChain(gen);
+
             var fromElementType = GetElementType(typeof(TFrom));
             var toElementType = GetElementType(typeof(TTo));
             var collectionType = typeof(ICollection<>).MakeGenericType(toElementType);
@@ -334,7 +336,6 @@ namespace NIntegrate.Utilities.Mapping
             gen.GoTo(foreachEnd);
             gen.EndIf();
             gen.MarkLabel(foreachEnd);
-            ExecuteMappingChain(gen, collection);
             if (_autoMap)
                 ExecuteAutoMap(gen, collection);
             gen.StoreArgumentIndirectly(
@@ -357,12 +358,13 @@ namespace NIntegrate.Utilities.Mapping
                 resultDelegate,
                 out toObjectMethod);
 
+            ExecuteMappingChain(gen);
+
             var obj = gen.DeclareLocalVariable(typeof(TTo));
             gen.StoreLocalVariable(
                 obj,
                 val => val.LoadArgumentIndirectly(2, typeof(TTo))
             );
-            ExecuteMappingChain(gen, obj);
             if (_autoMap)
                 ExecuteAutoMap(gen, obj);
             gen.StoreArgumentIndirectly(
@@ -392,7 +394,10 @@ namespace NIntegrate.Utilities.Mapping
                     {
                         var sourceProperty = property;
                         gen.StoreProperty(
-                            thisObj => thisObj.LoadLocalVariable(local),
+                            typeof(TTo).IsValueType ?
+                            new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local)) 
+                            :
+                            new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                             targetProperty,
                             val => val.CallMethod(
                                 thisObj2 => thisObj2.CallMethod(
@@ -403,10 +408,16 @@ namespace NIntegrate.Utilities.Mapping
                                 typeof(Mapper<,>).MakeGenericType(
                                     sourceProperty.PropertyType,
                                     targetProperty.PropertyType).GetMethod("Invoke"),
-                                valFrom => valFrom.LoadProperty(
+                                typeof(TFrom).IsValueType ?
+                                new ILExpression(valFrom => valFrom.LoadProperty(
+                                    thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                    sourceProperty
+                                ))
+                                :
+                                new ILExpression(valFrom => valFrom.LoadProperty(
                                     thisObj2 => thisObj2.LoadArgument(1),
                                     sourceProperty
-                                )
+                                ))
                             )
                         );
                     }
@@ -417,7 +428,10 @@ namespace NIntegrate.Utilities.Mapping
                         {
                             var sourceProperty = property;
                             gen.StoreField(
-                                thisObj => thisObj.LoadLocalVariable(local),
+                                typeof(TTo).IsValueType ?
+                                new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
+                                :
+                                new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                                 targetField,
                                 val => val.CallMethod(
                                     thisObj2 => thisObj2.CallMethod(
@@ -428,10 +442,16 @@ namespace NIntegrate.Utilities.Mapping
                                     typeof(Mapper<,>).MakeGenericType(
                                         sourceProperty.PropertyType,
                                         targetField.FieldType).GetMethod("Invoke"),
-                                    valFrom => valFrom.LoadProperty(
+                                    typeof(TFrom).IsValueType ?
+                                    new ILExpression(valFrom => valFrom.LoadProperty(
+                                        thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                        sourceProperty
+                                    ))
+                                    :
+                                    new ILExpression(valFrom => valFrom.LoadProperty(
                                         thisObj2 => thisObj2.LoadArgument(1),
                                         sourceProperty
-                                    )
+                                    ))
                                 )
                             );
                         }
@@ -444,7 +464,10 @@ namespace NIntegrate.Utilities.Mapping
                     {
                         var sourceField = field;
                         gen.StoreProperty(
-                            thisObj => thisObj.LoadLocalVariable(local),
+                            typeof(TTo).IsValueType ?
+                            new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
+                            :
+                            new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                             targetProperty,
                             val => val.CallMethod(
                                 thisObj2 => thisObj2.CallMethod(
@@ -455,10 +478,16 @@ namespace NIntegrate.Utilities.Mapping
                                 typeof(Mapper<,>).MakeGenericType(
                                     sourceField.FieldType,
                                     targetProperty.PropertyType).GetMethod("Invoke"),
-                                valFrom => valFrom.LoadField(
+                                typeof(TFrom).IsValueType ?
+                                new ILExpression(valFrom => valFrom.LoadField(
+                                    thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                    sourceField
+                                ))
+                                :
+                                new ILExpression(valFrom => valFrom.LoadField(
                                     thisObj2 => thisObj2.LoadArgument(1),
                                     sourceField
-                                )
+                                ))
                             )
                         );
                     }
@@ -469,7 +498,10 @@ namespace NIntegrate.Utilities.Mapping
                         {
                             var sourceField = field;
                             gen.StoreField(
-                                thisObj => thisObj.LoadLocalVariable(local),
+                                typeof(TTo).IsValueType ?
+                                new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
+                                :
+                                new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                                 targetField,
                                 val => val.CallMethod(
                                     thisObj2 => thisObj2.CallMethod(
@@ -480,10 +512,16 @@ namespace NIntegrate.Utilities.Mapping
                                     typeof(Mapper<,>).MakeGenericType(
                                         sourceField.FieldType,
                                         targetField.FieldType).GetMethod("Invoke"),
-                                    valFrom => valFrom.LoadField(
+                                    typeof(TFrom).IsValueType ?
+                                    new ILExpression(valFrom => valFrom.LoadField(
+                                        thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                        sourceField
+                                    ))
+                                    :
+                                    new ILExpression(valFrom => valFrom.LoadField(
                                         thisObj2 => thisObj2.LoadArgument(1),
                                         sourceField
-                                    )
+                                    ))
                                 )
                             );
                         }
@@ -570,7 +608,7 @@ namespace NIntegrate.Utilities.Mapping
             return null;
         }
 
-        private void ExecuteMappingChain(ILCodeGenerator gen, LocalBuilder local)
+        private void ExecuteMappingChain(ILCodeGenerator gen)
         {
             if (_mappingChain.Count == 0)
                 return;
@@ -587,7 +625,7 @@ namespace NIntegrate.Utilities.Mapping
                     typeof (MapperBuilder<TFrom, TTo>).GetMethod("ExecuteFromTo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(fromValueType, toValueType),
                     val1 => val1.LoadArgument(0),
                     val2 => val2.LoadArgument(1),
-                    val3 => val3.LoadLocalVariableAddress(local),
+                    val3 => val3.LoadArgument(2),
                     val4 => val4.Load(fromToIndex)
                 );
             }

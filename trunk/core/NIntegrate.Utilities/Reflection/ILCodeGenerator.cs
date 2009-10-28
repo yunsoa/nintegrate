@@ -467,6 +467,8 @@ namespace NIntegrate.Utilities.Reflection
                 _gen.Emit(OpCodes.Ldind_R4);
             else if (type == typeof(double))
                 _gen.Emit(OpCodes.Ldind_R8);
+            else if (type.IsValueType)
+                LoadValueTypeObjectFromStack(type);
             else
                 _gen.Emit(OpCodes.Ldind_Ref);
 
@@ -490,6 +492,8 @@ namespace NIntegrate.Utilities.Reflection
                 _gen.Emit(OpCodes.Stind_R4);
             else if (type == typeof(double))
                 _gen.Emit(OpCodes.Stind_R8);
+            else if (type.IsValueType)
+                StoreValueTypeObjectToStack(type, nop => nop.Nop());
             else
                 _gen.Emit(OpCodes.Stind_Ref);
 

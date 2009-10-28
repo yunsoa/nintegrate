@@ -32,7 +32,7 @@ namespace NIntegrate.Test.Utilities
             var doubleArray = stringListToDoubleArrayMapper(new List<string> { "1.1", "2.2", "3.3" });
             Assert.AreEqual(2.2, doubleArray[1]);
 
-            fac.ConfigureMapper<MappingFrom, MappingTo>(false, true, true)
+            fac.ConfigureMapper<MappingFrom, MappingTo>(true, true, true)
                 .From(from => from.Other)
                 .To<double>(
                 (to, val) =>
@@ -43,12 +43,12 @@ namespace NIntegrate.Test.Utilities
             var customMapper = fac.GetMapper<MappingFrom, MappingTo>();
             var customFrom = new MappingFrom { FromID = 1, Name = "name" };
             var customTo = customMapper(customFrom);
-            //Assert.AreEqual(1, customTo.From_id);
-            //Assert.AreEqual("name", customTo.Name);
-            Assert.AreEqual("0.0", customTo.Other2);
+            Assert.AreEqual(1, customTo.From_id);
+            Assert.AreEqual("name", customTo.Name);
+            Assert.AreEqual("0", customTo.Other2);
         }
 
-        private void temp(ref uint a, ref ulong b)
+        private void temp(ref uint a, ref ulong b, ref MappingTo to)
         {
             var aa = a;
             a = 1;
@@ -58,6 +58,11 @@ namespace NIntegrate.Test.Utilities
             int? i = 1;
             i = null;
             object obj = i;
+
+            var c = to;
+            c.From_id = 1;
+            var d = c.From_id;
+            to = c;
         }
 
         private string temp2(MapperFactory fac)
