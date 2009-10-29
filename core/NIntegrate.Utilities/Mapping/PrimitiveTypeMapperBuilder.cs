@@ -4,7 +4,7 @@ namespace NIntegrate.Utilities.Mapping
 {
     internal sealed class PrimitiveTypeMapperBuilder : MapperBuilder
     {
-        private readonly MapperCacheKey _mapperCacheKey;
+        private readonly MapperCacheKey _cacheKey;
         private readonly bool _isFromTypeNullable;
         private readonly Type _fromType;
         private readonly TypeCode _fromTypeCode;
@@ -21,11 +21,11 @@ namespace NIntegrate.Utilities.Mapping
             if (toType == null)
                 throw new ArgumentNullException("toType");
 
-            _mapperCacheKey = new MapperCacheKey(fromType, toType);
+            _cacheKey = new MapperCacheKey(fromType, toType);
             _isFromTypeNullable = IsNullableType(fromType);
             _fromType = _isFromTypeNullable ? fromType.GetGenericArguments()[0] : fromType;
             _fromTypeCode = Type.GetTypeCode(_fromType);
-            _isToTypeNullable = IsNullableType(_mapperCacheKey.ToType);
+            _isToTypeNullable = IsNullableType(_cacheKey.ToType);
             _toType = _isToTypeNullable ? toType.GetGenericArguments()[0] : toType;
             _toTypeCode = Type.GetTypeCode(_toType);
 
@@ -37,9 +37,9 @@ namespace NIntegrate.Utilities.Mapping
 
         #region Non-Public Methods
 
-        internal override MapperCacheKey GetCacheKey()
+        internal override MapperCacheKey CacheKey
         {
-            return _mapperCacheKey;
+            get { return _cacheKey; }
         }
 
         internal override Delegate BuildMapper()
