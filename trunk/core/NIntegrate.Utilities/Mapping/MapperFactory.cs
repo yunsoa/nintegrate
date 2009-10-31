@@ -33,7 +33,7 @@ namespace NIntegrate.Utilities.Mapping
                 {
                     if (!_mapperCache.TryGetValue(cacheKey, out builder))
                     {
-                        builder = ConfigureMapper<TFrom, TTo>(true, true, true);
+                        builder = ConfigureMapper<TFrom, TTo>();
                     }
                 }
             }
