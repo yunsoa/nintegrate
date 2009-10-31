@@ -25,8 +25,6 @@ namespace NIntegrate.Utilities.Mapping
         private readonly bool _autoMap;
         private readonly bool _ignoreCase;
         private readonly bool _ignoreUnderscore;
-        private readonly bool _isToArray;
-        private readonly bool _isToCollection;
         private readonly List<Delegate> _mappingChain = new List<Delegate>();
         private bool _expectsTo;
         private static readonly MapperCacheKey _cacheKey = new MapperCacheKey(typeof (TFrom), typeof (TTo));
@@ -38,14 +36,6 @@ namespace NIntegrate.Utilities.Mapping
             _autoMap = autoMap;
             _ignoreCase = ignoreCase;
             _ignoreUnderscore = ignoreUnderscore;
-
-            if (typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)) || typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
-            {
-                if (typeof(TTo).IsArray)
-                    _isToArray = true;
-                else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
-                    _isToCollection = true;
-            }
         }
 
         #endregion
@@ -119,230 +109,26 @@ namespace NIntegrate.Utilities.Mapping
 
         internal override Delegate BuildMapper()
         {
-            Delegate result;
-
-            if (_isToArray)
-                result = MapToArray();
-            else if (_isToCollection)
-                result = MapToCollection();
-            else
-                result = MapToObject();
-
-            return result;
-        }
-
-        private Delegate MapToArray()
-        {
-            var resultDelegate = typeof (InternalMapper<TFrom, TTo>);
-            DynamicMethod toArrayMethod;
-            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
-                "m" + Guid.NewGuid().ToString("N"), 
-                resultDelegate,
-                out toArrayMethod);
-
-            var fromElementType = GetElementType(typeof(TFrom));
-            var toElementType = GetElementType(typeof(TTo));
-            var collectionType = typeof(List<>).MakeGenericType(toElementType);
-            var collection = gen.DeclareLocalVariable(collectionType);
-            var en = gen.DeclareLocalVariable(typeof (IEnumerator));
-            var foreachBegin = gen.DefineLabel();
-            var foreachEnd = gen.DefineLabel();
-            gen.StoreLocalVariable(
-                collection,
-                val => val.New(collectionType.GetConstructor(Type.EmptyTypes))
-            );
-            EmitGetFromEnumerator(gen, en);
-            gen.MarkLabel(foreachBegin);
-            EmitIfEnumeratorMoveNext(gen, en);
-            if (fromElementType == typeof(IDataReader))
+            if (typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)))
             {
-                throw new NotImplementedException();
+                if (typeof(TTo).IsArray)
+                    return MapEnumerableToArray();
+                if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                    return MapEnumerableToCollection();
             }
-            else if (fromElementType.IsValueType)
-                EmitMapValueTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
-            else
-                EmitMapReferenceTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
-            gen.GoTo(foreachBegin);
-            gen.Else();
-            gen.GoTo(foreachEnd);
-            gen.EndIf();
-            gen.MarkLabel(foreachEnd);
-            gen.StoreArgumentIndirectly(
-                2,
-                typeof (TTo),
-                val => val.CallMethod(
-                    thisObj => thisObj.LoadLocalVariable(collection),
-                    collectionType.GetMethod("ToArray")
-                )
-            );
-            gen.Ret();
-
-            var result = toArrayMethod.CreateDelegate(resultDelegate);
-            return result;
-        }
-
-        private void EmitIfEnumeratorMoveNext(ILCodeGenerator gen, LocalBuilder en)
-        {
-            gen.If(
-                boolVal => boolVal.CallMethod(
-                               thisObj => thisObj.LoadLocalVariable(en),
-                               typeof (IEnumerator).GetMethod("MoveNext")
-                               )
-                );
-        }
-
-        private void EmitMapReferenceTypeItem(Type toElementType, ILCodeGenerator gen, Type collectionType, LocalBuilder collection, LocalBuilder en, Type fromElementType)
-        {
-            gen.CallMethod(
-                thisObj => thisObj.LoadLocalVariable(collection),
-                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
-                val1 => val1.ConvertValue(
-                    sourceVal => sourceVal.CallMethod(
-                        thisObj2 => thisObj2.CallMethod(
-                            thisObj3 => thisObj3.LoadArgument(0),
-                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(fromElementType, toElementType)
-                        ),
-                        typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
-                        valFrom => valFrom.ConvertValue(
-                            sourceVal2 => sourceVal2.LoadProperty(
-                                thisObj2 => thisObj2.LoadLocalVariable(en),
-                                typeof(IEnumerator).GetProperty("Current")
-                            ),
-                           typeof(object),
-                           fromElementType
-                        )
-                    ),
-                    collectionType,
-                    typeof(ICollection<>).MakeGenericType(toElementType)
-                )
-            );
-        }
-
-        private void EmitMapValueTypeItem(Type toElementType, ILCodeGenerator gen, Type collectionType, LocalBuilder collection, LocalBuilder en, Type fromElementType)
-        {
-            gen.CallMethod(
-                thisObj => thisObj.LoadLocalVariable(collection),
-                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
-                val1 => val1.ConvertValue(
-                    sourceValue => sourceValue.CallMethod(
-                        thisObj2 => thisObj2.CallMethod(
-                            thisObj3 => thisObj3.LoadArgument(0),
-                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
-                                fromElementType, toElementType)
-                        ),
-                        typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
-                        valFrom => valFrom.UnboxAny(
-                            fromElementType,
-                            val => val.LoadProperty(
-                                thisObj2 =>
-                                thisObj2.LoadLocalVariable(en),
-                                typeof(IEnumerator).GetProperty("Current")
-                            )
-                        )
-                    ),
-                    collectionType,
-                    typeof(ICollection<>).MakeGenericType(toElementType)
-                )
-            );
-        }
-
-        private Delegate MapToCollection()
-        {
-            var resultDelegate = typeof(InternalMapper<TFrom, TTo>);
-            DynamicMethod toCollectionMethod;
-            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
-                "m" + Guid.NewGuid().ToString("N"),
-                resultDelegate,
-                out toCollectionMethod
-            );
-
-            EmitMappingChain(gen);
-            var fromElementType = GetElementType(typeof(TFrom));
-            var toElementType = GetElementType(typeof(TTo));
-            var collectionType = typeof(TTo);
-            var collection = gen.DeclareLocalVariable(collectionType);
-            var en = gen.DeclareLocalVariable(typeof(IEnumerator));
-            var foreachBegin = gen.DefineLabel();
-            var foreachEnd = gen.DefineLabel();
-            gen.StoreLocalVariable(
-                collection,
-                val => val.LoadArgumentIndirectly(2, typeof(TTo))
-            );
-            EmitGetFromEnumerator(gen, en);
-            gen.MarkLabel(foreachBegin);
-            EmitIfEnumeratorMoveNext(gen, en);
-            if (fromElementType == typeof(IDataReader))
+            else if (typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
             {
-                throw new NotImplementedException();
+                //...
             }
-            else if (fromElementType.IsValueType)
-                EmitMapValueTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
-            else
-                EmitMapReferenceTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
-            gen.GoTo(foreachBegin);
-            gen.Else();
-            gen.GoTo(foreachEnd);
-            gen.EndIf();
-            gen.MarkLabel(foreachEnd);
-            if (_autoMap)
-                EmitAutoMap(gen, collection);
-            gen.StoreArgumentIndirectly(
-                2,
-                typeof(TTo),
-                val => val.LoadLocalVariable(collection)
-            );
-            gen.Ret();
-
-            var result = toCollectionMethod.CreateDelegate(resultDelegate);
-            return result;
-        }
-
-        private void EmitGetFromEnumerator(ILCodeGenerator gen, LocalBuilder en)
-        {
-            gen.StoreLocalVariable(
-                en,
-                val => val.CallMethod(
-                    thisObj => thisObj.ConvertValue(
-                        sourceVal => sourceVal.LoadArgument(1),
-                        typeof(TFrom),
-                        typeof(IEnumerable)
-                    ),
-                    typeof(IEnumerable).GetMethod("GetEnumerator")
-                )
-            );
-        }
-
-        private Delegate MapToObject()
-        {
-            var resultDelegate = typeof(InternalMapper<TFrom, TTo>);
-            DynamicMethod toObjectMethod;
-            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
-                "m" + Guid.NewGuid().ToString("N"),
-                resultDelegate,
-                out toObjectMethod);
-
-            EmitMappingChain(gen);
-            if (typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
+            else if (typeof(DataTable).IsAssignableFrom(typeof(TFrom)))
             {
-                throw new NotImplementedException();
+                //...
             }
-            var obj = gen.DeclareLocalVariable(typeof(TTo));
-            gen.StoreLocalVariable(
-                obj,
-                val => val.LoadArgumentIndirectly(2, typeof(TTo))
-            );
-            if (_autoMap)
-                EmitAutoMap(gen, obj);
-            gen.StoreArgumentIndirectly(
-                2,
-                typeof(TTo),
-                val => val.LoadLocalVariable(obj)
-            );
-            gen.Ret();
-
-            var result = toObjectMethod.CreateDelegate(resultDelegate);
-            return result;
+            
+            return MapObjecToObject();
         }
+
+        #region Shared
 
         private void EmitAutoMap(ILCodeGenerator gen, LocalBuilder local)
         {
@@ -355,13 +141,13 @@ namespace NIntegrate.Utilities.Mapping
                     if (!property.CanRead)
                         continue;
 
-                    var targetProperty = GetPropertyInfo(typeof (TTo), property.Name, _ignoreCase, _ignoreUnderscore);
+                    var targetProperty = GetPropertyInfo(typeof(TTo), property.Name, _ignoreCase, _ignoreUnderscore);
                     if (targetProperty != null && targetProperty.CanWrite)
                     {
                         var sourceProperty = property;
                         gen.StoreProperty(
                             typeof(TTo).IsValueType ?
-                            new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local)) 
+                            new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
                             :
                             new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                             targetProperty,
@@ -389,7 +175,7 @@ namespace NIntegrate.Utilities.Mapping
                     }
                     else
                     {
-                        var targetField = GetFieldInfo(typeof (TTo), property.Name, _ignoreCase, _ignoreUnderscore);
+                        var targetField = GetFieldInfo(typeof(TTo), property.Name, _ignoreCase, _ignoreUnderscore);
                         if (targetField != null)
                         {
                             var sourceProperty = property;
@@ -588,7 +374,7 @@ namespace NIntegrate.Utilities.Mapping
                 var toValueType = toDelegate.GetType().GetGenericArguments()[1];
 
                 gen.CallStaticMethod(
-                    typeof (MapperBuilder<TFrom, TTo>).GetMethod("ExecuteFromTo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(fromValueType, toValueType),
+                    typeof(MapperBuilder<TFrom, TTo>).GetMethod("ExecuteFromTo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(fromValueType, toValueType),
                     val1 => val1.LoadArgument(0),
                     val2 => val2.LoadArgument(1),
                     val3 => val3.LoadArgument(2),
@@ -602,8 +388,8 @@ namespace NIntegrate.Utilities.Mapping
             if (type.IsArray)
                 return type.GetElementType();
 
-            if (typeof (IDataReader).IsAssignableFrom(type))
-                return typeof (IDataReader);
+            if (typeof(IDataReader).IsAssignableFrom(type))
+                return typeof(IDataReader);
 
             if (type.IsGenericType)
             {
@@ -615,8 +401,227 @@ namespace NIntegrate.Utilities.Mapping
                 }
             }
 
-            return type.IsValueType ? typeof(ValueType) : typeof (object);
+            return type.IsValueType ? typeof(ValueType) : typeof(object);
         }
+
+        #endregion
+
+        #region MapEnumerable
+
+        private Delegate MapEnumerableToArray()
+        {
+            var resultDelegate = typeof (InternalMapper<TFrom, TTo>);
+            DynamicMethod toArrayMethod;
+            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
+                "m" + Guid.NewGuid().ToString("N"), 
+                resultDelegate,
+                out toArrayMethod);
+
+            var fromElementType = GetElementType(typeof(TFrom));
+            var toElementType = GetElementType(typeof(TTo));
+            var collectionType = typeof(List<>).MakeGenericType(toElementType);
+            var collection = gen.DeclareLocalVariable(collectionType);
+            var en = gen.DeclareLocalVariable(typeof (IEnumerator));
+            var foreachBegin = gen.DefineLabel();
+            var foreachEnd = gen.DefineLabel();
+            gen.StoreLocalVariable(
+                collection,
+                val => val.New(collectionType.GetConstructor(Type.EmptyTypes))
+            );
+            EmitGetFromEnumerator(gen, en);
+            gen.MarkLabel(foreachBegin);
+            EmitIfEnumeratorMoveNext(gen, en);
+            if (fromElementType.IsValueType)
+                EmitMapValueTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
+            else
+                EmitMapReferenceTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
+            gen.GoTo(foreachBegin);
+            gen.Else();
+            gen.GoTo(foreachEnd);
+            gen.EndIf();
+            gen.MarkLabel(foreachEnd);
+            gen.StoreArgumentIndirectly(
+                2,
+                typeof (TTo),
+                val => val.CallMethod(
+                    thisObj => thisObj.LoadLocalVariable(collection),
+                    collectionType.GetMethod("ToArray")
+                )
+            );
+            gen.Ret();
+
+            var result = toArrayMethod.CreateDelegate(resultDelegate);
+            return result;
+        }
+
+        private Delegate MapEnumerableToCollection()
+        {
+            var resultDelegate = typeof(InternalMapper<TFrom, TTo>);
+            DynamicMethod toCollectionMethod;
+            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
+                "m" + Guid.NewGuid().ToString("N"),
+                resultDelegate,
+                out toCollectionMethod
+            );
+
+            EmitMappingChain(gen);
+            var fromElementType = GetElementType(typeof(TFrom));
+            var toElementType = GetElementType(typeof(TTo));
+            var collectionType = typeof(TTo);
+            var collection = gen.DeclareLocalVariable(collectionType);
+            var en = gen.DeclareLocalVariable(typeof(IEnumerator));
+            var foreachBegin = gen.DefineLabel();
+            var foreachEnd = gen.DefineLabel();
+            gen.StoreLocalVariable(
+                collection,
+                val => val.LoadArgumentIndirectly(2, typeof(TTo))
+            );
+            EmitGetFromEnumerator(gen, en);
+            gen.MarkLabel(foreachBegin);
+            EmitIfEnumeratorMoveNext(gen, en);
+            if (fromElementType.IsValueType)
+                EmitMapValueTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
+            else
+                EmitMapReferenceTypeItem(toElementType, gen, collectionType, collection, en, fromElementType);
+            gen.GoTo(foreachBegin);
+            gen.Else();
+            gen.GoTo(foreachEnd);
+            gen.EndIf();
+            gen.MarkLabel(foreachEnd);
+            if (_autoMap)
+                EmitAutoMap(gen, collection);
+            gen.StoreArgumentIndirectly(
+                2,
+                typeof(TTo),
+                val => val.LoadLocalVariable(collection)
+            );
+            gen.Ret();
+
+            var result = toCollectionMethod.CreateDelegate(resultDelegate);
+            return result;
+        }
+
+        private void EmitGetFromEnumerator(ILCodeGenerator gen, LocalBuilder en)
+        {
+            gen.StoreLocalVariable(
+                en,
+                val => val.CallMethod(
+                    thisObj => thisObj.ConvertValue(
+                        sourceVal => sourceVal.LoadArgument(1),
+                        typeof(TFrom),
+                        typeof(IEnumerable)
+                    ),
+                    typeof(IEnumerable).GetMethod("GetEnumerator")
+                )
+            );
+        }
+
+        private void EmitIfEnumeratorMoveNext(ILCodeGenerator gen, LocalBuilder en)
+        {
+            gen.If(
+                boolVal => boolVal.CallMethod(
+                               thisObj => thisObj.LoadLocalVariable(en),
+                               typeof (IEnumerator).GetMethod("MoveNext")
+                               )
+                );
+        }
+
+        private void EmitMapValueTypeItem(Type toElementType, ILCodeGenerator gen, Type collectionType, LocalBuilder collection, LocalBuilder en, Type fromElementType)
+        {
+            gen.CallMethod(
+                thisObj => thisObj.LoadLocalVariable(collection),
+                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
+                val1 => val1.ConvertValue(
+                    sourceValue => sourceValue.CallMethod(
+                        thisObj2 => thisObj2.CallMethod(
+                            thisObj3 => thisObj3.LoadArgument(0),
+                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
+                                fromElementType, toElementType)
+                        ),
+                        typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
+                        valFrom => valFrom.UnboxAny(
+                            fromElementType,
+                            val => val.LoadProperty(
+                                thisObj2 =>
+                                thisObj2.LoadLocalVariable(en),
+                                typeof(IEnumerator).GetProperty("Current")
+                            )
+                        )
+                    ),
+                    collectionType,
+                    typeof(ICollection<>).MakeGenericType(toElementType)
+                )
+            );
+        }
+
+        private void EmitMapReferenceTypeItem(Type toElementType, ILCodeGenerator gen, Type collectionType, LocalBuilder collection, LocalBuilder en, Type fromElementType)
+        {
+            gen.CallMethod(
+                thisObj => thisObj.LoadLocalVariable(collection),
+                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
+                val1 => val1.ConvertValue(
+                    sourceVal => sourceVal.CallMethod(
+                        thisObj2 => thisObj2.CallMethod(
+                            thisObj3 => thisObj3.LoadArgument(0),
+                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(fromElementType, toElementType)
+                        ),
+                        typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
+                        valFrom => valFrom.ConvertValue(
+                            sourceVal2 => sourceVal2.LoadProperty(
+                                thisObj2 => thisObj2.LoadLocalVariable(en),
+                                typeof(IEnumerator).GetProperty("Current")
+                            ),
+                           typeof(object),
+                           fromElementType
+                        )
+                    ),
+                    collectionType,
+                    typeof(ICollection<>).MakeGenericType(toElementType)
+                )
+            );
+        }
+
+        #endregion
+
+        #region MapIDataReader
+        
+        #endregion
+
+        #region MapDataTable
+
+        #endregion
+
+        #region MapObject
+
+        private Delegate MapObjecToObject()
+        {
+            var resultDelegate = typeof(InternalMapper<TFrom, TTo>);
+            DynamicMethod toObjectMethod;
+            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
+                "m" + Guid.NewGuid().ToString("N"),
+                resultDelegate,
+                out toObjectMethod);
+
+            EmitMappingChain(gen);
+            var obj = gen.DeclareLocalVariable(typeof(TTo));
+            gen.StoreLocalVariable(
+                obj,
+                val => val.LoadArgumentIndirectly(2, typeof(TTo))
+            );
+            if (_autoMap)
+                EmitAutoMap(gen, obj);
+            gen.StoreArgumentIndirectly(
+                2,
+                typeof(TTo),
+                val => val.LoadLocalVariable(obj)
+            );
+            gen.Ret();
+
+            var result = toObjectMethod.CreateDelegate(resultDelegate);
+            return result;
+        }
+
+        #endregion
 
         #endregion
     }
