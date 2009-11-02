@@ -104,6 +104,13 @@ namespace NIntegrate.Test.Utilities
             Assert.AreEqual(1, customToCollection[0].From_id);
             Assert.AreEqual(null, customToCollection[0].Name);
             Assert.AreEqual("0", customToCollection[0].Other2);
+
+            var dataReaderToCustomArrayMapper = fac.GetMapper<DataTableReader, MappingTo[]>();
+            var customToArray = dataReaderToCustomArrayMapper(dt.CreateDataReader());
+            Assert.AreEqual(1, customToArray.Length);
+            Assert.AreEqual(1, customToArray[0].From_id);
+            Assert.AreEqual(null, customToArray[0].Name);
+            Assert.AreEqual("0", customToArray[0].Other2);
         }
 
         private void temp(ref uint a, ref ulong b, ref MappingTo to)
