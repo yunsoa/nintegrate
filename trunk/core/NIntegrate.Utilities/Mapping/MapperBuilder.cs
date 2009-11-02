@@ -170,13 +170,6 @@ namespace NIntegrate.Utilities.Mapping
 
         internal override Delegate BuildMapper()
         {
-            if (typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)))
-            {
-                if (typeof(TTo).IsArray)
-                    return MapEnumerableToArray();
-                if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
-                    return MapEnumerableToCollection();
-            }
             if (typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
             {
                 if (typeof(TTo).IsArray)
@@ -196,6 +189,13 @@ namespace NIntegrate.Utilities.Mapping
             if (typeof(DataRow).IsAssignableFrom(typeof(TFrom)))
             {
                 return MapDataRowToObject();
+            }
+            if (typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)))
+            {
+                if (typeof(TTo).IsArray)
+                    return MapEnumerableToArray();
+                if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                    return MapEnumerableToCollection();
             }
             
             return MapObjecToObject();
@@ -448,27 +448,27 @@ namespace NIntegrate.Utilities.Mapping
         private void EmitMapValueTypeItem(Type toElementType, ILCodeGenerator gen, Type collectionType, LocalBuilder collection, LocalBuilder en, Type fromElementType)
         {
             gen.CallMethod(
-                thisObj => thisObj.LoadLocalVariable(collection),
-                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
-                val1 => val1.ConvertValue(
-                    sourceValue => sourceValue.CallMethod(
-                        thisObj2 => thisObj2.CallMethod(
-                            thisObj3 => thisObj3.LoadArgument(0),
-                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
-                                fromElementType, toElementType)
-                        ),
-                        typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
-                        valFrom => valFrom.UnboxAny(
-                            fromElementType,
-                            val => val.LoadProperty(
-                                thisObj2 =>
-                                thisObj2.LoadLocalVariable(en),
-                                typeof(IEnumerator).GetProperty("Current")
-                            )
-                        )
-                    ),
+                thisObj => thisObj.ConvertValue(
+                    sourceVal => sourceVal.LoadLocalVariable(collection),
                     collectionType,
                     typeof(ICollection<>).MakeGenericType(toElementType)
+                ),
+                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
+                val1 => val1.CallMethod(
+                    thisObj2 => thisObj2.CallMethod(
+                        thisObj3 => thisObj3.LoadArgument(0),
+                        typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
+                            fromElementType, toElementType)
+                    ),
+                    typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
+                    valFrom => valFrom.UnboxAny(
+                        fromElementType,
+                        val => val.LoadProperty(
+                            thisObj2 =>
+                            thisObj2.LoadLocalVariable(en),
+                            typeof(IEnumerator).GetProperty("Current")
+                        )
+                    )
                 )
             );
         }
@@ -476,26 +476,26 @@ namespace NIntegrate.Utilities.Mapping
         private void EmitMapReferenceTypeItem(Type toElementType, ILCodeGenerator gen, Type collectionType, LocalBuilder collection, LocalBuilder en, Type fromElementType)
         {
             gen.CallMethod(
-                thisObj => thisObj.LoadLocalVariable(collection),
-                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
-                val1 => val1.ConvertValue(
-                    sourceVal => sourceVal.CallMethod(
-                        thisObj2 => thisObj2.CallMethod(
-                            thisObj3 => thisObj3.LoadArgument(0),
-                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(fromElementType, toElementType)
-                        ),
-                        typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
-                        valFrom => valFrom.ConvertValue(
-                            sourceVal2 => sourceVal2.LoadProperty(
-                                thisObj2 => thisObj2.LoadLocalVariable(en),
-                                typeof(IEnumerator).GetProperty("Current")
-                            ),
-                           typeof(object),
-                           fromElementType
-                        )
-                    ),
+                thisObj => thisObj.ConvertValue(
+                    sourceVal => sourceVal.LoadLocalVariable(collection),
                     collectionType,
                     typeof(ICollection<>).MakeGenericType(toElementType)
+                ),
+                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
+                val1 => val1.CallMethod(
+                    thisObj2 => thisObj2.CallMethod(
+                        thisObj3 => thisObj3.LoadArgument(0),
+                        typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(fromElementType, toElementType)
+                    ),
+                    typeof(Mapper<,>).MakeGenericType(fromElementType, toElementType).GetMethod("Invoke"),
+                    valFrom => valFrom.ConvertValue(
+                        sourceVal2 => sourceVal2.LoadProperty(
+                            thisObj2 => thisObj2.LoadLocalVariable(en),
+                            typeof(IEnumerator).GetProperty("Current")
+                        ),
+                       typeof(object),
+                       fromElementType
+                    )
                 )
             );
         }
@@ -572,8 +572,6 @@ namespace NIntegrate.Utilities.Mapping
             gen.GoTo(foreachEnd);
             gen.EndIf();
             gen.MarkLabel(foreachEnd);
-            if (_autoMap)
-                EmitAutoMapFromObject(gen, collection);
             gen.StoreArgumentIndirectly(
                 2,
                 typeof(TTo),
@@ -737,19 +735,19 @@ namespace NIntegrate.Utilities.Mapping
         private void EmitMapIDataReaderItem(Type toElementType, ILCodeGenerator gen, Type collectionType, LocalBuilder collection)
         {
             gen.CallMethod(
-                thisObj => thisObj.LoadLocalVariable(collection),
-                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
-                val1 => val1.ConvertValue(
-                    sourceVal => sourceVal.CallMethod(
-                        thisObj2 => thisObj2.CallMethod(
-                            thisObj3 => thisObj3.LoadArgument(0),
-                            typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(typeof(TFrom), toElementType)
-                        ),
-                        typeof(Mapper<,>).MakeGenericType(typeof(TFrom), toElementType).GetMethod("Invoke"),
-                        valFrom => valFrom.LoadArgument(1)
-                    ),
+                thisObj => thisObj.ConvertValue(
+                    sourceVal => sourceVal.LoadLocalVariable(collection),
                     collectionType,
                     typeof(ICollection<>).MakeGenericType(toElementType)
+                ),
+                typeof(ICollection<>).MakeGenericType(toElementType).GetMethod("Add"),
+                val1 => val1.CallMethod(
+                    thisObj2 => thisObj2.CallMethod(
+                        thisObj3 => thisObj3.LoadArgument(0),
+                        typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(typeof(TFrom), toElementType)
+                    ),
+                    typeof(Mapper<,>).MakeGenericType(typeof(TFrom), toElementType).GetMethod("Invoke"),
+                    valFrom => valFrom.LoadArgument(1)
                 )
             );
         }
