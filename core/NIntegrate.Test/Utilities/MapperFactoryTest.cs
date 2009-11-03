@@ -42,11 +42,14 @@ namespace NIntegrate.Test.Utilities
                         return to;
                     });
             var customMapper = fac.GetMapper<MappingFrom, MappingTo>();
-            var customFrom = new MappingFrom { FromID = 1, Name = "name" };
+            var guid = Guid.NewGuid();
+            var customFrom = new MappingFrom { FromID = 1, Name = "name", Status = MappingFromStatus.Value2, Guid = guid };
             var customTo = customMapper(customFrom);
             Assert.AreEqual(1, customTo.From_id);
             Assert.AreEqual("name", customTo.Name);
             Assert.AreEqual("0", customTo.Other2);
+            Assert.AreEqual(1, customTo.Status);
+            Assert.AreEqual(guid, customTo.Guid);
 
             var dt = new DataTable("table");
             dt.Columns.Add(new DataColumn("FromID", typeof(int)));

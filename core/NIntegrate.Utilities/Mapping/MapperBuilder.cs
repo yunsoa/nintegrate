@@ -22,6 +22,8 @@ namespace NIntegrate.Utilities.Mapping
 
     public sealed class MapperBuilder<TFrom, TTo> : MapperBuilder
     {
+        private Delegate _mapper;
+
         private readonly bool _autoMap;
         private readonly bool _ignoreCase;
         private readonly bool _ignoreUnderscore;
@@ -170,35 +172,60 @@ namespace NIntegrate.Utilities.Mapping
 
         internal override Delegate BuildMapper()
         {
-            if (typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
+            if (_mapper == null)
             {
-                if (typeof(TTo).IsArray)
-                    return MapIDataReaderToArray();
-                if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
-                    return MapIDataReaderToCollection();
-                else
-                    return MapIDataReaderToObject();
+                lock (this)
+                {
+                    if (_mapper == null)
+                    {
+                        if (PrimitiveTypeMapperBuilder.IsPrimitiveTypeMapping(typeof(TFrom), typeof(TTo)))
+                        {
+                            if (IsEnumType(typeof(TFrom)) || IsEnumType(typeof(TTo)))
+                                _mapper = MapEnum();
+                            else
+                                _mapper = new PrimitiveTypeMapperBuilder(typeof(TFrom), typeof(TTo)).BuildMapper();
+                        }
+                        else if (IsGuidType(typeof(TFrom)) && IsGuidType(typeof(TTo)))
+                        {
+                            _mapper = MapFromGuidToGuid();
+                        }
+                        else if (typeof(IDataReader).IsAssignableFrom(typeof(TFrom)))
+                        {
+                            if (typeof(TTo).IsArray)
+                                _mapper = MapIDataReaderToArray();
+                            else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                                _mapper = MapIDataReaderToCollection();
+                            else
+                                _mapper = MapIDataReaderToObject();
+                        }
+                        else if (typeof(DataTable).IsAssignableFrom(typeof(TFrom)))
+                        {
+                            if (typeof(TTo).IsArray)
+                                _mapper = MapDataTableToArray();
+                            else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                                _mapper = MapDataTableToCollection();
+                        }
+                        else if (typeof(DataRow).IsAssignableFrom(typeof(TFrom)))
+                        {
+                            _mapper = MapDataRowToObject();
+                        }
+                        else if (typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)))
+                        {
+                            if (typeof(TTo).IsArray)
+                                _mapper = MapEnumerableToArray();
+                            else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                                _mapper = MapEnumerableToCollection();
+                        }
+                        
+                        if (_mapper == null)
+                        {
+                            _mapper = MapObjecToObject();
+                        }
+                    }
+                }
             }
-            if (typeof(DataTable).IsAssignableFrom(typeof(TFrom)))
-            {
-                if (typeof(TTo).IsArray)
-                    return MapDataTableToArray();
-                if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
-                    return MapDataTableToCollection();
-            }
-            if (typeof(DataRow).IsAssignableFrom(typeof(TFrom)))
-            {
-                return MapDataRowToObject();
-            }
-            if (typeof(IEnumerable).IsAssignableFrom(typeof(TFrom)))
-            {
-                if (typeof(TTo).IsArray)
-                    return MapEnumerableToArray();
-                if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
-                    return MapEnumerableToCollection();
-            }
-            
-            return MapObjecToObject();
+
+            return _mapper;
         }
 
         #region Shared
@@ -1029,6 +1056,121 @@ namespace NIntegrate.Utilities.Mapping
         #endregion
 
         #region MapObject
+
+        private Delegate MapEnum()
+        {
+            var resultDelegate = typeof(InternalMapper<TFrom, TTo>);
+            DynamicMethod toObjectMethod;
+            var gen = ILCodeGenerator.CreateDynamicMethodCodeGenerator(
+                "m" + Guid.NewGuid().ToString("N"),
+                resultDelegate,
+                out toObjectMethod);
+
+            var underlyingFromType = GetUnderlyingType(typeof(TFrom));
+            var underlyingToType = GetUnderlyingType(typeof(TTo));
+            gen.StoreArgumentIndirectly(
+                2,
+                underlyingToType,
+                val => val.CallMethod(
+                    thisObj2 => thisObj2.CallMethod(
+                        thisObj3 => thisObj3.LoadArgument(0),
+                        typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
+                            underlyingFromType, underlyingToType)
+                    ),
+                    typeof(Mapper<,>).MakeGenericType(underlyingFromType, underlyingToType).GetMethod("Invoke"),
+                    val2 => val2.LoadArgument(1)
+                )
+            );
+            gen.Ret();
+
+            var result = toObjectMethod.CreateDelegate(resultDelegate);
+            return result;
+        }
+
+        private static Type GetUnderlyingType(Type type)
+        {
+            if (type.IsEnum)
+                return Enum.GetUnderlyingType(type);
+            if (PrimitiveTypeMapperBuilder.IsNullableType(type))
+            {
+                Type firstArgType = type.GetGenericArguments()[0];
+                if (firstArgType.IsEnum)
+                    return typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(firstArgType));
+            }
+
+            return type.UnderlyingSystemType;
+        }
+
+        private Delegate MapFromGuidToGuid()
+        {
+            if (PrimitiveTypeMapperBuilder.IsNullableType(typeof(TFrom))
+                && PrimitiveTypeMapperBuilder.IsNullableType(typeof(TTo)))
+            {
+                return new InternalMapper<Guid?, Guid?>(delegate(MapperFactory fac, Guid? from, ref Guid? to)
+                {
+                    to = from;
+                });
+            }
+            else if (PrimitiveTypeMapperBuilder.IsNullableType(typeof(TFrom))
+                && !PrimitiveTypeMapperBuilder.IsNullableType(typeof(TTo)))
+            {
+                return new InternalMapper<Guid?, Guid>(delegate(MapperFactory fac, Guid? from, ref Guid to)
+                {
+                    to = from.HasValue ? from.Value : default(Guid);
+                });
+            }
+            else if (!PrimitiveTypeMapperBuilder.IsNullableType(typeof(TFrom))
+                && PrimitiveTypeMapperBuilder.IsNullableType(typeof(TTo)))
+            {
+                return new InternalMapper<Guid, Guid?>(delegate(MapperFactory fac, Guid from, ref Guid? to)
+                {
+                    to = from;
+                });
+            }
+            else
+            {
+                return new InternalMapper<Guid, Guid>(delegate(MapperFactory fac, Guid from, ref Guid to)
+                {
+                    to = from;
+                });
+            }
+        }
+
+        private static bool IsGuidType(Type type)
+        {
+            if (type == null || !type.IsValueType)
+                return false;
+
+            if (PrimitiveTypeMapperBuilder.IsNullableType(type)
+                && type.GetGenericArguments()[0] == typeof(Guid))
+            {
+                return true;
+            }
+            else if (type == typeof(Guid))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsEnumType(Type type)
+        {
+            if (type == null || !type.IsValueType)
+                return false;
+
+            if (PrimitiveTypeMapperBuilder.IsNullableType(type)
+                && type.GetGenericArguments()[0].IsEnum)
+            {
+                return true;
+            }
+            else if (type.IsEnum)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         private Delegate MapObjecToObject()
         {
