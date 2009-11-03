@@ -8,7 +8,7 @@ namespace NIntegrate.Utilities.Mapping
         private readonly Dictionary<MapperCacheKey, MapperBuilder> _mapperCache
             = new Dictionary<MapperCacheKey, MapperBuilder>();
         private readonly object _mapperCacheLock = new object();
-        private bool _initialized;
+        //private bool _initialized;
 
         #region Non-Public Properties
 
@@ -80,17 +80,17 @@ namespace NIntegrate.Utilities.Mapping
 
         protected virtual void Initialize()
         {
-            if (!_initialized)
-            {
-                lock (_mapperCacheLock)
-                {
-                    if (!_initialized)
-                    {
-                        InitializePredefinedPrimitiveTypeMappers();
-                        _initialized = true;
-                    }
-                }
-            }
+            //if (!_initialized)
+            //{
+            //    lock (_mapperCacheLock)
+            //    {
+            //        if (!_initialized)
+            //        {
+            //            InitializePredefinedPrimitiveTypeMappers();
+            //            _initialized = true;
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -103,567 +103,567 @@ namespace NIntegrate.Utilities.Mapping
             return Activator.CreateInstance<T>();
         }
 
-        private void InitializePredefinedPrimitiveTypeMappers()
-        {
-            PrimitiveTypeMapperBuilder builder;
+        //private void InitializePredefinedPrimitiveTypeMappers()
+        //{
+        //    PrimitiveTypeMapperBuilder builder;
 
-            #region bool mappers
+        //    #region bool mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(bool), typeof(bool));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(bool?), typeof(bool?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(bool?), typeof(bool));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(bool), typeof(bool?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(bool), typeof(bool));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(bool?), typeof(bool?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(bool?), typeof(bool));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(bool), typeof(bool?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region byte mappers
+        //    #region byte mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(byte));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(byte?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(byte));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(byte?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(short));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(short?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(short));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(short?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ushort));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ushort?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ushort));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ushort?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(byte));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(byte?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(byte));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(byte?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(short));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(short?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(short));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(short?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ushort));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ushort?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ushort));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ushort?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(byte), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region char mappers
+        //    #region char mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(char), typeof(char));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(char?), typeof(char?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(char?), typeof(char));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(char), typeof(char?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(char), typeof(char));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(char?), typeof(char?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(char?), typeof(char));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(char), typeof(char?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region DateTime mappers
+        //    #region DateTime mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(DateTime), typeof(DateTime));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(DateTime?), typeof(DateTime?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(DateTime?), typeof(DateTime));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(DateTime), typeof(DateTime?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(DateTime), typeof(DateTime));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(DateTime?), typeof(DateTime?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(DateTime?), typeof(DateTime));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(DateTime), typeof(DateTime?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region decimal mappers
+        //    #region decimal mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(decimal), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(decimal?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(decimal?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(decimal), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(decimal), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(decimal?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(decimal?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(decimal), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region double mappers
+        //    #region double mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(double), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(double?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(double?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(double), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(double), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(double?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(double?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(double), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region short mappers
+        //    #region short mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(short));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(short?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(short));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(short?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(short));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(short?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(short));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(short?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(short), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region int mappers
+        //    #region int mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(int), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region long mappers
+        //    #region long mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(long), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region sbyte mappers
+        //    #region sbyte mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(sbyte));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(sbyte?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(sbyte));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(sbyte?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(short));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(short?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(short));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(short?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(sbyte));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(sbyte?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(sbyte));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(sbyte?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(short));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(short?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(short));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(short?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(sbyte), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region float mappers
+        //    #region float mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(float), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region string mappers
+        //    #region string mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(string), typeof(string));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(string), typeof(string));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region ushort mappers
+        //    #region ushort mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ushort));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ushort?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ushort));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ushort?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(int));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(int?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ushort));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ushort?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ushort));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ushort?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(int));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(int?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ushort), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region uint mappers
+        //    #region uint mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(uint));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(uint?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(long));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(long?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(uint));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(uint?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(long));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(long?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(uint), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
+        //    #endregion
 
-            #region ulong mappers
+        //    #region ulong mappers
 
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(ulong));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(ulong?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(decimal));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(decimal?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(double));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(double?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(float));
-            _mapperCache[builder.CacheKey] = builder;
-            builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(float?));
-            _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(ulong));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(ulong?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(decimal));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(decimal?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(double));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(double?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong?), typeof(float));
+        //    _mapperCache[builder.CacheKey] = builder;
+        //    builder = new PrimitiveTypeMapperBuilder(typeof(ulong), typeof(float?));
+        //    _mapperCache[builder.CacheKey] = builder;
 
-            #endregion
-        }
+        //    #endregion
+        //}
 
         #endregion
     }

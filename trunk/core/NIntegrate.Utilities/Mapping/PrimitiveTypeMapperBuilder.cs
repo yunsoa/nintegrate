@@ -35,6 +35,28 @@ namespace NIntegrate.Utilities.Mapping
 
         #endregion
 
+        #region Public Methods
+
+        public static bool IsPrimitiveTypeMapping(Type fromType, Type toType)
+        {
+            if (fromType == null)
+                return false;
+            if (toType == null)
+                return false;
+            if (IsNullableType(fromType))
+                fromType = fromType.GetGenericArguments()[0];
+            if (Type.GetTypeCode(fromType) == TypeCode.Object)
+                return false;
+            if (IsNullableType(toType))
+                toType = toType.GetGenericArguments()[0];
+            if (Type.GetTypeCode(toType) == TypeCode.Object)
+                return false;
+
+            return true;
+        }
+
+        #endregion
+
         #region Non-Public Methods
 
         internal override MapperCacheKey CacheKey
