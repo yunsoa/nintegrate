@@ -76,94 +76,7 @@ namespace NIntegrate.Utilities.Mapping
 
         #region Non-Public Methods
 
-        internal static void ExecuteFromTo<TFromValue, TToValue>(
-            MapperFactory fac, TFrom fromObj, ref TTo toObj, int fromToIndex)
-        {
-            if (fac == null)
-                throw new ArgumentNullException("fac");
-            if (Equals(fromObj, default(TFrom)))
-                throw new ArgumentNullException("fromObj");
-
-            MapperBuilder builder;
-            fac.MapperCache.TryGetValue(new MapperCacheKey(typeof(TFrom), typeof(TTo)), out builder);
-            var genericBuilder = builder as MapperBuilder<TFrom, TTo>;
-            if (genericBuilder != null && fromToIndex < genericBuilder._mappingChain.Count / 2)
-            {
-                var from = (MappingFrom<TFrom, TFromValue>)genericBuilder._mappingChain[fromToIndex * 2];
-                var to = (MappingTo<TTo, TToValue>)genericBuilder._mappingChain[fromToIndex * 2 + 1];
-                var fromValue = from(fromObj);
-                if (typeof (TFromValue) != typeof (TToValue))
-                {
-                    var valueMapper = fac.GetMapper<TFromValue, TToValue>();
-                    toObj = to(toObj, valueMapper(fromValue));
-                }
-                else
-                {
-                    toObj = to(toObj, (TToValue) (object) fromValue);
-                }
-            }
-        }
-
-        internal static DataColumn GetDataRowMappingColumn(DataRow row, string columnName, bool ignoreUnderscore)
-        {
-            foreach (DataColumn column in row.Table.Columns)
-            {
-                bool matched;
-                if (ignoreUnderscore)
-                {
-                    matched = (string.Compare(
-                            column.ColumnName.Replace("_", string.Empty),
-                            columnName.Replace("_", string.Empty),
-                            StringComparison.OrdinalIgnoreCase
-                        ) == 0
-                    );
-                }
-                else
-                {
-                    matched = (string.Compare(
-                            column.ColumnName,
-                            columnName,
-                            StringComparison.OrdinalIgnoreCase
-                        ) == 0
-                    );
-                }
-                if (matched)
-                    return column;
-            }
-
-            return null;
-        }
-
-        internal static DataColumn GetIDataReaderMappingColumn(IDataReader reader, string columnName, bool ignoreUnderscore)
-        {
-            for (var i = 0; i < reader.FieldCount; ++i)
-            {
-                var readerColumnName = reader.GetName(i);
-                bool matched;
-                if (ignoreUnderscore)
-                {
-                    matched = (string.Compare(
-                            readerColumnName.Replace("_", string.Empty),
-                            columnName.Replace("_", string.Empty),
-                            StringComparison.OrdinalIgnoreCase
-                        ) == 0
-                    );
-                }
-                else
-                {
-                    matched = (string.Compare(
-                            readerColumnName,
-                            columnName,
-                            StringComparison.OrdinalIgnoreCase
-                        ) == 0
-                    );
-                }
-                if (matched)
-                    return new DataColumn(readerColumnName, reader.GetFieldType(i));
-            }
-
-            return null;
-        }
+        #region Overriden
 
         internal override MapperCacheKey CacheKey
         {
@@ -180,12 +93,12 @@ namespace NIntegrate.Utilities.Mapping
                     {
                         if (PrimitiveTypeMapperBuilder.IsPrimitiveTypeMapping(typeof(TFrom), typeof(TTo)))
                         {
-                            if (IsEnumType(typeof(TFrom)) || IsEnumType(typeof(TTo)))
+                            if (MappingHelper.IsEnumType(typeof(TFrom)) || MappingHelper.IsEnumType(typeof(TTo)))
                                 _mapper = MapEnum();
                             else
                                 _mapper = new PrimitiveTypeMapperBuilder(typeof(TFrom), typeof(TTo)).BuildMapper();
                         }
-                        else if (IsGuidType(typeof(TFrom)) && IsGuidType(typeof(TTo)))
+                        else if (MappingHelper.IsGuidType(typeof(TFrom)) && MappingHelper.IsGuidType(typeof(TTo)))
                         {
                             _mapper = MapFromGuidToGuid();
                         }
@@ -193,7 +106,7 @@ namespace NIntegrate.Utilities.Mapping
                         {
                             if (typeof(TTo).IsArray)
                                 _mapper = MapIDataReaderToArray();
-                            else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                            else if (typeof(ICollection<>).MakeGenericType(MappingHelper.GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
                                 _mapper = MapIDataReaderToCollection();
                             else
                                 _mapper = MapIDataReaderToObject();
@@ -202,7 +115,7 @@ namespace NIntegrate.Utilities.Mapping
                         {
                             if (typeof(TTo).IsArray)
                                 _mapper = MapDataTableToArray();
-                            else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                            else if (typeof(ICollection<>).MakeGenericType(MappingHelper.GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
                                 _mapper = MapDataTableToCollection();
                         }
                         else if (typeof(DataRow).IsAssignableFrom(typeof(TFrom)))
@@ -213,7 +126,7 @@ namespace NIntegrate.Utilities.Mapping
                         {
                             if (typeof(TTo).IsArray)
                                 _mapper = MapEnumerableToArray();
-                            else if (typeof(ICollection<>).MakeGenericType(GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
+                            else if (typeof(ICollection<>).MakeGenericType(MappingHelper.GetElementType(typeof(TTo))).IsAssignableFrom(typeof(TTo)))
                                 _mapper = MapEnumerableToCollection();
                         }
                         
@@ -228,82 +141,39 @@ namespace NIntegrate.Utilities.Mapping
             return _mapper;
         }
 
+        #endregion
+
         #region Shared
 
-        private static PropertyInfo GetPropertyInfo(Type type, string propertyName, bool ignoreCase, bool ignoreUnderscore)
+        private static void ExecuteFromTo<TFromValue, TToValue>(
+            MapperFactory fac, TFrom fromObj, ref TTo toObj, int fromToIndex)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
+            if (fac == null)
+                throw new ArgumentNullException("fac");
 
-            var baseType = type;
-            while (baseType != typeof(object) && baseType != typeof(ValueType))
+            if (Equals(fromObj, default(TFrom)))
+                toObj = default(TTo);
+
+            MapperBuilder builder;
+            fac.MapperCache.TryGetValue(new MapperCacheKey(typeof(TFrom), typeof(TTo)), out builder);
+            var genericBuilder = builder as MapperBuilder<TFrom, TTo>;
+            if (genericBuilder != null && fromToIndex < genericBuilder._mappingChain.Count / 2)
             {
-                foreach (var property in baseType.GetProperties())
+                var from = (MappingFrom<TFrom, TFromValue>)genericBuilder._mappingChain[fromToIndex * 2];
+                var to = (MappingTo<TTo, TToValue>)genericBuilder._mappingChain[fromToIndex * 2 + 1];
+                var fromValue = from(fromObj);
+                if (typeof(TFromValue) != typeof(TToValue))
                 {
-                    if (ignoreCase && ignoreUnderscore)
-                    {
-                        if (string.Compare(
-                            propertyName.Replace("_", string.Empty),
-                            property.Name.Replace("_", string.Empty),
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
-                        {
-                            return property;
-                        }
-                    }
-                    else
-                    {
-                        if (string.Compare(
-                            propertyName,
-                            property.Name,
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
-                        {
-                            return property;
-                        }
-                    }
+                    var valueMapper = fac.GetMapper<TFromValue, TToValue>();
+                    toObj = to(toObj, valueMapper(fromValue));
                 }
-
-                baseType = baseType.BaseType;
+                else
+                {
+                    toObj = to(toObj, (TToValue)(object)fromValue);
+                }
             }
 
-            return null;
-        }
 
-        private static FieldInfo GetFieldInfo(Type type, string fieldName, bool ignoreCase, bool ignoreUnderscore)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-
-            var baseType = type;
-            while (baseType != typeof(object) && baseType != typeof(ValueType))
-            {
-                foreach (var field in baseType.GetFields())
-                {
-                    if (ignoreCase && ignoreUnderscore)
-                    {
-                        if (string.Compare(
-                            fieldName.Replace("_", string.Empty),
-                            field.Name.Replace("_", string.Empty),
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
-                        {
-                            return field;
-                        }
-                    }
-                    else
-                    {
-                        if (string.Compare(
-                            fieldName,
-                            field.Name,
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
-                        {
-                            return field;
-                        }
-                    }
-                }
-
-                baseType = baseType.BaseType;
-            }
-
-            return null;
         }
 
         private void EmitMappingChain(ILCodeGenerator gen)
@@ -329,27 +199,6 @@ namespace NIntegrate.Utilities.Mapping
             }
         }
 
-        private static Type GetElementType(Type type)
-        {
-            if (type.IsArray)
-                return type.GetElementType();
-
-            if (typeof(IDataReader).IsAssignableFrom(type))
-                return typeof(IDataReader);
-
-            if (type.IsGenericType)
-            {
-                var firstGenericArgument = type.GetGenericArguments()[0];
-                if (typeof(IEnumerable<>).MakeGenericType(firstGenericArgument)
-                    .IsAssignableFrom(type))
-                {
-                    return firstGenericArgument;
-                }
-            }
-
-            return type.IsValueType ? typeof(ValueType) : typeof(object);
-        }
-
         #endregion
 
         #region MapEnumerable
@@ -363,8 +212,8 @@ namespace NIntegrate.Utilities.Mapping
                 resultDelegate,
                 out toArrayMethod);
 
-            var fromElementType = GetElementType(typeof(TFrom));
-            var toElementType = GetElementType(typeof(TTo));
+            var fromElementType = MappingHelper.GetElementType(typeof(TFrom));
+            var toElementType = MappingHelper.GetElementType(typeof(TTo));
             var collectionType = typeof(List<>).MakeGenericType(toElementType);
             var collection = gen.DeclareLocalVariable(collectionType);
             var en = gen.DeclareLocalVariable(typeof (IEnumerator));
@@ -411,8 +260,8 @@ namespace NIntegrate.Utilities.Mapping
             );
 
             EmitMappingChain(gen);
-            var fromElementType = GetElementType(typeof(TFrom));
-            var toElementType = GetElementType(typeof(TTo));
+            var fromElementType = MappingHelper.GetElementType(typeof(TFrom));
+            var toElementType = MappingHelper.GetElementType(typeof(TTo));
             var collectionType = typeof(TTo);
             var collection = gen.DeclareLocalVariable(collectionType);
             var en = gen.DeclareLocalVariable(typeof(IEnumerator));
@@ -540,7 +389,7 @@ namespace NIntegrate.Utilities.Mapping
                 resultDelegate,
                 out toArrayMethod);
 
-            var toElementType = GetElementType(typeof(TTo));
+            var toElementType = MappingHelper.GetElementType(typeof(TTo));
             var collectionType = typeof(List<>).MakeGenericType(toElementType);
             var collection = gen.DeclareLocalVariable(collectionType);
             var foreachBegin = gen.DefineLabel();
@@ -582,7 +431,7 @@ namespace NIntegrate.Utilities.Mapping
             );
 
             EmitMappingChain(gen);
-            var toElementType = GetElementType(typeof(TTo));
+            var toElementType = MappingHelper.GetElementType(typeof(TTo));
             var collectionType = typeof(TTo);
             var collection = gen.DeclareLocalVariable(collectionType);
             var foreachBegin = gen.DefineLabel();
@@ -636,6 +485,37 @@ namespace NIntegrate.Utilities.Mapping
 
             var result = toObjectMethod.CreateDelegate(resultDelegate);
             return result;
+        }
+
+        internal static DataColumn GetIDataReaderMappingColumn(IDataReader reader, string columnName, bool ignoreUnderscore)
+        {
+            for (var i = 0; i < reader.FieldCount; ++i)
+            {
+                var readerColumnName = reader.GetName(i);
+                bool matched;
+                if (ignoreUnderscore)
+                {
+                    matched = (string.Compare(
+                            readerColumnName.Replace("_", string.Empty),
+                            columnName.Replace("_", string.Empty),
+                            StringComparison.OrdinalIgnoreCase
+                        ) == 0
+                    );
+                }
+                else
+                {
+                    matched = (string.Compare(
+                            readerColumnName,
+                            columnName,
+                            StringComparison.OrdinalIgnoreCase
+                        ) == 0
+                    );
+                }
+                if (matched)
+                    return new DataColumn(readerColumnName, reader.GetFieldType(i));
+            }
+
+            return null;
         }
 
         private void EmitAutoMapFromIDataReader(ILCodeGenerator gen, LocalBuilder obj)
@@ -806,7 +686,7 @@ namespace NIntegrate.Utilities.Mapping
                 resultDelegate,
                 out toArrayMethod);
 
-            var toElementType = GetElementType(typeof(TTo));
+            var toElementType = MappingHelper.GetElementType(typeof(TTo));
             var collectionType = typeof(List<>).MakeGenericType(toElementType);
             var collection = gen.DeclareLocalVariable(collectionType);
             var en = gen.DeclareLocalVariable(typeof(IEnumerator));
@@ -839,24 +719,6 @@ namespace NIntegrate.Utilities.Mapping
             return result;
         }
 
-        private void EmitGetFromDataTableEnumerator(ILCodeGenerator gen, LocalBuilder en)
-        {
-            gen.StoreLocalVariable(
-                en,
-                val => val.CallMethod(
-                    thisObj => thisObj.ConvertValue(
-                        sourceVal => sourceVal.LoadProperty(
-                            thisObj2 => thisObj2.LoadArgument(1),
-                            typeof(DataTable).GetProperty("Rows")
-                        ),
-                        typeof(TFrom),
-                        typeof(IEnumerable)
-                    ),
-                    typeof(IEnumerable).GetMethod("GetEnumerator")
-                )
-            );
-        }
-
         private Delegate MapDataTableToCollection()
         {
             var resultDelegate = typeof(InternalMapper<TFrom, TTo>);
@@ -868,7 +730,7 @@ namespace NIntegrate.Utilities.Mapping
             );
 
             EmitMappingChain(gen);
-            var toElementType = GetElementType(typeof(TTo));
+            var toElementType = MappingHelper.GetElementType(typeof(TTo));
             var collectionType = typeof(TTo);
             var collection = gen.DeclareLocalVariable(collectionType);
             var en = gen.DeclareLocalVariable(typeof(IEnumerator));
@@ -924,6 +786,54 @@ namespace NIntegrate.Utilities.Mapping
 
             var result = toObjectMethod.CreateDelegate(resultDelegate);
             return result;
+        }
+
+        internal static DataColumn GetDataRowMappingColumn(DataRow row, string columnName, bool ignoreUnderscore)
+        {
+            foreach (DataColumn column in row.Table.Columns)
+            {
+                bool matched;
+                if (ignoreUnderscore)
+                {
+                    matched = (string.Compare(
+                            column.ColumnName.Replace("_", string.Empty),
+                            columnName.Replace("_", string.Empty),
+                            StringComparison.OrdinalIgnoreCase
+                        ) == 0
+                    );
+                }
+                else
+                {
+                    matched = (string.Compare(
+                            column.ColumnName,
+                            columnName,
+                            StringComparison.OrdinalIgnoreCase
+                        ) == 0
+                    );
+                }
+                if (matched)
+                    return column;
+            }
+
+            return null;
+        }
+
+        private void EmitGetFromDataTableEnumerator(ILCodeGenerator gen, LocalBuilder en)
+        {
+            gen.StoreLocalVariable(
+                en,
+                val => val.CallMethod(
+                    thisObj => thisObj.ConvertValue(
+                        sourceVal => sourceVal.LoadProperty(
+                            thisObj2 => thisObj2.LoadArgument(1),
+                            typeof(DataTable).GetProperty("Rows")
+                        ),
+                        typeof(TFrom),
+                        typeof(IEnumerable)
+                    ),
+                    typeof(IEnumerable).GetMethod("GetEnumerator")
+                )
+            );
         }
 
         private void EmitAutoMapFromDataRow(ILCodeGenerator gen, LocalBuilder local)
@@ -1066,8 +976,8 @@ namespace NIntegrate.Utilities.Mapping
                 resultDelegate,
                 out toObjectMethod);
 
-            var underlyingFromType = GetUnderlyingType(typeof(TFrom));
-            var underlyingToType = GetUnderlyingType(typeof(TTo));
+            var underlyingFromType = MappingHelper.GetUnderlyingType(typeof(TFrom));
+            var underlyingToType = MappingHelper.GetUnderlyingType(typeof(TTo));
             gen.StoreArgumentIndirectly(
                 2,
                 underlyingToType,
@@ -1087,40 +997,26 @@ namespace NIntegrate.Utilities.Mapping
             return result;
         }
 
-        private static Type GetUnderlyingType(Type type)
-        {
-            if (type.IsEnum)
-                return Enum.GetUnderlyingType(type);
-            if (PrimitiveTypeMapperBuilder.IsNullableType(type))
-            {
-                Type firstArgType = type.GetGenericArguments()[0];
-                if (firstArgType.IsEnum)
-                    return typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(firstArgType));
-            }
-
-            return type.UnderlyingSystemType;
-        }
-
         private Delegate MapFromGuidToGuid()
         {
-            if (PrimitiveTypeMapperBuilder.IsNullableType(typeof(TFrom))
-                && PrimitiveTypeMapperBuilder.IsNullableType(typeof(TTo)))
+            if (MappingHelper.IsNullableType(typeof(TFrom))
+                && MappingHelper.IsNullableType(typeof(TTo)))
             {
                 return new InternalMapper<Guid?, Guid?>(delegate(MapperFactory fac, Guid? from, ref Guid? to)
                 {
                     to = from;
                 });
             }
-            else if (PrimitiveTypeMapperBuilder.IsNullableType(typeof(TFrom))
-                && !PrimitiveTypeMapperBuilder.IsNullableType(typeof(TTo)))
+            else if (MappingHelper.IsNullableType(typeof(TFrom))
+                && !MappingHelper.IsNullableType(typeof(TTo)))
             {
                 return new InternalMapper<Guid?, Guid>(delegate(MapperFactory fac, Guid? from, ref Guid to)
                 {
                     to = from.HasValue ? from.Value : default(Guid);
                 });
             }
-            else if (!PrimitiveTypeMapperBuilder.IsNullableType(typeof(TFrom))
-                && PrimitiveTypeMapperBuilder.IsNullableType(typeof(TTo)))
+            else if (!MappingHelper.IsNullableType(typeof(TFrom))
+                && MappingHelper.IsNullableType(typeof(TTo)))
             {
                 return new InternalMapper<Guid, Guid?>(delegate(MapperFactory fac, Guid from, ref Guid? to)
                 {
@@ -1134,42 +1030,6 @@ namespace NIntegrate.Utilities.Mapping
                     to = from;
                 });
             }
-        }
-
-        private static bool IsGuidType(Type type)
-        {
-            if (type == null || !type.IsValueType)
-                return false;
-
-            if (PrimitiveTypeMapperBuilder.IsNullableType(type)
-                && type.GetGenericArguments()[0] == typeof(Guid))
-            {
-                return true;
-            }
-            else if (type == typeof(Guid))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool IsEnumType(Type type)
-        {
-            if (type == null || !type.IsValueType)
-                return false;
-
-            if (PrimitiveTypeMapperBuilder.IsNullableType(type)
-                && type.GetGenericArguments()[0].IsEnum)
-            {
-                return true;
-            }
-            else if (type.IsEnum)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         private Delegate MapObjecToObject()
@@ -1211,7 +1071,7 @@ namespace NIntegrate.Utilities.Mapping
                     if (!property.CanRead)
                         continue;
 
-                    var targetProperty = GetPropertyInfo(typeof(TTo), property.Name, _ignoreCase, _ignoreUnderscore);
+                    var targetProperty = MappingHelper.GetPropertyInfo(typeof(TTo), property.Name, _ignoreCase, _ignoreUnderscore);
                     if (targetProperty != null && targetProperty.CanWrite)
                     {
                         var sourceProperty = property;
@@ -1245,7 +1105,7 @@ namespace NIntegrate.Utilities.Mapping
                     }
                     else
                     {
-                        var targetField = GetFieldInfo(typeof(TTo), property.Name, _ignoreCase, _ignoreUnderscore);
+                        var targetField = MappingHelper.GetFieldInfo(typeof(TTo), property.Name, _ignoreCase, _ignoreUnderscore);
                         if (targetField != null)
                         {
                             var sourceProperty = property;
@@ -1281,7 +1141,7 @@ namespace NIntegrate.Utilities.Mapping
                 }
                 foreach (var field in baseType.GetFields())
                 {
-                    var targetProperty = GetPropertyInfo(typeof(TTo), field.Name, _ignoreCase, _ignoreUnderscore);
+                    var targetProperty = MappingHelper.GetPropertyInfo(typeof(TTo), field.Name, _ignoreCase, _ignoreUnderscore);
                     if (targetProperty != null && targetProperty.CanWrite)
                     {
                         var sourceField = field;
@@ -1315,7 +1175,7 @@ namespace NIntegrate.Utilities.Mapping
                     }
                     else
                     {
-                        var targetField = GetFieldInfo(typeof(TTo), field.Name, _ignoreCase, _ignoreUnderscore);
+                        var targetField = MappingHelper.GetFieldInfo(typeof(TTo), field.Name, _ignoreCase, _ignoreUnderscore);
                         if (targetField != null)
                         {
                             var sourceField = field;

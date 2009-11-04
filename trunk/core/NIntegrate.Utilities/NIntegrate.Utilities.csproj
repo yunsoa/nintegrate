@@ -55,6 +55,7 @@
     <Compile Include="Mapping\MapperBuilder.cs" />
     <Compile Include="Mapping\MapperCacheKey.cs" />
     <Compile Include="Mapping\MapperFactory.cs" />
+    <Compile Include="Mapping\MappingHelper.cs" />
     <Compile Include="Mapping\PrimitiveTypeMapperBuilder.cs" />
     <Compile Include="Reflection\ILCodeGeneratorDelegates.cs" />
     <Compile Include="Reflection\ILCodeGenerator.cs" />
