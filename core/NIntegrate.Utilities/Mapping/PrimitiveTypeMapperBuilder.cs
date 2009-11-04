@@ -22,10 +22,10 @@ namespace NIntegrate.Utilities.Mapping
                 throw new ArgumentNullException("toType");
 
             _cacheKey = new MapperCacheKey(fromType, toType);
-            _isFromTypeNullable = IsNullableType(fromType);
+            _isFromTypeNullable = MappingHelper.IsNullableType(fromType);
             _fromType = _isFromTypeNullable ? fromType.GetGenericArguments()[0] : fromType;
             _fromTypeCode = Type.GetTypeCode(_fromType);
-            _isToTypeNullable = IsNullableType(_cacheKey.ToType);
+            _isToTypeNullable = MappingHelper.IsNullableType(_cacheKey.ToType);
             _toType = _isToTypeNullable ? toType.GetGenericArguments()[0] : toType;
             _toTypeCode = Type.GetTypeCode(_toType);
 
@@ -43,11 +43,11 @@ namespace NIntegrate.Utilities.Mapping
                 return false;
             if (toType == null)
                 return false;
-            if (IsNullableType(fromType))
+            if (MappingHelper.IsNullableType(fromType))
                 fromType = fromType.GetGenericArguments()[0];
             if (Type.GetTypeCode(fromType) == TypeCode.Object)
                 return false;
-            if (IsNullableType(toType))
+            if (MappingHelper.IsNullableType(toType))
                 toType = toType.GetGenericArguments()[0];
             if (Type.GetTypeCode(toType) == TypeCode.Object)
                 return false;
@@ -795,12 +795,6 @@ namespace NIntegrate.Utilities.Mapping
             }
 
             return result;
-        }
-
-        internal static bool IsNullableType(Type type)
-        {
-            return type.IsGenericType 
-                && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
         }
 
         #endregion

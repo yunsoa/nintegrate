@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NIntegrate.Utilities.Mapping;
 using NIntegrate.Test.Utilities.TestClasses;
 using System.Data;
+using System.Diagnostics;
 
 namespace NIntegrate.Test.Utilities
 {
@@ -114,6 +115,72 @@ namespace NIntegrate.Test.Utilities
             Assert.AreEqual(1, customToArray[0].From_id);
             Assert.AreEqual(null, customToArray[0].Name);
             Assert.AreEqual("0", customToArray[0].Other2);
+        }
+
+        [TestMethod]
+        public void TestMapperPerformance()
+        {
+            var dt = new DataTable("table");
+            dt.Columns.Add(new DataColumn("FromID", typeof(int)));
+            dt.Columns.Add(new DataColumn("Name", typeof(string)));
+            dt.Columns[1].AllowDBNull = true;
+            dt.Columns.Add(new DataColumn("MappingFromStatus", typeof(int)));
+            dt.Columns.Add(new DataColumn("Guid", typeof(Guid)));
+
+            for (int i = 0; i < 100000; ++i)
+            {
+                dt.Rows.Add(1, Guid.NewGuid().ToString(), 1, Guid.NewGuid());
+            }
+
+            List<MappingTo> result;
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+            result = new List<MappingTo>();
+            using (var rdr = dt.CreateDataReader())
+            {
+                while (rdr.Read())
+                {
+                    result.Add(new MappingTo
+                    {
+                        From_id = rdr.GetInt32(rdr.GetOrdinal("FromID")),
+                        Name = rdr.GetString(rdr.GetOrdinal("Name")),
+                        Status = rdr.GetInt32(rdr.GetOrdinal("MappingFromStatus")),
+                        Guid = rdr.GetGuid(rdr.GetOrdinal("Guid"))
+                    });
+                }
+            }
+            sw.Stop();
+            Console.WriteLine("Manual: " + sw.ElapsedMilliseconds + "ms");
+
+            sw.Reset();
+
+            sw.Start();
+            using (var rdr = dt.CreateDataReader())
+            {
+                result = new MapperFactory().GetMapper<IDataReader, List<MappingTo>>()(rdr);
+            }
+            sw.Stop();
+            Console.WriteLine("Mapper: " + sw.ElapsedMilliseconds + "ms");
+
+            sw.Reset();
+
+            sw.Start();
+            result = new List<MappingTo>();
+            using (var rdr = dt.CreateDataReader())
+            {
+                while (rdr.Read())
+                {
+                    object to = Activator.CreateInstance<MappingTo>();
+                    typeof(MappingTo).GetField("From_id").SetValue(to, rdr.GetValue(rdr.GetOrdinal("FromID")));
+                    typeof(MappingTo).GetProperty("Name").SetValue(to, rdr.GetValue(rdr.GetOrdinal("Name")), null);
+                    typeof(MappingTo).GetField("Status").SetValue(to, rdr.GetValue(rdr.GetOrdinal("MappingFromStatus")));
+                    typeof(MappingTo).GetField("Guid").SetValue(to, rdr.GetValue(rdr.GetOrdinal("Guid")));
+                    result.Add((MappingTo)to);
+                }
+            }
+            sw.Stop();
+            Console.WriteLine("Reflection: " + sw.ElapsedMilliseconds + "ms");
         }
 
         private void temp(ref uint a, ref ulong b, ref MappingTo to)

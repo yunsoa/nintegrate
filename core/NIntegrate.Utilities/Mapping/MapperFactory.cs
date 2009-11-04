@@ -8,7 +8,6 @@ namespace NIntegrate.Utilities.Mapping
         private readonly Dictionary<MapperCacheKey, MapperBuilder> _mapperCache
             = new Dictionary<MapperCacheKey, MapperBuilder>();
         private readonly object _mapperCacheLock = new object();
-        //private bool _initialized;
 
         #region Non-Public Properties
 
@@ -47,7 +46,7 @@ namespace NIntegrate.Utilities.Mapping
                        {
                            var to = default(TTo);
                            var type = typeof(TTo);
-                           if (!PrimitiveTypeMapperBuilder.IsNullableType(type)
+                           if (!MappingHelper.IsNullableType(type)
                                && !type.IsArray
                                && Type.GetTypeCode(type) == TypeCode.Object)
                            {
