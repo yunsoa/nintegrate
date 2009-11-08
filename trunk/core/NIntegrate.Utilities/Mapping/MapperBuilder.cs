@@ -1081,7 +1081,19 @@ namespace NIntegrate.Utilities.Mapping
                             :
                             new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                             targetProperty,
-                            val => val.CallMethod(
+                            sourceProperty.PropertyType == targetProperty.PropertyType ?
+                            typeof(TFrom).IsValueType ?
+                            new ILExpression(valFrom => valFrom.LoadProperty(
+                                thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                sourceProperty
+                            ))
+                            :
+                            new ILExpression(valFrom => valFrom.LoadProperty(
+                                thisObj2 => thisObj2.LoadArgument(1),
+                                sourceProperty
+                            ))
+                            :
+                            new ILExpression(val => val.CallMethod(
                                 thisObj2 => thisObj2.CallMethod(
                                     thisObj3 => thisObj3.LoadArgument(0),
                                     typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
@@ -1100,7 +1112,7 @@ namespace NIntegrate.Utilities.Mapping
                                     thisObj2 => thisObj2.LoadArgument(1),
                                     sourceProperty
                                 ))
-                            )
+                            ))
                         );
                     }
                     else
@@ -1115,7 +1127,19 @@ namespace NIntegrate.Utilities.Mapping
                                 :
                                 new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                                 targetField,
-                                val => val.CallMethod(
+                                sourceProperty.PropertyType == targetField.FieldType ?
+                                typeof(TFrom).IsValueType ?
+                                new ILExpression(valFrom => valFrom.LoadProperty(
+                                    thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                    sourceProperty
+                                ))
+                                :
+                                new ILExpression(valFrom => valFrom.LoadProperty(
+                                    thisObj2 => thisObj2.LoadArgument(1),
+                                    sourceProperty
+                                ))
+                                :
+                                new ILExpression(val => val.CallMethod(
                                     thisObj2 => thisObj2.CallMethod(
                                         thisObj3 => thisObj3.LoadArgument(0),
                                         typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
@@ -1134,7 +1158,7 @@ namespace NIntegrate.Utilities.Mapping
                                         thisObj2 => thisObj2.LoadArgument(1),
                                         sourceProperty
                                     ))
-                                )
+                                ))
                             );
                         }
                     }
@@ -1151,7 +1175,19 @@ namespace NIntegrate.Utilities.Mapping
                             :
                             new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                             targetProperty,
-                            val => val.CallMethod(
+                            sourceField.FieldType == targetProperty.PropertyType ?
+                            typeof(TFrom).IsValueType ?
+                            new ILExpression(valFrom => valFrom.LoadField(
+                                thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                sourceField
+                            ))
+                            :
+                            new ILExpression(valFrom => valFrom.LoadField(
+                                thisObj2 => thisObj2.LoadArgument(1),
+                                sourceField
+                            ))
+                            :
+                            new ILExpression(val => val.CallMethod(
                                 thisObj2 => thisObj2.CallMethod(
                                     thisObj3 => thisObj3.LoadArgument(0),
                                     typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
@@ -1170,7 +1206,7 @@ namespace NIntegrate.Utilities.Mapping
                                     thisObj2 => thisObj2.LoadArgument(1),
                                     sourceField
                                 ))
-                            )
+                            ))
                         );
                     }
                     else
@@ -1185,7 +1221,19 @@ namespace NIntegrate.Utilities.Mapping
                                 :
                                 new ILExpression(thisObj => thisObj.LoadLocalVariable(local)),
                                 targetField,
-                                val => val.CallMethod(
+                                sourceField.FieldType == targetField.FieldType ?
+                                typeof(TFrom).IsValueType ?
+                                new ILExpression(valFrom => valFrom.LoadField(
+                                    thisObj2 => thisObj2.LoadArgumentAddress(1),
+                                    sourceField
+                                ))
+                                :
+                                new ILExpression(valFrom => valFrom.LoadField(
+                                    thisObj2 => thisObj2.LoadArgument(1),
+                                    sourceField
+                                ))
+                                :
+                                new ILExpression(val => val.CallMethod(
                                     thisObj2 => thisObj2.CallMethod(
                                         thisObj3 => thisObj3.LoadArgument(0),
                                         typeof(MapperFactory).GetMethod("GetMapper").MakeGenericMethod(
@@ -1204,7 +1252,7 @@ namespace NIntegrate.Utilities.Mapping
                                         thisObj2 => thisObj2.LoadArgument(1),
                                         sourceField
                                     ))
-                                )
+                                ))
                             );
                         }
                     }
