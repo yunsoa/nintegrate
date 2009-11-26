@@ -127,7 +127,7 @@ namespace NIntegrate.Test.Utilities
             dt.Columns.Add(new DataColumn("MappingFromStatus", typeof(int)));
             dt.Columns.Add(new DataColumn("Guid", typeof(Guid)));
 
-            for (int i = 0; i < 100000; ++i)
+            for (int i = 0; i < 300000; ++i)
             {
                 dt.Rows.Add(1, Guid.NewGuid().ToString(), 1, Guid.NewGuid());
             }
