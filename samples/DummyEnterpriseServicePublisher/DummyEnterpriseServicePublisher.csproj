@@ -63,6 +63,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\core\NIntegrate\NIntegrate.csproj">
+      <Project>{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}</Project>
+      <Name>NIntegrate</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DummyEnterpriseFramework\DummyEnterpriseFramework.csproj">
       <Project>{214754AE-79FC-4C65-B19B-AF0576F06D23}</Project>
       <Name>DummyEnterpriseFramework</Name>

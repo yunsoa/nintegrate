@@ -83,13 +83,9 @@
     <Compile Include="QueryService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NIntegrate.Data\NIntegrate.Data.csproj">
-      <Project>{ABB6193C-5749-4457-881D-7B987697782E}</Project>
-      <Name>NIntegrate.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NIntegrate.ServiceModel\NIntegrate.ServiceModel.csproj">
-      <Project>{C39288B4-5C84-4FDE-953D-23CC630576F7}</Project>
-      <Name>NIntegrate.ServiceModel</Name>
+    <ProjectReference Include="..\NIntegrate\NIntegrate.csproj">
+      <Project>{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}</Project>
+      <Name>NIntegrate</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

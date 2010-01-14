@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DummyEnterpriseFrameworkIntegration", "DummyEnterpriseFrameworkIntegration", "{3B14973A-9DC0-46ED-A417-B6891FD6321C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.ServiceModel", "..\core\NIntegrate.ServiceModel\NIntegrate.ServiceModel.csproj", "{C39288B4-5C84-4FDE-953D-23CC630576F7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyEnterpriseFramework", "DummyEnterpriseFramework\DummyEnterpriseFramework.csproj", "{214754AE-79FC-4C65-B19B-AF0576F06D23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyEnterpriseServicePublisher", "DummyEnterpriseServicePublisher\DummyEnterpriseServicePublisher.csproj", "{C45CC700-FD01-4946-A0D9-B9B70B85F28E}"
@@ -17,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{B79FC301-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyEnterpriseServiceConsumer", "DummyEnterpriseServiceConsumer\DummyEnterpriseServiceConsumer.csproj", "{EF9FD764-583C-48F4-B1A8-E45ABF05714A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate", "..\core\NIntegrate\NIntegrate.csproj", "{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -27,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C39288B4-5C84-4FDE-953D-23CC630576F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C39288B4-5C84-4FDE-953D-23CC630576F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C39288B4-5C84-4FDE-953D-23CC630576F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C39288B4-5C84-4FDE-953D-23CC630576F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{214754AE-79FC-4C65-B19B-AF0576F06D23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{214754AE-79FC-4C65-B19B-AF0576F06D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{214754AE-79FC-4C65-B19B-AF0576F06D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{EF9FD764-583C-48F4-B1A8-E45ABF05714A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF9FD764-583C-48F4-B1A8-E45ABF05714A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF9FD764-583C-48F4-B1A8-E45ABF05714A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +61,6 @@ Global
 		{41D1D276-A5E7-4839-8AF6-04A24BF034A8} = {3B14973A-9DC0-46ED-A417-B6891FD6321C}
 		{4D5B31FE-7B35-4379-9093-106672A16B9F} = {3B14973A-9DC0-46ED-A417-B6891FD6321C}
 		{EF9FD764-583C-48F4-B1A8-E45ABF05714A} = {3B14973A-9DC0-46ED-A417-B6891FD6321C}
-		{C39288B4-5C84-4FDE-953D-23CC630576F7} = {B79FC301-F57B-47F0-8CFA-6D6C9A12B46B}
+		{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542} = {B79FC301-F57B-47F0-8CFA-6D6C9A12B46B}
 	EndGlobalSection
 EndGlobal
