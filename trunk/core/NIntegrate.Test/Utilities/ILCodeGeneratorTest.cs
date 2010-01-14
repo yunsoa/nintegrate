@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NIntegrate.Utilities.Reflection;
+using NIntegrate.Reflection;
 using System.Reflection.Emit;
 using NIntegrate.Test.Utilities.TestClasses;
 
