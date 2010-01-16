@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{70ADF1DE-0D4B-4DAF-8D20-76AFA38CA542}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NIntegrate</RootNamespace>
+    <AssemblyName>NIntegrate</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>NIntegrate_OpenSource.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.WorkflowServices">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Collections\Generic\DependingKey.cs" />
+    <Compile Include="Collections\Generic\LruDictionary.cs" />
+    <Compile Include="Collections\Generic\LruItemCache.cs" />
+    <Compile Include="Data\Assignment.cs" />
+    <Compile Include="Data\Columns.cs" />
+    <Compile Include="Data\Condition.cs" />
+    <Compile Include="Data\Configuration\KnownTypeRegistry.cs" />
+    <Compile Include="Data\ExpressionHelper.cs" />
+    <Compile Include="Data\ExpressionOperator.cs" />
+    <Compile Include="Data\Expressions.cs" />
+    <Compile Include="Data\GlobalSuppressions.cs" />
+    <Compile Include="Data\IColumn.cs" />
+    <Compile Include="Data\IExpression.cs" />
+    <Compile Include="Data\OracleClient\OracleExtensionMethods.cs" />
+    <Compile Include="Data\OracleClient\OracleQueryCommandBuilder.cs" />
+    <Compile Include="Data\ParameterEqualsCondition.cs" />
+    <Compile Include="Data\ParameterExpressions.cs" />
+    <Compile Include="Data\QueryCommandBuilder.cs" />
+    <Compile Include="Data\QueryCommandFactory.cs" />
+    <Compile Include="Data\QueryCriteria.cs" />
+    <Compile Include="Data\QuerySproc.cs" />
+    <Compile Include="Data\QueryTable.cs" />
+    <Compile Include="Data\SprocDbCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\SprocParameterDirection.cs" />
+    <Compile Include="Data\SqlClient\SqlExtensionMethods.cs" />
+    <Compile Include="Data\SqlClient\SqlQueryCommandBuilder.cs" />
+    <Compile Include="ServiceModel\Activation\LoadServiceConfigurationEventArgs.cs" />
+    <Compile Include="ServiceModel\Activation\ServiceHostCreationException.cs" />
+    <Compile Include="ServiceModel\Activation\WcfServiceHostFactory.cs" />
+    <Compile Include="ServiceModel\ChannelFactoryCreationException.cs" />
+    <Compile Include="Collections\Generic\Registry.cs" />
+    <Compile Include="ServiceModel\Configuration\AppConfigLoader.cs" />
+    <Compile Include="ServiceModel\Configuration\BehaviorExtensionRegistry.cs" />
+    <Compile Include="ServiceModel\Configuration\BehaviorXml.cs" />
+    <Compile Include="ServiceModel\Configuration\BindingElementExtensionRegistry.cs" />
+    <Compile Include="ServiceModel\Configuration\BindingTypeDescription.cs" />
+    <Compile Include="ServiceModel\Configuration\BindingTypeRegistry.cs" />
+    <Compile Include="ServiceModel\Configuration\BindingXml.cs" />
+    <Compile Include="ServiceModel\Configuration\ConfigurationXml.cs" />
+    <Compile Include="ServiceModel\Configuration\EndpointBehaviorXml.cs" />
+    <Compile Include="ServiceModel\Configuration\HeadersXml.cs" />
+    <Compile Include="ServiceModel\Configuration\HostXml.cs" />
+    <Compile Include="ServiceModel\Configuration\IdentityXml.cs" />
+    <Compile Include="ServiceModel\Configuration\MetadataXml.cs" />
+    <Compile Include="ServiceModel\Configuration\ServiceBehaviorXml.cs" />
+    <Compile Include="ServiceModel\Configuration\WcfClientEndpoint.cs" />
+    <Compile Include="ServiceModel\Configuration\WcfEndpoint.cs" />
+    <Compile Include="ServiceModel\Configuration\WcfListenUriMode.cs" />
+    <Compile Include="ServiceModel\Configuration\WcfService.cs" />
+    <Compile Include="ServiceModel\Configuration\WcfServiceEndpoint.cs" />
+    <Compile Include="Mapping\MapperBuilder.cs" />
+    <Compile Include="Mapping\MapperCacheKey.cs" />
+    <Compile Include="Mapping\MapperFactory.cs" />
+    <Compile Include="Mapping\MappingDelegates.cs" />
+    <Compile Include="Mapping\MappingHelper.cs" />
+    <Compile Include="Mapping\PrimitiveTypeMapperBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\ILCodeGenerator.cs" />
+    <Compile Include="Reflection\ILCodeGeneratorDelegates.cs" />
+    <Compile Include="Threading\RWLock.cs" />
+    <Compile Include="SR.cs" />
+    <Compile Include="ServiceModel\WcfChannelFactoryFactory.cs" />
+    <Compile Include="ServiceModel\WcfChannelWrapper.cs" />
+    <Compile Include="Threading\SingleThreadQueue.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NIntegrate_OpenSource.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
