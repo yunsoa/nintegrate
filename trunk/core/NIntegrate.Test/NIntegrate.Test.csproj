@@ -108,6 +108,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities\ILCodeGeneratorTest.cs" />
+    <Compile Include="Utilities\LruDictionaryTest.cs" />
+    <Compile Include="Utilities\LruItemCacheTest.cs" />
     <Compile Include="Utilities\MapperFactoryTest.cs" />
     <Compile Include="Utilities\TestClasses\MappingFrom.cs" />
     <Compile Include="Utilities\TestClasses\MappingTo.cs" />
