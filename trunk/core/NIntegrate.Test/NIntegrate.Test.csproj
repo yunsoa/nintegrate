@@ -111,8 +111,10 @@
     <Compile Include="Utilities\LruDictionaryTest.cs" />
     <Compile Include="Utilities\LruItemCacheTest.cs" />
     <Compile Include="Utilities\MapperFactoryTest.cs" />
+    <Compile Include="Utilities\SingleThreadQueueTest.cs" />
     <Compile Include="Utilities\TestClasses\MappingFrom.cs" />
     <Compile Include="Utilities\TestClasses\MappingTo.cs" />
+    <Compile Include="Utilities\TestClasses\SingleThreadLogger.cs" />
     <Compile Include="Utilities\TestClasses\TestClass.cs" />
     <Compile Include="WcfServiceHostFactoryTest.cs">
       <SubType>Code</SubType>
