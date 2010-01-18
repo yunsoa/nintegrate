@@ -69,15 +69,22 @@ namespace NIntegrate.Collections.Generic
             return this.KeyValue.ToString();
         }
 
-        public bool Depends(string dependency, bool ignoreCase, bool searchKeyValue)
+        public bool Depends(string dependency, bool ignoreCase, bool partiallyMatch)
         {
-            if (searchKeyValue && this.KeyValue.ToString().IndexOf(dependency, StringComparison.OrdinalIgnoreCase) >= 0)
-                return true;
-
             if (_dependencies != null)
+            {
                 for (int i = 0; i < _dependencies.Length; ++i)
+                {
                     if (string.Compare(_dependencies[i], dependency, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
                         return true;
+
+                    if (partiallyMatch && dependency != null && _dependencies[i] != null)
+                    {
+                        if (_dependencies[i].IndexOf(dependency, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0)
+                            return true;
+                    }
+                }
+            }
 
             return false;
         }

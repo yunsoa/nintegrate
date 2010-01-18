@@ -348,19 +348,38 @@ namespace NIntegrate.Collections.Generic
     public class LruDependingDictionary<TKey, TValue> 
         : LruDictionary<DependingKey<TKey>, TValue>
     {
+        #region Constructors
+
         public LruDependingDictionary(int capacity)
             : base(capacity)
         {
         }
 
-        public void NotifyDependencyChanged(string dependency, bool ignoreCase, bool searchKeyValue)
+        #endregion
+
+        #region Public Methods
+
+        public TValue this[TKey key]
+        {
+            get
+            {
+                return this[new DependingKey<TKey>(key)];
+            }
+        }
+
+        public void Remove(TKey key)
+        {
+            Remove(new DependingKey<TKey>(key));
+        }
+
+        public void NotifyDependencyChanged(string dependency, bool ignoreCase, bool partiallyMatch)
         {
             List<DependingKey<TKey>> list = new List<DependingKey<TKey>>();
             IEnumerator<DependingKey<TKey>> en = this.Keys.GetEnumerator();
             RWLock.GetWriteLock(Lock, LockTimeout, delegate
             {
                 while (en.MoveNext())
-                    if (en.Current.Depends(dependency, ignoreCase, searchKeyValue))
+                    if (en.Current.Depends(dependency, ignoreCase, partiallyMatch))
                         list.Add(en.Current);
                 if (list.Count > 0)
                     for (int i = 0; i < list.Count; ++i)
@@ -373,5 +392,7 @@ namespace NIntegrate.Collections.Generic
         {
             NotifyDependencyChanged(dependency, false, false);
         }
+
+        #endregion
     }
 }
