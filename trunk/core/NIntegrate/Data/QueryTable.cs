@@ -8,8 +8,8 @@ namespace NIntegrate.Data
     /// <summary>
     /// The base class for all query table classes.
     /// 
-    /// A query table class is a class represents a table or view in database
-    /// for easily query database with the dynamic query language provided 
+    /// The QueryTable class is a class represents a table or view in database
+    /// for easily querying database with the dynamic query language provided 
     /// by NIntegrate.
     /// </summary>
     [DataContract]

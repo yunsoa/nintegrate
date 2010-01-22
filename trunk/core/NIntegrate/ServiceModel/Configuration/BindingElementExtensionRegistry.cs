@@ -4,6 +4,9 @@ using NIntegrate.Collections.Generic;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// The BindingElementExtensionRegistry class is a registry for any custom binding element extensions. It maps to the &lt;bindingElementExtensions&gt; configuration element in &lt;system.serviceModel&gt; section.
+    /// </summary>
     public sealed class BindingElementExtensionRegistry : Registry<string, Type>
     {
         public static readonly BindingElementExtensionRegistry Instance;

@@ -10,6 +10,9 @@ using System.Globalization;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// Maps to the &lt;binding&gt; configuration element.
+    /// </summary>
     [DataContract]
     public sealed class BindingXml : ConfigurationXml
     {

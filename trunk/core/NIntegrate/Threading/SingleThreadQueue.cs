@@ -6,6 +6,10 @@ using System.Threading;
 
 namespace NIntegrate.Threading
 {
+    /// <summary>
+    /// The SingleThreadQueue class is a queue attached with a thread & a process handler. Items added to the queue are always processed by specified process handler in a single thread.
+    /// </summary>
+    /// <typeparam name="TItem">The type of the item to be added & processed in the queue.</typeparam>
     public abstract class SingleThreadQueue<TItem> where TItem: class
     {
         private Mutex _entryLock;

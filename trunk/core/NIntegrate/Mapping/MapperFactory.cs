@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NIntegrate.Mapping
 {
+    /// <summary>
+    /// The MapperFactory class is a Emit & delegate based object mapper delegate factory. It dynamically emit dynamic method, cache and return the delegate of the mapper.
+    /// </summary>
     public class MapperFactory
     {
         private readonly Dictionary<MapperCacheKey, MapperBuilder> _mapperCache

@@ -7,6 +7,9 @@ using System.Xml;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// Maps to the &lt;behavior&gt; configuration element in &lt;serviceBehaviors&gt; element.
+    /// </summary>
     [DataContract]
     public sealed class ServiceBehaviorXml : BehaviorXml
     {

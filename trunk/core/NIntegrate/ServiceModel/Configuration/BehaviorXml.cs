@@ -8,6 +8,9 @@ using System.Xml;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// The base behaviorXml class.
+    /// </summary>
     public class BehaviorXml : ConfigurationXml
     {
         private static readonly MethodInfo _methodCreateBehavior;

@@ -2,6 +2,9 @@
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// The base class of endpoint configuration.
+    /// </summary>
     [DataContract]
     public class WcfEndpoint
     {

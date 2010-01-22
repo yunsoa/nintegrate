@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace NIntegrate.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public abstract class QuerySproc
     {

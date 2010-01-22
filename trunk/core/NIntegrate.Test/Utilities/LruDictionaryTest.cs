@@ -18,6 +18,7 @@ namespace NIntegrate.Test.Utilities
             {
                 dic[i] = i.ToString();
             }
+            //the dic[1] is null because the item exceeded the capacity of the dictionary and is not latest visited
             Assert.AreEqual(null, dic[1]);
             Assert.AreEqual("3", dic[3]);
             Assert.AreEqual("4", dic[4]);
@@ -41,8 +42,10 @@ namespace NIntegrate.Test.Utilities
             Assert.AreEqual("4", dic[4]);
             Assert.AreEqual("3", dic[3]);
             dic.NotifyDependencyChanged("testDependency");
+            //dic[3] is null because the dependency is changed
             Assert.AreEqual(null, dic[3]);
             dic.NotifyDependencyChanged("Test", true, true);
+            //all items whose dependency containing "test" is changed, so they are all expired
             Assert.AreEqual(0, dic.Count);
         }
     }
