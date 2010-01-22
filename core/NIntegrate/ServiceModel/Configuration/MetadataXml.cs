@@ -5,6 +5,9 @@ using System.ServiceModel.Configuration;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// Maps to the &lt;metadata&gt; configuration element.
+    /// </summary>
     [DataContract]
     public sealed class MetadataXml : ConfigurationXml
     {

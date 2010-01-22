@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// Maps to the &lt;identityg&gt; configuration element.
+    /// </summary>
     [DataContract]
     public sealed class IdentityXml : ConfigurationXml
     {

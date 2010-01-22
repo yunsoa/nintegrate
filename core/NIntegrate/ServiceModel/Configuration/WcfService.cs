@@ -2,6 +2,9 @@
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// The WcfService class contains all the configuration required for hosting a WCF service.
+    /// </summary>
     [DataContract]
     public sealed class WcfService
     {

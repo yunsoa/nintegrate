@@ -344,6 +344,11 @@ namespace NIntegrate.Collections.Generic
         #endregion
     }
 
+    /// <summary>
+    /// The LruDependingDictionary class is an enhanced version of LruDictionary, providing additional caching dependency ability.
+    /// </summary>
+    /// <typeparam name="TKey">The type of cached item key.</typeparam>
+    /// <typeparam name="TValue">The type of cached item value.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Lru")]
     public class LruDependingDictionary<TKey, TValue> 
         : LruDictionary<DependingKey<TKey>, TValue>

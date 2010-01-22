@@ -4,6 +4,9 @@ using NIntegrate.Collections.Generic;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// The BehaviorExtensionRegistry class is a registry for any custom behavior extensions. It maps to the &lt;behaviorExtensions&gt; configuratin element in &lt;system.serviceModel&gt; section.
+    /// </summary>
     public sealed class BehaviorExtensionRegistry : Registry<string, Type>
     {
         public static readonly BehaviorExtensionRegistry Instance;

@@ -7,6 +7,9 @@ using NIntegrate.Collections.Generic;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// The BindingTypeRegistry class is a registry for any custom binding types. It maps to the &lt;bindingExtensions&gt; configuration element in &lt;system.serviceModel&gt; section.
+    /// </summary>
     public sealed class BindingTypeRegistry : Registry<string, BindingTypeDescription>
     {
         public static readonly BindingTypeRegistry Instance;
