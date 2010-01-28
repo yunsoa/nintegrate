@@ -8,6 +8,33 @@ namespace NIntegrate.ServiceModel.Configuration
     [DataContract]
     public sealed class WcfServiceEndpoint : WcfEndpoint
     {
+        public WcfServiceEndpoint()
+        {
+        }
+
+        public WcfServiceEndpoint(
+            string serviceContractType,
+            string bindingTypeCode,
+            string bindingXml,
+            string address,
+            string identityXml,
+            string headersXml,
+            string endpointBehaviorXml,
+            string listenUri,
+            WcfListenUriMode? listenUriMode)
+            : base(
+            serviceContractType,
+            bindingTypeCode,
+            bindingXml,
+            address,
+            identityXml,
+            headersXml,
+            endpointBehaviorXml)
+        {
+            ListenUri = listenUri;
+            ListenUriMode = listenUriMode;
+        }
+
         [DataMember]
         private string _listenUri;
 

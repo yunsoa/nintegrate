@@ -12,6 +12,27 @@ namespace NIntegrate.ServiceModel.Configuration
         {
         }
 
+        internal WcfEndpoint(
+            string serviceContractType,
+            string bindingTypeCode,
+            string bindingXml,
+            string address,
+            string identityXml,
+            string headersXml,
+            string endpointBehaviorXml)
+        {
+            ServiceContractType = serviceContractType;
+            if (!string.IsNullOrEmpty(bindingTypeCode))
+                BindingXml = new BindingXml(bindingTypeCode, bindingXml);
+            Address = address;
+            if (!string.IsNullOrEmpty(identityXml))
+                IdentityXml = new IdentityXml(identityXml);
+            if (!string.IsNullOrEmpty(headersXml))
+                HeadersXml = new HeadersXml(headersXml);
+            if (!string.IsNullOrEmpty(endpointBehaviorXml))
+                EndpointBehaviorXml = new EndpointBehaviorXml(endpointBehaviorXml);
+        }
+
         [DataMember]
         public string ServiceContractType { get; set; }
 
