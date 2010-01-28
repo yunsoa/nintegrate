@@ -16,8 +16,6 @@ namespace NIntegrate.ServiceModel.Configuration
         [DataMember]
         private readonly string _xml;
 
-        private readonly object _syncLock;
-
         private static readonly MethodInfo _methodDeserializeElement;
 
         #region Constructors
@@ -29,13 +27,7 @@ namespace NIntegrate.ServiceModel.Configuration
                 BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
-        protected ConfigurationXml()
-        {
-            _syncLock = new object();
-        }
-
         protected ConfigurationXml(string xml)
-            : this()
         {
             if (xml == null)
                 throw new ArgumentNullException("xml");
@@ -54,7 +46,7 @@ namespace NIntegrate.ServiceModel.Configuration
 
         protected object SyncLock
         {
-            get { return _syncLock; }
+            get { return this; }
         }
 
         #endregion

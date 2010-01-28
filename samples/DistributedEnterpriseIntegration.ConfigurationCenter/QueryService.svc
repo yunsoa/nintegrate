@@ -1,0 +1,2 @@
+﻿<%@ ServiceHost Service="NIntegrate.Web.QueryService"
+    Factory="DistributedEnterpriseIntegration.Framework.DistributedWcfServiceHostFactory" %>
