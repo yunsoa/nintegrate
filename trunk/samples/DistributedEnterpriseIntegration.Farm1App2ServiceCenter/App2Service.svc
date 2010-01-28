@@ -1,0 +1,2 @@
+﻿<%@ ServiceHost Service="DistributedEnterpriseIntegration.App2.Implementation.App2Service"
+    Factory="DistributedEnterpriseIntegration.Framework.DistributedWcfServiceHostFactory" %>

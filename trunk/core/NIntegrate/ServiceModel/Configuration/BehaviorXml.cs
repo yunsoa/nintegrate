@@ -5,12 +5,14 @@ using System.Globalization;
 using System.Reflection;
 using System.ServiceModel.Configuration;
 using System.Xml;
+using System.Runtime.Serialization;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
     /// <summary>
     /// The base behaviorXml class.
     /// </summary>
+    [DataContract]
     public class BehaviorXml : ConfigurationXml
     {
         private static readonly MethodInfo _methodCreateBehavior;
