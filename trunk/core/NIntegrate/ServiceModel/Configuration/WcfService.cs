@@ -1,4 +1,6 @@
 ﻿using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
@@ -8,6 +10,27 @@ namespace NIntegrate.ServiceModel.Configuration
     [DataContract]
     public sealed class WcfService
     {
+        public WcfService()
+        {
+        }
+
+        public WcfService(
+            string serviceType,
+            string customServiceHostType,
+            string serviceBehaviorXml,
+            string hostXml,
+            IEnumerable<WcfServiceEndpoint> endpoints)
+        {
+            ServiceType = serviceType;
+            CustomServiceHostType = customServiceHostType;
+            if (!string.IsNullOrEmpty(serviceBehaviorXml))
+                ServiceBehaviorXml = new ServiceBehaviorXml(serviceBehaviorXml);
+            if (!string.IsNullOrEmpty(hostXml))
+                HostXml = new HostXml(hostXml);
+            if (endpoints != null)
+                Endpoints = endpoints.ToArray();
+        }
+
         [DataMember]
         public string ServiceType { get; set; }
 
