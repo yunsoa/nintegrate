@@ -1,5 +1,11 @@
-NIntegrate v0.9.0.1
+NIntegrate v0.9.1.1
 -------------------
+
+1. Fix bug in serializing WCF configuration XML objects.
+2. New DistributedEnterpriseIntegration sample.
+
+Update since v0.9.0.1
+---------------------
 
 1. Merged assemblies into to the main NIntegrate.dll
 2. More tests
