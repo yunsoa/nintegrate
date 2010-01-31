@@ -29,9 +29,6 @@ namespace NIntegrate.ServiceModel.Configuration
 
         protected ConfigurationXml(string xml)
         {
-            if (xml == null)
-                throw new ArgumentNullException("xml");
-
             _xml = xml;
         }
 
@@ -65,6 +62,11 @@ namespace NIntegrate.ServiceModel.Configuration
         {
             if (element == null)
                 throw new ArgumentNullException("element");
+
+            if (string.IsNullOrEmpty(xml))
+            {
+                return;
+            }
 
             var rdr = new XmlTextReader(new StringReader(xml));
             rdr.Read();

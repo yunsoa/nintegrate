@@ -118,6 +118,7 @@
     <Compile Include="Utilities\TestClasses\MappingTo.cs" />
     <Compile Include="Utilities\TestClasses\SingleThreadLogger.cs" />
     <Compile Include="Utilities\TestClasses\TestClass.cs" />
+    <Compile Include="WcfConfigurationXmlTest.cs" />
     <Compile Include="WcfServiceHostFactoryTest.cs">
       <SubType>Code</SubType>
     </Compile>
