@@ -36,6 +36,9 @@ namespace NIntegrate.ServiceModel.Configuration
 
         protected static List<BehaviorExtensionElement> FilterCustomBehaviorElements(XmlDocument doc)
         {
+            if (doc == null)
+                throw new ArgumentNullException("doc");
+
             var customBehaviorElements = new List<BehaviorExtensionElement>();
             var customBehaviorNodes = new List<XmlNode>();
             foreach (XmlNode node in doc.FirstChild.ChildNodes)
@@ -43,12 +46,6 @@ namespace NIntegrate.ServiceModel.Configuration
                 var behaviorElementType = BehaviorExtensionRegistry.Instance[node.Name];
                 if (behaviorElementType == null)
                 {
-                    //throw new ConfigurationErrorsException(
-                    //    string.Format(
-                    //        CultureInfo.InvariantCulture, 
-                    //        SR.SPECIFIED_BEHAVIOR_CONFIGURATION_ELEMENT_COULD_NOT_BE_LOADED,
-                    //        behaviorElementType));
-
                     continue;
                 }
                 var customBehaviorElement = Activator.CreateInstance(behaviorElementType) as BehaviorExtensionElement;
@@ -56,7 +53,7 @@ namespace NIntegrate.ServiceModel.Configuration
                 {
                     throw new ConfigurationErrorsException(
                         string.Format(
-                            CultureInfo.InvariantCulture, 
+                            CultureInfo.InvariantCulture,
                             SR.SPECIFIED_BEHAVIOR_CONFIGURATION_ELEMENT_COULD_NOT_BE_INITED,
                             behaviorElementType));
                 }
@@ -75,6 +72,11 @@ namespace NIntegrate.ServiceModel.Configuration
 
         protected static void SetBehavior<TBehavior>(ICollection<TBehavior> collection, BehaviorExtensionElement element)
         {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+            if (element == null)
+                throw new ArgumentNullException("element");
+
             var behavior = (TBehavior)_methodCreateBehavior.Invoke(element, null);
             foreach (var item in collection)
             {

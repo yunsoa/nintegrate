@@ -66,6 +66,9 @@ namespace NIntegrate.ServiceModel.Configuration
             AddItem("workflowruntime", typeof(WorkflowRuntimeElement));
             AddItem("enablewebscript", typeof(WebScriptEnablingElement));
             AddItem("webHttp", typeof(WebHttpElement));
+            AddItem("webHttp", typeof(WebHttpElement));
+            AddItem("callbackTimeOuts", typeof(CallbackTimeoutsElement));
+            AddItem("serviceTimeOuts", typeof(ServiceTimeoutsElement));
         }
 
         #endregion
