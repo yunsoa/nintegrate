@@ -34,7 +34,7 @@ namespace NIntegrate.Test.Utilities
             var doubleArray = stringListToDoubleArrayMapper(new List<string> { "1.1", "2.2", "3.3" });
             Assert.AreEqual(2.2, doubleArray[1]);
 
-            fac.ConfigureMapper<MappingFrom, MappingTo>(true, true, true)
+            fac.ConfigureMapper<MappingFrom, MappingTo>(true, true, true, "guid")
                 .From(from => from.Other)
                 .To<double>(
                 (to, val) =>
@@ -50,7 +50,7 @@ namespace NIntegrate.Test.Utilities
             Assert.AreEqual("name", customTo.Name);
             Assert.AreEqual("0", customTo.Other2);
             Assert.AreEqual(1, customTo.Status);
-            Assert.AreEqual(guid, customTo.Guid);
+            Assert.AreNotEqual(guid, customTo.Guid);
 
             var dt = new DataTable("table");
             dt.Columns.Add(new DataColumn("FromID", typeof(int)));

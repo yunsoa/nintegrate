@@ -27,17 +27,19 @@ namespace NIntegrate.Mapping
         private readonly bool _autoMap;
         private readonly bool _ignoreCase;
         private readonly bool _ignoreUnderscore;
+        private readonly string[] _ignoreFields;
         private readonly List<Delegate> _mappingChain = new List<Delegate>();
         private bool _expectsTo;
         private static readonly MapperCacheKey _cacheKey = new MapperCacheKey(typeof (TFrom), typeof (TTo));
 
         #region Constructors
 
-        internal MapperBuilder(bool autoMap, bool ignoreCase, bool ignoreUnderscore)
+        internal MapperBuilder(bool autoMap, bool ignoreCase, bool ignoreUnderscore, string[] ignoreFields)
         {
             _autoMap = autoMap;
             _ignoreCase = ignoreCase;
             _ignoreUnderscore = ignoreUnderscore;
+            _ignoreFields = ignoreFields;
         }
 
         #endregion
@@ -172,8 +174,6 @@ namespace NIntegrate.Mapping
                     toObj = to(toObj, (TToValue)(object)fromValue);
                 }
             }
-
-
         }
 
         private void EmitMappingChain(ILCodeGenerator gen)
@@ -183,7 +183,7 @@ namespace NIntegrate.Mapping
 
             for (var i = 0; i < _mappingChain.Count / 2; i += 2)
             {
-                var fromToIndex = i;
+                var fromToIndex = i / 2;
                 var fromDelegate = _mappingChain[i];
                 var fromValueType = fromDelegate.GetType().GetGenericArguments()[1];
                 var toDelegate = _mappingChain[i + 1];
@@ -197,6 +197,43 @@ namespace NIntegrate.Mapping
                     val4 => val4.Load(fromToIndex)
                 );
             }
+        }
+
+        private bool IsIgnoreField(string fieldName)
+        {
+            if (string.IsNullOrEmpty(fieldName))
+                return false;
+
+            if (_ignoreFields != null)
+            {
+                foreach (string ignoreField in _ignoreFields)
+                {
+                    bool matched;
+                    if (_ignoreUnderscore)
+                    {
+                        matched = (string.Compare(
+                                fieldName.Replace("_", string.Empty),
+                                ignoreField.Replace("_", string.Empty),
+                                _ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal
+                            ) == 0
+                        );
+                    }
+                    else
+                    {
+                        matched = (string.Compare(
+                                fieldName,
+                                ignoreField,
+                                _ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal
+                            ) == 0
+                        );
+                    }
+
+                    if (matched)
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         #endregion
@@ -526,7 +563,7 @@ namespace NIntegrate.Mapping
             {
                 foreach (var property in baseType.GetProperties())
                 {
-                    if (!property.CanWrite)
+                    if (!property.CanWrite || IsIgnoreField(property.Name))
                         continue;
 
                     var targetProperty = property;
@@ -563,6 +600,9 @@ namespace NIntegrate.Mapping
 
                 foreach (var field in baseType.GetFields())
                 {
+                    if (IsIgnoreField(field.Name))
+                        continue;
+
                     var targetField = field;
                     var dataColumn = gen.DeclareLocalVariable(typeof(DataColumn));
                     EmitStoreIDataReaderMappingColumnToLocalVariable(gen, targetField.Name, dataColumn);
@@ -844,7 +884,7 @@ namespace NIntegrate.Mapping
             {
                 foreach (var property in baseType.GetProperties())
                 {
-                    if (!property.CanWrite)
+                    if (!property.CanWrite || IsIgnoreField(property.Name))
                         continue;
 
                     var targetProperty = property;
@@ -880,6 +920,9 @@ namespace NIntegrate.Mapping
                 }
                 foreach (var field in baseType.GetFields())
                 {
+                    if (IsIgnoreField(field.Name))
+                        continue;
+
                     var targetField = field;
                     var dataColumn = gen.DeclareLocalVariable(typeof(DataColumn));
                     EmitStoreDataRowMappingColumnToLocalVariable(gen, targetField.Name, dataColumn);
@@ -1068,7 +1111,7 @@ namespace NIntegrate.Mapping
             {
                 foreach (var property in baseType.GetProperties())
                 {
-                    if (!property.CanRead)
+                    if (!property.CanRead || IsIgnoreField(property.Name))
                         continue;
 
                     var targetProperty = MappingHelper.GetPropertyInfo(typeof(TTo), property.Name, _ignoreCase, _ignoreUnderscore);
@@ -1165,6 +1208,9 @@ namespace NIntegrate.Mapping
                 }
                 foreach (var field in baseType.GetFields())
                 {
+                    if (IsIgnoreField(field.Name))
+                        continue;
+
                     var targetProperty = MappingHelper.GetPropertyInfo(typeof(TTo), field.Name, _ignoreCase, _ignoreUnderscore);
                     if (targetProperty != null && targetProperty.CanWrite)
                     {
