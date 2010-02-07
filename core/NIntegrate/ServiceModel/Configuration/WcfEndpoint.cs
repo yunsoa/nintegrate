@@ -8,11 +8,11 @@ namespace NIntegrate.ServiceModel.Configuration
     [DataContract]
     public class WcfEndpoint
     {
-        internal WcfEndpoint()
+        public WcfEndpoint()
         {
         }
 
-        internal WcfEndpoint(
+        public WcfEndpoint(
             string serviceContractType,
             string bindingTypeCode,
             string bindingXml,

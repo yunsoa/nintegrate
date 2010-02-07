@@ -14,6 +14,41 @@ namespace DistributedEnterpriseIntegration.ConfigurationCenter
     public class WcfConfigurationService : IWcfConfigurationService
     {
         private static readonly QueryCommandFactory _commandfactory = new QueryCommandFactory();
+        private static readonly MapperFactory _mapperFac = new MapperFactory();
+
+        #region Constructors
+
+        static WcfConfigurationService()
+        {
+            //predefine the custom mapper from IDataReader to WcfEndpoint
+            _mapperFac.ConfigureMapper<IDataReader, WcfEndpoint>(
+                true, true, false,
+                "BindingXml", "BindingTypeCode", "EndpointBehaviorXml", "IdentityXml"
+            )
+            .From(rdr => new BindingXml(
+                rdr.GetString(rdr.GetOrdinal("BindingTypeCode")),
+                rdr.IsDBNull(rdr.GetOrdinal("BindingXml")) ? null : rdr.GetString(rdr.GetOrdinal("BindingXml"))
+            ))
+            .To<BindingXml>((endpoint, val) =>
+            {
+                endpoint.BindingXml = val;
+                return endpoint;
+            })
+            .From(rdr => rdr.IsDBNull(rdr.GetOrdinal("EndpointBehaviorXml")) ? null : new EndpointBehaviorXml(rdr.GetString(rdr.GetOrdinal("EndpointBehaviorXml"))))
+            .To<EndpointBehaviorXml>((endpoint, val) =>
+            {
+                endpoint.EndpointBehaviorXml = val;
+                return endpoint;
+            })
+            .From(rdr => rdr.IsDBNull(rdr.GetOrdinal("IdentityXml")) ? null : new IdentityXml(rdr.GetString(rdr.GetOrdinal("IdentityXml"))))
+            .To<IdentityXml>((endpoint, val) =>
+            {
+                endpoint.IdentityXml = val;
+                return endpoint;
+            });
+        }
+
+        #endregion
 
         #region IWcfConfigurationService Members
 
@@ -36,21 +71,25 @@ namespace DistributedEnterpriseIntegration.ConfigurationCenter
 
                     while (rdr.Read())
                     {
-                        int ordAddress = rdr.GetOrdinal("Address");
-                        int ordBindingXml = rdr.GetOrdinal("BindingXml");
-                        int ordBindingTypeCode = rdr.GetOrdinal("BindingTypeCode");
-                        int ordEndpointBehaviorXml = rdr.GetOrdinal("EndpointBehaviorXml");
-                        int ordIdentityXml = rdr.GetOrdinal("IdentityXml");
-                        int ordServiceContractType = rdr.GetOrdinal("ServiceContractType");
+                        //int ordAddress = rdr.GetOrdinal("Address");
+                        //int ordBindingXml = rdr.GetOrdinal("BindingXml");
+                        //int ordBindingTypeCode = rdr.GetOrdinal("BindingTypeCode");
+                        //int ordEndpointBehaviorXml = rdr.GetOrdinal("EndpointBehaviorXml");
+                        //int ordIdentityXml = rdr.GetOrdinal("IdentityXml");
+                        //int ordServiceContractType = rdr.GetOrdinal("ServiceContractType");
 
-                        var endpoint = new WcfServiceEndpoint();
+                        //var endpoint = new WcfServiceEndpoint();
+
+                        //endpoint.Address = rdr.GetString(ordAddress);
+                        //endpoint.BindingXml = new BindingXml(rdr.GetString(ordBindingTypeCode), rdr.GetString(ordBindingXml));
+                        //endpoint.EndpointBehaviorXml = rdr.IsDBNull(ordEndpointBehaviorXml) ? null : new EndpointBehaviorXml(rdr.GetString(ordEndpointBehaviorXml));
+                        //endpoint.IdentityXml = rdr.IsDBNull(ordIdentityXml) ? null : new IdentityXml(rdr.GetString(ordIdentityXml));
+                        //endpoint.ServiceContractType = rdr.GetString(ordServiceContractType);
+
+                        var dataReaderToEndpointMapper = _mapperFac.GetMapper<IDataReader, WcfEndpoint>();
+                        var serviceEndpointMapper = _mapperFac.GetMapper<WcfEndpoint, WcfServiceEndpoint>();
+                        var endpoint = serviceEndpointMapper(dataReaderToEndpointMapper(rdr));
                         endpointList.Add(endpoint);
-
-                        endpoint.Address = rdr.GetString(ordAddress);
-                        endpoint.BindingXml = new BindingXml(rdr.GetString(ordBindingTypeCode), rdr.GetString(ordBindingXml));
-                        endpoint.EndpointBehaviorXml = rdr.IsDBNull(ordEndpointBehaviorXml) ? null : new EndpointBehaviorXml(rdr.GetString(ordEndpointBehaviorXml));
-                        endpoint.IdentityXml = rdr.IsDBNull(ordIdentityXml) ? null : new IdentityXml(rdr.GetString(ordIdentityXml));
-                        endpoint.ServiceContractType = rdr.GetString(ordServiceContractType);
                     }
 
                     service.Endpoints = endpointList.ToArray();
@@ -75,19 +114,23 @@ namespace DistributedEnterpriseIntegration.ConfigurationCenter
 
                     if (rdr.Read())
                     {
-                        var endpoint = new WcfClientEndpoint();
-                        int ordAddress = rdr.GetOrdinal("Address");
-                        int ordBindingXml = rdr.GetOrdinal("BindingXml");
-                        int ordBindingTypeCode = rdr.GetOrdinal("BindingTypeCode");
-                        int ordEndpointBehaviorXml = rdr.GetOrdinal("EndpointBehaviorXml");
-                        int ordIdentityXml = rdr.GetOrdinal("IdentityXml");
-                        int ordServiceContractType = rdr.GetOrdinal("ServiceContractType");
+                        //var endpoint = new WcfClientEndpoint();
+                        //int ordAddress = rdr.GetOrdinal("Address");
+                        //int ordBindingXml = rdr.GetOrdinal("BindingXml");
+                        //int ordBindingTypeCode = rdr.GetOrdinal("BindingTypeCode");
+                        //int ordEndpointBehaviorXml = rdr.GetOrdinal("EndpointBehaviorXml");
+                        //int ordIdentityXml = rdr.GetOrdinal("IdentityXml");
+                        //int ordServiceContractType = rdr.GetOrdinal("ServiceContractType");
 
-                        endpoint.Address = rdr.GetString(ordAddress);
-                        endpoint.BindingXml = new BindingXml(rdr.GetString(ordBindingTypeCode), rdr.GetString(ordBindingXml));
-                        endpoint.EndpointBehaviorXml = rdr.IsDBNull(ordEndpointBehaviorXml) ? null : new EndpointBehaviorXml(rdr.GetString(ordEndpointBehaviorXml));
-                        endpoint.IdentityXml = rdr.IsDBNull(ordIdentityXml) ? null : new IdentityXml(rdr.GetString(ordIdentityXml));
-                        endpoint.ServiceContractType = rdr.GetString(ordServiceContractType);
+                        //endpoint.Address = rdr.GetString(ordAddress);
+                        //endpoint.BindingXml = new BindingXml(rdr.GetString(ordBindingTypeCode), rdr.GetString(ordBindingXml));
+                        //endpoint.EndpointBehaviorXml = rdr.IsDBNull(ordEndpointBehaviorXml) ? null : new EndpointBehaviorXml(rdr.GetString(ordEndpointBehaviorXml));
+                        //endpoint.IdentityXml = rdr.IsDBNull(ordIdentityXml) ? null : new IdentityXml(rdr.GetString(ordIdentityXml));
+                        //endpoint.ServiceContractType = rdr.GetString(ordServiceContractType);
+
+                        var dataReaderToEndpointMapper = _mapperFac.GetMapper<IDataReader, WcfEndpoint>();
+                        var clientEndpointMapper = _mapperFac.GetMapper<WcfEndpoint, WcfClientEndpoint>();
+                        var endpoint = clientEndpointMapper(dataReaderToEndpointMapper(rdr));
 
                         return endpoint;
                     }
