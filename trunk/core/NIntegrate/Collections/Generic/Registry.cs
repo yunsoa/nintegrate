@@ -4,7 +4,7 @@ using NIntegrate.Threading;
 
 namespace NIntegrate.Collections.Generic
 {
-    public abstract class Registry<TKey, TValue>
+    public abstract class Registry<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         private readonly Dictionary<TKey, TValue> _dict;
         private readonly ReaderWriterLock _dictLock;
@@ -53,5 +53,23 @@ namespace NIntegrate.Collections.Generic
 
             return false;
         }
+
+        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return _dict.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _dict.GetEnumerator();
+        }
+
+        #endregion
     }
 }
