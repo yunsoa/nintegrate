@@ -144,10 +144,10 @@ CREATE TABLE [dbo].[Server](
 GO
 SET ANSI_PADDING OFF
 GO
-INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (N'teddy', 0)
-INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (N'teddy', 1)
-INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (N'teddy', 2)
-INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (N'teddy', 3)
+INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (@@SERVERNAME, 0)
+INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (@@SERVERNAME, 1)
+INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (@@SERVERNAME, 2)
+INSERT [dbo].[Server] ([ServerName], [Farm_id]) VALUES (@@SERVERNAME, 3)
 /****** Object:  Table [dbo].[FarmAccess]    Script Date: 01/28/2010 22:51:06 ******/
 SET ANSI_NULLS ON
 GO
