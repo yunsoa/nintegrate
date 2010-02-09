@@ -38,10 +38,10 @@ CREATE TABLE [dbo].[ClientEndpoint](
 GO
 SET ANSI_PADDING OFF
 GO
-INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'NIntegrate.Web.IQueryService, NIntegrate.Web', N'teddy', NULL)
-INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'DistributedEnterpriseIntegration.App1.Contracts.IApp1ReadonlyService, DistributedEnterpriseIntegration.App1.Contracts', N'teddy', NULL)
-INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'DistributedEnterpriseIntegration.App1.Contracts.IApp1ReadWriteService, DistributedEnterpriseIntegration.App1.Contracts', N'teddy', NULL)
-INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'DistributedEnterpriseIntegration.App2.Contracts.IApp2Service, DistributedEnterpriseIntegration.App2.Contracts', N'teddy', NULL)
+INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'NIntegrate.Web.IQueryService, NIntegrate.Web', @@SERVERNAME, NULL)
+INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'DistributedEnterpriseIntegration.App1.Contracts.IApp1ReadonlyService, DistributedEnterpriseIntegration.App1.Contracts', @@SERVERNAME, NULL)
+INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'DistributedEnterpriseIntegration.App1.Contracts.IApp1ReadWriteService, DistributedEnterpriseIntegration.App1.Contracts', @@SERVERNAME, NULL)
+INSERT [dbo].[ClientEndpoint] ([ServiceContractType], [ServerName], [EndpointBehaviorXml]) VALUES (N'DistributedEnterpriseIntegration.App2.Contracts.IApp2Service, DistributedEnterpriseIntegration.App2.Contracts', @@SERVERNAME, NULL)
 /****** Object:  Table [dbo].[BindingType_lkp]    Script Date: 01/28/2010 22:51:06 ******/
 SET ANSI_NULLS ON
 GO
