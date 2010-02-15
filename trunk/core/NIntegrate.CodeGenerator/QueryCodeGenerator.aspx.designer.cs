@@ -68,6 +68,33 @@ namespace NIntegrate.CodeGenerator {
         protected global::System.Web.UI.WebControls.CheckBox cbDeleteBeforeGen;
         
         /// <summary>
+        /// ddlOutputLangs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOutputLangs;
+        
+        /// <summary>
+        /// tbOutputNamespace control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbOutputNamespace;
+        
+        /// <summary>
+        /// tbDefaultConnStrName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbDefaultConnStrName;
+        
+        /// <summary>
         /// cbSelectAllTables control.
         /// </summary>
         /// <remarks>
