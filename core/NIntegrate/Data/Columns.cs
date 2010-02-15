@@ -622,4 +622,65 @@ namespace NIntegrate.Data
 
         #endregion
     }
+
+    [DataContract]
+    public sealed class BinaryColumn : GuidExpression, IColumn
+    {
+        [DataMember]
+        internal string _columnName;
+
+        #region Constructors
+
+        public BinaryColumn(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            _columnName = columnName;
+            Sql = columnName.ToDatabaseObjectName();
+        }
+
+        internal BinaryColumn(BinaryExpression expr, string columnName)
+            : this(columnName)
+        {
+            if (ReferenceEquals(expr, null))
+                throw new ArgumentNullException("expr");
+
+            Sql = expr.Sql;
+            if (expr.ChildExpressions != null)
+                ChildExpressions.AddRange(expr.ChildExpressions);
+        }
+
+        #endregion
+
+        #region IColumn Members
+
+        public string ColumnName
+        {
+            get { return _columnName; }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        [ComVisible(false)]
+        public override object Clone()
+        {
+            var clone = new BinaryColumn((BinaryExpression)base.Clone(), ColumnName);
+            return clone;
+        }
+
+        public Assignment Set(BinaryExpression value)
+        {
+            return new Assignment(this, ((object)value) == null ? (IExpression)NullExpression.Value : value);
+        }
+
+        public Assignment Set(byte[] value)
+        {
+            return new Assignment(this, new BinaryParameterExpression(value));
+        }
+
+        #endregion
+    }
 }

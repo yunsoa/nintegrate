@@ -1275,4 +1275,122 @@ namespace NIntegrate.Data
 
         #endregion
     }
+
+    [DataContract]
+    public sealed class BinaryParameterExpression : BinaryExpression, IParameterExpression
+    {
+        #region Constructors
+
+        public BinaryParameterExpression(string id, byte[] value)
+        {
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentNullException("id");
+
+            ID = id;
+            Value = value;
+            Sql = "?";
+        }
+
+        public BinaryParameterExpression(byte[] value)
+        {
+            Value = value;
+            Sql = "?";
+        }
+
+        public BinaryParameterExpression(string sprocParamName, SprocParameterDirection direction)
+        {
+            if (string.IsNullOrEmpty(sprocParamName))
+                throw new ArgumentNullException("sprocParamName");
+
+            ID = sprocParamName;
+            Sql = "?";
+            Direction = direction;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        [DataMember]
+        public string ID { get; internal set; }
+
+        [DataMember]
+        public byte[] Value { get; set; }
+
+        object IParameterExpression.Value
+        {
+            get { return Value; }
+            set { Value = (byte[])value; }
+        }
+
+        [DataMember]
+        public SprocParameterDirection? Direction { get; internal set; }
+
+        #endregion
+
+        #region Public Methods
+
+        public override object Clone()
+        {
+            return string.IsNullOrEmpty(ID)
+                       ?
+                           new BinaryParameterExpression(Value) { Sql = Sql, Direction = Direction }
+                       :
+                           new BinaryParameterExpression(ID, Value) { Sql = Sql, Direction = Direction };
+        }
+
+        #endregion
+
+        #region Equals & NotEquals
+
+        public ParameterEqualsCondition Equals(byte[] value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.Is, NullExpression.Value);
+
+            return new ParameterEqualsCondition(this, ExpressionOperator.Equals, new BinaryParameterExpression(value));
+        }
+
+        public ParameterEqualsCondition NotEquals(byte[] value)
+        {
+            if (value == null)
+                return new ParameterEqualsCondition(this, ExpressionOperator.IsNot, NullExpression.Value);
+
+            return new ParameterEqualsCondition(this, ExpressionOperator.NotEquals, new BinaryParameterExpression(value));
+        }
+
+        public static ParameterEqualsCondition operator ==(BinaryParameterExpression left, byte[] right)
+        {
+            return left.Equals(right);
+        }
+
+        public static ParameterEqualsCondition operator !=(BinaryParameterExpression left, byte[] right)
+        {
+            return left.NotEquals(right);
+        }
+
+        public static ParameterEqualsCondition operator ==(byte[] left, BinaryParameterExpression right)
+        {
+            return right.Equals(left);
+        }
+
+        public static ParameterEqualsCondition operator !=(byte[] left, BinaryParameterExpression right)
+        {
+            return right.NotEquals(left);
+        }
+
+        [ComVisible(false)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [ComVisible(false)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+    }
 }

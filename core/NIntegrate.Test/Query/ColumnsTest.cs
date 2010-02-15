@@ -87,6 +87,16 @@ namespace NIntegrate.Test.Query
             Assert.AreEqual(column.ChildExpressions.Count, deserializedColumn.ChildExpressions.Count);
             Assert.AreEqual(1, (deserializedColumn.ChildExpressions[0] as Int32ParameterExpression).Value);
             Assert.AreEqual(column.ColumnName, deserializedColumn.ColumnName);
+
+            var binaryExpr = new BinaryParameterExpression("id1", new byte[] { 0, 1, 2 });
+            serializer = new DataContractSerializer(typeof(BinaryParameterExpression));
+            stream = new MemoryStream();
+            serializer.WriteObject(stream, binaryExpr);
+            stream.Seek(0, SeekOrigin.Begin);
+            var deserializedExpr = (BinaryParameterExpression)serializer.ReadObject(stream);
+            Assert.AreEqual(binaryExpr.ID, deserializedExpr.ID);
+            Assert.AreEqual(binaryExpr.Value.Length, deserializedExpr.Value.Length);
+            Assert.AreEqual(binaryExpr.Value[1], deserializedExpr.Value[1]);
         }
     }
 }

@@ -268,6 +268,9 @@ namespace NIntegrate.CodeGenerator
 
         protected Type GetQueryColumnType(Type columnType)
         {
+            if (columnType == typeof(byte[]))
+                return typeof(BinaryColumn);
+
             if (columnType == typeof(sbyte))
                 columnType = typeof(byte);
             else if (columnType == typeof(ushort))
@@ -375,7 +378,8 @@ namespace NIntegrate.CodeGenerator
                 case DbType.StringFixedLength:
                 case DbType.Xml:
                     return typeof(StringParameterExpression);
-                //case DbType.Binary:??
+                case DbType.Binary:
+                    return typeof(BinaryParameterExpression);
                 case DbType.Boolean:
                     return typeof(BooleanParameterExpression);
                 case DbType.SByte:
