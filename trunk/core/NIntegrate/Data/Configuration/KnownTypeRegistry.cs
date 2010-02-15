@@ -121,6 +121,7 @@ namespace NIntegrate.Data.Configuration
                            typeof(GuidExpression),
                            typeof(DoubleExpression),
                            typeof(DecimalExpression),
+                           typeof(BinaryExpression),
                            typeof(ExpressionCollection),
                            typeof(BooleanParameterExpression),
                            typeof(ByteParameterExpression),
@@ -132,6 +133,7 @@ namespace NIntegrate.Data.Configuration
                            typeof(GuidParameterExpression),
                            typeof(DoubleParameterExpression),
                            typeof(DecimalParameterExpression),
+                           typeof(BinaryParameterExpression),
                            typeof(BooleanColumn),
                            typeof(ByteColumn),
                            typeof(Int16Column),
@@ -142,6 +144,7 @@ namespace NIntegrate.Data.Configuration
                            typeof(GuidColumn),
                            typeof(DoubleColumn),
                            typeof(DecimalColumn),
+                           typeof(BinaryColumn),
                            typeof(QueryTable),
                            typeof(QuerySproc),
                            typeof(QueryCriteria)

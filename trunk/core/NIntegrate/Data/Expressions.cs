@@ -5405,6 +5405,65 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    [DataContract]
+    [KnownType("KnownTypes")]
+    public class BinaryExpression : Expression
+    {
+        #region KnownTypes
+
+        static Type[] KnownTypes()
+        {
+            return KnownTypeRegistry.Instance.KnownTypes;
+        }
+
+        #endregion
+
+        #region Constructors
+
+        internal BinaryExpression()
+        {
+            Sql = "0x0";
+        }
+
+        internal BinaryExpression(string sql, IList<IExpression> childExpressions) : base(sql, childExpressions) { }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected override object CreateInstance()
+        {
+            return new BinaryExpression();
+        }
+
+        #endregion
+
+        #region Operators
+
+        public IColumn As(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName))
+                throw new ArgumentNullException("columnName");
+
+            var column = ((object)this) as BinaryColumn;
+            if (!ReferenceEquals(column, null))
+            {
+                var asColumn = (BinaryColumn)column.Clone();
+                asColumn._columnName = columnName;
+                return asColumn;
+            }
+
+            return new BinaryColumn(this, columnName);
+        }
+
+        public override Condition In(IEnumerable values)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
     [CollectionDataContract]
     [KnownType("KnownTypes")]
     internal sealed class ExpressionCollection : IExpression, ICollection<IExpression>
