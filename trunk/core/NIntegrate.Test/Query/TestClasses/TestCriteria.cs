@@ -19,4 +19,15 @@ namespace NIntegrate.Test.Query.TestClasses
         public DoubleColumn DoubleColumn = new DoubleColumn("DoubleColumn");
         public DecimalColumn DecimalColumn = new DecimalColumn("DecimalColumn");
     }
+
+    public class TestTable2 : QueryTable
+    {
+        public TestTable2()
+            : base("TestTable2", "Test", false)
+        {
+        }
+
+        public Int32Column ID = new Int32Column("ID");
+        public BinaryColumn Data = new BinaryColumn("Data");
+    }
 }
