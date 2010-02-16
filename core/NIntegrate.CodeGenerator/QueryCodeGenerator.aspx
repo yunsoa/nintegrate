@@ -51,13 +51,13 @@
     <br />
     <table align="left">
         <tr>
-            <th style="width: 200px">
+            <th style="width: 250px">
                 Tables
             </th>
-            <th style="width: 200px">
+            <th style="width: 250px">
                 Views
             </th>
-            <th style="width: 200px">
+            <th style="width: 250px">
                 Stored Procedures
             </th>
         </tr>

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NIntegrate.Test.Query.TestClasses;
 using NIntegrate.Data;
+using System.Data;
 
 namespace NIntegrate.Test.Query
 {
@@ -97,6 +98,20 @@ namespace NIntegrate.Test.Query
             Assert.AreEqual(binaryExpr.ID, deserializedExpr.ID);
             Assert.AreEqual(binaryExpr.Value.Length, deserializedExpr.Value.Length);
             Assert.AreEqual(binaryExpr.Value[1], deserializedExpr.Value[1]);
+        }
+
+        [TestMethod]
+        public void TestBinaryColumn()
+        {
+            var cmdFac = new QueryCommandFactory();
+            var table = new TestTable2();
+            var criteria = table.Insert(table.Data.Set(new byte[] { 0, 1, 2 })).Where(table.ID == 123);
+            var cmd = cmdFac.CreateCommand(criteria, false);
+            Assert.AreEqual("@p1", cmd.Parameters[0].ParameterName);
+            Assert.AreEqual(DbType.Binary, cmd.Parameters[0].DbType);
+            Assert.AreEqual(1, (cmd.Parameters[0].Value as byte[])[1]);
+            Assert.AreEqual("@p2", cmd.Parameters[1].ParameterName);
+            Assert.AreEqual(123, cmd.Parameters[1].Value);
         }
     }
 }
