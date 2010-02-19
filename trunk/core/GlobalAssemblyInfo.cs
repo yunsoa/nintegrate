@@ -7,5 +7,5 @@ using System.Reflection;
 
 [assembly: CLSCompliant(true)]
 
-[assembly: AssemblyVersion("0.9.3.1")]
-[assembly: AssemblyFileVersion("0.9.3.1")]
+[assembly: AssemblyVersion("0.9.4.1")]
+[assembly: AssemblyFileVersion("0.9.4.1")]
