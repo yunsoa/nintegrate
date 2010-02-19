@@ -27,9 +27,12 @@ namespace NIntegrate.CodeGenerator
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            tbOutputDir.Text = Path.Combine(Server.MapPath("~/App_Data/"), "NIntegrateQueryClasses");
-            tbOutputNamespace.Text = "NIntegrateQueryClasses";
-            tbDefaultConnStrName.Text = "Default";
+            if (!IsPostBack)
+            {
+                tbOutputDir.Text = Path.Combine(Server.MapPath("~/App_Data/"), "NIntegrateQueryClasses");
+                tbOutputNamespace.Text = "NIntegrateQueryClasses";
+                tbDefaultConnStrName.Text = "Default";
+            }
         }
 
         protected void btnConnect_Click(object sender, EventArgs e)
