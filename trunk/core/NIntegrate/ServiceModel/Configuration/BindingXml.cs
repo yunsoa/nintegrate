@@ -105,7 +105,7 @@ namespace NIntegrate.ServiceModel.Configuration
                             }
                             else
                             {
-                                return address.TrimEnd('/') + "/" + path;
+                                return (address.TrimEnd('/') + "/" + path).TrimEnd('/');
                             }
                         }
                     }
