@@ -1,12 +1,20 @@
-NIntegrate v0.9.3.1
+NIntegrate v0.9.4.1
 -------------------
+
+1. Fix bug in query class code generator.
+2. Fix bug in WcfServiceHostFactory when hosting endpoint with empty address.
+3. New E-Appointment 1.1 MS case study sample application with NIntegrate enhancement sample.
+
+
+Update since v0.9.3.1
+---------------------
 
 1. Add WCF Configuration Validator
 2. Add query class code generator for SQL Server
 3. Add query classes for binary expressions
 
 
-Update since v0.9.3.1
+Update since v0.9.2.1
 ---------------------
 
 1. MapperFactory supports ignore fields in object field auto map.
