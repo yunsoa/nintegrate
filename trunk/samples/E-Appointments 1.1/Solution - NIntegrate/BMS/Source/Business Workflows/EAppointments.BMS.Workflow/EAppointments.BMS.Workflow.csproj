@@ -1,0 +1,100 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{16CC4608-39A9-45B6-9C0C-20A97D430CAD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>EAppointments.BMS.Workflow</RootNamespace>
+    <AssemblyName>EAppointments.BMS.Workflow</AssemblyName>
+    <ProjectTypeGuids>{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Workflow.Activities" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Workflow.Runtime" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="AppointmentWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AppointmentWorkflow.designer.cs">
+      <DependentUpon>AppointmentWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AppointmentWorkflow.layout">
+      <DependentUpon>AppointmentWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Service Interface\EAppointments.BMS.DataTypes\EAppointments.BMS.DataTypes.csproj">
+      <Project>{914B80DB-54D2-48B4-819A-4AC199C13922}</Project>
+      <Name>EAppointments.BMS.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Service Interface\EAppointments.BMS.ServiceContracts\EAppointments.BMS.ServiceContracts.csproj">
+      <Project>{DECC37FA-2A78-48FC-B920-BDFCE92CE699}</Project>
+      <Name>EAppointments.BMS.ServiceContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EAppointments.BMS.Workflow.Activities\EAppointments.BMS.Workflow.Activities.csproj">
+      <Project>{D25734A7-9289-43D4-B4BC-BB2FA2CA2288}</Project>
+      <Name>EAppointments.BMS.Workflow.Activities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EAppointments.BMS.Workflow.Interfaces\EAppointments.BMS.Workflow.Interfaces.csproj">
+      <Project>{9E9D08E2-FFE2-4953-8505-EF00E049AB88}</Project>
+      <Name>EAppointments.BMS.Workflow.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows Workflow Foundation\v3.5\Workflow.Targets" />
+</Project>

@@ -1,0 +1,176 @@
+﻿DIV.weekheader
+{
+	color:				#7288ac;
+	font-weight:		bold;
+	border-bottom:		1px solid #7288ac;
+	padding-left:		2px;
+}
+
+DIV.weekcontent
+{
+	width:				100%;
+	padding:			10px;
+	padding-left:		10px;	
+}
+
+DIV.weekcontainer
+{
+	padding:10px;
+	font-size: 12px;
+	font-family: Tahoma;
+	text-align: left;
+	border:	1px solid #7288ac;
+}
+	
+
+
+/* Accordion */
+
+.accordion
+{
+	width:95%;
+}
+
+.accordionHeader
+{
+    border: 1px solid #FB8233;
+    color: #000000;
+    background: #FFFFFF url(Images/sc_press.gif) repeat scroll 0%;
+	font-size: 12px;
+	font-weight: bold;
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    text-align : left;
+}
+
+#right .accordionHeader a
+{
+	color: #000000;
+	background: none;
+	text-decoration: none;
+}
+
+#right .accordionHeader a:hover
+{
+	background: none;
+	text-decoration: underline;
+}
+
+.accordionHeaderSelected
+{
+    border: 1px solid #FB8233;
+    color: #000000;
+    background: #FFFFFF url(Images/sc_press.gif) repeat scroll 0%;
+	font-size: 12px;
+	font-weight: bold;
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    text-align : left;
+}
+
+#right .accordionHeaderSelected a
+{
+	color: #000000;
+	background: none;
+	text-decoration: none;
+}
+#right .accordionHeaderSelected a:hover
+{
+	background: none;
+	text-decoration: underline;
+}
+
+.accordionContent
+{
+    background-color: #FDFBE7;
+    border: 1px dashed #2F4F4F;
+    border-top: none;
+    padding: 5px;
+    padding-top: 10px;
+}
+
+.accordionContent input
+{
+	padding: 5px 5px;
+}
+
+/*CollapsiblePanel*/
+.collapsePanel {
+	
+	background-color:white;
+}
+
+.collapsePanelHeader{
+	width:100%;
+	height:30px;
+	background-image: url(Images/bg-menu-main.png);
+	background-repeat:repeat-x;
+	color:#FFF;
+	font-weight:bold;
+}
+
+#left .collapsePanelHeader a {color:#FFF;}
+#left .collapsePanelHeader a:hover {text-decoration:none;background:none;}
+
+
+.ContextMenuPanel 
+{
+	border: 1px solid #868686;
+	z-index: 1000;
+	background: url(Images/menu-bg.gif) repeat-y 0 0 #FAFAFA;
+	cursor: default;
+	padding: 1px 1px 0px 1px;
+	font-size: 11px;
+}
+
+.ContextMenuBreak
+{
+	margin:1px 1px 1px 32px;
+	padding:0;
+	height:1px;
+	overflow:hidden;
+	display:block;
+	border-top: 1px solid #C5C5C5;	
+}
+
+a.ContextMenuItem
+{
+	margin: 1px 0 1px 0;
+	display: block;
+	color: #003399;
+	text-decoration: none;
+	cursor: pointer;	
+	padding: 4px 19px 4px 33px;
+	white-space: nowrap;
+}
+
+a.ContextMenuItem-Selected
+{
+	font-weight: bold;
+}
+
+a.ContextMenuItem:hover
+{
+	background-color: #FFE6A0;
+	color: #003399;
+	border: 1px solid #D2B47A;
+	padding: 3px 18px 3px 32px;
+}
+
+div.ProgressBarIcon
+{
+	width:20px;
+	height:20px;
+	float:left;
+	background-image:url(Images/loading.gif);
+}
+
+div.ProgressBarText
+{
+	height:30px;
+	float:left;
+}
+
+

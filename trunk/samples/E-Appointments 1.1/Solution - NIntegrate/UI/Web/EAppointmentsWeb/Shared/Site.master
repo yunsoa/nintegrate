@@ -1,0 +1,80 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="Shared_Site" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head" runat="server">
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <title>E-Appointments Welcome</title>
+</head>
+<body class="BodyStyle">
+    <form runat="server" id="DefaultForm">
+        <div id="outer">
+            <div id="clearheader">
+            </div>
+            <div id="contentplaceholder">
+                <asp:ContentPlaceHolder ID="SiteContent" runat="server" />
+            </div>
+        </div>
+        <div id="header">
+            <div id="headerleft">
+                <asp:Image AlternateText=".NET Logo" ImageUrl="~/App_Themes/Default/Images/dotnet_logo.jpg"
+                    runat="server" ID="imgLogo" EnableTheming="false" />
+            </div>
+            <div id="headerright">
+                 <asp:Image AlternateText="ASAP Logo" ImageUrl="~/App_Themes/Default/Images/logo.gif"
+                    runat="server" ID="imgASAPLogo" Width="195px" Height="65px" EnableTheming="false"/></div>
+        </div>
+        <table cellspacing="0" id="uxp_hdr">
+            <tbody>
+                <tr>
+                    <td class="uxp_hdrInner">
+                        <table cellspacing="0" class="uxp_hdrInnerTable">
+                            <tbody>
+                                <tr>
+                                    <td class="uxp_hdr_pointer" id="uxp_hdr_jewelParent">
+                                        <asp:LoginView ID="HeaderUserNameView" runat="server">
+                                            <LoggedInTemplate>
+                                                <span class="uxp_hdr_windowsLiveText">Welcome User: <%=System.Threading.Thread.CurrentPrincipal.Identity.Name %></span>
+                                            </LoggedInTemplate>
+                                        </asp:LoginView>
+                                    </td>
+                                    <td>
+                                        <table id="uxp_hdr_middleArea">
+                                            <tbody>
+                                                <tr>
+                                                    <td id="uxp_hdr_tabsParent">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td class="uxp_hdr_pointer" id="uxp_hdr_meParent">
+                                        <table cellspacing="0" class="uxp_hdr_pointer" id="uxp_hdr_tabs">
+                                            <tbody>
+                                                <tr>
+                                                    <asp:LoginView ID="HeaderLinksView" runat="server">
+                                                        <LoggedInTemplate>
+                                                            <td>
+                                                                <a id="uxp_hdr_tabs_current" href="../Appointment/Default.aspx"><span>Home</span></a></td>
+                                                            <td>
+                                                                <a href="#"><span>Help</span></a></td>
+                                                        </LoggedInTemplate>                                                       
+                                                    </asp:LoginView>
+                                                    <td>
+                                                        <asp:LoginStatus ID="LoginStatus" runat="server" 
+                                                            LogoutText="<span>Logout</span>"
+                                                            LoginText="<span>Login</span>" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
