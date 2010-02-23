@@ -66,9 +66,9 @@ namespace NIntegrate.Mapping
         }
 
         public MapperBuilder<TFrom, TTo> ConfigureMapper<TFrom, TTo>(
-            bool autoMap, bool ignoreCase, bool IgnoreUnderscore, params string[] ignoreFields)
+            bool autoMap, bool ignoreCase, bool ignoreUnderscore, params string[] ignoreFields)
         {
-            var builder = new MapperBuilder<TFrom, TTo>(autoMap, ignoreCase, IgnoreUnderscore, ignoreFields);
+            var builder = new MapperBuilder<TFrom, TTo>(autoMap, ignoreCase, ignoreUnderscore, ignoreFields);
             lock (_mapperCacheLock)
             {
                 _mapperCache[builder.CacheKey] = builder;
