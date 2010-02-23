@@ -1,0 +1,235 @@
+﻿<StateMachineWorkflowDesigner xmlns:ns0="clr-namespace:System.Drawing;Assembly=System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Name="AppointmentWorkflow" Location="30, 30" Size="752, 568" AutoSizeMargin="16, 24" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/workflow">
+	<StateMachineWorkflowDesigner.DesignerConnectors>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Pending" SourceConnectionIndex="0" TargetConnectionEdge="Top" SetStateName="setPendingState" SourceStateName="InitialState" SourceConnectionEdge="Right" TargetActivity="Pending" SourceActivity="InitialState" EventHandlerName="InitializeAppointment">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="242" Y="137" />
+				<ns0:Point X="258" Y="137" />
+				<ns0:Point X="258" Y="203" />
+				<ns0:Point X="162" Y="203" />
+				<ns0:Point X="162" Y="215" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Booked" SourceConnectionIndex="0" TargetConnectionEdge="Top" SetStateName="setBookedState" SourceStateName="Pending" SourceConnectionEdge="Right" TargetActivity="Booked" SourceActivity="Pending" EventHandlerName="OnBooked">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="167" Y="259" />
+				<ns0:Point X="272" Y="259" />
+				<ns0:Point X="272" Y="317" />
+				<ns0:Point X="160" Y="317" />
+				<ns0:Point X="160" Y="329" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Deleted" SourceConnectionIndex="1" TargetConnectionEdge="Top" SetStateName="setAppointmentDeleted" SourceStateName="Pending" SourceConnectionEdge="Right" TargetActivity="Deleted" SourceActivity="Pending" EventHandlerName="OnDeleted">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="168" Y="285" />
+				<ns0:Point X="299" Y="285" />
+				<ns0:Point X="299" Y="99" />
+				<ns0:Point X="414" Y="99" />
+				<ns0:Point X="414" Y="107" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Approved" SourceConnectionIndex="0" TargetConnectionEdge="Top" SetStateName="setApprovedState" SourceStateName="Booked" SourceConnectionEdge="Right" TargetActivity="Approved" SourceActivity="Booked" EventHandlerName="OnApproved">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="187" Y="373" />
+				<ns0:Point X="539" Y="373" />
+				<ns0:Point X="539" Y="219" />
+				<ns0:Point X="435" Y="219" />
+				<ns0:Point X="435" Y="227" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Rejected" SourceConnectionIndex="1" TargetConnectionEdge="Top" SetStateName="setRejectedState" SourceStateName="Booked" SourceConnectionEdge="Right" TargetActivity="Rejected" SourceActivity="Booked" EventHandlerName="OnRejected">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="180" Y="399" />
+				<ns0:Point X="760" Y="399" />
+				<ns0:Point X="760" Y="289" />
+				<ns0:Point X="672" Y="289" />
+				<ns0:Point X="672" Y="297" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Cancelled" SourceConnectionIndex="2" TargetConnectionEdge="Top" SetStateName="setCancelledState" SourceStateName="Booked" SourceConnectionEdge="Right" TargetActivity="Cancelled" SourceActivity="Booked" EventHandlerName="OnCancelled">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="186" Y="425" />
+				<ns0:Point X="299" Y="425" />
+				<ns0:Point X="299" Y="485" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Booked" SourceConnectionIndex="3" TargetConnectionEdge="Top" SetStateName="setBookedState1" SourceStateName="Booked" SourceConnectionEdge="Right" TargetActivity="Booked" SourceActivity="Booked" EventHandlerName="onReBooked">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="186" Y="451" />
+				<ns0:Point X="256" Y="451" />
+				<ns0:Point X="256" Y="321" />
+				<ns0:Point X="160" Y="321" />
+				<ns0:Point X="160" Y="329" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Rejected" SourceConnectionIndex="0" TargetConnectionEdge="Top" SetStateName="setRejectedState2" SourceStateName="Approved" SourceConnectionEdge="Right" TargetActivity="Rejected" SourceActivity="Approved" EventHandlerName="OnRejected2">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="457" Y="271" />
+				<ns0:Point X="672" Y="271" />
+				<ns0:Point X="672" Y="297" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Cancelled" SourceConnectionIndex="1" TargetConnectionEdge="Top" SetStateName="setCancelledState2" SourceStateName="Approved" SourceConnectionEdge="Right" TargetActivity="Cancelled" SourceActivity="Approved" EventHandlerName="OnCancelled2">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="463" Y="297" />
+				<ns0:Point X="539" Y="297" />
+				<ns0:Point X="539" Y="473" />
+				<ns0:Point X="299" Y="473" />
+				<ns0:Point X="299" Y="485" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Approved" SourceConnectionIndex="0" TargetConnectionEdge="Top" SetStateName="setApprovedState2" SourceStateName="Rejected" SourceConnectionEdge="Right" TargetActivity="Approved" SourceActivity="Rejected" EventHandlerName="OnApproved2">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="713" Y="341" />
+				<ns0:Point X="763" Y="341" />
+				<ns0:Point X="763" Y="219" />
+				<ns0:Point X="435" Y="219" />
+				<ns0:Point X="435" Y="227" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Cancelled" SourceConnectionIndex="1" TargetConnectionEdge="Top" SetStateName="setCancelledState3" SourceStateName="Rejected" SourceConnectionEdge="Right" TargetActivity="Cancelled" SourceActivity="Rejected" EventHandlerName="OnCancelled3">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="712" Y="367" />
+				<ns0:Point X="763" Y="367" />
+				<ns0:Point X="763" Y="473" />
+				<ns0:Point X="299" Y="473" />
+				<ns0:Point X="299" Y="485" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Deleted" SourceConnectionIndex="0" TargetConnectionEdge="Top" SetStateName="setDeletedState2" SourceStateName="Cancelled" SourceConnectionEdge="Right" TargetActivity="Deleted" SourceActivity="Cancelled" EventHandlerName="OnDeleted2">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="327" Y="529" />
+				<ns0:Point X="534" Y="529" />
+				<ns0:Point X="534" Y="99" />
+				<ns0:Point X="414" Y="99" />
+				<ns0:Point X="414" Y="107" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+		<StateDesignerConnector TargetConnectionIndex="0" TargetStateName="Deleted" SourceConnectionIndex="2" TargetConnectionEdge="Top" SetStateName="setDeletedState" SourceStateName="Rejected" SourceConnectionEdge="Right" TargetActivity="Deleted" SourceActivity="Rejected" EventHandlerName="onDeleted3">
+			<StateDesignerConnector.Segments>
+				<ns0:Point X="700" Y="393" />
+				<ns0:Point X="758" Y="393" />
+				<ns0:Point X="758" Y="99" />
+				<ns0:Point X="414" Y="99" />
+				<ns0:Point X="414" Y="107" />
+			</StateDesignerConnector.Segments>
+		</StateDesignerConnector>
+	</StateMachineWorkflowDesigner.DesignerConnectors>
+	<StateMachineWorkflowDesigner.Designers>
+		<StateDesigner Name="InitialState" Location="80, 93" Size="166, 80" AutoSize="False" AutoSizeMargin="16, 24">
+			<StateDesigner.Designers>
+				<EventDrivenDesigner Size="150, 254" Name="InitializeAppointment" Location="88, 126">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleCreateEvent" Location="98, 191" />
+						<CallExternalMethodActivityDesigner Size="130, 44" Name="callCreateMethod" Location="98, 254" />
+						<SetStateDesigner Size="130, 44" Name="setPendingState" Location="98, 317" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+			</StateDesigner.Designers>
+		</StateDesigner>
+		<StateDesigner Name="Pending" Location="65, 215" Size="195, 84" AutoSizeMargin="16, 24">
+			<StateDesigner.Designers>
+				<EventDrivenDesigner Size="150, 251" Name="OnBooked" Location="73, 248">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleBookEvent" Location="83, 313" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callBookMethod" Location="83, 376" />
+						<SetStateDesigner Size="130, 44" Name="setBookedState" Location="83, 436" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+				<EventDrivenDesigner Size="150, 269" Name="OnDeleted" Location="73, 274">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleDeleteEvent" Location="83, 339" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callDelete" Location="83, 402" />
+						<SetStateDesigner Size="130, 62" Name="setAppointmentDeleted" Location="83, 462" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+			</StateDesigner.Designers>
+		</StateDesigner>
+		<StateDesigner Name="Deleted" Location="334, 107" Size="160, 80" AutoSizeMargin="16, 24" />
+		<StateDesigner Name="Booked" Location="72, 329" Size="177, 136" AutoSizeMargin="16, 24">
+			<StateDesigner.Designers>
+				<EventDrivenDesigner Size="150, 269" Name="OnApproved" Location="80, 362">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleApprovedEvent" Location="90, 427" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callApprove" Location="90, 490" />
+						<SetStateDesigner Size="130, 62" Name="setApprovedState" Location="90, 550" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+				<EventDrivenDesigner Size="150, 248" Name="OnRejected" Location="80, 388">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 41" Name="handleRejected" Location="90, 453" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callReject" Location="90, 513" />
+						<SetStateDesigner Size="130, 44" Name="setRejectedState" Location="90, 573" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+				<EventDrivenDesigner Size="150, 269" Name="OnCancelled" Location="80, 414">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleCancelEvent" Location="90, 479" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callCancel" Location="90, 542" />
+						<SetStateDesigner Size="130, 62" Name="setCancelledState" Location="90, 602" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+				<EventDrivenDesigner Size="150, 272" Name="onReBooked" Location="80, 440">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleRebookEvent" Location="90, 505" />
+						<CallExternalMethodActivityDesigner Size="130, 44" Name="callRebookMethod" Location="90, 568" />
+						<SetStateDesigner Size="130, 62" Name="setBookedState1" Location="90, 631" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+			</StateDesigner.Designers>
+		</StateDesigner>
+		<StateDesigner Name="Approved" Location="343, 227" Size="184, 84" AutoSizeMargin="16, 24">
+			<StateDesigner.Designers>
+				<EventDrivenDesigner Size="150, 266" Name="OnRejected2" Location="351, 260">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 41" Name="handleRejected2" Location="361, 325" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callReject2" Location="361, 385" />
+						<SetStateDesigner Size="130, 62" Name="setRejectedState2" Location="361, 445" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+				<EventDrivenDesigner Size="150, 269" Name="OnCancelled2" Location="351, 286">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleCancelEvent2" Location="361, 351" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callCancelled2" Location="361, 414" />
+						<SetStateDesigner Size="130, 62" Name="setCancelledState2" Location="361, 474" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+			</StateDesigner.Designers>
+		</StateDesigner>
+		<StateDesigner Name="Rejected" Location="592, 297" Size="160, 110" AutoSizeMargin="16, 24">
+			<StateDesigner.Designers>
+				<EventDrivenDesigner Size="150, 269" Name="OnApproved2" Location="600, 330">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleApprovedEvent2" Location="610, 395" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callApprove2" Location="610, 458" />
+						<SetStateDesigner Size="130, 62" Name="setApprovedState2" Location="610, 518" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+				<EventDrivenDesigner Size="150, 269" Name="OnCancelled3" Location="600, 356">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 44" Name="handleCancelled3" Location="610, 421" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callCancelled3" Location="610, 484" />
+						<SetStateDesigner Size="130, 62" Name="setCancelledState3" Location="610, 544" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+				<EventDrivenDesigner Size="150, 248" Name="onDeleted3" Location="600, 382">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 41" Name="handleDeleted3" Location="610, 447" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callDelete3" Location="610, 507" />
+						<SetStateDesigner Size="130, 44" Name="setDeletedState" Location="610, 567" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+			</StateDesigner.Designers>
+		</StateDesigner>
+		<StateDesigner Name="Cancelled" Location="217, 485" Size="164, 80" AutoSize="False" AutoSizeMargin="16, 24">
+			<StateDesigner.Designers>
+				<EventDrivenDesigner Size="150, 266" Name="OnDeleted2" Location="225, 518">
+					<EventDrivenDesigner.Designers>
+						<HandleExternalEventActivityDesigner Size="130, 41" Name="handleDelete2" Location="235, 583" />
+						<CallExternalMethodActivityDesigner Size="130, 41" Name="callDelete2" Location="235, 643" />
+						<SetStateDesigner Size="130, 62" Name="setDeletedState2" Location="235, 703" />
+					</EventDrivenDesigner.Designers>
+				</EventDrivenDesigner>
+			</StateDesigner.Designers>
+		</StateDesigner>
+	</StateMachineWorkflowDesigner.Designers>
+</StateMachineWorkflowDesigner>

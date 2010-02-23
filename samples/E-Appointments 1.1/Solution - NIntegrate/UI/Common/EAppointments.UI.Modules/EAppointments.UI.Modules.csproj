@@ -1,0 +1,147 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6CAAF0D1-1BA8-4026-9969-E57F7A4577D3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EAppointments.UI.Modules</RootNamespace>
+    <AssemblyName>EAppointments.UI.Modules</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.CompositeWeb, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices.CompositeWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder, Version=1.0.51206.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.PageFlow, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices.PageFlow.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.PageFlow.Storage.EnterpriseLibrary, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices.PageFlow.Storage.EnterpriseLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.PageFlow.WorkflowFoundation, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices.PageFlow.WorkflowFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Web.UI.WebControls, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices.Web.UI.WebControls.dll</HintPath>
+    </Reference>
+    <Reference Include="NIntegrate, Version=0.9.3.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\NIntegrate.dll</HintPath>
+    </Reference>
+    <Reference Include="NIntegrate.Web, Version=0.9.3.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\NIntegrate.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NIntegrateQuery\Appointment.cs" />
+    <Compile Include="Appointments\AppointmentController.cs" />
+    <Compile Include="AppointmentModuleInitializer.cs" />
+    <Compile Include="Appointments\Permissions.cs" />
+    <Compile Include="Appointments\Views\ActionViewPresenter.cs" />
+    <Compile Include="Appointments\Views\AppointmentDashboardViewPresenter.cs" />
+    <Compile Include="Appointments\Views\AppointmentDetailsViewPresenter.cs" />
+    <Compile Include="Appointments\Views\AppointmentListViewPresenter.cs" />
+    <Compile Include="Appointments\Views\BookSlotViewPresenter.cs" />
+    <Compile Include="Appointments\Views\Interfaces\IActionView.cs" />
+    <Compile Include="Appointments\Views\Interfaces\IAppointmentDashboardView.cs" />
+    <Compile Include="Appointments\Views\Interfaces\IAppointmentDetailsView.cs" />
+    <Compile Include="Appointments\Views\Interfaces\IAppointmentListView.cs" />
+    <Compile Include="Appointments\Views\Interfaces\IBookSlotView.cs" />
+    <Compile Include="Appointments\Views\Interfaces\ISelectPatientView.cs" />
+    <Compile Include="Appointments\Views\Interfaces\ISummaryView.cs" />
+    <Compile Include="Appointments\Views\SummaryViewPresenter.cs" />
+    <Compile Include="Provider\Interfaces\IProviderDetailsView.cs" />
+    <Compile Include="Appointments\Views\Interfaces\ISelectProviderView.cs" />
+    <Compile Include="Appointments\Views\SelectPatientViewPresenter.cs" />
+    <Compile Include="Provider\Interfaces\ISlotDetailsView.cs" />
+    <Compile Include="Provider\Views\ProviderDetailsViewPresenter.cs" />
+    <Compile Include="Appointments\Views\SelectProviderViewPresenter.cs" />
+    <Compile Include="Constants\NavigationKeys.cs" />
+    <Compile Include="Constants\StateKeys.cs" />
+    <Compile Include="Directory Services\DirectoryServicesController.cs" />
+    <Compile Include="Directory Services\Interfaces\IPatientDetailsView.cs" />
+    <Compile Include="Directory Services\Views\PatientDetailsViewPresenter.cs" />
+    <Compile Include="Directory Services\Views\PatientListViewPresenter.cs" />
+    <Compile Include="Directory Services\Interfaces\IPatientListView.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\ProviderController.cs" />
+    <Compile Include="Provider\Interfaces\IProviderListView.cs" />
+    <Compile Include="Provider\Interfaces\ISlotListView.cs" />
+    <Compile Include="Provider\Views\ProviderListViewPresenter.cs" />
+    <Compile Include="Provider\Views\SlotDetailsViewPresenter.cs" />
+    <Compile Include="Provider\Views\SlotListViewPresenter.cs" />
+    <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\IStateProvider.cs" />
+    <Compile Include="Services\WebNavigationService.cs" />
+    <Compile Include="Services\WebSessionStateProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EAppointments.UI.ServiceAgents\EAppointments.UI.ServiceAgents.csproj">
+      <Project>{051DB4AE-8A4C-4C86-A21E-5F8813E31CA2}</Project>
+      <Name>EAppointments.UI.ServiceAgents</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

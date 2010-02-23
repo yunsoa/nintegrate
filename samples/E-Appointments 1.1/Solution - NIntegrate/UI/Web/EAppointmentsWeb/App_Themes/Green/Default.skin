@@ -1,0 +1,64 @@
+
+<%-- Default Grid --%>
+<asp:GridView runat="server" BackColor="White" CellPadding="2" ForeColor="#333333"   
+    GridLines="Both" Width="100%" PageSize="10" >
+    <FooterStyle BackColor="#0D6E33" Font-Bold="True" ForeColor="White" />
+    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Height="22px" Font-Size="11px"/>
+    <SelectedRowStyle BackColor="#AAD2BA" ForeColor="Black" />
+    <PagerStyle BackColor="#0D6E33" ForeColor="White" HorizontalAlign="Center" />
+    <HeaderStyle BackColor="#0D6E33" Font-Bold="True" ForeColor="White" Height="22px" Font-Size="11px" />
+    <AlternatingRowStyle BackColor="White" ForeColor="#284775" Height="22px" Font-Size="11px" />       
+    <EmptyDataTemplate>
+        <div id="empty_grid">
+            <div class="empty_message">
+               Your query did not return any results                
+            </div>
+        </div>
+    </EmptyDataTemplate> 
+</asp:GridView>
+
+<%-- Default Calendar --%>
+ <asp:Calendar runat="server" BackColor="White" BorderColor="#7288ac"
+    Font-Names="Tahoma" BorderWidth="1px" CellPadding="1" DayNameFormat="Shortest"
+    ForeColor="#003399" Height="180px" Width="180px" ShowGridLines="true">
+    <SelectedDayStyle BackColor="#FFFFFF" ForeColor="#7288ac" BorderColor="Orange" BorderWidth="2px" />
+    <TodayDayStyle BackColor="#CCCCCC" ForeColor="White" />
+    <DayStyle VerticalAlign="Top" ForeColor="#7288ac" Font-Bold="false" />
+    <OtherMonthDayStyle ForeColor="#999999" />
+    <DayHeaderStyle Font-Bold="True" BackColor="#7288ac" ForeColor="#ffffff" />
+    <TitleStyle BackColor="White" BorderColor="Black" Font-Bold="True" Font-Size="10pt" ForeColor="#333399" />
+</asp:Calendar>
+
+<%-- Month Calendar --%>
+<asp:Calendar runat="server" BackColor="White" SkinID="month" DayNameFormat="Full"
+         BorderColor="#7288ac" ShowGridLines="true" ShowNextPrevMonth="false" Width="100%">
+    <SelectedDayStyle BackColor="#AAD2BA" ForeColor="Black" HorizontalAlign="Left" />
+    <TodayDayStyle BackColor="#CCCCCC" HorizontalAlign="Left" />
+    <DayStyle Height="60px" Width="14%" VerticalAlign="Top" BorderWidth="1px" HorizontalAlign="Left"
+        ForeColor="#7288ac" />
+    <OtherMonthDayStyle ForeColor="#999999" />
+    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
+    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" Height="20px" BackColor="#0D6E33"
+        ForeColor="#ffffff" />
+    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="2px" Font-Bold="True"
+        Font-Size="12pt" ForeColor="#333399" Height="25px" />
+</asp:Calendar>
+
+<%-- Buttons. --%>
+<asp:ImageButton SkinID="FilterButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Filter_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="BackButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Back_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="NextButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Next_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="OKButton" runat="server" ImageUrl="~/App_Themes/Default/Images/OK_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="SearchButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Search_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="SaveButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Save_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="ConfirmButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Confirm_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="EditButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Edit_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="BookButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Book_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="ReBookButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Re-Book_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="CancelButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Cancel_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="DeleteButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Delete_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="ApproveButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Approve_Button.gif" CssClass="imagebutton"/>
+<asp:ImageButton SkinID="RejectButton" runat="server" ImageUrl="~/App_Themes/Default/Images/Reject_Button.gif" CssClass="imagebutton"/>
+
+<%-- Calendar Button --%>
+<asp:Image runat="Server" ImageUrl="~/App_Themes/Default/Images/Calendar_scheduleHS.png" CssClass="imagebutton"/>

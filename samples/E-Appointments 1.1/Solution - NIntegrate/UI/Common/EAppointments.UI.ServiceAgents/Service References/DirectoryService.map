@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceReference>
+	<ProxyGenerationParameters
+		ServiceReferenceUri="http://localhost:24444/EAppointments.BMS.Host/DirectoryService.svc"
+		Name="DirectoryService"
+		NotifyPropertyChange="False"
+		UseObservableCollection="False">
+	</ProxyGenerationParameters>
+	<EndPoints>
+		<EndPoint
+			Address="http://localhost:24444/EAppointments.BMS.Host/DirectoryService.svc"
+			BindingConfiguration="WSFederationHttpBinding_IDirectoryService"
+			Contract="EAppointments.UI.ServiceAgents.DirectoryService.IDirectoryService"
+			>
+		</EndPoint>
+	</EndPoints>
+</ServiceReference>

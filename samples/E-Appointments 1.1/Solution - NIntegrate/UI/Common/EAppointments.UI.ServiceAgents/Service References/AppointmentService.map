@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceReference>
+	<ProxyGenerationParameters
+		ServiceReferenceUri="http://localhost:24444/EAppointments.BMS.Host/AppointmentService.svc"
+		Name="AppointmentService"
+		NotifyPropertyChange="False"
+		UseObservableCollection="False">
+	</ProxyGenerationParameters>
+	<EndPoints>
+		<EndPoint
+			Address="http://localhost:24444/EAppointments.BMS.Host/AppointmentService.svc"
+			BindingConfiguration="WSFederationHttpBinding_IAppointmentService"
+			Contract="EAppointments.UI.ServiceAgents.AppointmentService.IAppointmentService"
+			>
+		</EndPoint>
+	</EndPoints>
+</ServiceReference>

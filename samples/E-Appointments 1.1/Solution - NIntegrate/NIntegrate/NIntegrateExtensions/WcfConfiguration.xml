@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<WcfConfiguration>
+  <Bindings>
+    <binding name="wsHttp" closeTimeout="00:01:00" openTimeout="00:01:00" receiveTimeout="00:10:00" sendTimeout="00:01:00" bypassProxyOnLocal="false" transactionFlow="false" hostNameComparisonMode="StrongWildcard" maxBufferPoolSize="524288" maxReceivedMessageSize="5000000" messageEncoding="Text" textEncoding="utf-8" useDefaultWebProxy="true" allowCookies="false">
+      <readerQuotas maxDepth="32" maxStringContentLength="8192" maxArrayLength="16384" maxBytesPerRead="4096" maxNameTableCharCount="16384"/>
+      <reliableSession ordered="true" inactivityTimeout="00:10:00" enabled="false"/>
+    </binding>
+  </Bindings>
+  <Behaviors>
+    <behavior name="DefaultService_Behavior">
+      <serviceMetadata httpGetEnabled="true"/>
+      <serviceDebug includeExceptionDetailInFaults="false"/>
+    </behavior>
+  </Behaviors>
+  <Host>
+    <service name="EAppointments.BMS.ServiceImplementation.AppointmentService" behaviorConfiguration="DefaultService_Behavior">
+      <endpoint binding="wsHttpBinding" contract="EAppointments.BMS.ServiceContracts.IAppointmentService" bindingConfiguration="wsHttp" />
+      <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange"/>
+    </service>
+    <service name="EAppointments.BMS.ServiceImplementation.ProviderService" behaviorConfiguration="DefaultService_Behavior">
+      <endpoint binding="wsHttpBinding" contract="EAppointments.BMS.ServiceContracts.IProviderService" bindingConfiguration="wsHttp" />
+      <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange"/>
+    </service>
+    <service name="EAppointments.BMS.ServiceImplementation.DirectoryService" behaviorConfiguration="DefaultService_Behavior">
+      <endpoint binding="wsHttpBinding" contract="EAppointments.BMS.ServiceContracts.IDirectoryService" bindingConfiguration="wsHttp" />
+      <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange"/>
+    </service>
+  </Host>
+  <Client>
+    <endpoint address="http://localhost:24444/EAppointments.BMS.Host/AppointmentService.svc" binding="wsHttpBinding" bindingConfiguration="wsHttp" contract="EAppointments.UI.ServiceAgents.AppointmentService.IAppointmentService" name="WSHttpBinding_IAppointmentService" />
+    <endpoint address="http://localhost:24444/EAppointments.BMS.Host/DirectoryService.svc" binding="wsHttpBinding" bindingConfiguration="wsHttp" contract="EAppointments.UI.ServiceAgents.DirectoryService.IDirectoryService" name="WSHttpBinding_IDirectoryService" />
+    <endpoint address="http://localhost:24444/EAppointments.BMS.Host/ProviderService.svc" binding="wsHttpBinding" bindingConfiguration="wsHttp" contract="EAppointments.UI.ServiceAgents.ProviderService.IProviderService" name="WSHttpBinding_IProviderService" />
+  </Client>
+</WcfConfiguration>
