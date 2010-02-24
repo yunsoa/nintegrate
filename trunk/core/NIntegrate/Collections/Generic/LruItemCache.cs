@@ -42,6 +42,8 @@ namespace NIntegrate.Collections.Generic
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate TItem LoadItemFunc<TKey>(TKey key);
 
+        public delegate bool IsKeyExpiredFunc<TKey>(TKey key);
+
         #endregion
 
         #region Interfaces
@@ -58,6 +60,12 @@ namespace NIntegrate.Collections.Generic
             /// <summary>Delete object that matches key from cache</summary>
             /// <param name="key">key to find</param>
             void RemoveItem(TKey key);
+
+            /// <summary>
+            /// Delete object that matches the isKeyExpired delegate
+            /// </summary>
+            /// <param name="isKeyExpired"></param>
+            void RemoveItem(IsKeyExpiredFunc<TKey> isKeyExpired);
         }
 
         #endregion
@@ -139,6 +147,25 @@ namespace NIntegrate.Collections.Generic
                 if (node != null)
                     node.Remove();
                 _owner._lifeSpan.CheckValid();
+            }
+
+            /// <summary>
+            /// Delete object that matches the isKeyExpired delegate
+            /// </summary>
+            /// <param name="isKeyExpired"></param>
+            public void RemoveItem(IsKeyExpiredFunc<TKey> isKeyExpired)
+            {
+                if (isKeyExpired == null)
+                    throw new ArgumentNullException("isKeyExpired");
+
+                var keys = new List<TKey>();
+                foreach (var key in _index.Keys)
+                    keys.Add(key);
+                foreach (var key in keys)
+                {
+                    if (isKeyExpired(key))
+                        RemoveItem(key);
+                }
             }
 
             private INode GetNode(TKey key)

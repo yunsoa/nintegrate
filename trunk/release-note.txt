@@ -1,5 +1,11 @@
-NIntegrate v0.9.4.1
+NIntegrate v0.9.5.1
 -------------------
+
+1. Add RemoveItem by isKeyExpired delegate method to LruItemCache<TItem>.Index<TKey> class
+
+
+Update since v0.9.4.1
+---------------------
 
 1. Fix bug in query class code generator.
 2. Fix bug in WcfServiceHostFactory when hosting endpoint with empty address.
