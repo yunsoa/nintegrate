@@ -10,7 +10,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// Maps to the &lt;behavior&gt; configuration element in &lt;serviceBehaviors&gt; element.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class ServiceBehaviorXml : BehaviorXml
     {
         private List<BehaviorExtensionElement> _customBehaviorElements;

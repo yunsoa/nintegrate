@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BindingTypeDescription
     {
         [DataMember]

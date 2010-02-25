@@ -6,7 +6,7 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public enum QueryType
     {
         [EnumMember]
@@ -28,7 +28,7 @@ namespace NIntegrate.Data
     /// <summary>
     /// A QueryCriteria instance represents a C/R/U/D query on a query table.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public sealed class QueryCriteria : ICloneable
     {

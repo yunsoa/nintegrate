@@ -69,16 +69,27 @@ namespace NIntegrate.Test
             return services;
         }
 
+        void NIntegrateLoggingBehavior_LogError(Exception ex)
+        {
+        }
+
+        void NIntegrateLoggingBehavior_LogMessage(System.ServiceModel.Channels.Message request, System.ServiceModel.Channels.Message reply)
+        {
+        }
+
         private WcfService BasicHttpDefaultAddressTestCase()
         {
+            NIntegrate.ServiceModel.Description.NIntegrateLoggingBehavior.LogError += new NIntegrate.ServiceModel.Description.NIntegrateLoggingBehavior.LogErrorHandler(NIntegrateLoggingBehavior_LogError);
+            NIntegrate.ServiceModel.Description.NIntegrateLoggingBehavior.LogMessage += new NIntegrate.ServiceModel.Description.NIntegrateLoggingBehavior.LogMessageHandler(NIntegrateLoggingBehavior_LogMessage);
+
             var service = CreateService();
             service.ServiceBehaviorXml = new ServiceBehaviorXml(
-                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /><testBehavior /></behavior>");
+                "<behavior name=\"TestServiceBehavior\" ><serviceMetadata httpGetEnabled=\"true\" /><testBehavior /><nintegrateLogging /></behavior>");
 
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
             service.Endpoints = new[] { endpoint };
 
@@ -95,7 +106,7 @@ namespace NIntegrate.Test
             {
                 Address = "relative",
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
             service.Endpoints = new[] { endpoint };
 
@@ -112,7 +123,7 @@ namespace NIntegrate.Test
             {
                 Address = "http://localhost:88/123",
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
             service.Endpoints = new[] { endpoint };
 
@@ -129,7 +140,7 @@ namespace NIntegrate.Test
             {
                 Address = "/relative",
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
             service.Endpoints = new[] { endpoint };
 
@@ -145,13 +156,13 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             var endpoint2 = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             service.Endpoints = new[] { endpoint, endpoint2 };
@@ -168,7 +179,7 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             var endpoint2 = new WcfServiceEndpoint
@@ -192,7 +203,7 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             var endpoint2 = new WcfServiceEndpoint
@@ -216,7 +227,7 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             var endpoint2 = new WcfServiceEndpoint
@@ -240,13 +251,13 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             var endpoint2 = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("netTcpBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService2, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService2, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             service.Endpoints = new[] { endpoint, endpoint2 };
@@ -263,13 +274,13 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             var endpoint2 = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService2, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService2, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             service.Endpoints = new[] { endpoint, endpoint2 };
@@ -287,7 +298,7 @@ namespace NIntegrate.Test
             {
                 Address = "urn:t1",
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6",
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6",
                 ListenUri = "",
                 ListenUriMode = WcfListenUriMode.Explicit
             };
@@ -296,7 +307,7 @@ namespace NIntegrate.Test
             {
                 Address = "urn:t2",
                 BindingXml = new BindingXml("basicHttpBinding", "<binding name=\"basicHttpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6",
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6",
                 ListenUri = "",
                 ListenUriMode = WcfListenUriMode.Explicit
             };
@@ -315,7 +326,7 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("netNamedPipeBinding", "<binding name=\"netTcpBinding\"><readerQuotas maxArrayLength=\"16384\" /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             var endpoint2 = new WcfServiceEndpoint
@@ -339,7 +350,7 @@ namespace NIntegrate.Test
             var endpoint = new WcfServiceEndpoint
             {
                 BindingXml = new BindingXml("customNamedPipeBinding", "<binding name=\"custom\"><binaryMessageEncoding /><namedPipeTransport /><testBindingExtension /></binding>"),
-                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.4.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
+                ServiceContractType = "NIntegrate.Test.TestClasses.ITestService, NIntegrate.Test, Version=0.9.5.1, Culture=neutral, PublicKeyToken=e2b9e2165dbdd5e6"
             };
 
             service.Endpoints = new[] { endpoint };

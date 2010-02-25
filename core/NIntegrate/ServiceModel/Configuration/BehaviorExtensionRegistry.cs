@@ -62,6 +62,7 @@ namespace NIntegrate.ServiceModel.Configuration
 
         private void LoadBuildInBehaviorTypes()
         {
+            AddItem("nintegrateLogging", typeof(NIntegrateLoggingElement));
             AddItem("persistenceprovider", typeof(PersistenceProviderElement));
             AddItem("workflowruntime", typeof(WorkflowRuntimeElement));
             AddItem("enablewebscript", typeof(WebScriptEnablingElement));

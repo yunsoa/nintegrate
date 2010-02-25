@@ -12,7 +12,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// The base behaviorXml class.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public class BehaviorXml : ConfigurationXml
     {
         private static readonly MethodInfo _methodCreateBehavior;

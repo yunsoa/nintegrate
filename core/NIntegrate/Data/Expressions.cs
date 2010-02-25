@@ -8,7 +8,7 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public abstract class Expression : IExpression
     {
@@ -172,7 +172,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class BooleanExpression : Expression
     {
@@ -331,7 +331,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class ByteExpression : Expression
     {
@@ -1057,7 +1057,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class Int16Expression : Expression
     {
@@ -1783,7 +1783,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class Int32Expression : Expression
     {
@@ -2513,7 +2513,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class Int64Expression : Expression
     {
@@ -3239,7 +3239,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class DateTimeExpression : Expression
     {
@@ -3717,7 +3717,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class StringExpression : Expression
     {
@@ -3958,7 +3958,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class GuidExpression : Expression
     {
@@ -4117,7 +4117,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class DoubleExpression : Expression
     {
@@ -4761,7 +4761,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class DecimalExpression : Expression
     {
@@ -5405,7 +5405,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class BinaryExpression : Expression
     {
@@ -5607,7 +5607,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public sealed class NullExpression : IExpression
     {

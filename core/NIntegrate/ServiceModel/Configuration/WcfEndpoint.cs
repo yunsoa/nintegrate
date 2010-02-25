@@ -5,7 +5,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// The base class of endpoint configuration.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public class WcfEndpoint
     {
         public WcfEndpoint()

@@ -8,7 +8,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// Maps to the &lt;metadata&gt; configuration element.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class MetadataXml : ConfigurationXml
     {
         private MetadataElement _element;

@@ -13,7 +13,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// Maps to the &lt;binding&gt; configuration element.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BindingXml : ConfigurationXml
     {
         [DataMember]

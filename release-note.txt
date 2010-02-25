@@ -2,9 +2,12 @@ NIntegrate v0.9.5.1
 -------------------
 
 1. Add RemoveItem by isKeyExpired delegate method to LruItemCache<TItem>.Index<TKey> class
+2. Add NIntegrateLoggingBehavior service benavior.
+3. Add documentation for NIntegrateLoggingBehavior.
+4. Add http://nintegrate.com as namespace of all NIntegrate service & data contracts.
 
 
-Update since v0.9.4.1
+Update since v0.9.5.1
 ---------------------
 
 1. Fix bug in query class code generator.

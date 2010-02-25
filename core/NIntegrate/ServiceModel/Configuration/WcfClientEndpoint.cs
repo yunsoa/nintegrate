@@ -5,7 +5,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// The WcfClientEndpoint class contains all the configuration required for consuming a WCF service.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class WcfClientEndpoint : WcfEndpoint
     {
         public WcfClientEndpoint()

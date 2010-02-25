@@ -7,7 +7,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// Maps to the &lt;headers&gt; configuration element.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class HeadersXml : ConfigurationXml
     {
         private AddressHeaderCollection _headers;

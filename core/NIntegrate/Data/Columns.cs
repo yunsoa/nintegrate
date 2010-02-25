@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace NIntegrate.Data
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BooleanColumn : BooleanExpression, IColumn
     {
         [DataMember]
@@ -64,7 +64,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class ByteColumn : ByteExpression, IColumn
     {
         [DataMember]
@@ -125,7 +125,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int16Column : Int16Expression, IColumn
     {
         [DataMember]
@@ -186,7 +186,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int32Column : Int32Expression, IColumn
     {
         [DataMember]
@@ -247,7 +247,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int64Column : Int64Expression, IColumn
     {
         [DataMember]
@@ -311,7 +311,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DateTimeColumn : DateTimeExpression, IColumn
     {
         [DataMember]
@@ -375,7 +375,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class StringColumn : StringExpression, IColumn
     {
         [DataMember]
@@ -440,7 +440,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class GuidColumn : GuidExpression, IColumn
     {
         [DataMember]
@@ -501,7 +501,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DoubleColumn : DoubleExpression, IColumn
     {
         [DataMember]
@@ -562,7 +562,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DecimalColumn : DecimalExpression, IColumn
     {
         [DataMember]
@@ -623,7 +623,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BinaryColumn : GuidExpression, IColumn
     {
         [DataMember]
