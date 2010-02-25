@@ -2,7 +2,7 @@
 
 namespace NIntegrate.ServiceModel.Configuration
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public enum WcfListenUriMode
     {
         [DataMember]

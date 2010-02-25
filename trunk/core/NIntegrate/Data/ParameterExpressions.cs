@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace NIntegrate.Data
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BooleanParameterExpression : BooleanExpression, IParameterExpression
     {
         #region Constructors
@@ -132,7 +132,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class ByteParameterExpression : ByteExpression, IParameterExpression
     {
         #region Constructors
@@ -260,7 +260,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int16ParameterExpression : Int16Expression, IParameterExpression
     {
         #region Constructors
@@ -388,7 +388,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int32ParameterExpression : Int32Expression, IParameterExpression
     {
         #region Constructors
@@ -516,7 +516,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int64ParameterExpression : Int64Expression, IParameterExpression
     {
         #region Constructors
@@ -644,7 +644,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DateTimeParameterExpression : DateTimeExpression, IParameterExpression
     {
         #region Constructors
@@ -772,7 +772,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class StringParameterExpression : StringExpression, IParameterExpression
     {
         #region Constructors
@@ -892,7 +892,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class GuidParameterExpression : GuidExpression, IParameterExpression
     {
         #region Constructors
@@ -1020,7 +1020,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DoubleParameterExpression : DoubleExpression, IParameterExpression
     {
         #region Constructors
@@ -1148,7 +1148,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DecimalParameterExpression : DecimalExpression, IParameterExpression
     {
         #region Constructors
@@ -1276,7 +1276,7 @@ namespace NIntegrate.Data
         #endregion
     }
 
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BinaryParameterExpression : BinaryExpression, IParameterExpression
     {
         #region Constructors

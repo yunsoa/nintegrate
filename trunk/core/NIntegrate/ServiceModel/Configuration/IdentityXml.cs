@@ -10,7 +10,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// Maps to the &lt;identityg&gt; configuration element.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class IdentityXml : ConfigurationXml
     {
         private EndpointIdentity _identity;

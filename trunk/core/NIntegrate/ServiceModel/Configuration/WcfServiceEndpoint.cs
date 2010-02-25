@@ -5,7 +5,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// The WcfServiceEndpoint contains the configuration of a service endpoint for hosting.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class WcfServiceEndpoint : WcfEndpoint
     {
         public WcfServiceEndpoint()

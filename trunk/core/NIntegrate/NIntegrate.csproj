@@ -113,6 +113,7 @@
     <Compile Include="ServiceModel\Configuration\HostXml.cs" />
     <Compile Include="ServiceModel\Configuration\IdentityXml.cs" />
     <Compile Include="ServiceModel\Configuration\MetadataXml.cs" />
+    <Compile Include="ServiceModel\Configuration\NIntegrateLoggingElement.cs" />
     <Compile Include="ServiceModel\Configuration\ServiceBehaviorXml.cs" />
     <Compile Include="ServiceModel\Configuration\WcfClientEndpoint.cs" />
     <Compile Include="ServiceModel\Configuration\WcfEndpoint.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\ILCodeGenerator.cs" />
     <Compile Include="Reflection\ILCodeGeneratorDelegates.cs" />
+    <Compile Include="ServiceModel\Description\NIntegrateLoggingBehavior.cs" />
     <Compile Include="Threading\RWLock.cs" />
     <Compile Include="SR.cs" />
     <Compile Include="ServiceModel\WcfChannelFactoryFactory.cs" />

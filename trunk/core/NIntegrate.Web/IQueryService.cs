@@ -7,7 +7,7 @@ namespace NIntegrate.Web
     /// <summary>
     /// A build-in simple query service contract used by QueryDataCourse control.
     /// </summary>
-    [ServiceContract]
+    [ServiceContract(Namespace="http://nintegrate.com")]
     public interface IQueryService
     {
         [OperationContract]

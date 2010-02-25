@@ -8,7 +8,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// Maps to the &lt;host&gt; configuration element.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class HostXml : ConfigurationXml
     {
         private HostElement _element;

@@ -4,7 +4,7 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class ParameterEqualsCondition : Condition
     {

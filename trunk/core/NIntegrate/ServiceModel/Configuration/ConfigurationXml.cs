@@ -10,7 +10,7 @@ namespace NIntegrate.ServiceModel.Configuration
     /// <summary>
     /// Base class for containing Xml clip for configuration
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public abstract class ConfigurationXml
     {
         [DataMember]

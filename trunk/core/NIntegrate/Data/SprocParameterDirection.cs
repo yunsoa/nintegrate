@@ -2,7 +2,7 @@
 
 namespace NIntegrate.Data
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public enum SprocParameterDirection
     {
         [EnumMember]

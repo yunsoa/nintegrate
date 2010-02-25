@@ -6,7 +6,7 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public sealed class Assignment
     {

@@ -6,7 +6,7 @@ namespace NIntegrate.Data
     /// <summary>
     /// 
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     public abstract class QuerySproc
     {
         [DataMember]

@@ -12,7 +12,7 @@ namespace NIntegrate.Data
     /// for easily querying database with the dynamic query language provided 
     /// by NIntegrate.
     /// </summary>
-    [DataContract]
+    [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public abstract class QueryTable
     {
