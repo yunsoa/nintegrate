@@ -7,7 +7,7 @@ NIntegrate v0.9.5.1
 4. Add http://nintegrate.com as namespace of all NIntegrate service & data contracts.
 
 
-Update since v0.9.5.1
+Update since v0.9.4.1
 ---------------------
 
 1. Fix bug in query class code generator.
