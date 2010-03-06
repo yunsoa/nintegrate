@@ -309,7 +309,7 @@ namespace NIntegrate.ServiceModel.Configuration
             var tagName = (string)_propertyElementTagName.GetValue(element, null);
             if (string.IsNullOrEmpty(tagName))
             {
-                if (element is ServiceBehaviorElement)
+                if (element is ServiceBehaviorElement || element is EndpointBehaviorElement)
                     return "behavior";
             }
             return tagName;

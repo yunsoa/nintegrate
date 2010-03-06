@@ -51,6 +51,7 @@
     <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.WorkflowServices">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -130,6 +131,7 @@
     <Compile Include="Reflection\ILCodeGenerator.cs" />
     <Compile Include="Reflection\ILCodeGeneratorDelegates.cs" />
     <Compile Include="ServiceModel\Description\NIntegrateLoggingBehavior.cs" />
+    <Compile Include="Web\JSONPModule.cs" />
     <Compile Include="Threading\RWLock.cs" />
     <Compile Include="SR.cs" />
     <Compile Include="ServiceModel\WcfChannelFactoryFactory.cs" />

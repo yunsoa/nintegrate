@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="NIntegrate.WebTest.TestAjaxClientService" CodeBehind="TestAjaxClientService.svc.cs" Factory="NIntegrate.ServiceModel.Activation.WcfServiceHostFactory" %>
