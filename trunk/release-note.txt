@@ -5,7 +5,7 @@ NIntegrate v0.9.6.1
    for any existing JSON request.
 
 
-Update since v0.9.6.1
+Update since v0.9.5.1
 ---------------------
 
 1. Add RemoveItem by isKeyExpired delegate method to LruItemCache<TItem>.Index<TKey> class
