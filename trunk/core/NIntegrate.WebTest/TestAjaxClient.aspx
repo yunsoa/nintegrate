@@ -30,6 +30,60 @@
         jQuery.ajaxSetup({ cache: true });
         jQuery.getScript('http://127.0.0.1:2166/TestAjaxClientService.svc/Hello?jsoncallback=jsonpCallback');
         jQuery.ajaxSetup({ cache: false });
+
+//        function _isArray(obj) {
+//            if (obj.constructor.toString().indexOf("Array") == -1)
+//                return false;
+//            else
+//                return true;
+//        }
+
+//        function _isDictionary(obj) {
+//            if (obj && _isArray(obj) && obj.length > 0) {
+//                var properties = new Array();
+//                for (var property in obj[0]) {
+//                    properties.push(property);
+//                }
+
+//                if (properties.length == 2
+//                    && properties[0] == "Key"
+//                    && properties[1] == "Value") {
+//                    return true;
+//                }
+//            }
+
+//            return false;
+//        }
+
+//        function tryCreateDictionary(data) {
+//            if (data) {
+//                if (_isDictionary(data)) {
+//                    var dic = new Hashtable();
+//                    dic.isDictionary = function() { return true; };
+//                    for (var i = 0; i < data.length; ++i) {
+//                        dic.put(data[i].Key, tryCreateDictionary(data[i].Value));
+//                    }
+//                    return dic;
+//                }
+//                else if (_isArray(data)) {
+//                    data.isArray = function() { return true; };
+//                    for (var i = 0; i < data.length; ++i) {
+//                        data[i] = tryCreateDictionary(data[i]);
+//                    }
+//                }
+//                return data;
+//            }
+
+//            return {};
+//        }
+
+//        function enumDict(data) {
+//            var dic = tryCreateDictionary(data.d);
+//            alert(dic.get(1).Data);
+//            alert(dic.get(2).Status);
+
+//        }        
+
     </script>
     </div>
     </form>
