@@ -71,39 +71,22 @@ namespace NIntegrate.Web
         private string AppendJsonpCallback(string strBuffer, HttpRequest request)
         {
             string prefix = string.Empty;
-            string suffix = string.Empty;
 
             if (!_isContinueBuffer)
             {
-                strBuffer = RemovePrefixComments(strBuffer);
+                prefix = request.Params["jsoncallback"] + "(";
+                _isContinueBuffer = true;
+            }
 
-                if (strBuffer.StartsWith("{"))
-                    prefix = request.Params["jsoncallback"] + "(";
-            }
-            if (strBuffer.EndsWith("}"))
-            {
-                suffix = ");";
-            }
-            _isContinueBuffer = true;
-            return prefix + strBuffer + suffix;
-        }
-
-        private string RemovePrefixComments(string strBuffer)
-        {
-            var str = strBuffer.TrimStart();
-            while (str.StartsWith("/*"))
-            {
-                var pos = str.IndexOf("*/", 2);
-                if (pos <= 0)
-                    break;
-                str = str.Substring(pos + 2);
-                str = str.TrimStart();
-            }
-            return str;
+            return prefix + strBuffer;
         }
 
         public override void Close()
         {
+            string suffix = ");";
+            byte[] data = Encoding.UTF8.GetBytes(suffix);
+            _responseStream.Write(data, 0, data.Length);
+
             _responseStream.Close();
         }
 
