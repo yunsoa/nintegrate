@@ -4,6 +4,11 @@ using NIntegrate.Threading;
 
 namespace NIntegrate.Collections.Generic
 {
+    /// <summary>
+    /// A abstract simple registry with readerwriter lock
+    /// </summary>
+    /// <typeparam name="TKey">The type of the key.</typeparam>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
     public abstract class Registry<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         private readonly Dictionary<TKey, TValue> _dict;
@@ -15,6 +20,10 @@ namespace NIntegrate.Collections.Generic
             _dictLock = new ReaderWriterLock();
         }
 
+        /// <summary>
+        /// Gets the TValue with the specified key.
+        /// </summary>
+        /// <value></value>
         public virtual TValue this[TKey key]
         {
             get
@@ -32,6 +41,12 @@ namespace NIntegrate.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// Adds an item.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public virtual bool AddItem(TKey key, TValue value)
         {
             if (!_dict.ContainsKey(key))
@@ -56,6 +71,12 @@ namespace NIntegrate.Collections.Generic
 
         #region IEnumerable<KeyValuePair<TKey,TValue>> Members
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return _dict.GetEnumerator();
@@ -65,6 +86,12 @@ namespace NIntegrate.Collections.Generic
 
         #region IEnumerable Members
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _dict.GetEnumerator();

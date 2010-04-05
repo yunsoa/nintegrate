@@ -9,6 +9,9 @@ using System.Reflection.Emit;
 
 namespace NIntegrate.Mapping
 {
+    /// <summary>
+    /// The abstract mapper builder
+    /// </summary>
     public abstract class MapperBuilder
     {
         internal MapperBuilder()
@@ -20,6 +23,11 @@ namespace NIntegrate.Mapping
         internal abstract Delegate BuildMapper();
     }
 
+    /// <summary>
+    /// The abstract mapper builder
+    /// </summary>
+    /// <typeparam name="TFrom">The type of from.</typeparam>
+    /// <typeparam name="TTo">The type of to.</typeparam>
     public sealed class MapperBuilder<TFrom, TTo> : MapperBuilder
     {
         private Delegate _mapper;
@@ -46,6 +54,12 @@ namespace NIntegrate.Mapping
 
         #region Public Methods
 
+        /// <summary>
+        /// Get value from
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="from">From.</param>
+        /// <returns></returns>
         public MapperBuilder<TFrom, TTo> From<TValue>(MappingFrom<TFrom, TValue> from)
         {
             if (from == null)
@@ -60,6 +74,12 @@ namespace NIntegrate.Mapping
             return this;
         }
 
+        /// <summary>
+        /// Set value to
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="to">To.</param>
+        /// <returns></returns>
         public MapperBuilder<TFrom, TTo> To<TValue>(MappingTo<TTo, TValue> to)
         {
             if (to == null)

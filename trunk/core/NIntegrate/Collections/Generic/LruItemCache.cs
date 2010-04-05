@@ -33,22 +33,37 @@ namespace NIntegrate.Collections.Generic
 
         #region Delegates
 
+        /// <summary>
+        /// 
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate bool IsValidFunc();
 
+        /// <summary>
+        /// 
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate TKey GetKeyFunc<TKey>(TItem item);
 
+        /// <summary>
+        /// 
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate TItem LoadItemFunc<TKey>(TKey key);
 
+        /// <summary>
+        /// 
+        /// </summary>
         public delegate bool IsKeyExpiredFunc<TKey>(TKey key);
 
         #endregion
 
         #region Interfaces
 
-        /// <summary>The public wrapper for a Index</summary>
+        /// <summary>
+        /// The public wrapper for a Index
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public interface IIndex<TKey>
         {
@@ -70,7 +85,9 @@ namespace NIntegrate.Collections.Generic
 
         #endregion
 
-        /// <summary>Because there is no auto inheritance between generic types, this interface is used to send messages to Index objects</summary>
+        /// <summary>
+        /// Because there is no auto inheritance between generic types, this interface is used to send messages to Index objects
+        /// </summary>
         private interface IIndex
         {
             void ClearIndex();
@@ -125,7 +142,7 @@ namespace NIntegrate.Collections.Generic
 
             /// <summary>Getter for index</summary>
             /// <param name="key">key to find (or load if needed)</param>
-            /// <returns>the object value associated with key, or null if not found & could not be loaded</returns>
+            /// <returns>the object value associated with key, or null if not found &amp; could not be loaded</returns>
             public TItem this[TKey key]
             {
                 get
@@ -557,6 +574,12 @@ namespace NIntegrate.Collections.Generic
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Determines whether this instance is valid.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> if this instance is valid; otherwise, <c>false</c>.
+        /// </returns>
         protected bool IsValid()
         {
             if (_isValid != null)
@@ -628,7 +651,7 @@ namespace NIntegrate.Collections.Generic
         }
 
         /// <summary>Add a new index to the cache</summary>
-        /// <typeparam name="KeyType">the type of the key value</typeparam>
+        /// <typeparam name="TKey">the type of the key value</typeparam>
         /// <param name="indexName">the name to be associated with this list</param>
         /// <param name="getKey">delegate to get key from object</param>
         /// <param name="loadItem">delegate to load object if it is not found in index</param>

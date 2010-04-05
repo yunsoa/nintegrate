@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace NIntegrate.Mapping
 {
     /// <summary>
-    /// The MapperFactory class is a Emit & delegate based object mapper delegate factory. It dynamically emit dynamic method, cache and return the delegate of the mapper.
+    /// The MapperFactory class is a Emit &amp; delegate based object mapper delegate factory. It dynamically emit dynamic method, cache and return the delegate of the mapper.
     /// </summary>
     public class MapperFactory
     {
@@ -23,6 +23,12 @@ namespace NIntegrate.Mapping
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets the mapper.
+        /// </summary>
+        /// <typeparam name="TFrom">The type of from.</typeparam>
+        /// <typeparam name="TTo">The type of to.</typeparam>
+        /// <returns></returns>
         public Mapper<TFrom, TTo> GetMapper<TFrom, TTo>()
         {
             Initialize();
@@ -60,11 +66,27 @@ namespace NIntegrate.Mapping
                        };
         }
 
+        /// <summary>
+        /// Configures the mapper.
+        /// </summary>
+        /// <typeparam name="TFrom">The type of from.</typeparam>
+        /// <typeparam name="TTo">The type of to.</typeparam>
+        /// <returns></returns>
         public MapperBuilder<TFrom, TTo> ConfigureMapper<TFrom, TTo>()
         {
             return ConfigureMapper<TFrom, TTo>(true, true, true);
         }
 
+        /// <summary>
+        /// Configures the mapper.
+        /// </summary>
+        /// <typeparam name="TFrom">The type of from.</typeparam>
+        /// <typeparam name="TTo">The type of to.</typeparam>
+        /// <param name="autoMap">if set to <c>true</c> [auto map].</param>
+        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+        /// <param name="ignoreUnderscore">if set to <c>true</c> [ignore underscore].</param>
+        /// <param name="ignoreFields">The ignore fields.</param>
+        /// <returns></returns>
         public MapperBuilder<TFrom, TTo> ConfigureMapper<TFrom, TTo>(
             bool autoMap, bool ignoreCase, bool ignoreUnderscore, params string[] ignoreFields)
         {
@@ -80,6 +102,9 @@ namespace NIntegrate.Mapping
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         protected virtual void Initialize()
         {
         }

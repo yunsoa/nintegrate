@@ -77,11 +77,21 @@ namespace NIntegrate.Data
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Gets the connection string.
+        /// </summary>
+        /// <param name="connectionStringName">Name of the connection string.</param>
+        /// <returns></returns>
         protected virtual ConnectionStringSettings GetConnectionString(string connectionStringName)
         {
             return ConfigurationManager.ConnectionStrings[connectionStringName];
         }
 
+        /// <summary>
+        /// Gets the query command builder.
+        /// </summary>
+        /// <param name="providerName">Name of the provider.</param>
+        /// <returns></returns>
         protected virtual QueryCommandBuilder GetQueryCommandBuilder(string providerName)
         {
             if (string.IsNullOrEmpty(providerName) || string.CompareOrdinal(providerName, "System.Data.SqlClient") == 0)

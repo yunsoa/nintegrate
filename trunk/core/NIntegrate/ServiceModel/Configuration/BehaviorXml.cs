@@ -34,6 +34,11 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Filters the custom behavior elements.
+        /// </summary>
+        /// <param name="doc">The doc.</param>
+        /// <returns></returns>
         protected static List<BehaviorExtensionElement> FilterCustomBehaviorElements(XmlDocument doc)
         {
             if (doc == null)
@@ -70,6 +75,12 @@ namespace NIntegrate.ServiceModel.Configuration
             return customBehaviorElements;
         }
 
+        /// <summary>
+        /// Sets the behavior.
+        /// </summary>
+        /// <typeparam name="TBehavior">The type of the behavior.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="element">The element.</param>
         protected static void SetBehavior<TBehavior>(ICollection<TBehavior> collection, BehaviorExtensionElement element)
         {
             if (collection == null)

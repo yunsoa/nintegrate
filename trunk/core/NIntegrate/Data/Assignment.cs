@@ -6,6 +6,9 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public sealed class Assignment
@@ -21,6 +24,10 @@ namespace NIntegrate.Data
 
         #region KnownTypes
 
+        /// <summary>
+        /// Knowns the types.
+        /// </summary>
+        /// <returns></returns>
         static Type[] KnownTypes()
         {
             return KnownTypeRegistry.Instance.KnownTypes;

@@ -4,6 +4,9 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     [KnownType("KnownTypes")]
     public class ParameterEqualsCondition : Condition
@@ -28,6 +31,10 @@ namespace NIntegrate.Data
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the left expression.
+        /// </summary>
+        /// <value>The left expression.</value>
         public new IParameterExpression LeftExpression
         {
             get
@@ -36,6 +43,10 @@ namespace NIntegrate.Data
             }
         }
 
+        /// <summary>
+        /// Gets the right expression.
+        /// </summary>
+        /// <value>The right expression.</value>
         public new IParameterExpression RightExpression
         {
             get

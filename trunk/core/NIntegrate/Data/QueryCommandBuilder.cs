@@ -25,6 +25,12 @@ namespace NIntegrate.Data
         /// <returns></returns>
         public abstract DbProviderFactory GetDbProviderFactory();
 
+        /// <summary>
+        /// Builds the command.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="isCountCommand">if set to <c>true</c> [is count command].</param>
+        /// <returns></returns>
         public DbCommand BuildCommand(QueryCriteria criteria, bool isCountCommand)
         {
             if (criteria == null)
@@ -112,6 +118,12 @@ namespace NIntegrate.Data
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Builds the cacheable SQL.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="isCountCommand">if set to <c>true</c> [is count command].</param>
+        /// <returns></returns>
         protected string BuildCacheableSql(QueryCriteria criteria, bool isCountCommand)
         {
             if (criteria == null)
@@ -233,6 +245,12 @@ namespace NIntegrate.Data
         /// <returns></returns>
         protected abstract string BuildPagingCacheableSql(QueryCriteria criteria);
 
+        /// <summary>
+        /// Builds the no paging cacheable SQL.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="isCountCommand">if set to <c>true</c> [is count command].</param>
+        /// <returns></returns>
         protected abstract string BuildNoPagingCacheableSql(QueryCriteria criteria, bool isCountCommand);
 
         /// <summary>

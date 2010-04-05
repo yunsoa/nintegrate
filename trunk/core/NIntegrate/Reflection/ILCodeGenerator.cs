@@ -50,6 +50,13 @@ namespace NIntegrate.Reflection
 
         #region Factory Methods
 
+        /// <summary>
+        /// Creates the dynamic method code generator.
+        /// </summary>
+        /// <param name="methodName">Name of the method.</param>
+        /// <param name="delegateType">Type of the delegate.</param>
+        /// <param name="method">The method.</param>
+        /// <returns></returns>
         public static ILCodeGenerator CreateDynamicMethodCodeGenerator(
             string methodName, Type delegateType, out DynamicMethod method)
         {
@@ -67,6 +74,13 @@ namespace NIntegrate.Reflection
             return new ILCodeGenerator(method.GetILGenerator());
         }
 
+        /// <summary>
+        /// Creates the default constructor code generator.
+        /// </summary>
+        /// <param name="defaultConstructor">The default constructor.</param>
+        /// <param name="typeBuilder">The type builder.</param>
+        /// <param name="constructorBuilder">The constructor builder.</param>
+        /// <returns></returns>
         public static ILCodeGenerator CreateDefaultConstructorCodeGenerator(
             ConstructorInfo defaultConstructor, 
             TypeBuilder typeBuilder, 
@@ -84,6 +98,13 @@ namespace NIntegrate.Reflection
             return new ILCodeGenerator(constructorBuilder.GetILGenerator());
         }
 
+        /// <summary>
+        /// Creates the constructor code generator.
+        /// </summary>
+        /// <param name="constructor">The constructor.</param>
+        /// <param name="typeBuilder">The type builder.</param>
+        /// <param name="constructorBuilder">The constructor builder.</param>
+        /// <returns></returns>
         public static ILCodeGenerator CreateConstructorCodeGenerator(
             ConstructorInfo constructor, 
             TypeBuilder typeBuilder, 
@@ -101,6 +122,13 @@ namespace NIntegrate.Reflection
             return new ILCodeGenerator(constructorBuilder.GetILGenerator());
         }
 
+        /// <summary>
+        /// Creates the method code generator.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="typeBuilder">The type builder.</param>
+        /// <param name="methodBuilder">The method builder.</param>
+        /// <returns></returns>
         public static ILCodeGenerator CreateMethodCodeGenerator(
             MethodInfo method, TypeBuilder typeBuilder, out MethodBuilder methodBuilder)
         {
@@ -123,6 +151,10 @@ namespace NIntegrate.Reflection
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the internal IL generator.
+        /// </summary>
+        /// <value>The internal IL generator.</value>
         public ILGenerator InternalILGenerator
         {
             get { return _gen; }

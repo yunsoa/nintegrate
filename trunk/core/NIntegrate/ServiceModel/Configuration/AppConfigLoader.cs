@@ -9,8 +9,14 @@ using System.Globalization;
 
 namespace NIntegrate.ServiceModel.Configuration
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class AppConfigLoader
     {
+        /// <summary>
+        /// Singleton
+        /// </summary>
         public readonly static AppConfigLoader Default = new AppConfigLoader(ConfigurationManager.GetSection);
 
         private readonly GetSectionHandler _getSection;
@@ -27,6 +33,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppConfigLoader"/> class.
+        /// </summary>
+        /// <param name="getSection">The get section.</param>
         public AppConfigLoader(GetSectionHandler getSection)
         {
             if (getSection == null)
@@ -39,6 +49,9 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Ensures the extensions loaded.
+        /// </summary>
         public void EnsureExtensionsLoaded()
         {
             if (!_defaultExtensionsLoaded)
@@ -116,6 +129,11 @@ namespace NIntegrate.ServiceModel.Configuration
             }
         }
 
+        /// <summary>
+        /// Loads the service configuration.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns></returns>
         public WcfService LoadService(Type serviceType)
         {
             EnsureExtensionsLoaded();
@@ -211,6 +229,11 @@ namespace NIntegrate.ServiceModel.Configuration
             return null;
         }
 
+        /// <summary>
+        /// Loads the client endpoint configuration.
+        /// </summary>
+        /// <param name="serviceContractType">Type of the service contract.</param>
+        /// <returns></returns>
         public WcfClientEndpoint LoadClientEndpoint(Type serviceContractType)
         {
             if (serviceContractType == null)
@@ -319,6 +342,9 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Nested Classes
 
+        /// <summary>
+        /// 
+        /// </summary>
         public delegate object GetSectionHandler(string sectionName);
 
         #endregion

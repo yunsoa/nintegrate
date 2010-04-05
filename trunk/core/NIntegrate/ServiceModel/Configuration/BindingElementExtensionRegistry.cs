@@ -9,6 +9,9 @@ namespace NIntegrate.ServiceModel.Configuration
     /// </summary>
     public sealed class BindingElementExtensionRegistry : Registry<string, Type>
     {
+        /// <summary>
+        /// Singleton
+        /// </summary>
         public static readonly BindingElementExtensionRegistry Instance;
 
         #region Constructors
@@ -27,6 +30,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Properties
 
+        /// <summary>
+        /// Gets the <see cref="System.Type"/> with the specified key.
+        /// </summary>
+        /// <value></value>
         public override Type this[string key]
         {
             get
@@ -44,6 +51,12 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Adds an item.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public override bool AddItem(string key, Type value)
         {
             if (string.IsNullOrEmpty(key))
