@@ -50,6 +50,11 @@ namespace NIntegrate.Data.SqlClient
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Builds the paging cacheable SQL.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
         protected override string BuildPagingCacheableSql(QueryCriteria criteria)
         {
             var sb = new StringBuilder();
@@ -147,6 +152,12 @@ namespace NIntegrate.Data.SqlClient
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Builds the no paging cacheable SQL.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="isCountCommand">if set to <c>true</c> [is count command].</param>
+        /// <returns></returns>
         protected override string BuildNoPagingCacheableSql(QueryCriteria criteria, bool isCountCommand)
         {
             var sb = new StringBuilder();
@@ -211,6 +222,11 @@ namespace NIntegrate.Data.SqlClient
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Format a name string to a parameter name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         internal protected override string ToParameterName(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -219,6 +235,11 @@ namespace NIntegrate.Data.SqlClient
             return "@" + name.TrimStart('@');
         }
 
+        /// <summary>
+        /// Adjusts the parameter properties.
+        /// </summary>
+        /// <param name="parameterExpr">The parameter expr.</param>
+        /// <param name="parameter">The parameter.</param>
         protected override void AdjustParameterProperties(IParameterExpression parameterExpr, DbParameter parameter)
         {
             var sqlParameter = parameter as SqlParameter;
@@ -272,6 +293,10 @@ namespace NIntegrate.Data.SqlClient
             return;
         }
 
+        /// <summary>
+        /// Gets the database object name quote characters.
+        /// </summary>
+        /// <returns></returns>
         protected override string GetDatabaseObjectNameQuoteCharacters()
         {
             return "[]";

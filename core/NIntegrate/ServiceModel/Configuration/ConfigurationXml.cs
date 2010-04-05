@@ -27,6 +27,10 @@ namespace NIntegrate.ServiceModel.Configuration
                 BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationXml"/> class.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
         protected ConfigurationXml(string xml)
         {
             _xml = xml;
@@ -36,11 +40,19 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Properties
 
+        /// <summary>
+        /// Gets the XML.
+        /// </summary>
+        /// <value>The XML.</value>
         public virtual string Xml
         {
             get { return _xml; }
         }
 
+        /// <summary>
+        /// Gets the sync lock.
+        /// </summary>
+        /// <value>The sync lock.</value>
         protected object SyncLock
         {
             get { return this; }
@@ -50,6 +62,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Deserializes the specified element.
+        /// </summary>
+        /// <param name="element">The element.</param>
         protected void Deserialize(ConfigurationElement element)
         {
             if (string.IsNullOrEmpty(_xml))
@@ -58,6 +74,11 @@ namespace NIntegrate.ServiceModel.Configuration
             Deserialize(_xml, element);
         }
 
+        /// <summary>
+        /// Deserializes the specified XML.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
+        /// <param name="element">The element.</param>
         protected static void Deserialize(string xml, ConfigurationElement element)
         {
             if (element == null)

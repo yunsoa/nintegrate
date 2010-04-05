@@ -10,21 +10,40 @@ using NIntegrate.ServiceModel.Configuration;
 
 namespace NIntegrate.ServiceModel.Activation
 {
+    /// <summary>
+    /// The derived ServiceHostFacory which reads service configuration from custom location
+    /// </summary>
     public class WcfServiceHostFactory : ServiceHostFactory
     {
         #region Events
 
+        /// <summary>
+        /// Occurs on load service configuration.
+        /// </summary>
         public event EventHandler<LoadServiceConfigurationEventArgs> OnLoadServiceConfiguration;
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Creates the service host.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns></returns>
         public ServiceHost CreateServiceHost(Type serviceType)
         {
             return CreateServiceHost(serviceType, new Uri[0]);
         }
 
+        /// <summary>
+        /// Creates the service host.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <param name="baseAddresses">The base addresses.</param>
+        /// <param name="serviceInstance">The service instance.</param>
+        /// <param name="service">The service.</param>
+        /// <returns></returns>
         public static ServiceHost CreateServiceHost(Type serviceType, ref Uri[] baseAddresses, object serviceInstance, WcfService service)
         {
             if (serviceType == null)
@@ -56,6 +75,11 @@ namespace NIntegrate.ServiceModel.Activation
             }
         }
 
+        /// <summary>
+        /// Loads the service configuration.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns></returns>
         public virtual WcfService LoadServiceConfiguration(Type serviceType)
         {
             if (serviceType == null)
@@ -75,6 +99,12 @@ namespace NIntegrate.ServiceModel.Activation
             return AppConfigLoader.Default.LoadService(serviceType);
         }
 
+        /// <summary>
+        /// Gets the type.
+        /// </summary>
+        /// <param name="typeName">Name of the type.</param>
+        /// <param name="throwOnError">if set to <c>true</c> [throw on error].</param>
+        /// <returns></returns>
         public static Type GetType(string typeName, bool throwOnError)
         {
             var type = Type.GetType(typeName);
@@ -102,15 +132,32 @@ namespace NIntegrate.ServiceModel.Activation
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Called when service host creation exception raised.
+        /// </summary>
+        /// <param name="ex">The ex.</param>
         protected virtual void OnServiceHostCreationExceptionRaised(ServiceHostCreationException ex)
         {
         }
 
+        /// <summary>
+        /// Gets the service instance.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns></returns>
         protected virtual object GetServiceInstance(Type serviceType)
         {
             return null;
         }
 
+        /// <summary>
+        /// Creates a <see cref="T:System.ServiceModel.ServiceHost"/> for a specified type of service with a specific base address.
+        /// </summary>
+        /// <param name="serviceType">Specifies the type of service to host.</param>
+        /// <param name="baseAddresses">The <see cref="T:System.Array"/> of type <see cref="T:System.Uri"/> that contains the base addresses for the service hosted.</param>
+        /// <returns>
+        /// A <see cref="T:System.ServiceModel.ServiceHost"/> for the type of service specified with a specific base address.
+        /// </returns>
         protected sealed override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
         {
             if (serviceType == null)

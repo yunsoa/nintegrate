@@ -14,6 +14,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HeadersXml"/> class.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
         public HeadersXml(string xml)
             : base(xml)
         {
@@ -23,6 +27,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Creates the address headers.
+        /// </summary>
+        /// <returns></returns>
         public AddressHeaderCollection CreateAddressHeaders()
         {
             if (_headers != null)

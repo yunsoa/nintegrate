@@ -15,6 +15,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MetadataXml"/> class.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
         public MetadataXml(string xml)
             : base(xml)
         {
@@ -24,6 +28,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Applies the policy importers configuration.
+        /// </summary>
+        /// <param name="importer">The importer.</param>
         public void ApplyPolicyImportersConfiguration(MetadataImporter importer)
         {
             if (importer == null)
@@ -46,6 +54,10 @@ namespace NIntegrate.ServiceModel.Configuration
             }
         }
 
+        /// <summary>
+        /// Applies the WSDL importers configuration.
+        /// </summary>
+        /// <param name="importer">The importer.</param>
         public void ApplyWsdlImportersConfiguration(WsdlImporter importer)
         {
             if (importer == null)

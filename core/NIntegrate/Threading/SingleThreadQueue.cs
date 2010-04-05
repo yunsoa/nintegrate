@@ -7,9 +7,9 @@ using System.Threading;
 namespace NIntegrate.Threading
 {
     /// <summary>
-    /// The SingleThreadQueue class is a queue attached with a thread & a process handler. Items added to the queue are always processed by specified process handler in a single thread.
+    /// The SingleThreadQueue class is a queue attached with a thread &amp; a process handler. Items added to the queue are always processed by specified process handler in a single thread.
     /// </summary>
-    /// <typeparam name="TItem">The type of the item to be added & processed in the queue.</typeparam>
+    /// <typeparam name="TItem">The type of the item to be added &amp; processed in the queue.</typeparam>
     public abstract class SingleThreadQueue<TItem> where TItem: class
     {
         private Mutex _entryLock;
@@ -21,11 +21,20 @@ namespace NIntegrate.Threading
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SingleThreadQueue&lt;TItem&gt;"/> class.
+        /// </summary>
+        /// <param name="maxQueueLength">Length of the max queue.</param>
         protected SingleThreadQueue(int maxQueueLength)
             : this(maxQueueLength, _defaultSleepMilliseconds)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SingleThreadQueue&lt;TItem&gt;"/> class.
+        /// </summary>
+        /// <param name="maxQueueLength">Length of the max queue.</param>
+        /// <param name="threadSleepMilliseconds">The thread sleep milliseconds.</param>
         protected SingleThreadQueue(int maxQueueLength, int threadSleepMilliseconds)
         {
             _itemQueue = new Queue<TItem>();
@@ -49,10 +58,22 @@ namespace NIntegrate.Threading
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the length of the max queue.
+        /// </summary>
+        /// <value>The length of the max queue.</value>
         protected int MaxQueueLength { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the thread sleep milliseconds.
+        /// </summary>
+        /// <value>The thread sleep milliseconds.</value>
         protected int ThreadSleepMilliseconds { get; private set; }
 
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
+        /// <value>The count.</value>
         protected int Count
         {
             get
@@ -68,6 +89,10 @@ namespace NIntegrate.Threading
 
         #region Public Methods
 
+        /// <summary>
+        /// Enqueues the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
         public virtual void Enqueue(TItem item)
         {
             if (MaxQueueLength == 0)
@@ -89,6 +114,10 @@ namespace NIntegrate.Threading
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Adds to queue.
+        /// </summary>
+        /// <param name="item">The item.</param>
         protected void AddToQueue(TItem item)
         {
             lock (_itemQueue)
@@ -97,6 +126,10 @@ namespace NIntegrate.Threading
             }
         }
 
+        /// <summary>
+        /// Dequeues this instance.
+        /// </summary>
+        /// <returns></returns>
         protected TItem Dequeue()
         {
             lock (_itemQueue)
@@ -105,6 +138,9 @@ namespace NIntegrate.Threading
             }
         }
 
+        /// <summary>
+        /// Invokes the thread start.
+        /// </summary>
         protected void InvokeThreadStart()
         {
             lock (_itemQueue)
@@ -120,6 +156,9 @@ namespace NIntegrate.Threading
             }
         }
 
+        /// <summary>
+        /// Called when after process.
+        /// </summary>
         protected virtual void OnAfterProcess()
         {
             if (Count < MaxQueueLength)
@@ -128,6 +167,10 @@ namespace NIntegrate.Threading
             }
         }
 
+        /// <summary>
+        /// Called when queue overflow.
+        /// </summary>
+        /// <param name="item">The item.</param>
         protected virtual void OnQueueOverflow(TItem item)
         {
             while (item != null)
@@ -149,6 +192,10 @@ namespace NIntegrate.Threading
             }
         }
 
+        /// <summary>
+        /// Peeks this instance.
+        /// </summary>
+        /// <returns></returns>
         protected TItem Peek()
         {
             lock (_itemQueue)
@@ -157,8 +204,17 @@ namespace NIntegrate.Threading
             }
         }
 
+        /// <summary>
+        /// Processes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
         protected abstract void Process(TItem item);
 
+        /// <summary>
+        /// Tries the peek.
+        /// </summary>
+        /// <param name="item_out">The item_out.</param>
+        /// <returns></returns>
         protected bool TryPeek(ref TItem item_out)
         {
             lock (_itemQueue)
@@ -173,6 +229,9 @@ namespace NIntegrate.Threading
             }
         }
 
+        /// <summary>
+        /// Processes the queue.
+        /// </summary>
         private void ProcessQueue()
         {
             TItem item = default(TItem);

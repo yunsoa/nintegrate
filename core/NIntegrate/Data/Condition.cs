@@ -6,12 +6,21 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public enum ConditionAndOr
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember]
         And,
 
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember]
         Or
     }

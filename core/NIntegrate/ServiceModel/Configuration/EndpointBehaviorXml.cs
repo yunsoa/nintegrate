@@ -17,6 +17,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EndpointBehaviorXml"/> class.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
         public EndpointBehaviorXml(string xml)
             : base(xml)
         {
@@ -26,6 +30,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Applies the endpoint behavior configuration.
+        /// </summary>
+        /// <param name="serviceEndpoint">The service endpoint.</param>
         public void ApplyEndpointBehaviorConfiguration(ServiceEndpoint serviceEndpoint)
         {
             if (_endpointBehaviorElement == null)

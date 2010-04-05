@@ -18,6 +18,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceBehaviorXml"/> class.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
         public ServiceBehaviorXml(string xml)
             : base(xml)
         {
@@ -27,6 +31,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Applies the service behavior configuration.
+        /// </summary>
+        /// <param name="serviceHost">The service host.</param>
         public void ApplyServiceBehaviorConfiguration(ServiceHost serviceHost)
         {
             if (_serviceBehaviorElement == null)

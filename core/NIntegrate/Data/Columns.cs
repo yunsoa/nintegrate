@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace NIntegrate.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BooleanColumn : BooleanExpression, IColumn
     {
@@ -12,6 +15,10 @@ namespace NIntegrate.Data
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BooleanColumn"/> class.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
         public BooleanColumn(string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
@@ -64,6 +71,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class ByteColumn : ByteExpression, IColumn
     {
@@ -125,6 +135,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int16Column : Int16Expression, IColumn
     {
@@ -186,6 +199,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int32Column : Int32Expression, IColumn
     {
@@ -247,6 +263,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class Int64Column : Int64Expression, IColumn
     {
@@ -311,6 +330,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DateTimeColumn : DateTimeExpression, IColumn
     {
@@ -375,6 +397,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class StringColumn : StringExpression, IColumn
     {
@@ -440,6 +465,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class GuidColumn : GuidExpression, IColumn
     {
@@ -501,6 +529,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DoubleColumn : DoubleExpression, IColumn
     {
@@ -562,6 +593,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class DecimalColumn : DecimalExpression, IColumn
     {
@@ -623,6 +657,9 @@ namespace NIntegrate.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class BinaryColumn : GuidExpression, IColumn
     {

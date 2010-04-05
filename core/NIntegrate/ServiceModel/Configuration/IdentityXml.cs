@@ -19,11 +19,18 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IdentityXml"/> class.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
         public IdentityXml(string xml)
             : base(xml)
         {
         }
 
+        /// <summary>
+        /// Initializes the <see cref="IdentityXml"/> class.
+        /// </summary>
         static IdentityXml()
         {
             var type =
@@ -39,6 +46,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Creates the endpoint identity.
+        /// </summary>
+        /// <returns></returns>
         public EndpointIdentity CreateEndpointIdentity()
         {
             if (_identity != null)

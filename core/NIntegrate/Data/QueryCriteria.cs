@@ -6,21 +6,39 @@ using NIntegrate.Data.Configuration;
 
 namespace NIntegrate.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://nintegrate.com")]
     public enum QueryType
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember]
         Select,
 
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember]
         Insert,
 
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember]
         Update,
 
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember]
         Delete,
 
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember]
         Sproc
     }
@@ -76,12 +94,19 @@ namespace NIntegrate.Data
 
         #region Events
 
+        /// <summary>
+        /// Occurs when changed.
+        /// </summary>
         public event EventHandler Changed;
 
         #endregion
 
         #region KnownTypes
 
+        /// <summary>
+        /// Knowns the types.
+        /// </summary>
+        /// <returns></returns>
         static Type[] KnownTypes()
         {
             return KnownTypeRegistry.Instance.KnownTypes;
@@ -103,6 +128,13 @@ namespace NIntegrate.Data
             _queryType = QueryType.Select;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryCriteria"/> class.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="connectionStringName">Name of the connection string.</param>
+        /// <param name="readOnly">if set to <c>true</c> [read only].</param>
+        /// <param name="predefinedColumns">The predefined columns.</param>
         internal QueryCriteria(string tableName, string connectionStringName, bool readOnly, IEnumerable<IColumn> predefinedColumns)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -129,11 +161,19 @@ namespace NIntegrate.Data
 
         #region Properties
 
+        /// <summary>
+        /// Gets the name of the table.
+        /// </summary>
+        /// <value>The name of the table.</value>
         public string TableName
         {
             get { return _tableName; }
         }
 
+        /// <summary>
+        /// Gets the name of the connection string.
+        /// </summary>
+        /// <value>The name of the connection string.</value>
         public string ConnectionStringName
         {
             get { return _connectionStringName; }
@@ -222,6 +262,10 @@ namespace NIntegrate.Data
             get { return new ReadOnlyCollection<Assignment>(_assignments); }
         }
 
+        /// <summary>
+        /// Gets the sproc parameter conditions.
+        /// </summary>
+        /// <value>The sproc parameter conditions.</value>
         internal ReadOnlyCollection<ParameterEqualsCondition> SprocParameterConditions
         {
             get { return new ReadOnlyCollection<ParameterEqualsCondition>(_sprocParameterConditions); }
@@ -249,6 +293,11 @@ namespace NIntegrate.Data
 
         #region Public Methods
 
+        /// <summary>
+        /// Sets the is distinct.
+        /// </summary>
+        /// <param name="isDistinct">if set to <c>true</c> [is distinct].</param>
+        /// <returns></returns>
         public QueryCriteria SetIsDistinct(bool isDistinct)
         {
             _isDistinct = isDistinct;
@@ -258,6 +307,11 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Sets the max results.
+        /// </summary>
+        /// <param name="n">The n.</param>
+        /// <returns></returns>
         public QueryCriteria SetMaxResults(int n)
         {
             _maxResults = n;
@@ -267,6 +321,11 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Sets the skip results.
+        /// </summary>
+        /// <param name="n">The n.</param>
+        /// <returns></returns>
         public QueryCriteria SetSkipResults(int n)
         {
             _skipResults = n;
@@ -276,6 +335,12 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Sorts the by.
+        /// </summary>
+        /// <param name="column">The column.</param>
+        /// <param name="isDescendent">if set to <c>true</c> [is descendent].</param>
+        /// <returns></returns>
         public QueryCriteria SortBy(IColumn column, bool isDescendent)
         {
             if (ReferenceEquals(column, null))
@@ -289,11 +354,22 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Thens the sort by.
+        /// </summary>
+        /// <param name="column">The column.</param>
+        /// <param name="isDescendent">if set to <c>true</c> [is descendent].</param>
+        /// <returns></returns>
         public QueryCriteria ThenSortBy(IColumn column, bool isDescendent)
         {
             return SortBy(column, isDescendent);
         }
 
+        /// <summary>
+        /// Ands the specified condition.
+        /// </summary>
+        /// <param name="condition">The condition.</param>
+        /// <returns></returns>
         public QueryCriteria And(Condition condition)
         {
             if (ReferenceEquals(condition, null))
@@ -307,6 +383,11 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Ors the specified condition.
+        /// </summary>
+        /// <param name="condition">The condition.</param>
+        /// <returns></returns>
         public QueryCriteria Or(Condition condition)
         {
             if (ReferenceEquals(condition, null))
@@ -320,11 +401,19 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Wheres the specified condition.
+        /// </summary>
+        /// <param name="condition">The condition.</param>
+        /// <returns></returns>
         public QueryCriteria Where(Condition condition)
         {
             return And(condition);
         }
 
+        /// <summary>
+        /// Clears the result columns.
+        /// </summary>
         public void ClearResultColumns()
         {
             _resultColumns.Clear();
@@ -332,6 +421,9 @@ namespace NIntegrate.Data
             OnChanged();
         }
 
+        /// <summary>
+        /// Clears the conditions.
+        /// </summary>
         public void ClearConditions()
         {
             _conditionAndOrs.Clear();
@@ -340,6 +432,9 @@ namespace NIntegrate.Data
             OnChanged();
         }
 
+        /// <summary>
+        /// Clears the sort bys.
+        /// </summary>
         public void ClearSortBys()
         {
             _sortBys.Clear();
@@ -347,6 +442,10 @@ namespace NIntegrate.Data
             OnChanged();
         }
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
         public QueryCriteria Clone()
         {
             var clone = new QueryCriteria();
@@ -376,6 +475,11 @@ namespace NIntegrate.Data
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Selects the specified columns.
+        /// </summary>
+        /// <param name="columns">The columns.</param>
+        /// <returns></returns>
         internal QueryCriteria Select(params IColumn[] columns)
         {
             _queryType = QueryType.Select;
@@ -391,6 +495,11 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Inserts the specified assignments.
+        /// </summary>
+        /// <param name="assignments">The assignments.</param>
+        /// <returns></returns>
         internal QueryCriteria Insert(params Assignment[] assignments)
         {
             if (_readOnly)
@@ -408,6 +517,11 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Updates the specified assignments.
+        /// </summary>
+        /// <param name="assignments">The assignments.</param>
+        /// <returns></returns>
         internal QueryCriteria Update(params Assignment[] assignments)
         {
             if (_readOnly)
@@ -425,6 +539,10 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Deletes this instance.
+        /// </summary>
+        /// <returns></returns>
         internal QueryCriteria Delete()
         {
             if (_readOnly)
@@ -437,6 +555,11 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Sprocs the specified parameter conditions.
+        /// </summary>
+        /// <param name="parameterConditions">The parameter conditions.</param>
+        /// <returns></returns>
         internal QueryCriteria Sproc(params ParameterEqualsCondition[] parameterConditions)
         {
             _queryType = QueryType.Sproc;
@@ -449,12 +572,20 @@ namespace NIntegrate.Data
             return this;
         }
 
+        /// <summary>
+        /// Called when [changed].
+        /// </summary>
         internal void OnChanged()
         {
             if (Changed != null)
                 Changed(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Updates the identified parameter value.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="value">The value.</param>
         internal void UpdateIdentifiedParameterValue(string id, object value)
         {
             foreach (var condition in _conditions)
@@ -467,6 +598,12 @@ namespace NIntegrate.Data
 
         #region ICloneable Members
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
         object ICloneable.Clone()
         {
             return Clone();

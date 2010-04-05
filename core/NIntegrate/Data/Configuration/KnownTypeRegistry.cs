@@ -41,6 +41,10 @@ namespace NIntegrate.Data.Configuration
 
         #region Non-Public Properties
 
+        /// <summary>
+        /// Gets or sets the known types.
+        /// </summary>
+        /// <value>The known types.</value>
         public Type[] KnownTypes { get; private set; }
 
         #endregion

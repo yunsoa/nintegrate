@@ -12,6 +12,9 @@ namespace NIntegrate.ServiceModel.Configuration
     /// </summary>
     public sealed class BindingTypeRegistry : Registry<string, BindingTypeDescription>
     {
+        /// <summary>
+        /// Singleton
+        /// </summary>
         public static readonly BindingTypeRegistry Instance;
 
         #region Constructors
@@ -21,6 +24,9 @@ namespace NIntegrate.ServiceModel.Configuration
             LoadBuildInBindingTypes();
         }
 
+        /// <summary>
+        /// Initializes the <see cref="BindingTypeRegistry"/> class.
+        /// </summary>
         static BindingTypeRegistry()
         {
             Instance = new BindingTypeRegistry();
@@ -30,6 +36,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Properties
 
+        /// <summary>
+        /// Gets the <see cref="NIntegrate.ServiceModel.Configuration.BindingTypeDescription"/> with the specified key.
+        /// </summary>
+        /// <value></value>
         public override BindingTypeDescription this[string key]
         {
             get
@@ -47,6 +57,12 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Adds an item.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public override bool AddItem(string key, BindingTypeDescription value)
         {
             if (string.IsNullOrEmpty(key))

@@ -16,6 +16,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HostXml"/> class.
+        /// </summary>
+        /// <param name="xml">The XML.</param>
         public HostXml(string xml)
             : base(xml)
         {
@@ -25,6 +29,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Creates the base addresses.
+        /// </summary>
+        /// <returns></returns>
         public Uri[] CreateBaseAddresses()
         {
             if (_baseAddresses != null)
@@ -48,6 +56,10 @@ namespace NIntegrate.ServiceModel.Configuration
             }
         }
 
+        /// <summary>
+        /// Applies the host timeouts configuration.
+        /// </summary>
+        /// <param name="host">The host.</param>
         public void ApplyHostTimeoutsConfiguration(ServiceHostBase host)
         {
             if (host == null)

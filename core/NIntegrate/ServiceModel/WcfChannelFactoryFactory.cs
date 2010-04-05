@@ -4,8 +4,18 @@ using NIntegrate.ServiceModel.Configuration;
 
 namespace NIntegrate.ServiceModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class WcfChannelFactoryFactory
     {
+        /// <summary>
+        /// Creates a channel factory.
+        /// </summary>
+        /// <typeparam name="TChannel">The type of the channel.</typeparam>
+        /// <param name="endpoint">The endpoint configuration.</param>
+        /// <param name="baseAddresses">The base addresses.</param>
+        /// <returns></returns>
         public static ChannelFactory<TChannel> CreateChannelFactory<TChannel>(WcfClientEndpoint endpoint, params Uri[] baseAddresses)
         {
             if (endpoint == null)

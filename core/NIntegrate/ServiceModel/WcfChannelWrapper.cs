@@ -3,11 +3,19 @@ using System.ServiceModel;
 
 namespace NIntegrate.ServiceModel
 {
+    /// <summary>
+    /// Wapper for WCF client channel implementing the best practice to dispose WCF client channel resource
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public sealed class WcfChannelWrapper<T> : IDisposable
         where T : class 
     {
         private readonly T _channel;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WcfChannelWrapper&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="channel">The channel.</param>
         public WcfChannelWrapper(T channel)
         {
             if (channel == null)
@@ -16,6 +24,10 @@ namespace NIntegrate.ServiceModel
             _channel = channel;
         }
 
+        /// <summary>
+        /// Gets the wrapped channel.
+        /// </summary>
+        /// <value>The channel.</value>
         public T Channel { get { return _channel; } }
 
         #region IDisposable Members
@@ -66,6 +78,10 @@ namespace NIntegrate.ServiceModel
             disposed = true;
         }
 
+        /// <summary>
+        /// Releases unmanaged resources and performs other cleanup operations before the
+        /// <see cref="WcfChannelWrapper&lt;T&gt;"/> is reclaimed by garbage collection.
+        /// </summary>
         ~WcfChannelWrapper()
         {
             Dispose(false);

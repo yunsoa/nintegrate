@@ -26,6 +26,11 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingXml"/> class.
+        /// </summary>
+        /// <param name="bindingTypeCode">The binding type code.</param>
+        /// <param name="xml">The XML.</param>
         public BindingXml(string bindingTypeCode, string xml)
             : base(string.IsNullOrEmpty(xml) ? "<binding name=\"default\" />" : xml)
         {
@@ -45,6 +50,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Properties
 
+        /// <summary>
+        /// Gets the binding type code.
+        /// </summary>
+        /// <value>The binding type code.</value>
         public string BindingTypeCode
         {
             get { return _bindingTypeCode; }
@@ -54,6 +63,10 @@ namespace NIntegrate.ServiceModel.Configuration
 
         #region Public Methods
 
+        /// <summary>
+        /// Creates the binding.
+        /// </summary>
+        /// <returns></returns>
         public Binding CreateBinding()
         {
             if (_binding != null)
@@ -70,6 +83,12 @@ namespace NIntegrate.ServiceModel.Configuration
             }
         }
 
+        /// <summary>
+        /// Creates the address.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="baseAddresses">The base addresses.</param>
+        /// <returns></returns>
         public string CreateAddress(string path, Uri[] baseAddresses)
         {
             if (path == null)

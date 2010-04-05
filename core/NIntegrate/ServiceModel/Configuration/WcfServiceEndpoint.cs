@@ -8,10 +8,25 @@ namespace NIntegrate.ServiceModel.Configuration
     [DataContract(Namespace = "http://nintegrate.com")]
     public sealed class WcfServiceEndpoint : WcfEndpoint
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WcfServiceEndpoint"/> class.
+        /// </summary>
         public WcfServiceEndpoint()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WcfServiceEndpoint"/> class.
+        /// </summary>
+        /// <param name="serviceContractType">Type of the service contract.</param>
+        /// <param name="bindingTypeCode">The binding type code.</param>
+        /// <param name="bindingXml">The binding XML.</param>
+        /// <param name="address">The address.</param>
+        /// <param name="identityXml">The identity XML.</param>
+        /// <param name="headersXml">The headers XML.</param>
+        /// <param name="endpointBehaviorXml">The endpoint behavior XML.</param>
+        /// <param name="listenUri">The listen URI.</param>
+        /// <param name="listenUriMode">The listen URI mode.</param>
         public WcfServiceEndpoint(
             string serviceContractType,
             string bindingTypeCode,
@@ -38,6 +53,10 @@ namespace NIntegrate.ServiceModel.Configuration
         [DataMember]
         private string _listenUri;
 
+        /// <summary>
+        /// Gets or sets the listen URI.
+        /// </summary>
+        /// <value>The listen URI.</value>
         public string ListenUri
         {
             get
@@ -50,6 +69,10 @@ namespace NIntegrate.ServiceModel.Configuration
             }
         }
 
+        /// <summary>
+        /// Gets or sets the listen URI mode.
+        /// </summary>
+        /// <value>The listen URI mode.</value>
         [DataMember]
         public WcfListenUriMode? ListenUriMode { get; set; }
     }
