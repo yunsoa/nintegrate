@@ -28,7 +28,7 @@ namespace NIntegrate.Mapping
                         if (string.Compare(
                             propertyName.Replace("_", string.Empty),
                             property.Name.Replace("_", string.Empty),
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                            ignoreCase) == 0)
                         {
                             return property;
                         }
@@ -38,7 +38,7 @@ namespace NIntegrate.Mapping
                         if (string.Compare(
                             propertyName,
                             property.Name,
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                            ignoreCase) == 0)
                         {
                             return property;
                         }
@@ -66,7 +66,7 @@ namespace NIntegrate.Mapping
                         if (string.Compare(
                             fieldName.Replace("_", string.Empty),
                             field.Name.Replace("_", string.Empty),
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                            ignoreCase) == 0)
                         {
                             return field;
                         }
@@ -76,7 +76,7 @@ namespace NIntegrate.Mapping
                         if (string.Compare(
                             fieldName,
                             field.Name,
-                            ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                            ignoreCase) == 0)
                         {
                             return field;
                         }

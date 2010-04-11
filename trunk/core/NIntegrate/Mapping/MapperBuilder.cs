@@ -68,7 +68,6 @@ namespace NIntegrate.Mapping
                 throw new InvalidOperationException("Expects To() but called From().");
 
             _mappingChain.Add(from);
-
             _expectsTo = true;
 
             return this;
@@ -88,7 +87,6 @@ namespace NIntegrate.Mapping
                 throw new InvalidOperationException("Expects From() but called To().");
 
             _mappingChain.Add(to);
-
             _expectsTo = false;
 
             return this;

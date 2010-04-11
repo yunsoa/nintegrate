@@ -87,10 +87,7 @@ namespace NIntegrate.ServiceModel.Activation
 
             if (OnLoadServiceConfiguration != null)
             {
-                var args = new LoadServiceConfigurationEventArgs
-                               {
-                                   ServiceType = serviceType
-                               };
+                var args = new LoadServiceConfigurationEventArgs { ServiceType = serviceType };
                 OnLoadServiceConfiguration(this, args);
                 if (args.Service != null)
                     return args.Service;
