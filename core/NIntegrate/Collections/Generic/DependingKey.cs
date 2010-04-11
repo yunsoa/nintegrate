@@ -58,7 +58,7 @@ namespace NIntegrate.Collections.Generic
         /// <returns>The result of the operator.</returns>
         public static bool operator ==(DependingKey<TKey> left, DependingKey<TKey> right)
         {
-            return object.Equals(left, right);
+            return Equals(left, right);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace NIntegrate.Collections.Generic
         /// <returns>The result of the operator.</returns>
         public static bool operator !=(DependingKey<TKey> left, DependingKey<TKey> right)
         {
-            return !object.Equals(left, right);
+            return !Equals(left, right);
         }
 
         /// <summary>
@@ -87,9 +87,9 @@ namespace NIntegrate.Collections.Generic
             if (ReferenceEquals(null, obj))
                 return false;
 
-            DependingKey<TKey> dpendingKey = obj as DependingKey<TKey>;
-            if (dpendingKey != null)
-                return object.Equals(this.KeyValue, dpendingKey.KeyValue);
+            DependingKey<TKey> dependingKey = obj as DependingKey<TKey>;
+            if (dependingKey != null)
+                return Equals(KeyValue, dependingKey.KeyValue);
 
             return false;
         }
@@ -102,7 +102,7 @@ namespace NIntegrate.Collections.Generic
         /// </returns>
         public override int GetHashCode()
         {
-            return this.KeyValue.GetHashCode();
+            return KeyValue.GetHashCode();
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace NIntegrate.Collections.Generic
         /// </returns>
         public override string ToString()
         {
-            return this.KeyValue.ToString();
+            return KeyValue.ToString();
         }
 
         /// <summary>
@@ -129,10 +129,10 @@ namespace NIntegrate.Collections.Generic
             {
                 for (int i = 0; i < _dependencies.Length; ++i)
                 {
-                    if (string.Compare(_dependencies[i], dependency, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0)
+                    if (string.Compare(_dependencies[i], dependency, ignoreCase) == 0)
                         return true;
 
-                    if (partiallyMatch && dependency != null && _dependencies[i] != null)
+                    if (partiallyMatch && !string.IsNullOrEmpty(dependency) && !string.IsNullOrEmpty(_dependencies[i]))
                     {
                         if (_dependencies[i].IndexOf(dependency, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0)
                             return true;
