@@ -35,6 +35,7 @@ namespace NIntegrate.Mapping
         private readonly bool _autoMap;
         private readonly bool _ignoreCase;
         private readonly bool _ignoreUnderscore;
+        private readonly bool _ignoreType;
         private readonly string[] _ignoreFields;
         private readonly List<Delegate> _mappingChain = new List<Delegate>();
         private bool _expectsTo;
@@ -42,11 +43,17 @@ namespace NIntegrate.Mapping
 
         #region Constructors
 
-        internal MapperBuilder(bool autoMap, bool ignoreCase, bool ignoreUnderscore, string[] ignoreFields)
+        internal MapperBuilder(
+            bool autoMap, 
+            bool ignoreCase,
+            bool ignoreUnderscore,
+            bool ignoreType,
+            string[] ignoreFields)
         {
             _autoMap = autoMap;
             _ignoreCase = ignoreCase;
             _ignoreUnderscore = ignoreUnderscore;
+            _ignoreType = ignoreType;
             _ignoreFields = ignoreFields;
         }
 
@@ -1136,6 +1143,10 @@ namespace NIntegrate.Mapping
                     if (targetProperty != null && targetProperty.CanWrite)
                     {
                         var sourceProperty = property;
+
+                        if (!_ignoreType && targetProperty.PropertyType != sourceProperty.PropertyType)
+                            continue;
+
                         gen.StoreProperty(
                             typeof(TTo).IsValueType ?
                             new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
@@ -1182,6 +1193,10 @@ namespace NIntegrate.Mapping
                         if (targetField != null)
                         {
                             var sourceProperty = property;
+
+                            if (!_ignoreType && targetField.FieldType != sourceProperty.PropertyType)
+                                continue;
+
                             gen.StoreField(
                                 typeof(TTo).IsValueType ?
                                 new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
@@ -1233,6 +1248,10 @@ namespace NIntegrate.Mapping
                     if (targetProperty != null && targetProperty.CanWrite)
                     {
                         var sourceField = field;
+
+                        if (!_ignoreType && targetProperty.PropertyType != sourceField.FieldType)
+                            continue;
+
                         gen.StoreProperty(
                             typeof(TTo).IsValueType ?
                             new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
@@ -1279,6 +1298,10 @@ namespace NIntegrate.Mapping
                         if (targetField != null)
                         {
                             var sourceField = field;
+
+                            if (!_ignoreType && targetField.FieldType != sourceField.FieldType)
+                                continue;
+
                             gen.StoreField(
                                 typeof(TTo).IsValueType ?
                                 new ILExpression(thisObj => thisObj.LoadLocalVariableAddress(local))
