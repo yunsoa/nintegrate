@@ -82,20 +82,45 @@ namespace NIntegrate.Mapping
         /// </summary>
         /// <typeparam name="TFrom">The type of from.</typeparam>
         /// <typeparam name="TTo">The type of to.</typeparam>
-        /// <param name="autoMap">if set to <c>true</c> [auto map].</param>
-        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
-        /// <param name="ignoreUnderscore">if set to <c>true</c> [ignore underscore].</param>
-        /// <param name="ignoreFields">The ignore fields.</param>
+        /// <param name="autoMap">if set to <c>true</c> auto map fields and properies of object.</param>
+        /// <param name="ignoreCase">Used only when autoMap=true, if set to <c>true</c> ignore field and property case.</param>
+        /// <param name="ignoreType">Used only when autoMap=true, if set to <c>true</c> ignore field and property type difference.</param>
+        /// <param name="ignoreUnderscore">Used only when autoMap=true, if set to <c>true</c> ignore underscore.</param>
+        /// <param name="ignoreFields">Used only when autoMap=true, ignore specified fields.</param>
         /// <returns></returns>
         public MapperBuilder<TFrom, TTo> ConfigureMapper<TFrom, TTo>(
-            bool autoMap, bool ignoreCase, bool ignoreUnderscore, params string[] ignoreFields)
+            bool autoMap, 
+            bool ignoreCase,
+            bool ignoreUnderscore,
+            bool ignoreType,
+            params string[] ignoreFields)
         {
-            var builder = new MapperBuilder<TFrom, TTo>(autoMap, ignoreCase, ignoreUnderscore, ignoreFields);
+            var builder = new MapperBuilder<TFrom, TTo>(
+                autoMap, ignoreCase, ignoreUnderscore, ignoreType, ignoreFields);
             lock (_mapperCacheLock)
             {
                 _mapperCache[builder.CacheKey] = builder;
             }
             return builder;
+        }
+
+        /// <summary>
+        /// Configures the mapper.
+        /// </summary>
+        /// <typeparam name="TFrom">The type of from.</typeparam>
+        /// <typeparam name="TTo">The type of to.</typeparam>
+        /// <param name="autoMap">if set to <c>true</c> auto map fields and properies of object.</param>
+        /// <param name="ignoreCase">Used only when autoMap=true, if set to <c>true</c> ignore field and property case.</param>
+        /// <param name="ignoreUnderscore">Used only when autoMap=true, if set to <c>true</c> ignore underscore.</param>
+        /// <param name="ignoreFields">Used only when autoMap=true, ignore specified fields.</param>
+        /// <returns></returns>
+        public MapperBuilder<TFrom, TTo> ConfigureMapper<TFrom, TTo>(
+            bool autoMap, 
+            bool ignoreCase, 
+            bool ignoreUnderscore, 
+            params string[] ignoreFields)
+        {
+            return ConfigureMapper<TFrom, TTo>(autoMap, ignoreCase, ignoreUnderscore, true, ignoreFields);
         }
 
         #endregion
