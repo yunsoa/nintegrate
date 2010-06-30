@@ -1,0 +1,41 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>GoogleTracer Demo</title>
+		<script type="text/javascript" language="javascript" src="../../_scripts/jquery-1.3.2.js"></script>
+		<script type="text/javascript" language="javascript" src="../../_scripts/jquery-jtemplates.js"></script>
+		<script type="text/javascript" language="javascript" src="../../_scripts/sscompat.debug.js"></script>
+		<script type="text/javascript" language="javascript" src="../../_scripts/sscorlib.js"></script>
+		<script type="text/javascript" language="javascript" src="../../_scripts/ssfx.Core.js"></script>
+		<script type="text/javascript" language="javascript" src="../../_scripts/JQuerySharp.debug.js"></script>
+		<script type="text/javascript" language="javascript" src="../../_scripts/NIntegrate.Scripts.debug.js"></script>
+		<script type="text/javascript" language="javascript" src="../../_scripts/NIntegrate.Scripts.Test.debug.js"></script>
+	</head>
+	<body>
+	    <div class="post">
+	        Search keyword: <span class="postTitle">teddyma wcf</span>
+	    </div>
+	    <hr />
+	    <textarea id="jtGoogleTracer" style="display: none">
+	        {#if $T.responseStatus == 200}
+	            {#foreach $T.responseData.results as result}
+	            <a href="{$T.result.url}" title="{$T.result.content.replace('"', '&quot;')}">{$T.result.titleNoFormatting}</a><br />
+	            {#/for}
+	            <b><a href="javascript:void(0)" id="btnShowMoreResults">More&gt;&gt;</a></b>
+	        {#else}
+	            Network error, please try again later!
+	        {#/if}
+	    </textarea>
+	    
+	    <div id="divSearchResults"></div>
+	    
+	    <script type="text/javascript" language="javascript">
+	        NIntegrate.Scripts.Test.Demo.GoogleTracer.Container.registerInstance(
+	            NIntegrate.Scripts.Test.Demo.GoogleTracer.Views.IGoogleTracerView,
+	            new NIntegrate.Scripts.Test.Demo.GoogleTracer.Views.CnblogsGoogleSearchTracerView()
+	        );
+
+	        new NIntegrate.Scripts.Test.Demo.GoogleTracer.Controllers.GoogleTracerController().execute();
+	    </script>
+	</body>
+</html>

@@ -1,0 +1,59 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+		<link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
+		
+		<script type="text/javascript" src="..\bin\Debug\sscorlib.debug.js"></script>
+		<script type="text/javascript" src="..\bin\Debug\ssfx.Core.debug.js"></script>
+		<script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.3.2.js"></script>
+		<script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
+		<script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.accordion.js"></script>
+		
+		<!-- JquerySharp Example specific -->
+		<script type="text/javascript" src="..\bin\Debug\JQuerySharp.debug.js"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function()
+			{
+				var example = new JQuerySharp.Example();
+				example.run();
+			});
+		</script>
+		<style type="text/css">
+		/* Demo style */
+		body
+		{
+				font-size:0.8em;
+				font-family:Sans-Serif;
+		}
+		</style>
+	</head>
+	<body>
+		<p>This is a very basic example to tie in with Example.cs. It shows off the Accordion plugin, and a few other basic jQuery manipulations</p>
+	
+		<div id="test">
+			<h3><a href="#">Section 1</a></h3>
+			<div>
+				<p>
+				Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+				ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+				amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+				odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+				</p>
+			</div>
+			<h3><a href="#">Section 2</a></h3>
+			<div>
+				<p>
+				Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+				purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+				velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+				suscipit faucibus urna.
+				</p>
+			</div>
+		</div>
+		
+		<div id="cloneme">cloneme</div>
+		<a href="#" id="clickme">click me</a>
+		<div id="newcontent"></div>
+	</body>
+</html>
