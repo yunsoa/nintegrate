@@ -1,0 +1,56 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B844DD4A-E473-4372-B2F0-0331196FE887}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JQuerySharp</RootNamespace>
+    <AssemblyName>JQuerySharp</AssemblyName>
+    <NoStdLib>True</NoStdLib>
+    <CopyReferences>True</CopyReferences>
+    <TemplateFile>Properties\Script.jst</TemplateFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0028, 1591</NoWarn>
+    <DocumentationFile>bin\Debug\JQuerySharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0028, 1591</NoWarn>
+    <DocumentationFile>bin\Release\JQuerySharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="sscorlib" />
+    <Reference Include="ssfx.Core" />
+    <Reference Include="ssfx.UI.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Example\Example.html" />
+    <Content Include="Properties\Project.FxCop" />
+    <Content Include="Properties\Script.jst" />
+    <Content Include="documentation.xml" />
+    <Content Include="todo.txt" />
+    <Compile Include="AccordionPlugin.cs" />
+    <Compile Include="jQuery.cs" />
+    <Compile Include="Example.cs" />
+    <Compile Include="JQueryFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(ProgramFiles)\nStuff\ScriptSharp\v1.0\nStuff.ScriptSharp.targets" />
+</Project>

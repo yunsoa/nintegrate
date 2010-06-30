@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<documentation>
+	<member name="jQuery">
+		<summary>
+			Summary for the JQuery class
+		</summary>
+	</member>
+
+	<member name="jQuery.AddClass">
+		<summary>Adds a class</summary>
+		<param name="className"></param>
+		<returns></returns>
+	</member>
+</documentation>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>GoogleTracer Test Runner</title>
+        <link rel="stylesheet" href="../../../_styles/qunit.css" type="text/css" media="screen" />
+		<script type="text/javascript" language="javascript" src="../../../_scripts/jquery-1.3.2.js"></script>
+		<script type="text/javascript" language="javascript" src="../../../_scripts/jquery-jtemplates.js"></script>
+		<script type="text/javascript" language="javascript" src="../../../_scripts/sscompat.debug.js"></script>
+		<script type="text/javascript" language="javascript" src="../../../_scripts/sscorlib.js"></script>
+		<script type="text/javascript" language="javascript" src="../../../_scripts/ssfx.Core.js"></script>
+		<script type="text/javascript" language="javascript" src="../../../_scripts/JQuerySharp.debug.js"></script>
+		<script type="text/javascript" language="javascript" src="../../../_scripts/NIntegrate.Scripts.debug.js"></script>
+		<script type="text/javascript" language="javascript" src="../../../_scripts/NIntegrate.Scripts.Test.debug.js"></script>
+        <script type="text/javascript" src="../../../_scripts/qunit.js"></script>    
+        <script type="text/javascript" src="../../../_scripts/jqMock.js"></script>    
+	</head>
+	<body>
+	    <!-- QUnit Elements - begin -->
+        <h1 id="qunit-header">
+            GoogleTracer Tests</h1>
+        <h2 id="qunit-banner">
+        </h2>
+        <h2 id="qunit-userAgent">
+        </h2>
+        <ol id="qunit-tests">
+        </ol>
+	    <!-- QUnit Elements - end -->
+	
+	    
+	    <!-- Mock Elements - begin -->
+	    <div class="post" style="display: none">
+	        <span class="postTitle"></span>
+	    </div>
+	    <textarea id="jtGoogleTracer" style="display: none">
+	        <a id="btnShowMoreResults"></a>
+	    </textarea>
+	    <div id="divSearchResults"></div>
+	    <!-- Mock Elements - end -->
+	    
+	    <script type="text/javascript" language="javascript">
+	        new NIntegrate.Scripts.Test.Demo.GoogleTracer.Test.CnblogsGoogleSearchTracerViewTest().execute();
+	        new NIntegrate.Scripts.Test.Demo.GoogleTracer.Test.GoogleTracerControllerTest().execute();
+	    </script>
+	</body>
+</html>

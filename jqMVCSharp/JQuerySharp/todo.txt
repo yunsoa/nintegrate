@@ -1,0 +1,48 @@
+﻿TODO
+
+- Documentation: fill a seperate XML file based on the jQuery docs 
+(Visual Studio only uses this documentation for intellisense if the project is compiled and the .xml file is in the bin folder)
+
+- Add popular plugins
+
+Core:
+- $("p").length number
+- $("p").get() array
+- $("p").get(index) jquery
+- $("p").selector string
+- $("p").each(callback) jquery 
+- $("p").size() number
+- $("p").eq(position) jquery
+- $("p").index(subject) number
+
+Data
+- queue,dequeue,data,removedata
+- noConflict
+
+- jQuery.browser.version
+- jQuery.boxModel
+- jQuery.support
+	- boxModel bool
+	- cssFloat bool
+	- hrefNormalized bool
+	- htmlSerialize bool
+	- noCloneEvent bool
+	- objectAll bool
+	- opacity bool
+	- scriptEval bool
+	- style bool
+	- tbody bool
+	- jQuery.fx.off bool
+	
+-------------------
+
+- An event handler equivalent to click(function(e){})
+This will need a class to model the Javascript event object too, along the lines:
+public delegate void HtmlEventHandler(Domevent e);
+
+- Some events give you access to the this keyword, which will be tricky to implement
+
+- The ajax events could have delegates: 
+public delegate void JQueryAjaxEventHandler(JQuery sender,XMLHttpRequest request,Dictionary ajaxOptions);
+public delegate void JQueryAjaxErrorEventHandler(JQuery sender,string data,string textStatus);
+public delegate void JQueryAjaxErrorEventHandler(JQuery sender,XMLHttpRequest request,Dictionary ajaxOptions,bool thrownError);
