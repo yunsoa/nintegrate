@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Scripts", "NIntegrate.Scripts\NIntegrate.Scripts.csproj", "{D6D9D832-7CAD-4A97-8D48-C391B0FEA24A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntegrate.Scripts.Test", "NIntegrate.Scripts.Test\NIntegrate.Scripts.Test.csproj", "{2A3213B9-8B6C-4133-97B8-FAC204A67651}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JQuerySharp", "JQuerySharp\JQuerySharp.csproj", "{B844DD4A-E473-4372-B2F0-0331196FE887}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{EB16FE63-9272-4F8B-A8B8-B193A9011AB0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{36AAE732-F73F-4346-8822-31ED9DAF0F0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6D9D832-7CAD-4A97-8D48-C391B0FEA24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D9D832-7CAD-4A97-8D48-C391B0FEA24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6D9D832-7CAD-4A97-8D48-C391B0FEA24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D9D832-7CAD-4A97-8D48-C391B0FEA24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A3213B9-8B6C-4133-97B8-FAC204A67651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A3213B9-8B6C-4133-97B8-FAC204A67651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A3213B9-8B6C-4133-97B8-FAC204A67651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A3213B9-8B6C-4133-97B8-FAC204A67651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B844DD4A-E473-4372-B2F0-0331196FE887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B844DD4A-E473-4372-B2F0-0331196FE887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B844DD4A-E473-4372-B2F0-0331196FE887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B844DD4A-E473-4372-B2F0-0331196FE887}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B844DD4A-E473-4372-B2F0-0331196FE887} = {EB16FE63-9272-4F8B-A8B8-B193A9011AB0}
+		{2A3213B9-8B6C-4133-97B8-FAC204A67651} = {36AAE732-F73F-4346-8822-31ED9DAF0F0D}
+	EndGlobalSection
+EndGlobal
