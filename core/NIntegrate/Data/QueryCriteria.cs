@@ -165,7 +165,7 @@ namespace NIntegrate.Data
         /// Gets the name of the table.
         /// </summary>
         /// <value>The name of the table.</value>
-        public string TableName
+        internal string TableName
         {
             get { return _tableName; }
         }
@@ -174,7 +174,7 @@ namespace NIntegrate.Data
         /// Gets the name of the connection string.
         /// </summary>
         /// <value>The name of the connection string.</value>
-        public string ConnectionStringName
+        internal string ConnectionStringName
         {
             get { return _connectionStringName; }
         }
@@ -183,7 +183,7 @@ namespace NIntegrate.Data
         /// Gets the predefined columns to return if no columns is specified in Select() method.
         /// </summary>
         /// <value>The predefined columns.</value>
-        public ReadOnlyCollection<IColumn> PredefinedColumns
+        internal ReadOnlyCollection<IColumn> PredefinedColumns
         {
             get { return new ReadOnlyCollection<IColumn>(_predefinedColumns); }
         }
@@ -230,7 +230,7 @@ namespace NIntegrate.Data
         /// Get the sort bys.
         /// </summary>
         /// <value>The sort bys.</value>
-        public IDictionary<IColumn, bool> SortBys
+        internal IDictionary<IColumn, bool> SortBys
         {
             get { return _sortBys; }
         }
@@ -239,7 +239,7 @@ namespace NIntegrate.Data
         /// Get the And/Or logic operators of the query conditions.
         /// </summary>
         /// <value>The condition and ors.</value>
-        public ReadOnlyCollection<ConditionAndOr> ConditionAndOrs
+        internal ReadOnlyCollection<ConditionAndOr> ConditionAndOrs
         {
             get { return new ReadOnlyCollection<ConditionAndOr>(_conditionAndOrs); }
         }
@@ -248,7 +248,7 @@ namespace NIntegrate.Data
         /// Get the query conditions.
         /// </summary>
         /// <value>The conditions.</value>
-        public ReadOnlyCollection<Condition> Conditions
+        internal ReadOnlyCollection<Condition> Conditions
         {
             get { return new ReadOnlyCollection<Condition>(_conditions); }
         }
@@ -257,7 +257,7 @@ namespace NIntegrate.Data
         /// Get the assignments for Insert & Update operations.
         /// </summary>
         /// <value>The assignments.</value>
-        public ReadOnlyCollection<Assignment> Assignments
+        internal ReadOnlyCollection<Assignment> Assignments
         {
             get { return new ReadOnlyCollection<Assignment>(_assignments); }
         }
@@ -484,13 +484,21 @@ namespace NIntegrate.Data
         {
             _queryType = QueryType.Select;
 
-            foreach (var column in columns)
+            if (columns != null && columns.Length > 0)
             {
-                if (!_resultColumns.Contains(column))
-                    _resultColumns.Add(column);
-            }
+                bool changed = false;
+                foreach (var column in columns)
+                {
+                    if (!_resultColumns.Contains(column))
+                    {
+                        _resultColumns.Add(column);
+                        changed = true;
+                    }
+                }
 
-            OnChanged();
+                if (changed)
+                    OnChanged();
+            }
 
             return this;
         }
