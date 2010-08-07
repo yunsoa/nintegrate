@@ -34,6 +34,30 @@ namespace NIntegrate.Data
 
         #endregion
 
+        #region Properties
+
+        internal string TableName
+        {
+            get { return _tableName; }
+        }
+
+        internal string ConnectionStringName
+        {
+            get { return _connectionStringName; }
+        }
+
+        internal bool ReadOnly
+        {
+            get { return _readOnly; }
+        }
+
+        internal IEnumerable<IColumn> PredefinedColumns
+        {
+            get { return _predefinedColumns; }
+        }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>

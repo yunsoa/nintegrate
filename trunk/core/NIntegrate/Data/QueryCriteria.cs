@@ -84,7 +84,7 @@ namespace NIntegrate.Data
         private readonly List<Condition> _conditions;
 
         [DataMember]
-        private readonly List<Assignment> _assignments;
+        private List<Assignment> _assignments;
 
         [DataMember]
         private bool _readOnly;
@@ -262,6 +262,14 @@ namespace NIntegrate.Data
             get { return new ReadOnlyCollection<Assignment>(_assignments); }
         }
 
+        internal void SetAssignments(Assignment[] assignments)
+        {
+            if (assignments == null || assignments.Length == 0)
+                throw new ArgumentNullException("assignments");
+
+            _assignments = new List<Assignment>(assignments);
+        }
+
         /// <summary>
         /// Gets the sproc parameter conditions.
         /// </summary>
@@ -287,6 +295,7 @@ namespace NIntegrate.Data
         public QueryType QueryType
         {
             get { return _queryType; }
+            internal set { _queryType = value; }
         }
 
         #endregion
