@@ -53,7 +53,7 @@ namespace NIntegrate.Test.Query.TestClasses
     public class Farm : ActiveRecord<Farm, QueryClasses.Farm>
     {
         [DataMember]
-        public int Farm_id { get; set; }
+        public int FarmID { get; set; }
         [DataMember]
         public string FarmAddress { get; set; }
         [DataMember]
@@ -61,12 +61,12 @@ namespace NIntegrate.Test.Query.TestClasses
 
         public override ObjectId<Farm, QueryClasses.Farm> GetObjectId()
         {
-            return new ObjectId<Farm, QueryClasses.Farm>(Farm.Q.Farm_id == Farm_id, false);
+            return new ObjectId<Farm, QueryClasses.Farm>(Farm.Q.Farm_id == FarmID, false);
         }
 
         public override Assignment[] GetSaveAssignments()
         {
-            return new Assignment[] { Farm.Q.Farm_id.Set(Farm_id), Farm.Q.FarmAddress.Set(FarmAddress), Farm.Q.LoadBalancePath.Set(LoadBalancePath) };
+            return new Assignment[] { Farm.Q.Farm_id.Set(FarmID), Farm.Q.FarmAddress.Set(FarmAddress), Farm.Q.LoadBalancePath.Set(LoadBalancePath) };
         }
     }
 }
