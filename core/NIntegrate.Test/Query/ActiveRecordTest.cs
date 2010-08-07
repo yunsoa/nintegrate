@@ -40,11 +40,16 @@ namespace NIntegrate.Test.Query
             farm.LoadBalancePath = "modified";
             farm.Save();
 
+            var criteria = farm.GetObjectId().ToCriteria();
+            farm.Save(Farm.Q.Update(Farm.Q.LoadBalancePath.Set("modified2")).Where(Farm.Q.Farm_id == farm.Farm_id));
+
             //test find
             loadFarm = farm.FindOne(farm.GetObjectId());
             Assert.AreEqual(farm.Farm_id, loadFarm.Farm_id);
             Assert.AreEqual(farm.FarmAddress, loadFarm.FarmAddress);
-            Assert.AreEqual(farm.LoadBalancePath, loadFarm.LoadBalancePath);
+            Assert.AreEqual("modified2", loadFarm.LoadBalancePath);
+
+            farm.LoadBalancePath = "modified2";
 
             //test findMany
             var loadManyFarms = farm.FindMany(Farm.Q.Select().SortBy(Farm.Q.Farm_id, true));
@@ -52,6 +57,9 @@ namespace NIntegrate.Test.Query
             loadFarm = loadManyFarms.First(f => f.Farm_id == farm.Farm_id);
             Assert.AreEqual(farm.FarmAddress, loadFarm.FarmAddress);
             Assert.AreEqual(farm.LoadBalancePath, loadFarm.LoadBalancePath);
+
+            var count = farm.Count(Farm.Q.Select().Where(Farm.Q.Farm_id > 0));
+            Assert.IsTrue(count > 0);
 
             //test delete
             farm.Delete();
@@ -73,11 +81,29 @@ namespace NIntegrate.Test.Query
             Assert.IsTrue(deserializedFarm.IsNew());
 
             //test save/delete after deserialization
-            Assert.IsFalse(deserializedFarm.Save());
-            Assert.IsFalse(deserializedFarm.Delete());
+            bool caughtExpectedException = false;
+            try
+            {
+                deserializedFarm.Save();
+            }
+            catch (InvalidOperationException)
+            {
+                caughtExpectedException = true;
+            }
+            Assert.IsTrue(caughtExpectedException);
+            caughtExpectedException = false;
+            try
+            {
+                deserializedFarm.Delete();
+            }
+            catch (InvalidOperationException)
+            {
+                caughtExpectedException = true;
+            }
+            Assert.IsTrue(caughtExpectedException);
             deserializedFarm.Attach(new QueryCommandFactory());
             Assert.IsTrue(deserializedFarm.Save());
-            Assert.IsTrue(deserializedFarm.Delete());
+            Assert.AreEqual(1, deserializedFarm.Delete(Farm.Q.Delete(Farm.Q.Farm_id == farm.Farm_id)));
 
             //test ObjectId serialization
             var objectId = farm.GetObjectId();
