@@ -23,7 +23,7 @@ namespace NIntegrate.Test.Query
             farm.Attach(new NIntegrate.Data.QueryCommandFactory());
 
             //test insert
-            farm.Farm_id = 1000;
+            farm.FarmID = 1000;
             farm.FarmAddress = "Test Farm";
             farm.LoadBalancePath = "/TestPath/";
             Assert.IsTrue(farm.IsNew());
@@ -32,7 +32,7 @@ namespace NIntegrate.Test.Query
 
             //test find
             var loadFarm = farm.FindOne(farm.GetObjectId());
-            Assert.AreEqual(farm.Farm_id, loadFarm.Farm_id);
+            Assert.AreEqual(farm.FarmID, loadFarm.FarmID);
             Assert.AreEqual(farm.FarmAddress, loadFarm.FarmAddress);
             Assert.AreEqual(farm.LoadBalancePath, loadFarm.LoadBalancePath);
 
@@ -41,11 +41,11 @@ namespace NIntegrate.Test.Query
             farm.Save();
 
             var criteria = farm.GetObjectId().ToCriteria();
-            farm.Save(Farm.Q.Update(Farm.Q.LoadBalancePath.Set("modified2")).Where(Farm.Q.Farm_id == farm.Farm_id));
+            farm.Save(Farm.Q.Update(Farm.Q.LoadBalancePath.Set("modified2")).Where(Farm.Q.Farm_id == farm.FarmID));
 
             //test find
             loadFarm = farm.FindOne(farm.GetObjectId());
-            Assert.AreEqual(farm.Farm_id, loadFarm.Farm_id);
+            Assert.AreEqual(farm.FarmID, loadFarm.FarmID);
             Assert.AreEqual(farm.FarmAddress, loadFarm.FarmAddress);
             Assert.AreEqual("modified2", loadFarm.LoadBalancePath);
 
@@ -54,7 +54,7 @@ namespace NIntegrate.Test.Query
             //test findMany
             var loadManyFarms = farm.FindMany(Farm.Q.Select().SortBy(Farm.Q.Farm_id, true));
             Assert.IsTrue(loadManyFarms.Count > 0);
-            loadFarm = loadManyFarms.First(f => f.Farm_id == farm.Farm_id);
+            loadFarm = loadManyFarms.First(f => f.FarmID == farm.FarmID);
             Assert.AreEqual(farm.FarmAddress, loadFarm.FarmAddress);
             Assert.AreEqual(farm.LoadBalancePath, loadFarm.LoadBalancePath);
 
@@ -74,7 +74,7 @@ namespace NIntegrate.Test.Query
             stream.Seek(0, SeekOrigin.Begin);
             var deserializedFarm = (Farm)serializer.ReadObject(stream);
 
-            Assert.AreEqual(farm.Farm_id, deserializedFarm.Farm_id);
+            Assert.AreEqual(farm.FarmID, deserializedFarm.FarmID);
             Assert.AreEqual(farm.FarmAddress, deserializedFarm.FarmAddress);
             Assert.AreEqual(farm.LoadBalancePath, deserializedFarm.LoadBalancePath);
             Assert.IsFalse(deserializedFarm.IsAttached());
@@ -103,7 +103,7 @@ namespace NIntegrate.Test.Query
             Assert.IsTrue(caughtExpectedException);
             deserializedFarm.Attach(new QueryCommandFactory());
             Assert.IsTrue(deserializedFarm.Save());
-            Assert.AreEqual(1, deserializedFarm.Delete(Farm.Q.Delete(Farm.Q.Farm_id == farm.Farm_id)));
+            Assert.AreEqual(1, deserializedFarm.Delete(Farm.Q.Delete(Farm.Q.Farm_id == farm.FarmID)));
 
             //test ObjectId serialization
             var objectId = farm.GetObjectId();
