@@ -19,9 +19,6 @@ namespace NIntegrate.Data
         [DataMember]
         private IExpression _right;
 
-        [DataMember]
-        private List<Assignment> _linkedAssignments = new List<Assignment>();
-
         #region KnownTypes
 
         /// <summary>
