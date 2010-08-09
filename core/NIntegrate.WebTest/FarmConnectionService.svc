@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Service="NIntegrate.Data.IActiveRecordConnection`1[[NIntegrate.Test.Query.TestClasses.Farm, NIntegrate.Test]] " Factory="NIntegrate.WebTest.Code.FarmConnectionServiceHostFactory" %>

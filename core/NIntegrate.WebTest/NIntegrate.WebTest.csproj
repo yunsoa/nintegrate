@@ -62,17 +62,20 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FarmConnectionService.svc" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="QueryService.svc" />
     <Content Include="Scripts\jquery-1.4.2.min.js" />
     <Content Include="Scripts\jshashtable-2.1.js" />
+    <Content Include="TestActiveRecord.aspx" />
     <Content Include="TestAjaxClient.aspx" />
     <Content Include="TestAjaxClientService.svc" />
     <Content Include="TestJSONData.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\FarmConnectionServiceHostFactory.cs" />
     <Compile Include="Code\ProductCategoryTable.cs" />
     <Compile Include="Default.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -85,6 +88,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestActiveRecord.aspx.cs">
+      <DependentUpon>TestActiveRecord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestActiveRecord.aspx.designer.cs">
+      <DependentUpon>TestActiveRecord.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TestAjaxClient.aspx.cs">
       <DependentUpon>TestAjaxClient.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -104,6 +114,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NIntegrate.Test\NIntegrate.Test.csproj">
+      <Project>{1B12FC2F-CCB3-4A93-855C-946D688D4408}</Project>
+      <Name>NIntegrate.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NIntegrate.Web\NIntegrate.Web.csproj">
       <Project>{0B23908A-D089-410E-9A0D-C42AAD2AD838}</Project>
       <Name>NIntegrate.Web</Name>

@@ -22,7 +22,7 @@ namespace NIntegrate.Test.Query
             var cmdFactory = new NIntegrate.Data.QueryCommandFactory();
 
             Farm farm = new Farm();
-            farm.Attach(new LocalActiveRecordConnection<Farm>(cmdFactory));
+            farm.Attach(new ActiveRecordConnection<Farm>(cmdFactory));
 
             //test insert
             farm.FarmID = 1000;
@@ -103,7 +103,7 @@ namespace NIntegrate.Test.Query
                 caughtExpectedException = true;
             }
             Assert.IsTrue(caughtExpectedException);
-            deserializedFarm.Attach(new LocalActiveRecordConnection<Farm>(cmdFactory));
+            deserializedFarm.Attach(new ActiveRecordConnection<Farm>(cmdFactory));
             Assert.IsTrue(deserializedFarm.Save());
             Assert.AreEqual(1, deserializedFarm.Delete(Farm.Q.Delete(Farm.Q.Farm_id == farm.FarmID)));
 
