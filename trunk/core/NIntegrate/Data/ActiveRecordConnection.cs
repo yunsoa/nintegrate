@@ -9,21 +9,29 @@ using System.Data;
 
 namespace NIntegrate.Data
 {
+    [ServiceContract(Namespace = "http://nintegrate.com")]
     public interface IActiveRecordConnection
     {
+        [OperationContract]
         int ExecuteNonQuery(QueryCriteria criteria);
+        [OperationContract]
         object ExecuteScalar(QueryCriteria criteria);
     }
 
+    [ServiceContract(Namespace = "http://nintegrate.com")]
     public interface IActiveRecordConnection<TRecord> : IActiveRecordConnection
         where TRecord : ActiveRecord
     {
+        [OperationContract]
         TRecord ExecuteOne(QueryCriteria criteria);
+        [OperationContract]
         ICollection<TRecord> ExecuteMany(QueryCriteria criteria);
+        [OperationContract]
         int ExecuteCount(QueryCriteria criteria);
     }
 
-    public class LocalActiveRecordConnection<TRecord> : IActiveRecordConnection<TRecord>
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public class ActiveRecordConnection<TRecord> : IActiveRecordConnection<TRecord>
         where TRecord : ActiveRecord
     {
         private readonly QueryCommandFactory _cmdFactory;
@@ -33,7 +41,7 @@ namespace NIntegrate.Data
 
         #region Constructors
 
-        static LocalActiveRecordConnection()
+        static ActiveRecordConnection()
         {
             _mapperFactory = new MapperFactory();
 
@@ -44,7 +52,7 @@ namespace NIntegrate.Data
             _mapperMany = _mapperFactory.GetMapper<IDataReader, List<TRecord>>();
         }
 
-        public LocalActiveRecordConnection(QueryCommandFactory cmdFactory)
+        public ActiveRecordConnection(QueryCommandFactory cmdFactory)
         {
             if (cmdFactory == null)
                 throw new ArgumentNullException("cmdFactory");
@@ -53,6 +61,8 @@ namespace NIntegrate.Data
         }
 
         #endregion
+
+        #region Public Methods
 
         public int ExecuteNonQuery(QueryCriteria criteria)
         {
@@ -135,5 +145,7 @@ namespace NIntegrate.Data
                 }
             }
         }
+
+        #endregion
     }
 }
