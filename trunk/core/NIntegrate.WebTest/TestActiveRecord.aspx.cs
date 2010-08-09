@@ -33,7 +33,6 @@ namespace NIntegrate.WebTest
                 farm.Delete();
                 farm.Save();
                 var loadFarm = farm.FindOne(farm.GetObjectId());
-                loadFarm.Attach(new ActiveRecordConnection<Farm>(new QueryCommandFactory()));
                 loadFarm.Delete();
             }
         }
