@@ -100,7 +100,6 @@ namespace NIntegrate.Data
                         if (rdr.Read())
                         {
                             var one = _mapperOne(rdr);
-                            one.Attach(this);
                             return one;
                         }
                     }
@@ -120,13 +119,6 @@ namespace NIntegrate.Data
                     using (var rdr = cmd.ExecuteReader())
                     {
                         var many = _mapperMany(rdr);
-                        if (many != null)
-                        {
-                            foreach (var one in many)
-                            {
-                                one.Attach(this);
-                            }
-                        }
                         return many;
                     }
                 }

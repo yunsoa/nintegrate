@@ -399,7 +399,9 @@ namespace NIntegrate.Data
             if (!IsAttached())
                 throw new InvalidOperationException("not attached");
 
-            return GetConnection<TRecord>().ExecuteOne(criteria);
+            var one = GetConnection<TRecord>().ExecuteOne(criteria);
+            one.Attach(GetConnection<TRecord>());
+            return one;
         }
 
         /// <summary>
@@ -421,7 +423,15 @@ namespace NIntegrate.Data
             if (!IsAttached())
                 throw new InvalidOperationException("not attached");
 
-            return GetConnection<TRecord>().ExecuteMany(criteria);
+            var many = GetConnection<TRecord>().ExecuteMany(criteria);
+            if (many != null && many.Count > 0)
+            {
+                foreach (var one in many)
+                {
+                    one.Attach(GetConnection<TRecord>());
+                }
+            }
+            return many;
         }
 
         /// <summary>
