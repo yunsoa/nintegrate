@@ -73,6 +73,7 @@
     <Compile Include="Collections\Generic\LruDictionary.cs" />
     <Compile Include="Collections\Generic\LruItemCache.cs" />
     <Compile Include="Data\ActiveRecord.cs" />
+    <Compile Include="Data\ActiveRecordConnection.cs" />
     <Compile Include="Data\Assignment.cs" />
     <Compile Include="Data\Columns.cs" />
     <Compile Include="Data\Condition.cs" />
