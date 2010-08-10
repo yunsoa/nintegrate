@@ -10,18 +10,13 @@ using System.Data;
 namespace NIntegrate.Data
 {
     [ServiceContract(Namespace = "http://nintegrate.com")]
-    public interface IActiveRecordConnection
+    public interface IActiveRecordConnection<TRecord>
+        where TRecord : ActiveRecord
     {
         [OperationContract]
         int ExecuteNonQuery(QueryCriteria criteria);
         [OperationContract]
         object ExecuteScalar(QueryCriteria criteria);
-    }
-
-    [ServiceContract(Namespace = "http://nintegrate.com")]
-    public interface IActiveRecordConnection<TRecord> : IActiveRecordConnection
-        where TRecord : ActiveRecord
-    {
         [OperationContract]
         TRecord ExecuteOne(QueryCriteria criteria);
         [OperationContract]
